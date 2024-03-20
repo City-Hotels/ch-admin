@@ -1,0 +1,48 @@
+.base {
+    display: block;
+    outline: none;
+    border: 0;
+    padding: 0.5em 2em;
+    border-radius: 9px;
+    cursor: pointer;
+    background: #ccc;
+    width: max-content;
+}
+
+.size__small {
+    @apply min-w-[93px] rounded-sm py-[6px] px-[16px] leading-[20px];
+}
+.size__md {
+    @apply min-w-[106px] rounded-md py-[9.5px] px-[23px] leading-[21px];
+}
+.size__lg {
+    @apply min-w-[136px] rounded-lg py-[12px] px-[26px] leading-[24px];
+}
+.size__subscribe {
+    @apply min-w-[136px] rounded-3xl py-[12px] px-[26px] leading-[25px];
+}
+.size__media {
+    @apply min-w-[55px] hover:rounded-[100%] flex items-center justify-center;
+}
+
+.variants__primary {
+    @apply bg-primary400 text-white;
+}
+.variants__secondary {
+    @apply bg-[#0D1C39] text-white;
+}
+.variants__neutral {
+    @apply border-2 border-[#212AEE] bg-[#FFF] text-[#212AEE] hover:bg-[#212AEE] hover:text-[#FFF] active:bg-[#212AEE];
+}
+.variants__danger {
+    @apply border-2 border-[#D93025] bg-[#FFF] text-[#D93025] hover:bg-[#D93025] hover:text-[#FFF] active:bg-[#D93025];
+}
+.variants__media {
+    @apply text-black hover:bg-primary400 hover:text-white;
+}
+.variants__text {
+    @apply text-primary400 hover:text-white;
+}
+.variants__outline {
+    @apply text-primary400 border border-primary400 hover:text-white;
+}
