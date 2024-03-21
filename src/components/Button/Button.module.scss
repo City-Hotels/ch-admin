@@ -1,14 +1,16 @@
 .base {
-  @apply text-[14px]text-center leading-[150%] font-bold rounded-[5px] cursor-pointer;
+  @apply text-[14px] text-center leading-[150%] font-bold rounded-[5px] cursor-pointer;
 }
 
 .size {
   &__small {
-    @apply  p-[10px];
+    @apply p-[10px];
   }
+
   &__md {
     @apply min-w-[136px] py-[10px] px-5 rounded-[5px];
   }
+
   &__lg {
     @apply min-w-[136px] w-full rounded-lg py-[12px] px-[26px] leading-[24px];
   }
@@ -25,7 +27,8 @@
 
 
   &__black {
-    @apply bg-black text-white disabled:bg-white900;;
+    @apply bg-black text-white disabled:bg-white900;
+    ;
   }
 
   &__muted {
@@ -44,7 +47,7 @@
     @apply text-white900 hover:bg-primary400 hover:text-white;
   }
 
- 
+
   &__text {
     @apply text-primary400 hover:text-orange600;
   }
@@ -59,21 +62,23 @@
 
 
   &__outline {
-    @apply text-primary400 hover:text-white bg-white border-primary400 hover:bg-primary400 ;
+    @apply text-primary400 hover:text-white bg-white border-primary400 hover:bg-primary400;
   }
 
   &__outline__dark {
-    @apply text-black hover:text-white900 bg-white border-white500 hover:bg-white100 ;
+    @apply text-black hover:text-white900 bg-white border-white500 hover:bg-white100;
   }
 }
 
 .variant {
   &__round {
-    @apply  rounded-full;
+    @apply rounded-full;
   }
+
   &__text {
     @apply bg-transparent border-none;
   }
+
   &__outline {
     @apply border;
   }
@@ -112,12 +117,15 @@
   &__media {
     @apply text-black hover:bg-primary400 hover:text-white;
   }
+
   &__text {
-    @apply text-black  hover:text-white;
+    @apply text-black hover:text-white;
   }
+
   &__outline {
     @apply text-primary400 border border-primary400 hover:text-white;
   }
+
   &__tertiary {
     @apply text-black hover:bg-[#FFF3E6] hover:text-primary400 hover:border-primary400;
   }

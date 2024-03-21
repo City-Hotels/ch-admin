@@ -1,4 +1,5 @@
 import {
+  Meta,
   getRequest,
   patchRequest,
   postRequest,
@@ -23,7 +24,7 @@ const searchHotel = (data: any) => {
     )
     .join("&");
 
-  return getRequest<{ Hotels: IHotel[] }>({
+  return getRequest<{ Hotels: IHotel[], Meta: Meta }>({
     url: `/hotels/search?${args}`
   });
 };

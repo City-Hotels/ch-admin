@@ -1,5 +1,4 @@
-import Calendar from "@/components/Calender";
-import HotelBusinessTable from "@/components/Hotel-BusinessTable/index";
+import HotelBusinessTable from "@/components/Business/BusinessList/index";
 import { Metadata } from "next";
 import DefaultLayout from "@/components/Layouts/DefaultLayout";
 
