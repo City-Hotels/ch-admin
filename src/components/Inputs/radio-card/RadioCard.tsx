@@ -1,6 +1,6 @@
 import React from "react";
 import type RadioCardProps from "@/components/shared/inputs/radio-card/RadioCard.props";
-import { H4, P2 } from "@/components/shared/headings/Headings";
+import { H4, P2 } from "@/components/Headings/Headings";
 import styles from "./RadioCard.module.scss";
 import Radio from "../radio/Radio";
 

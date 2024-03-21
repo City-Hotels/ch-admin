@@ -1,6 +1,6 @@
 import type { ChangeEvent } from "react";
 import React, { useEffect, useState } from "react";
-import { Label, P } from "@/components/shared/headings/Headings";
+import { Label, P } from "@/components/Headings/Headings";
 import Plus from "@/assets/icons/plus.svg";
 import DeleteIcon from "@/assets/icons/delete-small.svg";
 import EditIcon from "@/assets/icons/pencil.svg";
@@ -134,72 +134,72 @@ const ImageInput: React.FC<{
   thirdPartySelected = [],
   preSelectedImages
 }) => {
-  const [images, setImages] = useState<File[]>(thirdPartySelected);
+    const [images, setImages] = useState<File[]>(thirdPartySelected);
 
-  const handleImageChange = (e: ChangeEvent<HTMLInputElement>) => {
-    const { files } = e.target;
+    const handleImageChange = (e: ChangeEvent<HTMLInputElement>) => {
+      const { files } = e.target;
 
-    if (files && files.length > 0) {
-      const selectedImages = Array.from(files);
+      if (files && files.length > 0) {
+        const selectedImages = Array.from(files);
 
-      // Ensure only up to four images are selected
-      // if (selectedImages.length <= 4) {
+        // Ensure only up to four images are selected
+        // if (selectedImages.length <= 4) {
+        setImages((prevImages) => {
+          // onChange([...prevImages.slice(-3), ...selectedImages]);
+
+          return [...prevImages.slice(-3), ...selectedImages];
+        });
+        // }
+      }
+    };
+
+    const removeImage = (index: number, uploadPath?: string) => {
       setImages((prevImages) => {
-        // onChange([...prevImages.slice(-3), ...selectedImages]);
-
-        return [...prevImages.slice(-3), ...selectedImages];
+        prevImages.splice(index, 1);
+        return [...prevImages];
       });
-      // }
-    }
-  };
-
-  const removeImage = (index: number, uploadPath?: string) => {
-    setImages((prevImages) => {
-      prevImages.splice(index, 1);
-      return [...prevImages];
-    });
-    if (uploadPath) deleteFunction(itemId, uploadPath);
-  };
-  return (
-    <>
-      <Label weight="bold">Upload Image</Label>
-      <div className="mt-5 grid grid-cols-2 gap-2 md:grid-cols-4 md:gap-5 ">
-        <div className="relative h-[138px] w-full cursor-pointer rounded-md border border-dashed border-[#6c7a9326] bg-[#F3F5FB] px-8 py-5 shadow md:w-[138px]">
-          <div className="flex flex-col items-center gap-4 ">
-            <Plus />
-            <P>Upload</P>
+      if (uploadPath) deleteFunction(itemId, uploadPath);
+    };
+    return (
+      <>
+        <Label weight="bold">Upload Image</Label>
+        <div className="mt-5 grid grid-cols-2 gap-2 md:grid-cols-4 md:gap-5 ">
+          <div className="relative h-[138px] w-full cursor-pointer rounded-md border border-dashed border-[#6c7a9326] bg-[#F3F5FB] px-8 py-5 shadow md:w-[138px]">
+            <div className="flex flex-col items-center gap-4 ">
+              <Plus />
+              <P>Upload</P>
+            </div>
+            <input
+              type="file"
+              id="imageInput"
+              accept="image/*"
+              multiple
+              className="absolute inset-0 h-full w-full cursor-pointer opacity-0"
+              onChange={handleImageChange}
+            />
           </div>
-          <input
-            type="file"
-            id="imageInput"
-            accept="image/*"
-            multiple
-            className="absolute inset-0 h-full w-full cursor-pointer opacity-0"
-            onChange={handleImageChange}
-          />
+
+          {images.map((image, index) => (
+            <ImageItem
+              UploadFunction={UploadFunction}
+              image={image}
+              itemId={itemId}
+              key={image.name}
+              deleteFunction={(path: string) => removeImage(index, path)}
+            />
+          ))}
+
+          {preSelectedImages.map((item) => (
+            <UploadedImageItem
+              item={item}
+              key={item.Path}
+              deleteFunction={deleteFunction}
+              itemId={itemId}
+            />
+          ))}
         </div>
-
-        {images.map((image, index) => (
-          <ImageItem
-            UploadFunction={UploadFunction}
-            image={image}
-            itemId={itemId}
-            key={image.name}
-            deleteFunction={(path: string) => removeImage(index, path)}
-          />
-        ))}
-
-        {preSelectedImages.map((item) => (
-          <UploadedImageItem
-            item={item}
-            key={item.Path}
-            deleteFunction={deleteFunction}
-            itemId={itemId}
-          />
-        ))}
-      </div>
-    </>
-  );
-};
+      </>
+    );
+  };
 
 export default ImageInput;
