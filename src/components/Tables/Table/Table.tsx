@@ -1,4 +1,5 @@
-import React, { useRef } from "react";
+"use client";
+import React, { use, useRef } from "react";
 import { get } from "lodash";
 
 import match from "@/utils/match";
@@ -26,6 +27,7 @@ interface Props<T> extends Partial<IPagination> {
   withPagination?: boolean;
   errorMessage?: string;
   onRowClick?: (item: T) => void;
+  className?: string
 }
 
 interface PropsTableRow<T> {
@@ -142,13 +144,14 @@ export function Table<T>({
   isLoading = false,
   errorMessage,
   withPagination = false,
+  className,
   ...paginationProps
 }: Props<T>): JSX.Element {
   const headerComponentRef = useRef<HTMLDivElement | null>(null);
   // const topSpace = headerComponentRef?.current?.clientHeight || 0;
 
   return (
-    <div>
+    <div className={className}>
       <div className="relative ">
         {headerComponent && (
           <div ref={headerComponentRef} className="p-5">
@@ -186,13 +189,13 @@ export function Table<T>({
       {withPagination && paginationProps.total && paginationProps.total > 0 ? (
         <div className="flex justify-end ">
           <div className="max-w-[300px] lg:basis-1/4">
-            <Pagination
+            {/* <Pagination
               total={paginationProps.total || data.length}
               currentPage={paginationProps.currentPage || 1}
               perPage={paginationProps.perPage || 10}
               onPageChange={paginationProps.onPageChange || (() => { })}
               updatePerPage={paginationProps.updatePerPage || (() => { })}
-            />
+            /> */}
           </div>
         </div>
       ) : (

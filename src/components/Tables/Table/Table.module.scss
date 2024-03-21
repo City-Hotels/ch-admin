@@ -1,41 +1,41 @@
-.variants {
-  &__primary {
-    @apply bg-primary400  px-2  py-2 text-center font-extrabold tracking-wider text-white;
-  }
+// .variants {
+//   &__primary {
+//     @apply bg-primary400  px-2  py-2 text-center font-extrabold tracking-wider text-white;
+//   }
 
-  &__neutral {
-    @apply border-b border-[#DFE2E6] bg-[#F2F2F2] px-2  py-2 text-center font-extrabold tracking-wider text-[#243757];
-  }
+//   &__neutral {
+//     @apply border-b border-[#DFE2E6] bg-[#F2F2F2] px-2  py-2 text-center font-extrabold tracking-wider text-[#243757];
+//   }
 
-  &__transparent {
-    @apply border-b px-2  py-2 text-center font-extrabold tracking-wider text-[#243757];
-  }
-}
+//   &__transparent {
+//     @apply border-b px-2  py-2 text-center font-extrabold tracking-wider text-[#243757];
+//   }
+// }
 
-.header {
-  @apply flex cursor-pointer items-center justify-start text-sm;
-}
+// .header {
+//   @apply flex cursor-pointer items-center justify-start text-sm;
+// }
 
-.tableRow {
-  @apply cursor-pointer hover:bg-primary50;
-}
+// .tableRow {
+//   @apply cursor-pointer hover:bg-primary50;
+// }
 
-.tableContainer {
-  @apply absolute inset-x-0 bottom-0 z-[2] flex h-full items-start justify-center bg-white/80 py-10;
-}
+// .tableContainer {
+//   @apply absolute inset-x-0 bottom-0 z-[2] flex h-full items-start justify-center bg-white/80 py-10;
+// }
 
-.tables {
-  @apply table h-auto w-full table-auto border-none p-3;
-}
+// .tables {
+//   @apply table h-auto w-full table-auto border-none p-3;
+// }
 
-.loading {
-  @apply z-[2] flex items-start justify-center py-10;
-}
+// .loading {
+//   @apply z-[2] flex items-start justify-center py-10;
+// }
 
-.base {
-  @apply flex h-[90px] items-center justify-center py-5;
-}
+// .base {
+//   @apply flex h-[90px] items-center justify-center py-5;
+// }
 
-.loadingIndicatorIcon {
-  @apply mb-1 h-6 w-6 border-primary600;
-}
+// .loadingIndicatorIcon {
+//   @apply mb-1 h-6 w-6 border-primary600;
+// }

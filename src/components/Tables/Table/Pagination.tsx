@@ -1,7 +1,7 @@
 import React, { useMemo } from "react";
 import ArrowBackIcon from "@/assets/icons/chevron-left.svg";
 import ArrowForwardIcon from "@/assets/icons/chevron-right.svg";
-import Button from "../button/Button";
+import Button from "../../Button/Button";
 
 export interface IPagination {
   total: number;
