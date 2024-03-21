@@ -1,12 +1,13 @@
 import React, { useMemo } from "react";
 import ArrowBackIcon from "@/assets/icons/chevron-left.svg";
 import ArrowForwardIcon from "@/assets/icons/chevron-right.svg";
-import Button from "../../Button/Button";
+import Button from "@/components/Button/Button";
 
 export interface IPagination {
   total: number;
   perPage: number;
   currentPage: number;
+  totalPages: number;
   updatePerPage: (perPage: number) => void;
   onPageChange: (page: number) => void;
 }
@@ -21,8 +22,10 @@ const Pagination = ({
   total,
   perPage,
   currentPage,
+  totalPages,
   onPageChange
 }: IPagination) => {
+
   const handlePageChange = (page: number) => {
     if (
       page > 0 &&
@@ -35,14 +38,14 @@ const Pagination = ({
 
   const pages = useMemo(
     () =>
-      new Array(Math.ceil(total / perPage))
+      new Array(totalPages)
         .fill(0)
         .map((_item, index) => index + 1),
     [total, perPage]
   );
 
   return (
-    <div className="mt-3 flex w-full items-center justify-between px-6 py-3 text-sm">
+    <div className="mt-3 flex w-full items-center justify-between px-6-=0 text-sm">
       <Button
         size="sm"
         color="text"
@@ -53,18 +56,19 @@ const Pagination = ({
         <ArrowBackIcon />
       </Button>
       <div className="flex items-center justify-start gap-6 text-[#243757]">
-        {pages
+        {new Array(totalPages)
+          .fill(0)
+          .map((_item, index) => index + 1)
           .filter((item) => currentPage - 3 < item || currentPage < 3)
           .filter((_item, i) => i < 4)
           .map((item) => (
             <div
               key={`pagination-icon-${item}`}
               onClick={() => handlePageChange(item)}
-              className={`cursor-pointer font-inter  text-[14px] leading-5${
-                item === currentPage
-                  ? " rounded-lg bg-orange50 p-3 text-orange500"
-                  : ""
-              }`}
+              className={`cursor-pointer font-inter  text-[14px] leading-5${item === currentPage
+                ? " rounded-lg bg-orange50 p-3 text-orange500"
+                : ""
+                }`}
             >
               {item}{" "}
             </div>

@@ -154,7 +154,7 @@ export function Table<T>({
     <div className={className}>
       <div className="relative ">
         {headerComponent && (
-          <div ref={headerComponentRef} className="p-5">
+          <div ref={headerComponentRef} className="pb-5">
             {headerComponent}
           </div>
         )}
@@ -189,13 +189,13 @@ export function Table<T>({
       {withPagination && paginationProps.total && paginationProps.total > 0 ? (
         <div className="flex justify-end ">
           <div className="max-w-[300px] lg:basis-1/4">
-            {/* <Pagination
+            <Pagination
               total={paginationProps.total || data.length}
               currentPage={paginationProps.currentPage || 1}
               perPage={paginationProps.perPage || 10}
               onPageChange={paginationProps.onPageChange || (() => { })}
               updatePerPage={paginationProps.updatePerPage || (() => { })}
-            /> */}
+            />
           </div>
         </div>
       ) : (
