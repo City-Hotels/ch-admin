@@ -4,11 +4,10 @@ import { Label, P } from "@/components/Headings/Headings";
 import Plus from "@/assets/icons/plus.svg";
 import DeleteIcon from "@/assets/icons/delete-small.svg";
 import EditIcon from "@/assets/icons/pencil.svg";
-import type { IMedia } from "@/services/apartment/payload";
-import type { IMedia as IHotelMedia } from "@/services/hotel/payload";
 import type { ApiResponse } from "@/utils/api/calls";
-import Img from "../../images/Image";
 import styles from "./Image.module.scss";
+import Img from "@/components/Image/Image";
+import { IMedia } from "@/app/services/hotel/payload";
 
 export const ImageItem: React.FC<{
   image: File;
@@ -99,7 +98,6 @@ export const UploadedImageItem: React.FC<{
         alt={item.Path}
         name={item.Path}
         className="h-[138px] w-full "
-        fill
       />
       <div className={styles.editIconWrapper}>
         <div className={styles.editIcons}>
@@ -116,7 +114,7 @@ export const UploadedImageItem: React.FC<{
 const ImageInput: React.FC<{
   itemId: string;
   thirdPartySelected?: File[];
-  preSelectedImages: IMedia[] | IHotelMedia[];
+  preSelectedImages: IMedia[];
   UploadFunction: (
     itemId: string,
     data: FormData,
