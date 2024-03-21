@@ -1,4 +1,4 @@
-import { FaChevronDown } from "react-icons/fa";
+// import { FaChevronDown } from "react-icons/fa";
 import styles from "./Dropdown.module.scss";
 import type { DropdownProps } from "./Dropdown.props";
 import { Label1 } from "@/components/Headings/Headings";
@@ -28,7 +28,7 @@ const Dropdown: React.FC<DropdownProps> = ({
       </div>
 
       <div className={styles.select__caret__2}>
-        <FaChevronDown className="h-6 w-6" />
+        {/* <FaChevronDown className="h-6 w-6" /> */}
       </div>
     </div>
   );
