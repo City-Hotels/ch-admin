@@ -190,6 +190,7 @@ export function Table<T>({
         <div className="flex justify-end ">
           <div className="max-w-[300px] lg:basis-1/4">
             <Pagination
+              totalPages={paginationProps.totalPages || Math.ceil(paginationProps.total / (paginationProps.perPage || 10))}
               total={paginationProps.total || data.length}
               currentPage={paginationProps.currentPage || 1}
               perPage={paginationProps.perPage || 10}
