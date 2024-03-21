@@ -1,19 +1,34 @@
+"use client";
 import React from "react";
 import { Table } from "../Tables/Table/Table";
-const index = () => {
-  const countBegin = 1;
-  const bookings = new Array(10)
-    .fill({
-      business_image: "https//ciyty-hotels/logo.png",
-      business_host: "Jenna Doe",
-      business_city: "Lagos",
-      business_country: "Nigeria",
-      total_bookings: "60",
-      total_reviews: "30",
-      total_clicks: "40",
-      status: "confirmed"
-    })
-    .map((assignment) => ({ id: countBegin + 1, ...assignment }));
+import { searchHotel } from "@/app/services/hotel/index";
+import type { IHotel } from "@/app/services/hotel/payload";
+import { useQuery } from "react-query";
+import queryKeys from "@/utils/api/queryKeys";
+import Image from "next/image";
+import Img from "../Image/Image";
+
+const Index = () => {
+  const [hotels, setHotels] = React.useState<IHotel[]>([]);
+
+  const { isLoading } = useQuery(
+    [queryKeys.getHotelByID],
+    () => {
+      const res = searchHotel({});
+      return res;
+    },
+    {
+      onSuccess: (response) => {
+        // Set state based on response
+        // eslint-disable-next-line no-console
+        // console.log(response.data.Hotels);
+        setHotels(response.data.Hotels);
+        console.log(hotels);
+      }
+      // enabled: !!slug // Would only make this request if slug is truthy
+    }
+  );
+
   return (
     <div>
       <Table
@@ -52,48 +67,90 @@ const index = () => {
           {
             key: "business_image",
             title: "Business Image",
-            width: "1%"
+            width: "1%",
+            render(_column, item) {
+              return (
+                <div className="py-3 pl-2">
+                  {/* <Img alt="" path={item?.Medias[0].Path || ""} name="" className="h-10 w-10 rounded-md" /> */}
+
+                  </div>
+              );
+            }
           },
           {
-            key: "business_host",
-            title: "Host Name",
-            width: "2%"
+            key: "Name",
+            title: "Business Name",
+            width: "2%",
+            render(_column, item) {
+              return <div className="py-3 pl-2">{item?.Name || ""}</div>;
+            }
           },
           {
             key: "business_city",
             title: "City",
-            width: "1%"
+            width: "1%",
+            render(_column, item) {
+              return <div className="py-3 pl-2">{item?.Address?.City || ""}</div>;
+            }
           },
           {
             key: "business_country",
             title: "Country",
-            width: "1%"
+            width: "1%",
+            render(_column, item) {
+              return (
+                <div className="py-3 pl-2">{item?.Address?.Country || ""}</div>
+              );
+            }
           },
           {
             key: "total_bookings",
             title: "Total bookings",
-            width: "1%"
+            width: "1%",
+            render(_column, item) {
+              return (
+                <div className="py-3 pl-2">
+                  {item?.Rating?.TotalBooking || 0}
+                </div>
+              );
+            }
           },
           {
             key: "total_reviews",
             title: "Total Reviews",
-            width: "1%"
+            width: "1%",
+            render(_column, item) {
+              return (
+                <div className="py-3 pl-2">
+                  {item?.Rating?.TotalReviews || 0}
+                </div>
+              );
+            }
           },
           {
             key: "total_clicks",
             title: "Total Clicks",
-            width: "1%"
+            width: "1%",
+            render(_column, item) {
+              return (
+                <div className="py-3 pl-2">{item?.Rating?.Clicks || 0}</div>
+              );
+            }
           },
           {
             key: "status",
             title: "Status",
-            width: "1%"
+            width: "1%",
+            render(_column, item) {
+              return <div className="py-3 pl-2">{item?.Status || 0}</div>;
+            }
           }
         ]}
-        data={bookings}
+        data={hotels}
+        isLoading={isLoading}
       />
     </div>
   );
 };
 
-export default index;
+export default Index;
