@@ -1,8 +1,8 @@
 import React from "react";
-import type RadioCardProps from ""@/components/inputs/radio-card/RadioCard.props";
 import { H4, P2 } from "@/components/Headings/Headings";
 import styles from "./RadioCard.module.scss";
 import Radio from "../radio/Radio";
+import RadioCardProps from "./RadioCard.props";
 
 const RadioCard: React.FC<RadioCardProps> = ({
   onSelect,
