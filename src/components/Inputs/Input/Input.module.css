@@ -1,0 +1,27 @@
+.input_container {
+    @apply flex border h-[48px] mt-3 border-grey30  focus-within:border-primary400 mb-[20px];
+}
+
+.input {
+    @apply w-full px-3 py-2 focus:outline-0 bg-inherit text-inherit border-none;
+    border-radius: inherit;
+}
+
+.input::placeholder {
+    @apply text-white900 text-[16px] font-matter;
+}
+
+.icon-container {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: absolute;
+    right: 1rem;
+    top: 0;
+    bottom: 0;
+    margin: auto;
+}
+
+.label {
+    @apply text-[14px] mb-3 text-left;
+}

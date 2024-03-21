@@ -1,4 +1,4 @@
-import { CloseCircle } from "@/assets/icons/close-circle";
+// import { CloseCircle } from "@/assets/icons/close-circle";
 import { toast } from "react-hot-toast";
 import type { Toast } from "react-hot-toast";
 import styles from "./Toast.module.scss";
@@ -14,7 +14,7 @@ const ToastWrapper = ({ message, t }: { message: string; t: Toast }) => {
         {message}
       </span>
       <span onClick={() => toast.dismiss(t.id)} className="cursor-pointer">
-        {CloseCircle}
+        {/* {CloseCircle} */}
       </span>
     </div>
   );

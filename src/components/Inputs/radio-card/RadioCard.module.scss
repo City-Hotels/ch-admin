@@ -1,0 +1,7 @@
+.Container {
+  @apply flex items-start gap-2 w-full h-[122px] py-4 px-2 lg:px-3 border border-[#C9C9C9] rounded-md;
+}
+
+.Radio {
+  @apply text-[red] w-6 h-6;
+}

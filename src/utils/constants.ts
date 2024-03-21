@@ -1,7 +1,7 @@
 // import { SpaceType, type IHotel } from "@/services/hotel/payload";
 // import type { IRoom } from "@/services/room/payload";
 // import type { ILocation } from "@/services/location/payload";
-// import type { IFacility } from "@/services/apartment/payload";
+// import type { IFacility } from ""@/services/hotel/payload";
 // import ChatIcon from "@/assets/icons/chat.svg";
 // import DashboardIcon from "@/assets/icons/chat-home.svg";
 // import HistoryIcon from "@/assets/icons/history.svg";
