@@ -1,4 +1,4 @@
-import { Label } from "../../headings/Headings";
+import { Label } from "@/components/Headings/Headings";
 import type InputProps from "./Input.props";
 import styles from "./Input.module.scss";
 

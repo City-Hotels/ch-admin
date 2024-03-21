@@ -1,6 +1,6 @@
 import React from "react";
 
-import { P } from "../../headings/Headings";
+import { P } from "@/components/Headings/Headings";
 // import type DateInputProps from "./DateInput.props";
 import styles from "./DateInput.module.scss";
 

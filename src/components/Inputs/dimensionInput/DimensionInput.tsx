@@ -1,4 +1,4 @@
-import { Label } from "../../headings/Headings";
+import { Label } from "@/components/Headings/Headings";
 import styles from "./DimensionInput.module.scss";
 import type DimensionInputProps from "./DimensionInput.props";
 

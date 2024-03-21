@@ -1,7 +1,7 @@
 import { FaChevronDown } from "react-icons/fa";
 import styles from "./Dropdown.module.scss";
 import type { DropdownProps } from "./Dropdown.props";
-import { Label1 } from "../../headings/Headings";
+import { Label1 } from "@/components/Headings/Headings";
 
 const Dropdown: React.FC<DropdownProps> = ({
   choice,

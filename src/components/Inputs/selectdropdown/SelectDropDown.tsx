@@ -1,7 +1,7 @@
 import Select from "react-select";
 import styles from "./SelectDropDown.module.scss";
 import type LocationDropDownProps from "./SelectDropDown.props";
-import { P } from "../../headings/Headings";
+import { P } from "@/components/Headings/Headings";
 
 const SelectDropDown: React.FC<LocationDropDownProps> = ({
   items,

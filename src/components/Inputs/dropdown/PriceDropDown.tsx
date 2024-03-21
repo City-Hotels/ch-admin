@@ -1,6 +1,6 @@
+import { P2 } from "@/components/Headings/Headings";
 import styles from "./Dropdown.module.scss";
 import type { DropdownProps } from "./Dropdown.props";
-import { P2 } from "../../headings/Headings";
 
 const PriceDropdown: React.FC<DropdownProps> = ({
   className,

@@ -1,5 +1,5 @@
 import SearchIcon from "@/assets/icons/search.svg";
-import { Label } from "../../headings/Headings";
+import { Label } from "@/components/Headings/Headings";
 import styles from "./SearchInput.module.scss";
 import type SearchInputProps from "./SearchInput.props";
 
