@@ -1,3 +1,5 @@
+import React from "react";
+
 import Link from "next/link";
 import Image from "next/image";
 import { Chat } from "@/types/chat";
@@ -9,7 +11,7 @@ const chatData: Chat[] = [
     text: "How are you?",
     time: 12,
     textCount: 3,
-    dot: 3,
+    dot: 3
   },
   {
     avatar: "/images/user/user-02.png",
@@ -17,7 +19,7 @@ const chatData: Chat[] = [
     text: "Waiting for you!",
     time: 12,
     textCount: 0,
-    dot: 1,
+    dot: 1
   },
   {
     avatar: "/images/user/user-04.png",
@@ -25,7 +27,7 @@ const chatData: Chat[] = [
     text: "What's up?",
     time: 32,
     textCount: 0,
-    dot: 3,
+    dot: 3
   },
   {
     avatar: "/images/user/user-05.png",
@@ -33,7 +35,7 @@ const chatData: Chat[] = [
     text: "Great",
     time: 32,
     textCount: 2,
-    dot: 6,
+    dot: 6
   },
   {
     avatar: "/images/user/user-01.png",
@@ -41,7 +43,7 @@ const chatData: Chat[] = [
     text: "How are you?",
     time: 32,
     textCount: 0,
-    dot: 3,
+    dot: 3
   },
   {
     avatar: "/images/user/user-03.png",
@@ -49,8 +51,8 @@ const chatData: Chat[] = [
     text: "How are you?",
     time: 32,
     textCount: 3,
-    dot: 6,
-  },
+    dot: 6
+  }
 ];
 
 const ChatCard = () => {
@@ -75,7 +77,7 @@ const ChatCard = () => {
                 alt="User"
                 style={{
                   width: "auto",
-                  height: "auto",
+                  height: "auto"
                 }}
               />
               <span

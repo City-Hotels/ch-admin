@@ -1,3 +1,5 @@
+import React from "react";
+
 import Link from "next/link";
 import DarkModeSwitcher from "./DarkModeSwitcher";
 import DropdownMessage from "./DropdownMessage";

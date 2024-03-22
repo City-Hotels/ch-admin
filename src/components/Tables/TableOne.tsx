@@ -1,3 +1,5 @@
+import React from "react";
+
 import { BRAND } from "@/types/brand";
 import Image from "next/image";
 
@@ -8,7 +10,7 @@ const brandData: BRAND[] = [
     visitors: 3.5,
     revenues: "5,768",
     sales: 590,
-    conversion: 4.8,
+    conversion: 4.8
   },
   {
     logo: "/images/brand/brand-02.svg",
@@ -16,7 +18,7 @@ const brandData: BRAND[] = [
     visitors: 2.2,
     revenues: "4,635",
     sales: 467,
-    conversion: 4.3,
+    conversion: 4.3
   },
   {
     logo: "/images/brand/brand-03.svg",
@@ -24,7 +26,7 @@ const brandData: BRAND[] = [
     visitors: 2.1,
     revenues: "4,290",
     sales: 420,
-    conversion: 3.7,
+    conversion: 3.7
   },
   {
     logo: "/images/brand/brand-04.svg",
@@ -32,7 +34,7 @@ const brandData: BRAND[] = [
     visitors: 1.5,
     revenues: "3,580",
     sales: 389,
-    conversion: 2.5,
+    conversion: 2.5
   },
   {
     logo: "/images/brand/brand-05.svg",
@@ -40,8 +42,8 @@ const brandData: BRAND[] = [
     visitors: 3.5,
     revenues: "6,768",
     sales: 390,
-    conversion: 4.2,
-  },
+    conversion: 4.2
+  }
 ];
 
 const TableOne = () => {

@@ -1,3 +1,5 @@
+import React from "react";
+
 import Image from "next/image";
 import { Product } from "@/types/product";
 
@@ -8,7 +10,7 @@ const productData: Product[] = [
     category: "Electronics",
     price: 296,
     sold: 22,
-    profit: 45,
+    profit: 45
   },
   {
     image: "/images/product/product-02.png",
@@ -16,7 +18,7 @@ const productData: Product[] = [
     category: "Electronics",
     price: 546,
     sold: 12,
-    profit: 125,
+    profit: 125
   },
   {
     image: "/images/product/product-03.png",
@@ -24,7 +26,7 @@ const productData: Product[] = [
     category: "Electronics",
     price: 443,
     sold: 64,
-    profit: 247,
+    profit: 247
   },
   {
     image: "/images/product/product-04.png",
@@ -32,8 +34,8 @@ const productData: Product[] = [
     category: "Electronics",
     price: 499,
     sold: 72,
-    profit: 103,
-  },
+    profit: 103
+  }
 ];
 
 const TableTwo = () => {

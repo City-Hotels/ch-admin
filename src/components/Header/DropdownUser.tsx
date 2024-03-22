@@ -1,3 +1,5 @@
+import React from "react";
+
 import { useEffect, useRef, useState } from "react";
 import Link from "next/link";
 import Image from "next/image";
@@ -56,7 +58,7 @@ const DropdownUser = () => {
             src={"/images/user/user-01.png"}
             style={{
               width: "auto",
-              height: "auto",
+              height: "auto"
             }}
             alt="User"
           />

@@ -1,4 +1,5 @@
 "use client";
+
 import jsVectorMap from "jsvectormap";
 import "jsvectormap/dist/css/jsvectormap.css";
 import React, { useEffect } from "react";
@@ -13,31 +14,31 @@ const MapOne: React.FC = () => {
 
       regionStyle: {
         initial: {
-          fill: "#C8D0D8",
+          fill: "#C8D0D8"
         },
         hover: {
           fillOpacity: 1,
-          fill: "#3056D3",
-        },
+          fill: "#3056D3"
+        }
       },
       regionLabelStyle: {
         initial: {
           fontFamily: "Satoshi",
           fontWeight: "semibold",
-          fill: "#fff",
+          fill: "#fff"
         },
         hover: {
-          cursor: "pointer",
-        },
+          cursor: "pointer"
+        }
       },
 
       labels: {
         regions: {
           render(code: string) {
             return code.split("-")[1];
-          },
-        },
-      },
+          }
+        }
+      }
     });
 
     return () => {

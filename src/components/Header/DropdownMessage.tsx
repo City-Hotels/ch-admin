@@ -1,3 +1,5 @@
+import React from "react";
+
 import { useEffect, useRef, useState } from "react";
 import Link from "next/link";
 import Image from "next/image";
@@ -108,7 +110,7 @@ const DropdownMessage = () => {
                   alt="User"
                   style={{
                     width: "auto",
-                    height: "auto",
+                    height: "auto"
                   }}
                 />
               </div>
@@ -135,7 +137,7 @@ const DropdownMessage = () => {
                   alt="User"
                   style={{
                     width: "auto",
-                    height: "auto",
+                    height: "auto"
                   }}
                 />
               </div>
@@ -162,7 +164,7 @@ const DropdownMessage = () => {
                   alt="User"
                   style={{
                     width: "auto",
-                    height: "auto",
+                    height: "auto"
                   }}
                 />
               </div>
@@ -189,7 +191,7 @@ const DropdownMessage = () => {
                   alt="User"
                   style={{
                     width: "auto",
-                    height: "auto",
+                    height: "auto"
                   }}
                 />
               </div>
@@ -216,7 +218,7 @@ const DropdownMessage = () => {
                   alt="User"
                   style={{
                     width: "auto",
-                    height: "auto",
+                    height: "auto"
                   }}
                 />
               </div>

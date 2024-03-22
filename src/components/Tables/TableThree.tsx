@@ -1,3 +1,5 @@
+import React from "react";
+
 import { Package } from "@/types/package";
 
 const packageData: Package[] = [
@@ -5,26 +7,26 @@ const packageData: Package[] = [
     name: "Free package",
     price: 0.0,
     invoiceDate: `Jan 13,2023`,
-    status: "Paid",
+    status: "Paid"
   },
   {
     name: "Standard Package",
     price: 59.0,
     invoiceDate: `Jan 13,2023`,
-    status: "Paid",
+    status: "Paid"
   },
   {
     name: "Business Package",
     price: 99.0,
     invoiceDate: `Jan 13,2023`,
-    status: "Unpaid",
+    status: "Unpaid"
   },
   {
     name: "Standard Package",
     price: 59.0,
     invoiceDate: `Jan 13,2023`,
-    status: "Pending",
-  },
+    status: "Pending"
+  }
 ];
 
 const TableThree = () => {
