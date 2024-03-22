@@ -20,6 +20,7 @@ const queryKeys = {
   getReviewsStatistics: "getReviewsStatistics",
   searchApartments: "searchApartments",
   getReviews: "getReviews",
+  getSeachHotels:"getSeachHotels",
   getServiceFAQs: "getServiceFAQs",
   getLocation: "getLocation",
   getAllFacilities: "getAllFacilities",
