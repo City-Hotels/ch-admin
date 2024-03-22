@@ -1,0 +1,48 @@
+.input_container {
+  @apply flex rounded-md border pt-3 pb-[11px] border-grey30  focus-within:border-primary400;
+}
+
+.input_container_2 {
+  @apply h-[60px] py-[18px] flex border border-grey30  focus-within:border-primary400 rounded-md;
+}
+
+.input {
+  @apply w-full px-[13px] text-[14px] leading-[150%] focus:outline-0 bg-inherit text-inherit border-none;
+  border-radius: inherit;
+}
+
+.input::placeholder {
+  @apply text-black text-[14px] leading-[150%];
+}
+
+.icon-container {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: absolute;
+  right: 1rem;
+  top: 0;
+  bottom: 0;
+  margin: auto;
+}
+
+.label {
+  @apply text-[14px] text-left font-matter-bold leading-[150%];
+}
+
+.passwordContainer {
+  @apply absolute inset-y-0 right-0 flex cursor-pointer items-center pr-2;
+}
+
+.container{
+  @apply flex my-3 min-w-full
+}
+
+.input_wrapper {
+  width:100%;
+  @apply border flex items-center px-3 py-4  border-grey30 rounded-l-md focus:outline-0 focus:border-primary400 disabled:text-white900 read-only:text-white900;
+}
+
+.input_prepend {
+  @apply border-0 py-4 px-4 bg-white400 items-center justify-center rounded-l-none rounded-r-lg whitespace-nowrap text-white900 font-matter-bold;
+}

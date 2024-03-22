@@ -19,6 +19,7 @@ export type Meta = {
   Limit: number;
   PageNumber: number;
   CurrentPage: number;
+  TotalPages: number;
   TotalCount: number;
 };
 
