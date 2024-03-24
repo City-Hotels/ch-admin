@@ -10,6 +10,7 @@ export interface UserPayload {
 }
 
 export enum UserRoles {
+  ADMIN = "ADMIN",
   HOTELADMIN = "HOTELADMIN",
   USER = "USER"
 }

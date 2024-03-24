@@ -1,0 +1,41 @@
+.input_container {
+  @apply flex border  mt-2  focus-within:border-primary400;
+}
+
+.input {
+  @apply w-full px-3 py-4 focus:outline-0 bg-inherit text-black border-none;
+  border-radius: inherit;
+}
+
+.input::placeholder {
+  @apply text-[#9A9A9A] text-[14px];
+}
+
+.icon-container {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: absolute;
+  right: 1rem;
+  top: 0;
+  bottom: 0;
+  margin: auto;
+}
+
+.label {
+  @apply text-[14px] text-left font-matter-bold leading-[150%];
+}
+
+.password {
+  @apply absolute inset-y-0 right-0 flex cursor-pointer items-center pr-2;
+}
+
+// input-4 styling
+
+.input__container {
+  @apply flex border rounded-md h-[48px] border-grey30  focus-within:border-primary400;
+}
+
+.passwordContainer {
+  @apply absolute inset-y-0 right-0 flex cursor-pointer items-center pr-2;
+}

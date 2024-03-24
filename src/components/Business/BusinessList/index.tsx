@@ -42,7 +42,7 @@ const Index = () => {
         headerComponent={
           <div className="flex items-center justify-between gap-3">
             <div className=" lg:w-500px flex items-center gap-5">
-             
+
               <Input
                 type="search"
                 placeholder="Search"
