@@ -1,6 +1,6 @@
 import { Metadata } from "next";
 import DefaultLayout from "@/components/Layouts/DefaultLayout";
-import BookingTable from "@/components/Bookings/BookingTable";
+import TransactionTable from "@/components/Transactions/TransactionTable";
 
 export const metadata: Metadata = {
   title: "City Hotel Backend Admin  Business Table",
@@ -8,12 +8,12 @@ export const metadata: Metadata = {
     "Page displaying the lists of Business on City Hotel",
 };
 
-const BookingsPage = () => {
+const TransactionPage = () => {
   return (
     <DefaultLayout>
-      <BookingTable Limit={10} Filter={{}} />
+      <TransactionTable Limit={10} />
     </DefaultLayout>
   );
 };
 
-export default BookingsPage;
+export default TransactionPage;
