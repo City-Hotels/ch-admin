@@ -1,6 +1,7 @@
 import { Metadata } from "next";
 import DefaultLayout from "@/components/Layouts/DefaultLayout";
-import BookingTable from "@/components/Bookings/BookingTable";
+import UsersTable from "@/components/Users/UserTable";
+import { UserRoles } from "@/services/user/payload";
 
 export const metadata: Metadata = {
   title: "City Hotel Backend Admin  Business Table",
@@ -11,7 +12,7 @@ export const metadata: Metadata = {
 const CalendarPage = () => {
   return (
     <DefaultLayout>
-      <BookingTable Limit={10} Filter={{}} />
+      <UsersTable Limit={10} Filter={{ Role: UserRoles.ADMIN }} />
     </DefaultLayout>
   );
 };

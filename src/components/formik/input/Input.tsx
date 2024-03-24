@@ -4,7 +4,7 @@ import EyeOffIcon from "@/assets/icons/eye-off.svg";
 import { useField } from "formik";
 import styles from "./Input.module.scss";
 import type InputProps from "./Input.props";
-import AmountInput from "../../inputs/input/AmountInput";
+import AmountInput from "@/components/Inputs/Input/AmountInput";
 
 const Input: React.FC<InputProps> = ({
   label,
@@ -29,9 +29,8 @@ const Input: React.FC<InputProps> = ({
       <>
         {type === "password" && (
           <div
-            className={`relative ${styles.input_container}  ${
-              meta.touched && meta.error ? "border-primary400" : "border-grey30"
-            } ${className}`}
+            className={`relative ${styles.input_container}  ${meta.touched && meta.error ? "border-primary400" : "border-grey30"
+              } ${className}`}
           >
             <input
               {...field}
@@ -54,11 +53,10 @@ const Input: React.FC<InputProps> = ({
         {type === "amount" && (
           <>
             <div
-              className={`${styles.input_container} ${
-                meta.touched && meta.error
+              className={`${styles.input_container} ${meta.touched && meta.error
                   ? "border-primary400"
                   : "border-grey30"
-              } ${className}`}
+                } ${className}`}
             >
               <AmountInput
                 className={`${styles.input}`}
@@ -77,11 +75,10 @@ const Input: React.FC<InputProps> = ({
         {!["password", "amount"].includes(type || "") && (
           <>
             <div
-              className={`${styles.input_container} ${
-                meta.touched && meta.error
+              className={`${styles.input_container} ${meta.touched && meta.error
                   ? "border-primary400"
                   : "border-grey30"
-              } ${className}`}
+                } ${className}`}
             >
               <input
                 className={`${styles.input}`}

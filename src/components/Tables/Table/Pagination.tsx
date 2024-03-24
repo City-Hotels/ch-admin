@@ -1,4 +1,4 @@
-import React, { useMemo } from "react";
+import React, { useCallback, useMemo } from "react";
 import ArrowBackIcon from "@/assets/icons/chevron-left.svg";
 import ArrowForwardIcon from "@/assets/icons/chevron-right.svg";
 import Button from "@/components/Button/Button";
@@ -26,22 +26,22 @@ const Pagination = ({
   onPageChange
 }: IPagination) => {
 
-  const handlePageChange = (page: number) => {
+  const handlePageChange = useCallback((page: number) => {
     if (
       page > 0 &&
-      page <= Math.ceil(total / perPage) &&
+      page <= totalPages &&
       page !== currentPage
     ) {
       onPageChange(page);
     }
-  };
+  }, [currentPage, onPageChange, totalPages]);
 
   const pages = useMemo(
     () =>
       new Array(totalPages)
         .fill(0)
         .map((_item, index) => index + 1),
-    [total, perPage]
+    [totalPages]
   );
 
   return (
@@ -70,7 +70,7 @@ const Pagination = ({
                 : ""
                 }`}
             >
-              {item}{" "}
+              {item}
             </div>
           ))}
       </div>
@@ -78,7 +78,7 @@ const Pagination = ({
         onClick={() => handlePageChange(currentPage + 1)}
         color="text"
         variant="text"
-        disabled={currentPage === pages.length}
+        disabled={currentPage === totalPages}
       >
         <ArrowForwardIcon />
       </Button>
@@ -104,11 +104,11 @@ export const usePagination = ({
 
   const handlePageChange = (page: number) => {
     setCurrentPage(page);
-    if (refetch) refetch(currentPage, perPage);
+    if (refetch) refetch(page, perPage);
   };
 
   const handleLimitChange = (limit: number) => {
-    setPerPage(perPage);
+    setPerPage(limit);
     if (refetch) refetch(currentPage, limit);
   };
 

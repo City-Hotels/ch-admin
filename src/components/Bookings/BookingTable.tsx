@@ -12,47 +12,42 @@ import { convertGrpcDate } from "@/utils/helpers";
 import { BookingFilter, BookingStatus, IBooking } from "@/services/booking/payload";
 import { getBookings } from "@/services/booking";
 import Input from "../Inputs/Input/Input";
+import Avatar from "../Avatar/Avatar";
 
 const BookingTable: React.FC<{
   Limit: number;
   Filter: BookingFilter;
   hidePagination?: boolean;
 }> = ({ Limit, Filter, hidePagination }) => {
-  // const [tableFilter, setTableFilter] = useState<BookingStatus | undefined>();
 
   const [Page, setPage] = useState(1);
-  // const [filterValues, setFilterValues] = useState<{ Limit: number;  Page: number}>({ Limit: 10, })
-  const { isLoading, refetch, data } = useQuery(
+  const { isLoading, data } = useQuery(
     [queryKeys.getUserBookings, Limit, Page],
     () => getBookings({ Limit, ...Filter, Page })
   );
   const bookings = (data?.data.Bookings as IBooking[]) || [];
   const meta = (data?.data.Meta as Meta) || [];
 
-  // const updateTableFilter = (filter: number) => {
-  //   // TODO: Update table request fetch update list
-  //   setTableFilter(filter as BookingStatus);
-  // };
-
-  const { currentPage, perPage } = usePagination({
+  const { currentPage, perPage, handlePageChange } = usePagination({
     defaultCurrentPage: 1,
-    defaultPerPage: 5,
+    defaultPerPage: Limit,
     refetch: (page: number) => {
       setPage(page);
-      refetch();
     }
   });
+
   return (
-    <div className="bg-white p-2 rounded-md">
+    <div className="bg-white rounded-md">
       <Table
         withPagination={!hidePagination}
         perPage={perPage}
         currentPage={currentPage}
-        total={bookings.length}
+        total={meta.TotalCount}
+        onPageChange={handlePageChange}
         headerColor="primary"
         errorMessage="You have not gotten any bookings"
         headerComponent={
-          <div>
+          <div className="p-3">
             <div className="items-between flex w-full items-center justify-between gap-3">
               <H4>Bookings({meta.TotalCount || bookings.length})</H4>
               <div className="flex items-center justify-end gap-3">
@@ -136,6 +131,53 @@ const BookingTable: React.FC<{
         }
         header={[
           {
+            key: "Customer",
+            title: "GUEST",
+            headerClass:
+              "font-matter py-2 whitespace-nowrap text-[12px] font-normal leading-[150%] text-white",
+            width: "15%",
+            render(_column, item) {
+              return (
+                <div className="flex gap-2">
+                  <Avatar Firstname={item.Guest?.Firstname || ""} Lastname={item.Guest?.Firstname || ""} Imageurl={item.Guest.Imageurl} className="w-10 h-10" />
+                  <div>
+                    <div className={`text-[14px] leading-[150%] text-black`}>
+                      {item.Guest?.Firstname}
+                    </div>
+                    <div
+                      className={`text-[var(--grey-grey-400, #858D9D);] font-matter text-[11px] leading-[150%]`}
+                    >
+                      {item.Guest?.Email}
+                    </div>
+                  </div>
+                </div>
+              );
+            }
+          },
+          {
+            key: "Room",
+            title: "SERVICE",
+            width: "20%",
+            headerClass:
+              "font-matter  whitespace-nowrap text-[12px] font-normal leading-[150%] text-white",
+            render(_column, item) {
+              return (
+                <div>
+                  <div
+                    className={`text-[var(--grey-grey-600, #5D6679);] whitespace-nowrap text-[14px] leading-[150%]`}
+                  >
+                    {item.Service.Name}
+                  </div>
+                  <div
+                    className={`text-[var(--grey-grey-600, #5D6679);] text-[12px] leading-[150%]`}
+                  >
+                    {item.Host.Firstname}  {item.Host.Lastname}
+                  </div>
+                </div>
+              );
+            }
+          },
+          {
             key: "BookingId",
             title: "RESERVATION ID",
             width: "15%",
@@ -146,52 +188,8 @@ const BookingTable: React.FC<{
             }
           },
           {
-            key: "Customer",
-            title: "GUEST",
-            headerClass:
-              "font-matter py-2 whitespace-nowrap text-[12px] font-normal leading-[150%] text-white",
-            width: "15%",
-            render(_column, item) {
-              return (
-                <div>
-                  <div className={`text-[14px] leading-[150%] text-black`}>
-                    {item.Guest?.Firstname}
-                  </div>
-                  <div
-                    className={`text-[var(--grey-grey-400, #858D9D);] font-matter text-[11px] leading-[150%]`}
-                  >
-                    {item.Guest?.Email}
-                  </div>
-                </div>
-              );
-            }
-          },
-          {
-            key: "Room",
-            title: "ROOM",
-            width: "10%",
-            headerClass:
-              "font-matter  whitespace-nowrap text-[12px] font-normal leading-[150%] text-white",
-            render(_column, item) {
-              return (
-                <div>
-                  <div
-                    className={`text-[var(--grey-grey-600, #5D6679);] text-[14px] leading-[150%]`}
-                  >
-                    {item.Service.Id.slice(0, 10)}
-                  </div>
-                  <div
-                    className={`text-[var(--grey-grey-600, #5D6679);] whitespace-nowrap text-[11px] leading-[150%]`}
-                  >
-                    {item.Service.Name}
-                  </div>
-                </div>
-              );
-            }
-          },
-          {
             key: "BookingDate",
-            title: "BOOKING DATE",
+            title: "DATE",
             width: "10%",
             headerClass:
               "font-matter py-2 whitespace-nowrap text-[12px] font-normal leading-[150%] text-white",
@@ -244,30 +242,13 @@ const BookingTable: React.FC<{
             }
           },
           {
-            key: "PaymentStatus",
-            title: "PAYMENT",
-            headerClass:
-              "font-matter py-2 whitespace-nowrap text-[12px] font-normal leading-[150%] text-white",
-            width: "10%",
-            render(_column, item) {
-              return (
-                <div
-                  className={` ${"bg-success50 text-success400"} inline-block rounded-full px-4 py-1`}
-                >
-                  <div className="text-center text-[12px]">
-                    {item?.PaymentInfo && "Paid"}
-                  </div>
-                </div>
-              );
-            }
-          },
-          {
             key: "BookingStatus",
             title: "STATUS",
             headerClass:
               "font-matter py-2 whitespace-nowrap text-[12px] font-normal leading-[150%] text-white",
             width: "10%",
             render(_column, item) {
+              if (!item.Status) item.Status = BookingStatus.PENDING;
               return (
                 <div
                   className={` ${(item.Status === BookingStatus.PENDING &&
@@ -278,8 +259,8 @@ const BookingTable: React.FC<{
                     }    inline-block rounded-full px-4 py-1`}
                 >
                   <div className="text-center text-[12px]">
-                    {item?.Status === BookingStatus.CANCELLED && "Cancelled"}
                     {item?.Status === BookingStatus.PENDING && "Pending"}
+                    {item?.Status === BookingStatus.CANCELLED && "Cancelled"}
                     {item?.Status === BookingStatus.ACCEPTED && "Accepted"}
                     {item?.Status === BookingStatus.CHECKEDIN && "Checked In"}
                     {item?.Status === BookingStatus.CHECKEDOUT && "Checked Out"}
