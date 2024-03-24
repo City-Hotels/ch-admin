@@ -4,6 +4,7 @@ import EyeOffIcon from "@/assets/icons/eye-off.svg";
 import styles from "./Input.module.scss";
 import type InputProps from "./Input.props";
 import AmountInput from "./AmountInput";
+import SearchIcon from "@/assets/icons/search.svg";
 
 const Input: React.FC<InputProps> = ({
   label,
@@ -58,6 +59,8 @@ const Input: React.FC<InputProps> = ({
       )}
       {!["amount", "password"].includes(type || "") && (
         <div className={`${styles.input_container} ${className}`}>
+          <SearchIcon />
+
           <input
             className={`${styles.input}`}
             type={type}
