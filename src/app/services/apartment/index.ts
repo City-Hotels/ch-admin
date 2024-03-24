@@ -22,7 +22,8 @@ const searchApartment = (data: any) => {
     )
     .join("&");
 
-  return getRequest<{ Apartments: IApartment[] }>({
+  return getRequest<{ Apartments: IApartment[]; Meta: Meta }>({
+    //  don't know if it's right but i added Meta:Meta here
     url: `/apartments/?${args}`
   });
 };
