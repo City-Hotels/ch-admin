@@ -3,9 +3,9 @@ import { Metadata } from "next";
 import DefaultLayout from "@/components/Layouts/DefaultLayout";
 
 export const metadata: Metadata = {
-  title: "City Hotel Backend Admin  Business Tale",
+  title: "City Hotel Backend Admin  Business Table",
   description:
-    "This is a table displaying information of the lists of Business on City Hotel",
+    "Page displaying the lists of Business on City Hotel",
 };
 
 const CalendarPage = () => {

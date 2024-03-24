@@ -1,5 +1,5 @@
 import { searchHotel, getHotel } from "./index";
-import { getRequest } from "../../../utils/api/calls";
+import { getRequest } from "../../utils/api/calls";
 
 jest.mock("../../utils/api/calls", () => ({
   getRequest: jest.fn()

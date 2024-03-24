@@ -4,7 +4,7 @@ import {
   patchRequest,
   postRequest,
   putRequest
-} from "../../../utils/api/calls";
+} from "../../utils/api/calls";
 import type {
   BankInformationPayload,
   CompleteHotelRegisterPayload,
