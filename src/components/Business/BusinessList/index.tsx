@@ -1,8 +1,8 @@
 "use client";
 import React, { useState } from "react";
 import { Table } from "../../Tables/Table/Table";
-import { searchHotel } from "@/app/services/hotel/index";
-import { HotelStatus, type IHotel } from "@/app/services/hotel/payload";
+import { searchHotel } from "@/services/hotel/index";
+import { HotelStatus, type IHotel } from "@/services/hotel/payload";
 import { useQuery } from "react-query";
 import queryKeys from "@/utils/api/queryKeys";
 import Img from "../../Image/Image";
