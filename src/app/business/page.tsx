@@ -3,9 +3,9 @@ import { Metadata } from "next";
 import DefaultLayout from "@/components/Layouts/DefaultLayout";
 
 export const metadata: Metadata = {
-  title: "Next.js Calender | TailAdmin - Next.js Dashboard Template",
+  title: "City Hotel Backend Admin  Business Tale",
   description:
-    "This is Next.js Calender page for TailAdmin  Tailwind CSS Admin Dashboard Template",
+    "This is a table displaying information of the lists of Business on City Hotel",
 };
 
 const CalendarPage = () => {
