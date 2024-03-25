@@ -63,7 +63,7 @@ const SignIn: React.FC = () => {
   useEffect(() => {
     if (!loggedIn) return;
     if (user?.Role === UserRoles.ADMIN) router.push("/");
-  }, [user]);
+  }, [loggedIn, router, user]);
 
   const { mutate, isLoading: loading } = useMutation(login);
 

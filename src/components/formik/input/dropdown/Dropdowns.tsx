@@ -1,6 +1,5 @@
-import { FaChevronDown } from "react-icons/fa";
 import { useField } from "formik";
-import { Label, Label1 } from "@/components/shared/headings/Headings";
+import { Label, Label1 } from "@/components/Headings/Headings";
 import type { DropdownProps } from "./Dropdown.props";
 import styles from "./Dropdown.module.scss";
 
@@ -23,7 +22,6 @@ const Dropdown: React.FC<DropdownProps> = ({
           <select
             className={`${styles.Select}`}
             {...field}
-            placeholder={placeholder}
             onBlur={onChange}
           >
             {options.map((option, index) => (
@@ -35,7 +33,7 @@ const Dropdown: React.FC<DropdownProps> = ({
         </div>
 
         <div className={styles.select__caret__2}>
-          <FaChevronDown className="h-4 w-4" />
+          {/* <FaChevronDown className="h-4 w-4" /> */}
         </div>
       </div>
       <div className="h-2 text-[10px] text-primary400">

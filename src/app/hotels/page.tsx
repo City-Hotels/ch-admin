@@ -3,12 +3,12 @@ import { Metadata } from "next";
 import DefaultLayout from "@/components/Layouts/DefaultLayout";
 
 export const metadata: Metadata = {
-  title: "City Hotel Backend Admin  Business Table",
+  title: "Hotels | City Spaces Backend Admin Business Table",
   description:
-    "Page displaying the lists of Business on City Hotel",
+    "Page displaying the lists of Hotels on City Spaces and Bookings",
 };
 
-const CalendarPage = () => {
+const HotelListPage = () => {
   return (
     <DefaultLayout>
       <HotelBusinessTable />
@@ -16,4 +16,4 @@ const CalendarPage = () => {
   );
 };
 
-export default CalendarPage;
+export default HotelListPage;

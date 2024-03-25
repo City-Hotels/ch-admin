@@ -22,6 +22,11 @@ export type Meta = {
   TotalPages: number;
   TotalCount: number;
 };
+export interface IGRPCDate {
+  seconds: number;
+  nanos: number;
+};
+
 
 export const postRequest = async <IRequestType, ResponseType>({
   url,

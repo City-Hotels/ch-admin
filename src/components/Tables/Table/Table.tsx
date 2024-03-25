@@ -154,7 +154,7 @@ export function Table<T>({
     <div className={className}>
       <div className="relative ">
         {headerComponent && (
-          <div ref={headerComponentRef} className="pb-5">
+          <div ref={headerComponentRef}>
             {headerComponent}
           </div>
         )}

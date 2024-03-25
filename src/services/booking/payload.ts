@@ -1,11 +1,6 @@
+import { IGRPCDate } from "@/utils/api/calls";
 import type { IApartment } from "../apartment/payload";
 import type { IRoom, IRoomType } from "../room/payload";
-
-export interface IGRPCDate {
-  seconds: number;
-  nanos: number;
-};
-
 export enum BookingStatus {
   PENDING = 0,
   CANCELLED = 1,

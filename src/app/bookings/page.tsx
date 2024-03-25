@@ -5,13 +5,13 @@ import BookingTable from "@/components/Bookings/BookingTable";
 export const metadata: Metadata = {
   title: "City Hotel Backend Admin  Business Table",
   description:
-    "Page displaying the lists of Business on City Hotel",
+    "Page displaying booking list on City Hotel",
 };
 
 const BookingsPage = () => {
   return (
     <DefaultLayout>
-      <BookingTable Limit={10} Filter={{}} />
+      <BookingTable Limit={9} Filter={{}} />
     </DefaultLayout>
   );
 };

@@ -1,7 +1,7 @@
 import { useField } from "formik";
-import { Label } from "../../headings/Headings";
 import styles from "./DimensionInput.module.scss";
 import type DimensionInputProps from "./DimensionInput.props";
+import { Label } from "@/components/Headings/Headings";
 
 const DimensionInput: React.FC<DimensionInputProps> = ({
   label,

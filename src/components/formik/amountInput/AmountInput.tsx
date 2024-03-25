@@ -1,7 +1,7 @@
 import { useField } from "formik";
-import { Label } from "../../headings/Headings";
 import styles from "./AmountInput.module.scss";
 import type AmountInputProps from "./AmountInput.props";
+import { Label } from "@/components/Headings/Headings";
 
 const AmountInput: React.FC<AmountInputProps> = ({
   label,
