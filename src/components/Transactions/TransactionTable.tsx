@@ -5,7 +5,7 @@ import React, { useState } from "react";
 import { useQuery } from "react-query";
 import Dots from "@/assets/icons/dots-vertical.svg";
 import dayjs from "dayjs";
-import type { Meta } from "@/utils/api/calls";
+// import type { Meta } from "@/utils/api/calls";
 import { usePagination } from "../Tables/Table/Pagination";
 import { Table } from "../Tables/Table/Table";
 import { convertGrpcDate } from "@/utils/helpers";
