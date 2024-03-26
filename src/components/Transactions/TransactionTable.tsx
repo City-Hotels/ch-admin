@@ -8,7 +8,7 @@ import dayjs from "dayjs";
 import type { Meta } from "@/utils/api/calls";
 import { usePagination } from "../Tables/Table/Pagination";
 import { Table } from "../Tables/Table/Table";
-import { convertGrpcDate } from "@/utils/helpers";
+import { convertGrpcDate, formatCurrencyNoSymbol } from "@/utils/helpers";
 import {
   ITransaction,
   TransactionFilter,
@@ -39,7 +39,7 @@ const TransactionTable: React.FC<{
   // };
   console.log(transactions);
 
-  const { currentPage, perPage, handlePageChange} = usePagination({
+  const { currentPage, perPage, handlePageChange } = usePagination({
     defaultCurrentPage: 1,
     defaultPerPage: Limit,
     refetch: (page: number) => {
@@ -136,7 +136,11 @@ const TransactionTable: React.FC<{
             headerClass:
               "font-matter py-2 px-3 whitespace-nowrap text-[12px] font-normal leading-[150%] text-white",
             render(_column, item) {
-              return <div className="px-4">{item.Credit}</div>;
+              return (
+                <div className="px-4">
+                  {formatCurrencyNoSymbol(item.Credit || 0)}
+                </div>
+              );
             }
           },
           {
@@ -146,7 +150,11 @@ const TransactionTable: React.FC<{
             headerClass:
               "font-matter py-2 px-3 whitespace-nowrap text-[12px] font-normal leading-[150%] text-white",
             render(_column, item) {
-              return <div className="px-4">{item.Debit}</div>;
+              return (
+                <div className="px-4">
+                  {formatCurrencyNoSymbol(item.Debit || 0)}
+                </div>
+              );
             }
           },
           {
