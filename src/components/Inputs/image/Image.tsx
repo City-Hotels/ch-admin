@@ -7,7 +7,7 @@ import EditIcon from "@/assets/icons/pencil.svg";
 import type { ApiResponse } from "@/utils/api/calls";
 import styles from "./Image.module.scss";
 import Img from "@/components/Image/Image";
-import { IMedia } from "@/app/services/hotel/payload";
+import { IMedia } from "@/services/hotel/payload";
 
 export const ImageItem: React.FC<{
   image: File;

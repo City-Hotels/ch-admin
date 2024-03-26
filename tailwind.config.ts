@@ -13,6 +13,7 @@ const config: Config = {
       satoshi: ["Satoshi", "sans-serif"],
       matter: ['"Matter"', "system-ui"],
       "matter-bold": ['"MatterBold"', "system-ui"],
+      cal: ['"OpenSans"', "system-ui"],
     },
     screens: {
       "2xsm": "375px",
