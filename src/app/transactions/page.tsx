@@ -11,7 +11,7 @@ export const metadata: Metadata = {
 const TransactionPage = () => {
   return (
     <DefaultLayout>
-      <TransactionTable Limit={10} />
+      <TransactionTable Limit={10} Filter={{}} />
     </DefaultLayout>
   );
 };

@@ -18,6 +18,17 @@ export type ITransaction = {
   };
 };
 
+export interface TransactionFilter {
+  Limit?: number;
+  Page?: number;
+  UserId?: string;
+  ServiceId?: string;
+  Reference?: string;
+  StartDate?:string;
+  EnStartDate?:string;
+}
+
+
 export enum TransactionType {
   WALLETFUND = 0,
   BOOKING = 1,
