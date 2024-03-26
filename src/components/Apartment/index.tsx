@@ -1,31 +1,29 @@
 "use client";
 import React, { useState } from "react";
 import { Table } from "../Tables/Table/Table";
-import { searchApartment } from "@/app/services/apartment/index";
+import { searchApartment } from "@/services/apartment/index";
 import { useQuery } from "react-query";
 import queryKeys from "@/utils/api/queryKeys";
 import Img from "../Image/Image";
 import Input from "../Inputs/Input/Input";
 import { usePagination } from "@/components/Tables/Table/Pagination";
 import { Meta } from "@/utils/api/calls";
-import { IApartment } from "@/app/services/apartment/payload";
+import { IApartment } from "@/services/apartment/payload";
 
 const Index = () => {
   const [Page, setPage] = useState(1);
-  const { isLoading, data, refetch } = useQuery(
-    [queryKeys.getApartmentByID],
-    () => searchApartment({ Page, Limit: 7 })
+  const { isLoading, data } = useQuery([queryKeys.getApartmentByID, Page], () =>
+    searchApartment({ Page, Limit: 7 })
   );
 
   const apartments = (data?.data.Apartments as IApartment[]) || [];
   const meta = (data?.data.Meta as Meta) || [];
 
-  const { currentPage, perPage } = usePagination({
+  const { currentPage, perPage, handlePageChange } = usePagination({
     defaultCurrentPage: 1,
     defaultPerPage: meta.Limit,
     refetch: (page: number) => {
       setPage(page);
-      refetch();
     }
   });
   return (
@@ -37,6 +35,7 @@ const Index = () => {
         perPage={perPage}
         currentPage={currentPage}
         totalPages={meta.TotalPages}
+        onPageChange={handlePageChange}
         total={meta.TotalCount}
         headerComponent={
           <div className="flex items-center justify-between gap-3">
