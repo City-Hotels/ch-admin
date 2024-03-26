@@ -12,14 +12,12 @@ import { Meta } from "@/utils/api/calls";
 import { H4 } from "@/components/Headings/Headings";
 
 const Index = () => {
-
   const [Page, setPage] = useState(1);
-  const { isLoading, data } = useQuery(
-    [queryKeys.getSeachHotels, Page],
-    () => searchHotel({ Page, Limit: 7 })
+  const { isLoading, data } = useQuery([queryKeys.getSeachHotels, Page], () =>
+    searchHotel({ Page, Limit: 7 })
   );
 
-  const hotels = data?.data.Hotels as IHotel[] || []
+  const hotels = (data?.data.Hotels as IHotel[]) || [];
   const meta = (data?.data.Meta as Meta) || [];
 
   const { currentPage, perPage, handlePageChange } = usePagination({
@@ -58,10 +56,21 @@ const Index = () => {
             headerClass: "py-2",
             width: "2%",
             render(_column, item) {
-              return <div className="py-2  flex items-center gap-2">
-                {item.Medias && item?.Medias[0] ? <Img alt="" path={item?.Medias[0]?.Path || ""} name="" className="h-10 w-10 rounded-md" /> : <div className="w-10 h-10 bg-gray"></div>}
-                {item?.Name || ""}
-              </div>;
+              return (
+                <div className="py-2  flex items-center gap-2">
+                  {item.Medias && item?.Medias[0] ? (
+                    <Img
+                      alt=""
+                      path={item?.Medias[0]?.Path || ""}
+                      name=""
+                      className="h-10 w-10 rounded-md"
+                    />
+                  ) : (
+                    <div className="w-10 h-10 bg-gray"></div>
+                  )}
+                  {item?.Name || ""}
+                </div>
+              );
             }
           },
           {
@@ -88,9 +97,7 @@ const Index = () => {
             width: "1%",
             render(_column, item) {
               return (
-                <div className="py-2 ">
-                  {item?.Rating?.TotalBooking || 0}
-                </div>
+                <div className="py-2 ">{item?.Rating?.TotalBooking || 0}</div>
               );
             }
           },
@@ -100,9 +107,7 @@ const Index = () => {
             width: "1%",
             render(_column, item) {
               return (
-                <div className="py-2 ">
-                  {item?.Rating?.TotalReviews || 0}
-                </div>
+                <div className="py-2 ">{item?.Rating?.TotalReviews || 0}</div>
               );
             }
           },
@@ -111,9 +116,7 @@ const Index = () => {
             title: "Total Clicks",
             width: "1%",
             render(_column, item) {
-              return (
-                <div className="py-2 ">{item?.Rating?.Clicks || 0}</div>
-              );
+              return <div className="py-2 ">{item?.Rating?.Clicks || 0}</div>;
             }
           },
           {
@@ -122,12 +125,19 @@ const Index = () => {
             width: "1%",
             render(_column, item) {
               if (!item.Status) item.Status = HotelStatus.UNPUBLISHED;
-              return <div className={` ${(item.Status === HotelStatus.UNPUBLISHED &&
-                "bg-warning50 text-warning400") ||
-                (item.Status === HotelStatus.PUBLISHED &&
-                  "bg-success50 text-success400") ||
-                "bg-danger50  text-danger400"
-                }    inline-block rounded-full px-4 py-1`}>{HotelStatus[item?.Status || 0]}</div>;
+              return (
+                <div
+                  className={` ${
+                    (item.Status === HotelStatus.UNPUBLISHED &&
+                      "bg-warning50 text-warning400") ||
+                    (item.Status === HotelStatus.PUBLISHED &&
+                      "bg-success50 text-success400") ||
+                    "bg-danger50  text-danger400"
+                  }    inline-block rounded-full px-4 py-1`}
+                >
+                  {HotelStatus[item?.Status || 0]}
+                </div>
+              );
             }
           }
         ]}
