@@ -1,0 +1,74 @@
+.filterContainer {
+  @apply absolute right-0 w-[433px] bg-white border z-50;
+}
+
+.filter {
+  @apply relative;
+}
+
+.filterTitle {
+  @apply flex items-center font-cal gap-5 py-5 pl-[30px] pr-[30px] border-b-[1px] border-b-grey30;
+}
+
+.labelContainer {
+  @apply mt-3 pl-6 pr-6;
+}
+
+.input {
+  @apply py-3 px-3 pb-2 border mt-2 border-grey30 rounded-md flex items-center gap-4;
+}
+
+.innerInput {
+  @apply h-[20px] outline-none w-[100%] text-white800;
+}
+
+.innerInput:placeholder-shown {
+  color: #7a7a7a;
+}
+
+.checkBoxConatainer {
+  @apply flex flex-col gap-2 mt-2
+}
+
+.range {
+  @apply w-full h-2 bg-[#FFF3E6] rounded-lg appearance-none cursor-pointer;
+}
+
+.range[type="range"]::-webkit-slider-thumb {
+  background: #fd8501;
+  width: 30px;
+  height: 30px;
+}
+
+.ratingContainer {
+  @apply max-w-[200px] mt-4;
+}
+
+.clearFilterContainer {
+  @apply flex items-center py-4 pl-[30px] pr-[30px] pb-2 justify-between border-t-2 border-t-grey30;
+}
+
+.starContainer {
+  @apply flex items-center gap-5 bg-[#FFF3E6] px-2 py-2 mb-4;
+}
+
+.filterForm {
+  overflow-y: scroll;
+  height: calc(100vh - 70px);
+}
+
+.filter_nav_container {
+  position: fixed;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  width: 433px;
+  background-color: #fff;
+  box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
+  z-index: 1000000000000000000;
+  overflow-y: hidden;
+}
+
+.filterForm::-webkit-scrollbar {
+  width: 0;
+}

@@ -4,26 +4,33 @@ import queryKeys from "@/utils/api/queryKeys";
 import React, { useState } from "react";
 import { useQuery } from "react-query";
 import Dots from "@/assets/icons/dots-vertical.svg";
+import FilterIcon from "@/assets/icons/filter2.svg";
 import dayjs from "dayjs";
 import type { Meta } from "@/utils/api/calls";
-import { usePagination } from "../Tables/Table/Pagination";
-import { Table } from "../Tables/Table/Table";
+import { usePagination } from "@/components/Tables/Table/Pagination";
+import { Table } from "@/components/Tables/Table/Table";
 import { convertGrpcDate } from "@/utils/helpers";
-import { BookingFilter, BookingStatus, IBooking } from "@/services/booking/payload";
+import { BookingFilter, BookingStatus, BookingFilterStatus, IBooking } from "@/services/booking/payload";
 import { getBookings } from "@/services/booking";
-import Input from "../Inputs/Input/Input";
-import Avatar from "../Avatar/Avatar";
+import Input from "@/components/Inputs/Input/Input";
+import Avatar from "@/components/Avatar/Avatar";
+import Modal from "@/components/Modal/Modal";
+import FilterComponent from "./Filter/Filter";
+import Button from "../Button/Button";
 
 const BookingTable: React.FC<{
   Limit: number;
   Filter: BookingFilter;
   hidePagination?: boolean;
 }> = ({ Limit, Filter, hidePagination }) => {
+  const [filters, setFilters] = useState({ ...Filter })
+
+  const [showFilterModal, setShowFilterModal] = useState(false);
 
   const [Page, setPage] = useState(1);
   const { isLoading, data } = useQuery(
-    [queryKeys.getUserBookings, Limit, Page],
-    () => getBookings({ Limit, ...Filter, Page })
+    [queryKeys.getUserBookings, Limit, Page, filters],
+    () => getBookings({ Limit, ...filters, Page })
   );
   const bookings = (data?.data.Bookings as IBooking[]) || [];
   const meta = (data?.data.Meta as Meta) || [];
@@ -36,8 +43,10 @@ const BookingTable: React.FC<{
     }
   });
 
+
   return (
     <div className="bg-white rounded-md">
+      <H4 className="p-2 text-black">Bookings {meta.TotalCount && <span>({meta.TotalCount})</span>}</H4>
       <Table
         withPagination={!hidePagination}
         perPage={perPage}
@@ -45,35 +54,40 @@ const BookingTable: React.FC<{
         total={meta.TotalCount}
         onPageChange={handlePageChange}
         headerColor="primary"
-        errorMessage="You have not gotten any bookings"
+        errorMessage="No bookings match this filter"
         headerComponent={
           <div className="p-3">
             <div className="items-between flex w-full items-center justify-between gap-3">
-              <H4>Bookings({meta.TotalCount || bookings.length})</H4>
               <div className="flex items-center justify-end gap-3">
+                <div className="md:min-w-[200px]">
+                  <Input
+                    type="search"
+                    placeholder="Booking Id"
+                    className="w-full border border-[#EAEAEA] outline-none placeholder:text-[#666666] "
+                    value={filters.BookingId}
+                    onChange={(ev) => setFilters({ ...filters, BookingId: ev.currentTarget.value })}
+                  />
+                </div>
+
                 <div className="page-button-container">
                   <span className="page-button-wrapper flex gap-2">
+                    <div
+                      className={`rounded-full border w-17 px-2  py-2 text-center text-[12.54px]  hover:bg-white100. hover:text-primary400 hover:border-primary400 cursor-pointer   ${filters.Status === undefined ? 'text-primary400 border-primary400 ' : 'text-white800 border-white700'}`}
+                      onClick={() => {
+                        setFilters({ ...filters, Status: undefined })
+                      }}
+                    >All ({meta.TotalCount})</div>
                     {Object.values(BookingStatus)
                       .filter((value) => typeof value === "string")
-                      .filter(
-                        (value) =>
-                          typeof value === "string" &&
-                          !["CANCELLED", "DECLINED"].includes(value)
-                      )
                       .map((bookingStatus) => (
                         <div
-                          // onClick={() =>
-                          //   // updateTableFilter(BookingStatus[bookingStatus])
-                          // ${
-                          //   1 === 2
-                          //     ? "border-orange-500 bg-orange-50 text-orange-500"
-                          //     : "text-grey-500 border-grey600 bg-white "
-                          //   }
-                          // }
                           key={bookingStatus}
-                          className={`rounded-full border  px-4 
+                          className={`rounded-full border  px-2 
                        
-                         py-2 text-center text-[12.54px]`}
+                         py-2 text-center text-[12.54px]  hover:bg-white100. hover:text-primary400 hover:border-primary400 cursor-pointer  ${filters.Status === BookingFilterStatus[bookingStatus as keyof typeof BookingFilterStatus] ? 'text-primary400 border-primary400 ' : 'text-white800 border-white700 '}`}
+                          onClick={() => {
+                            setFilters({ ...filters, Status: BookingFilterStatus[bookingStatus as keyof typeof BookingFilterStatus] })
+                          }}
                         >
                           {bookingStatus}
                           {`(${bookings.length})`}
@@ -118,14 +132,12 @@ const BookingTable: React.FC<{
                       ))}
                   </span>
                 </div>
-                <div className="md:min-w-[250px]">
-                  <Input
-                    type="search"
-                    placeholder="Search"
-                    className=" m-0 w-full border border-[#EAEAEA] outline-none placeholder:text-[#666666] "
-                  />
-                </div>
               </div>
+              <Button size="sm" color="outline-dark" variant="outline" onClick={() => setShowFilterModal(true)}>
+                <span className="flex gap-2 px-3">
+                  <FilterIcon /> Filter
+                </span>
+              </Button>
             </div>
           </div>
         }
@@ -281,6 +293,16 @@ const BookingTable: React.FC<{
         data={bookings}
         isLoading={isLoading}
       />
+      <Modal
+        openModal={showFilterModal}
+        setOpenModal={setShowFilterModal}
+        variant="plain"
+      >
+        <FilterComponent filter={filters} onClose={() => setShowFilterModal(false)} setFilter={(filter) => {
+          console.log({ filter })
+          setFilters(filter);
+        }} />
+      </Modal>
     </div>
   );
 };

@@ -16,7 +16,7 @@ import type { CredentialResponse } from "@react-oauth/google";
 import { GoogleLogin, useGoogleOneTapLogin } from "@react-oauth/google";
 import { } from "react-redux";
 import { useAppDispatch, useAppSelector } from "@/store";
-import { IsLoggedIn, fetchUserProfile, isLoading, selectCurrentUser, setCredentials } from "@/store/slice/auth/auth.slice";
+import { IsLoggedIn, fetchUserProfile, isLoading, removeCredentials, selectCurrentUser, setCredentials } from "@/store/slice/auth/auth.slice";
 import type { FormikHelpers } from "formik";
 import { Formik } from "formik";
 import { loginSchema } from "@/utils/formSchema";
@@ -62,7 +62,11 @@ const SignIn: React.FC = () => {
 
   useEffect(() => {
     if (!loggedIn) return;
+    if (loggedIn && !user) {
+      dispatch(fetchUserProfile());
+    }
     if (user?.Role === UserRoles.ADMIN) router.push("/");
+    // else dispatch(removeCredentials())
   }, [loggedIn, router, user]);
 
   const { mutate, isLoading: loading } = useMutation(login);
