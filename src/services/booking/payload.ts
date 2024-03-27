@@ -9,6 +9,19 @@ export enum BookingStatus {
   CHECKEDIN = 4,
   CHECKEDOUT = 5
 }
+export enum BookingFilterStatus {
+  PENDING = "PENDING",
+  CANCELLED = "CANCELLED",
+  DECLINED = "DECLINED",
+  ACCEPTED = "ACCEPTED",
+  CHECKEDIN = "CHECKEDIN",
+  CHECKEDOUT = "CHECKEDOUT"
+}
+
+export enum BookingFilterTypes {
+  HOTELROOM = "HOTELROOM",
+  APARTMENT = "APARTMENT",
+}
 
 export enum BookingTypes {
   HOTELROOM = 0,
@@ -163,9 +176,17 @@ export interface IBookingApartment {
 export enum BookingReviewStatus {
   PENDINGREVIEW = 0,
   GUESTREVIEWED = 1,
-  HOSTREVIEWED = 1,
-  REVIEWCOMPLETE = 2
+  HOSTREVIEWED = 2,
+  REVIEWCOMPLETE = 3
 }
+
+export enum BookingReviewFilterStatus {
+  PENDINGREVIEW = "PENDINGREVIEW",
+  GUESTREVIEWED = "GUESTREVIEWED",
+  HOSTREVIEWED = "HOSTREVIEWED",
+  REVIEWCOMPLETE = "REVIEWCOMPLETE",
+}
+
 
 export interface IReservation {
   Id: string;
@@ -230,8 +251,21 @@ export enum PaymentOption {
 export interface BookingFilter {
   Limit?: number;
   Page?: number;
-  HotelId?: string;
+  BookingId?: string;
   RoomId?: string;
-  ServiceId?: string;
-  CustomerId?: string;
+  RoomName?: string;
+  HostId?: string;
+  HostName?: string;
+  CheckInDate?: string;
+  CheckOutDate?: string;
+  Cost?: number;
+  Type?: BookingFilterTypes;
+  Status?: BookingFilterStatus;
+  GuestId?: string;
+  GuestName?: string;
+  BookingDate?: string;
+  UpdatedDate?: string;
+  ReviewStatus?: BookingReviewFilterStatus;
+  BookedByStartDate?: string;
+  BookedByEndDate?: string;
 }

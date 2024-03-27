@@ -83,7 +83,16 @@ export const {
 } = slice.actions;
 export default slice.reducer;
 export const selectCurrentUser = (state: RootState) => state.User;
-export const IsLoggedIn = (state: RootState) => state.IsLoggedIn;
+export const IsLoggedIn = (state: RootState) => {
+  let token
+  if (!state.IsLoggedIn) {
+    if (typeof window === "undefined") {
+      return false;
+    }
+    token = localStorage ? localStorage.getItem("CHID") : "";
+  }
+  return state.IsLoggedIn || !!token
+};
 export const isLoading = (state: RootState) => state.IsLoading;
 export const getLoginId = (state: RootState) => state.LoginId;
 export const getResetToken = (state: RootState) => state.Token;

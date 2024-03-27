@@ -4,7 +4,7 @@ import styles from "./Radio.module.scss";
 const Radio = ({ label, value, className, onChange, checked }: RadioProps) => {
   return (
     <div className={`${styles.check} ${className}`}>
-      <label className={styles.container}>
+      <span className={styles.container}>
         <input
           type="radio"
           name="radio"
@@ -20,7 +20,7 @@ const Radio = ({ label, value, className, onChange, checked }: RadioProps) => {
         >
           {checked && <span className={styles.dot} />}
         </span>
-      </label>
+      </span>
       <label className={styles.label}>{label}</label>
     </div>
   );

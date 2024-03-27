@@ -3,8 +3,8 @@ import React from "react";
 import { useEffect, useRef, useState } from "react";
 import Link from "next/link";
 import Image from "next/image";
-import { useAppSelector } from "@/store";
-import { IsLoggedIn, selectCurrentUser } from "@/store/slice/auth/auth.slice";
+import { useAppDispatch, useAppSelector } from "@/store";
+import { IsLoggedIn, fetchUserProfile, removeCredentials, selectCurrentUser } from "@/store/slice/auth/auth.slice";
 import Avatar from "../Avatar/Avatar";
 import { useRouter } from "next/navigation";
 import { UserRoles } from "@/services/user/payload";
@@ -17,12 +17,18 @@ const DropdownUser = () => {
   const user = useAppSelector(selectCurrentUser);
   const router = useRouter();
   const loggedIn = useAppSelector(IsLoggedIn);
+  const dispatch = useAppDispatch();
 
 
   useEffect(() => {
     if (!loggedIn) router.push("/login");
-    if (user?.Role !== UserRoles.ADMIN) router.push("/login");
-  }, [user, loggedIn, router]);
+    else if (loggedIn && !user) {
+      dispatch(fetchUserProfile());
+    } else if (user?.Role !== UserRoles.ADMIN) {
+      dispatch(removeCredentials())
+      router.push("/login");
+    }
+  }, [user, loggedIn, router, dispatch]);
 
 
 

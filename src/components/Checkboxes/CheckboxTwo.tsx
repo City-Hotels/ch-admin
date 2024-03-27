@@ -1,27 +1,39 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import RadioProps from "../Inputs/radio/Radio.props";
 
-const CheckboxTwo = () => {
-  const [isChecked, setIsChecked] = useState<boolean>(false);
+const CheckboxTwo: React.FC<RadioProps> = ({ label, value, className, onChange, onClick, checked, name }: RadioProps) => {
+  const [isChecked, setIsChecked] = useState<boolean>(!!checked);
+
+  useEffect(() => {
+    setIsChecked(!!checked)
+
+    return () => {
+      setIsChecked(false)
+    }
+  }, [setIsChecked, checked])
+
 
   return (
-    <div>
+    <div onClick={(e: any) => {
+      if (onClick) onClick(e)
+    }}>
       <label
         htmlFor="checkboxLabelTwo"
-        className="flex cursor-pointer select-none items-center"
+        className="flex cursor-pointer select-none items-center capitalize text-white800"
       >
         <div className="relative">
           <input
-            type="checkbox"
+            type="radio"
             id="checkboxLabelTwo"
             className="sr-only"
-            onChange={() => {
-              setIsChecked(!isChecked);
-            }}
+            name={name}
+            checked={isChecked}
+            value={value}
+
           />
           <div
-            className={`mr-4 flex h-5 w-5 items-center justify-center rounded border ${
-              isChecked && "border-primary bg-gray dark:bg-transparent"
-            }`}
+            className={`mr-4 flex h-5 w-5 items-center justify-center rounded border ${isChecked && "border-primary bg-gray dark:bg-transparent"
+              }`}
           >
             <span className={`opacity-0 ${isChecked && "!opacity-100"}`}>
               <svg
@@ -41,7 +53,7 @@ const CheckboxTwo = () => {
             </span>
           </div>
         </div>
-        Checkbox Text
+        <span className="uppercase">{label} </span>
       </label>
     </div>
   );
