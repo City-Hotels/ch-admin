@@ -5,50 +5,56 @@ import React, { useState } from "react";
 import { useQuery } from "react-query";
 import Dots from "@/assets/icons/dots-vertical.svg";
 import dayjs from "dayjs";
-// import type { Meta } from "@/utils/api/calls";
+import type { Meta } from "@/utils/api/calls";
 import { usePagination } from "../Tables/Table/Pagination";
 import { Table } from "../Tables/Table/Table";
-import { convertGrpcDate } from "@/utils/helpers";
-import { ITransaction, TransactionType } from "@/services/transactions/payload";
+import { convertGrpcDate, formatCurrencyNoSymbol } from "@/utils/helpers";
+import {
+  ITransaction,
+  TransactionFilter,
+  TransactionType
+} from "@/services/transactions/payload";
 import { getTransactions } from "@/services/transactions/index";
 import Input from "../Inputs/Input/Input";
 
 const TransactionTable: React.FC<{
   Limit: number;
   hidePagination?: boolean;
-}> = ({ Limit, hidePagination }) => {
+  Filter: TransactionFilter;
+}> = ({ Limit, Filter, hidePagination }) => {
   // const [tableFilter, setTableFilter] = useState<BookingStatus | undefined>();
 
   const [Page, setPage] = useState(1);
   // const [filterValues, setFilterValues] = useState<{ Limit: number;  Page: number}>({ Limit: 10, })
   const { isLoading, refetch, data } = useQuery(
     [queryKeys.getTransactions, Limit, Page],
-    () => getTransactions()
+    () => getTransactions({ Limit, ...Filter, Page })
   );
   const transactions = (data?.data.Transactions as ITransaction[]) || [];
-  //   const meta = (data?.data.Meta as Meta) || [];
+  const meta = (data?.data.Meta as Meta) || [];
 
   // const updateTableFilter = (filter: number) => {
   //   // TODO: Update table request fetch update list
   //   setTableFilter(filter as BookingStatus);
   // };
-  console.log(transactions)
+  console.log(transactions);
 
-  const { currentPage, perPage } = usePagination({
+  const { currentPage, perPage, handlePageChange } = usePagination({
     defaultCurrentPage: 1,
-    defaultPerPage: 5,
+    defaultPerPage: Limit,
     refetch: (page: number) => {
       setPage(page);
-      refetch();
     }
   });
+
   return (
     <div className="bg-white p-2 rounded-md">
       <Table
         withPagination={!hidePagination}
         perPage={perPage}
         currentPage={currentPage}
-        total={transactions.length}
+        total={meta.TotalCount}
+        onPageChange={handlePageChange}
         headerColor="primary"
         errorMessage="You have not gotten any bookings"
         headerComponent={
@@ -130,7 +136,11 @@ const TransactionTable: React.FC<{
             headerClass:
               "font-matter py-2 px-3 whitespace-nowrap text-[12px] font-normal leading-[150%] text-white",
             render(_column, item) {
-              return <div className="px-4">{item.Credit}</div>;
+              return (
+                <div className="px-4">
+                  {formatCurrencyNoSymbol(item.Credit || 0)}
+                </div>
+              );
             }
           },
           {
@@ -140,7 +150,11 @@ const TransactionTable: React.FC<{
             headerClass:
               "font-matter py-2 px-3 whitespace-nowrap text-[12px] font-normal leading-[150%] text-white",
             render(_column, item) {
-              return <div className="px-4">{item.Debit}</div>;
+              return (
+                <div className="px-4">
+                  {formatCurrencyNoSymbol(item.Debit || 0)}
+                </div>
+              );
             }
           },
           {

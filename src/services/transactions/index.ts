@@ -1,14 +1,36 @@
-import { getRequest, postRequest } from "@/utils/api/calls";
+import { ApiResponse, Meta, getRequest, postRequest } from "@/utils/api/calls";
 import type {
   ITransactionBalance,
   ITransaction,
   IInititateWithdraw,
-  IConfirmWithdraw
+  IConfirmWithdraw,
+  TransactionFilter
 } from "./payload";
 
-const getTransactions = () => {
-  return getRequest<{ Transactions: ITransaction[] }>({
-    url: `/transactions`
+// const getTransactions = () => {
+//   return getRequest<{ Transactions: ITransaction[] }>({
+//     url: `/transactions`
+//   });
+// };
+
+const getTransactions = (
+  filter: TransactionFilter
+): Promise<
+  ApiResponse<{
+    Meta: Meta;
+    Transactions: ITransaction[];
+  }>
+> => {
+  const args = Object.keys(filter)
+    .map(
+      (item) =>
+        `${encodeURIComponent(item)}=${encodeURIComponent(
+          (filter as any)[item]
+        )}`
+    )
+    .join("&");
+  return getRequest<{ Meta: Meta; Transactions: ITransaction[] }>({
+    url: `/transactions?${args}`
   });
 };
 
