@@ -43,6 +43,7 @@
     position: absolute;
   }
 }
+
 /* Create a custom radio button */
 
 /* On mouse-over, add a grey background color */
@@ -59,3 +60,8 @@
 //   position: absolute;
 //   display: none;
 // }
+
+
+.label {
+  @apply text-[14px] font-normal text-white900 font-matter leading-[150%];
+}
