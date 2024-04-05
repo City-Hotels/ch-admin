@@ -1,4 +1,4 @@
-import type { Meta } from "@/utils/api/calls";
+import type { ApiResponse, Meta } from "@/utils/api/calls";
 import {
   deleteRequest,
   getRequest,
@@ -12,23 +12,32 @@ import type {
   IPricingPayload,
   IDetailsPayload,
   IFacility,
-  IAddress
+  IAddress,
+  ApartmentFilter
 } from "./payload";
 
-const searchApartment = (data: any) => {
-  const args = Object.keys(data)
+const searchApartment = (
+  filter: ApartmentFilter
+): Promise<
+  ApiResponse<{
+    Meta: Meta;
+    Apartments: IApartment[];
+  }>
+> => {
+  const args = Object.keys(filter)
     .map(
-      (item) => `${encodeURIComponent(item)}=${encodeURIComponent(data[item])}`
+      (item) =>
+        `${encodeURIComponent(item)}=${encodeURIComponent(
+          (filter as any)[item]
+        )}`
     )
     .join("&");
-
   return getRequest<{ Apartments: IApartment[]; Meta: Meta }>({
-    //  don't know if it's right but i added Meta:Meta here
     url: `/apartments/?${args}`
   });
 };
 
-const getApartment = (hotelId: string | undefined) => {
+const getApartment = (hotelId: string) => {
   return getRequest<IApartment>({
     url: `/apartments/${hotelId}`
   });
