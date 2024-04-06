@@ -2,7 +2,7 @@
 export enum HotelStatus {
   PUBLISHED = 1,
   UNPUBLISHED = 0,
-  SUSPENDED = 2,
+  SUSPENDED = 2
 }
 
 export type HotelPayoad = {
@@ -43,7 +43,7 @@ export type IHotel = {
   Score?: number;
   SEO: string;
   Slogan: string;
-  Status: HotelStatus
+  Status: HotelStatus;
   Slug: string;
   SocialLinks?: ISocialLinks;
   Telephone: string;
@@ -60,6 +60,27 @@ export type IHotel = {
   Introduction: string;
 };
 
+export type HotelFilter = {
+  Limit?: number;
+  Page?: number;
+  Id?: string;
+  Name?: string;
+  Status?: HotelStatus;
+  Telephone?: string;
+  Email?: string;
+  Location?: string;
+  KidsAllowed?: string;
+  GuestAllowed?: string;
+  Facilities?: string;
+  MinRating?: string;
+  MaxRating?: string;
+  MaxTotalReviews?: string;
+  MinTotalReviews?: string;
+  MaxTotalBooking?: string;
+  MinTotalBooking?: string;
+
+};
+
 export type IFacility = {
   Amenities: string[];
   Icon: string;
@@ -72,7 +93,7 @@ export type IFacility = {
 
 export type IRating = {
   Impressions: number;
-  Clicks: number
+  Clicks: number;
   Likes: number;
   Rating: number;
   TotalBooking: number;

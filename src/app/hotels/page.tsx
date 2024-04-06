@@ -11,7 +11,7 @@ export const metadata: Metadata = {
 const HotelListPage = () => {
   return (
     <DefaultLayout>
-      <HotelBusinessTable />
+      <HotelBusinessTable Limit={9} Filter={{ }} />
     </DefaultLayout>
   );
 };

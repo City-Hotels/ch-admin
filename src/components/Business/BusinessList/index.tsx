@@ -2,19 +2,33 @@
 import React, { useState } from "react";
 import { Table } from "../../Tables/Table/Table";
 import { searchHotel } from "@/services/hotel/index";
-import { HotelStatus, type IHotel } from "@/services/hotel/payload";
+import {
+  HotelFilter,
+  HotelStatus,
+  type IHotel
+} from "@/services/hotel/payload";
 import { useQuery } from "react-query";
 import queryKeys from "@/utils/api/queryKeys";
 import Img from "../../Image/Image";
 import Input from "@/components/Inputs/Input/Input";
 import { usePagination } from "@/components/Tables/Table/Pagination";
 import { Meta } from "@/utils/api/calls";
-import { H4 } from "@/components/Headings/Headings";
+import Modal from "@/components/Modal/Modal";
+import HotelFilterComponent from "./Filter/Filter";
+import Button from "@/components/Button/Button";
+import FilterIcon from "@/assets/icons/filter2.svg";
 
-const Index = () => {
+const Index: React.FC<{
+  Limit: number;
+  Filter: HotelFilter;
+  hidePagination?: boolean;
+}> = ({ Limit, Filter, hidePagination }) => {
   const [Page, setPage] = useState(1);
-  const { isLoading, data } = useQuery([queryKeys.getSeachHotels, Page], () =>
-    searchHotel({ Page, Limit: 7 })
+  const [filters, setFilters] = useState({ ...Filter });
+  const [showFilterModal, setShowFilterModal] = useState(false);
+
+  const { isLoading, data } = useQuery([queryKeys.getSeachHotels, Page, Limit, filters], () =>
+    searchHotel({ Page, Limit, ...filters })
   );
 
   const hotels = (data?.data.Hotels as IHotel[]) || [];
@@ -22,7 +36,7 @@ const Index = () => {
 
   const { currentPage, perPage, handlePageChange } = usePagination({
     defaultCurrentPage: 1,
-    defaultPerPage: meta.Limit,
+    defaultPerPage: Limit,
     refetch: (page: number) => {
       setPage(page);
     }
@@ -31,22 +45,95 @@ const Index = () => {
   return (
     <div className="bg-white">
       <Table
-        withPagination
-        headerColor="primary"
-        className="w-full text-left"
+        withPagination={!hidePagination}
         perPage={perPage}
         currentPage={currentPage}
-        totalPages={meta.TotalPages}
-        onPageChange={handlePageChange}
         total={meta.TotalCount}
+        onPageChange={handlePageChange}
+        headerColor="primary"
+        errorMessage="No hotels match this filter"
         headerComponent={
-          <div className="flex items-center justify-between gap-3 p-3">
-            <H4>Hotels({meta.TotalCount || hotels.length})</H4>
-            <Input
-              type="search"
-              placeholder="Search"
-              className="lg:w-[300px] border border-[#EAEAEA] outline-none placeholder:text-[#666666] "
-            />
+          <div className="p-3">
+            <div className="items-between flex w-full items-center justify-between gap-3">
+              <div className="flex items-center justify-end gap-3">
+                <div className="md:min-w-[200px]">
+                  <Input
+                    type="search"
+                    placeholder="Name"
+                    className="w-full border border-[#413434] outline-none placeholder:text-[#666666] "
+                    value={filters.Name}
+                    onChange={(ev) =>
+                      setFilters({ ...filters, Name: ev.currentTarget.value })
+                    }
+                  />
+                </div>
+
+                <div className="page-button-container">
+                  <span className="page-button-wrapper flex gap-2">
+                    <div
+                      className={`rounded-full border w-17 px-2  py-2 text-center text-[12.54px]  hover:bg-white100. hover:text-primary400 hover:border-primary400 cursor-pointer   ${filters.Status === undefined ? "text-primary400 border-primary400 " : "text-white800 border-white700"}`}
+                      onClick={() => {
+                        setFilters({ ...filters, Status: undefined });
+                      }}
+                    >
+                      All ({meta.TotalCount})
+                    </div>
+                    {Object.values(HotelStatus)
+                      .filter((value) => typeof value === "string")
+                      .map((status) => (
+                        <div
+                          key={status}
+                          className={`rounded-full border  px-2 
+                       
+                         py-2 text-center text-[12.54px]  hover:bg-white100. hover:text-primary400 hover:border-primary400 cursor-pointer  ${filters.Status === HotelStatus[status as keyof typeof HotelStatus] ? "text-primary400 border-primary400 " : "text-white800 border-white700 "}`}
+                          onClick={() => {
+                            setFilters({
+                              ...filters,
+                              Status:
+                                HotelStatus[status as keyof typeof HotelStatus]
+                            });
+                          }}
+                        >
+                          {status}
+                          {`(${hotels.length})`}
+
+                          {status === HotelStatus.PUBLISHED &&
+                            `(${
+                              hotels.filter(
+                                (item: IHotel) =>
+                                  item.Status === HotelStatus.PUBLISHED
+                              ).length
+                            })`}
+                          {status === HotelStatus.SUSPENDED &&
+                            `(${
+                              hotels.filter(
+                                (item: IHotel) =>
+                                  item.Status === HotelStatus.SUSPENDED
+                              ).length
+                            })`}
+                          {status === HotelStatus.UNPUBLISHED &&
+                            `(${
+                              hotels.filter(
+                                (item: IHotel) =>
+                                  item.Status === HotelStatus.UNPUBLISHED
+                              ).length
+                            })`}
+                        </div>
+                      ))}
+                  </span>
+                </div>
+              </div>
+              <Button
+                size="sm"
+                color="outline-dark"
+                variant="outline"
+                onClick={() => setShowFilterModal(true)}
+              >
+                <span className="flex gap-2 px-3">
+                  <FilterIcon /> Filter
+                </span>
+              </Button>
+            </div>
           </div>
         }
         header={[
@@ -144,6 +231,20 @@ const Index = () => {
         data={hotels}
         isLoading={isLoading}
       />
+      <Modal
+        openModal={showFilterModal}
+        setOpenModal={setShowFilterModal}
+        variant="plain"
+      >
+        <HotelFilterComponent
+          filter={filters}
+          onClose={() => setShowFilterModal(false)}
+          setFilter={(filter) => {
+            console.log({ filter });
+            setFilters(filter);
+          }}
+        />
+      </Modal>
     </div>
   );
 };
