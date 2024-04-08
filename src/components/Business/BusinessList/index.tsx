@@ -5,6 +5,7 @@ import { searchHotel } from "@/services/hotel/index";
 import {
   HotelFilter,
   HotelStatus,
+  IHotelStatus,
   type IHotel
 } from "@/services/hotel/payload";
 import { useQuery } from "react-query";
@@ -27,8 +28,9 @@ const Index: React.FC<{
   const [filters, setFilters] = useState({ ...Filter });
   const [showFilterModal, setShowFilterModal] = useState(false);
 
-  const { isLoading, data } = useQuery([queryKeys.getSeachHotels, Page, Limit, filters], () =>
-    searchHotel({ Page, Limit, ...filters })
+  const { isLoading, data } = useQuery(
+    [queryKeys.getSeachHotels, Page, Limit, filters],
+    () => searchHotel({ Page, Limit, ...filters })
   );
 
   const hotels = (data?.data.Hotels as IHotel[]) || [];
@@ -70,54 +72,26 @@ const Index: React.FC<{
 
                 <div className="page-button-container">
                   <span className="page-button-wrapper flex gap-2">
-                    <div
-                      className={`rounded-full border w-17 px-2  py-2 text-center text-[12.54px]  hover:bg-white100. hover:text-primary400 hover:border-primary400 cursor-pointer   ${filters.Status === undefined ? "text-primary400 border-primary400 " : "text-white800 border-white700"}`}
-                      onClick={() => {
-                        setFilters({ ...filters, Status: undefined });
-                      }}
-                    >
-                      All ({meta.TotalCount})
-                    </div>
-                    {Object.values(HotelStatus)
+                    {Object.values(IHotelStatus)
                       .filter((value) => typeof value === "string")
                       .map((status) => (
                         <div
                           key={status}
                           className={`rounded-full border  px-2 
                        
-                         py-2 text-center text-[12.54px]  hover:bg-white100. hover:text-primary400 hover:border-primary400 cursor-pointer  ${filters.Status === HotelStatus[status as keyof typeof HotelStatus] ? "text-primary400 border-primary400 " : "text-white800 border-white700 "}`}
+                         py-2 text-center text-[12.54px]  hover:bg-white100. hover:text-primary400 hover:border-primary400 cursor-pointer  ${filters.Status === IHotelStatus[status as keyof typeof IHotelStatus] ? "text-primary400 border-primary400 " : "text-white800 border-white700 "}`}
                           onClick={() => {
                             setFilters({
                               ...filters,
                               Status:
-                                HotelStatus[status as keyof typeof HotelStatus]
+                                IHotelStatus[status as keyof typeof IHotelStatus]
                             });
                           }}
                         >
                           {status}
-                          {`(${hotels.length})`}
+                       
 
-                          {status === HotelStatus.PUBLISHED &&
-                            `(${
-                              hotels.filter(
-                                (item: IHotel) =>
-                                  item.Status === HotelStatus.PUBLISHED
-                              ).length
-                            })`}
-                          {status === HotelStatus.SUSPENDED &&
-                            `(${
-                              hotels.filter(
-                                (item: IHotel) =>
-                                  item.Status === HotelStatus.SUSPENDED
-                              ).length
-                            })`}
-                          {status === HotelStatus.UNPUBLISHED &&
-                            `(${
-                              hotels.filter(
-                                (item: IHotel) =>
-                                  item.Status === HotelStatus.UNPUBLISHED
-                              ).length
-                            })`}
+            
                         </div>
                       ))}
                   </span>
@@ -211,14 +185,16 @@ const Index: React.FC<{
             title: "Status",
             width: "1%",
             render(_column, item) {
-              if (!item.Status) item.Status = HotelStatus.UNPUBLISHED;
+              if (!item.Status) item.Status = HotelStatus.ACTIVE;
               return (
                 <div
                   className={` ${
-                    (item.Status === HotelStatus.UNPUBLISHED &&
+                    (item.Status === HotelStatus.INACTIVE &&
                       "bg-warning50 text-warning400") ||
-                    (item.Status === HotelStatus.PUBLISHED &&
+                    (item.Status === HotelStatus.ACTIVE &&
                       "bg-success50 text-success400") ||
+                    (item.Status === HotelStatus.SUSPENDED &&
+                      "bg-success50 text-grey50") ||
                     "bg-danger50  text-danger400"
                   }    inline-block rounded-full px-4 py-1`}
                 >

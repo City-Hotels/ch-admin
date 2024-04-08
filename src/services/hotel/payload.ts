@@ -1,8 +1,16 @@
 // TODO: Correct this when you know the exact payload
 export enum HotelStatus {
-  PUBLISHED = 1,
-  UNPUBLISHED = 0,
-  SUSPENDED = 2
+  ACTIVE = 0,
+  INACTIVE = 1,
+  SUSPENDED = 2,
+  REJECTED = 3
+}
+
+export enum IHotelStatus {
+  ACTIVE = "ACTIVE",
+  INACTIVE = " INACTIVE",
+  SUSPENDED = "SUSPENDED",
+  REJECTED = " REJECTED"
 }
 
 export type HotelPayoad = {
@@ -37,6 +45,7 @@ export type ICooperateInformation = {
 };
 
 export type IHotel = {
+  item: string;
   Id: string;
   Name: string;
   Rating: IRating;
@@ -65,7 +74,7 @@ export type HotelFilter = {
   Page?: number;
   Id?: string;
   Name?: string;
-  Status?: HotelStatus;
+  Status?: IHotelStatus;
   Telephone?: string;
   Email?: string;
   Location?: string;
@@ -78,7 +87,6 @@ export type HotelFilter = {
   MinTotalReviews?: string;
   MaxTotalBooking?: string;
   MinTotalBooking?: string;
-
 };
 
 export type IFacility = {

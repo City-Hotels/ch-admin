@@ -6,7 +6,7 @@ import Search from "@/assets/icons/search.svg";
 import { H4, P2 } from "@/components/Headings/Headings";
 import CheckboxTwo from "@/components/Checkboxes/CheckboxTwo";
 import FilterProps from "./Filter.props";
-import { HotelFilter, HotelStatus } from "@/services/hotel/payload";
+import { HotelFilter, HotelStatus, IHotelStatus } from "@/services/hotel/payload";
 
 const Filter: FC<FilterProps> = ({ className, onClose, setFilter, filter }) => {
   const [filters, updateFilter] = useState<HotelFilter>(filter);
@@ -327,7 +327,7 @@ const Filter: FC<FilterProps> = ({ className, onClose, setFilter, filter }) => {
                   onChange={(e) => setFilter({ ...filter, Status: undefined })}
                   className="my-4"
                 />
-                {Object.values(HotelStatus)
+                {Object.values(IHotelStatus)
                   .filter((value) => typeof value === "string")
                   .map((status) => (
                     <CheckboxTwo
@@ -337,13 +337,13 @@ const Filter: FC<FilterProps> = ({ className, onClose, setFilter, filter }) => {
                       value={status}
                       checked={
                         filters.Status ===
-                        HotelStatus[status as keyof typeof HotelStatus]
+                        IHotelStatus[status as keyof typeof IHotelStatus]
                       }
                       onClick={() => {
                         setFilter({
                           ...filters,
                           Status:
-                            HotelStatus[status as keyof typeof HotelStatus]
+                            IHotelStatus[status as keyof typeof IHotelStatus]
                         });
                       }}
                       className="my-4"
