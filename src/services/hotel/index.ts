@@ -28,6 +28,7 @@ const searchHotel = (
   }>
 > => {
   const args = Object.keys(filter)
+    .filter((item) => (filter as any)[item] !== undefined)
     .map(
       (item) =>
         `${encodeURIComponent(item)}=${encodeURIComponent(
@@ -36,7 +37,7 @@ const searchHotel = (
     )
     .join("&");
   return getRequest<{ Hotels: IHotel[]; Meta: Meta }>({
-    url: `/hotels/search?${args}`
+    url: `admin/hotels?${args}`
   });
 };
 

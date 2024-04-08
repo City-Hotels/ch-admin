@@ -18,12 +18,14 @@ import Modal from "@/components/Modal/Modal";
 import HotelFilterComponent from "./Filter/Filter";
 import Button from "@/components/Button/Button";
 import FilterIcon from "@/assets/icons/filter2.svg";
+import { useRouter } from "next/navigation";
 
 const Index: React.FC<{
   Limit: number;
   Filter: HotelFilter;
   hidePagination?: boolean;
 }> = ({ Limit, Filter, hidePagination }) => {
+  const router = useRouter();
   const [Page, setPage] = useState(1);
   const [filters, setFilters] = useState({ ...Filter });
   const [showFilterModal, setShowFilterModal] = useState(false);
@@ -54,6 +56,9 @@ const Index: React.FC<{
         onPageChange={handlePageChange}
         headerColor="primary"
         errorMessage="No hotels match this filter"
+        onRowClick={(hotel) =>
+          router.push(`/hotels/${hotel.Slug}`)
+        }
         headerComponent={
           <div className="p-3">
             <div className="items-between flex w-full items-center justify-between gap-3">
@@ -72,6 +77,12 @@ const Index: React.FC<{
 
                 <div className="page-button-container">
                   <span className="page-button-wrapper flex gap-2">
+                    <div
+                      className={`rounded-full border w-17 px-2  py-2 text-center text-[12.54px]  hover:bg-white100. hover:text-primary400 hover:border-primary400 cursor-pointer   ${filters.Status === undefined ? 'text-primary400 border-primary400 ' : 'text-white800 border-white700'}`}
+                      onClick={() => {
+                        setFilters({ ...filters, Status: undefined })
+                      }}
+                    >All ({meta.TotalCount})</div>
                     {Object.values(IHotelStatus)
                       .filter((value) => typeof value === "string")
                       .map((status) => (
@@ -89,9 +100,9 @@ const Index: React.FC<{
                           }}
                         >
                           {status}
-                       
 
-            
+
+
                         </div>
                       ))}
                   </span>
@@ -185,18 +196,17 @@ const Index: React.FC<{
             title: "Status",
             width: "1%",
             render(_column, item) {
-              if (!item.Status) item.Status = HotelStatus.ACTIVE;
+              if (!item.Status) item.Status = HotelStatus.INACTIVE;
               return (
                 <div
-                  className={` ${
-                    (item.Status === HotelStatus.INACTIVE &&
-                      "bg-warning50 text-warning400") ||
+                  className={` ${(item.Status === HotelStatus.INACTIVE &&
+                    "bg-warning50 text-warning400") ||
                     (item.Status === HotelStatus.ACTIVE &&
                       "bg-success50 text-success400") ||
                     (item.Status === HotelStatus.SUSPENDED &&
                       "bg-success50 text-grey50") ||
                     "bg-danger50  text-danger400"
-                  }    inline-block rounded-full px-4 py-1`}
+                    }    inline-block rounded-full px-4 py-1`}
                 >
                   {HotelStatus[item?.Status || 0]}
                 </div>

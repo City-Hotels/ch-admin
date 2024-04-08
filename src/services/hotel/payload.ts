@@ -1,16 +1,16 @@
 // TODO: Correct this when you know the exact payload
 export enum HotelStatus {
-  ACTIVE = 0,
-  INACTIVE = 1,
+  INACTIVE = 0,
+  ACTIVE = 1,
   SUSPENDED = 2,
   REJECTED = 3
 }
 
 export enum IHotelStatus {
   ACTIVE = "ACTIVE",
-  INACTIVE = " INACTIVE",
+  INACTIVE = "INACTIVE",
   SUSPENDED = "SUSPENDED",
-  REJECTED = " REJECTED"
+  REJECTED = "REJECTED"
 }
 
 export type HotelPayoad = {
