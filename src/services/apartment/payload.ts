@@ -49,8 +49,25 @@ export type IApartment = {
   SEO?: string;
   Slug?: string;
   Type?: ApartmentType;
-  Space?: SpaceType;
 };
+
+export interface ApartmentFilter {
+  Limit?: number;
+  Page?: number;
+  Name?: string;
+  Id?: string;
+  Rating?: IRating;
+  Bed?: string;
+  HostId?: string;
+  Type?: ApartmentType;
+  Space?: SpaceType;
+  Address?: IAddress;
+  MaxAdult?: number;
+  MaxBedRoom?: number;
+  MaxChildren?: number;
+  MaxGuest?: number;
+  Pricing?: IPrice;
+}
 
 export type IAddress = {
   City: string;
