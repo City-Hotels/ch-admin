@@ -17,6 +17,7 @@ import {
 import ApartmentFilterComponent from "./Filter/Filter";
 import Modal from "../Modal/Modal";
 import Button from "../Button/Button";
+import { useRouter } from "next/navigation";
 
 const Index: React.FC<{
   Limit: number;
@@ -41,6 +42,7 @@ const Index: React.FC<{
       setPage(page);
     }
   });
+  const router = useRouter();
   return (
     <div>
       <Table
@@ -52,6 +54,7 @@ const Index: React.FC<{
         totalPages={meta.TotalPages}
         onPageChange={handlePageChange}
         total={meta.TotalCount}
+        onRowClick={(apartment) => router.push(`/apartment/${apartment.Slug}`)}
         headerComponent={
           <div className="items-between flex w-full items-center justify-between gap-3">
             <div className="flex items-center justify-end gap-3">
