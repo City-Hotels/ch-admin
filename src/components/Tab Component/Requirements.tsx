@@ -27,8 +27,6 @@ const onProceed = (values: IPromotion) => {
   console.log(values);
 };
 
-const maxNoBookings = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
-const minNoBookings = [1, 2, 3, 4, 5];
 
 const Requirements = () => {
   const [options, setOptions] = useState("0");
