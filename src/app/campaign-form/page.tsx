@@ -1,4 +1,4 @@
-"use client"
+"use client";
 // import { Metadata } from "next";
 import DefaultLayout from "@/components/Layouts/DefaultLayout";
 import TabComponent from "@/components/Tab/Tab";
@@ -12,7 +12,6 @@ import Price from "@/components/Tab Component/Price";
 //     " Form Layout page for CHB Admin - Next.js Tailwind CSS Admin Dashboard Template"
 // };
 
-
 const FormLayout = () => {
   return (
     <DefaultLayout>
@@ -24,27 +23,25 @@ const FormLayout = () => {
                 Campaign Form
               </h1>
             </div>
-            <form action="#">
-              <div className="p-6.5">
-                <TabComponent
-                  tabs={[
-                    {
-                      title: "PersonalInfo",
-                      Component: PersonalInfo
-                    },
-                    {
-                      title: "Requirements",
-                      Component: Requirements
-                    },
-                    {
-                      title: "Price",
-                      Component: Price
-                    },
-                  ]}
-                  title={""}
-                />
-              </div>
-            </form>
+            <div>
+              <TabComponent
+                tabs={[
+                  {
+                    title: "Account Info",
+                    Component: PersonalInfo
+                  },
+                  {
+                    title: "Requirements",
+                    Component: Requirements
+                  },
+                  {
+                    title: "Price",
+                    Component: Price
+                  }
+                ]}
+                title={""}
+              />
+            </div>
           </div>
         </div>
       </div>
