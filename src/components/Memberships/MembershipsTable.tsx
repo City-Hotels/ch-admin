@@ -10,7 +10,7 @@ import { usePagination } from "../Tables/Table/Pagination";
 import { Table } from "../Tables/Table/Table";
 import { convertGrpcDate, } from "@/utils/helpers";
 import Input from "../Inputs/Input/Input";
-import { getMemberships } from "@/services/promotions";
+import { getMemberships } from "@/services/promotions/index";
 import {
   IPromotion,
   PromotionFilter,

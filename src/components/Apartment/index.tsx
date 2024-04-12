@@ -4,16 +4,32 @@ import { Table } from "../Tables/Table/Table";
 import { searchApartment } from "@/services/apartment/index";
 import { useQuery } from "react-query";
 import queryKeys from "@/utils/api/queryKeys";
+import FilterIcon from "@/assets/icons/filter2.svg";
 import Img from "../Image/Image";
 import Input from "../Inputs/Input/Input";
 import { usePagination } from "@/components/Tables/Table/Pagination";
 import { Meta } from "@/utils/api/calls";
-import { IApartment } from "@/services/apartment/payload";
+import {
+  ApartmentFilter,
+  ApartmentType,
+  IApartment
+} from "@/services/apartment/payload";
+import ApartmentFilterComponent from "./Filter/Filter";
+import Modal from "../Modal/Modal";
+import Button from "../Button/Button";
+import { useRouter } from "next/navigation";
 
-const Index = () => {
+const Index: React.FC<{
+  Limit: number;
+  Filter: ApartmentFilter;
+  hidePagination?: boolean;
+}> = ({ Limit, Filter, hidePagination }) => {
   const [Page, setPage] = useState(1);
-  const { isLoading, data } = useQuery([queryKeys.getApartmentByID, Page], () =>
-    searchApartment({ Page, Limit: 7 })
+  const [filters, setFilters] = useState({ ...Filter });
+  const [showFilterModal, setShowFilterModal] = useState(false);
+  const { isLoading, data } = useQuery(
+    [queryKeys.getApartmentByID, Limit, Page, filters],
+    () => searchApartment({ Page, Limit: 7, ...filters })
   );
 
   const apartments = (data?.data.Apartments as IApartment[]) || [];
@@ -26,6 +42,7 @@ const Index = () => {
       setPage(page);
     }
   });
+  const router = useRouter();
   return (
     <div>
       <Table
@@ -37,35 +54,79 @@ const Index = () => {
         totalPages={meta.TotalPages}
         onPageChange={handlePageChange}
         total={meta.TotalCount}
+        onRowClick={(apartment) => router.push(`/apartment/${apartment.Slug}`)}
         headerComponent={
-          <div className="flex items-center justify-between gap-3">
-            <div className=" lg:w-500px flex items-center gap-5">
-              <svg
-                className="fill-body hover:fill-primary dark:fill-bodydark dark:hover:fill-primary"
-                width="20"
-                height="20"
-                viewBox="0 0 20 20"
-                fill="none"
-                xmlns="http://www.w3.org/2000/svg"
+          <div className="items-between flex w-full items-center justify-between gap-3">
+            <div className="flex items-center justify-end gap-3">
+              <div className="md:min-w-[200px]">
+                <Input
+                  type="search"
+                  placeholder="Search"
+                  className="w-full border border-[#EAEAEA] outline-none placeholder:text-[#666666]"
+                  value={filters.Name}
+                  onChange={(ev) =>
+                    setFilters({ ...filters, Name: ev.currentTarget.value })
+                  }
+                />
+              </div>
+
+              <span className="page-button-wrapper flex gap-2">
+                <div
+                  className={`rounded-full border w-17 px-2  py-2 text-center text-[12.54px]  hover:bg-white100. hover:text-primary400 hover:border-primary400 cursor-pointer   ${filters.Type === undefined ? "text-primary400 border-primary400 " : "text-white800 border-white700"}`}
+                  onClick={() => {
+                    setFilters({ ...filters, Type: undefined });
+                  }}
+                >
+                  All ({meta.TotalCount})
+                </div>
+                {Object.values(ApartmentType)
+                  .filter((value) => typeof value === "string")
+                  .map((apartment) => (
+                    <div
+                      key={apartment}
+                      className={`rounded-full border  px-2 
+                       
+                         py-2 text-center text-[12.54px]  hover:bg-white100. hover:text-primary400 hover:border-primary400 cursor-pointer  ${filters.Type === ApartmentType[apartment as keyof typeof ApartmentType] ? "text-primary400 border-primary400 " : "text-white800 border-white700 "}`}
+                      onClick={() => {
+                        setFilters({
+                          ...filters,
+                          Type: ApartmentType[
+                            apartment as keyof typeof ApartmentType
+                          ]
+                        });
+                      }}
+                    >
+                      {apartment}
+                      {`(${apartments.length})`}
+
+                      {apartment === ApartmentType.HOTEL &&
+                        `(${
+                          apartments.filter(
+                            (item: IApartment) =>
+                              item.Type === ApartmentType.HOTEL
+                          ).length
+                        })`}
+                      {apartment === ApartmentType.ROOM &&
+                        `(${
+                          apartments.filter(
+                            (item: IApartment) =>
+                              item.Type === ApartmentType.ROOM
+                          ).length
+                        })`}
+                    </div>
+                  ))}
+              </span>
+
+              <Button
+                size="sm"
+                color="outline-dark"
+                variant="outline"
+                onClick={() => setShowFilterModal(true)}
               >
-                <path
-                  fillRule="evenodd"
-                  clipRule="evenodd"
-                  d="M9.16666 3.33332C5.945 3.33332 3.33332 5.945 3.33332 9.16666C3.33332 12.3883 5.945 15 9.16666 15C12.3883 15 15 12.3883 15 9.16666C15 5.945 12.3883 3.33332 9.16666 3.33332ZM1.66666 9.16666C1.66666 5.02452 5.02452 1.66666 9.16666 1.66666C13.3088 1.66666 16.6667 5.02452 16.6667 9.16666C16.6667 13.3088 13.3088 16.6667 9.16666 16.6667C5.02452 16.6667 1.66666 13.3088 1.66666 9.16666Z"
-                  fill=""
-                />
-                <path
-                  fillRule="evenodd"
-                  clipRule="evenodd"
-                  d="M13.2857 13.2857C13.6112 12.9603 14.1388 12.9603 14.4642 13.2857L18.0892 16.9107C18.4147 17.2362 18.4147 17.7638 18.0892 18.0892C17.7638 18.4147 17.2362 18.4147 16.9107 18.0892L13.2857 14.4642C12.9603 14.1388 12.9603 13.6112 13.2857 13.2857Z"
-                  fill=""
-                />
-              </svg>
-              <Input
-                type="search"
-                placeholder="Search"
-                className="w-full border border-[#EAEAEA] outline-none placeholder:text-[#666666] "
-              />
+                <span className="flex gap-2 px-3">
+                  <FilterIcon /> Filter
+                </span>
+              </Button>
             </div>
           </div>
         }
@@ -160,6 +221,20 @@ const Index = () => {
         data={apartments}
         isLoading={isLoading}
       />
+      <Modal
+        openModal={showFilterModal}
+        setOpenModal={setShowFilterModal}
+        variant="plain"
+      >
+        <ApartmentFilterComponent
+          filter={filters}
+          onClose={() => setShowFilterModal(false)}
+          setFilter={(filter) => {
+            console.log({ filter });
+            setFilters(filter);
+          }}
+        />
+      </Modal>
     </div>
   );
 };
