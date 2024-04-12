@@ -25,11 +25,12 @@ const queryKeys = {
   getLocation: "getLocation",
   getAllFacilities: "getAllFacilities",
   getTransactions: "getTransactions",
+  getPromotions: "getPromotions",
+  getCampaigns: "getCampaigns",
   getUserTransactions: "getUserTransactions",
   getUserBalance: "getUserBalance",
   getUsers: "getUsers",
   getUserPaymentDetails: "getUserPaymentDetails",
-  getPromotions: "getPromotions",
   getBanks: "getBanks",
   verifyPaymentDetails: "verifyPaymentDetails",
   getWishListItems: " getWishListItems"
