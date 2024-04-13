@@ -11,6 +11,14 @@ const initialValues: IPromotion = {
     PricingType: 0,
     Rate: 0,
     Unit: ""
+  },
+  Created_at: {
+    seconds: 0,
+    nanos: 0
+  },
+  Updated_at: {
+    seconds: 0,
+    nanos: 0
   }
 };
 

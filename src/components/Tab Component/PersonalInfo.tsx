@@ -13,7 +13,15 @@ const initialValues: IPromotion = {
   Title: "",
   Description: "",
   ShortDescription: "",
-  MaxParticipant: 0
+  MaxParticipant: 0,
+  Created_at: {
+    seconds: 0,
+    nanos: 0
+  },
+  Updated_at: {
+    seconds: 0,
+    nanos: 0
+  }
 };
 
 const onProceed = (values: IPromotion) => {

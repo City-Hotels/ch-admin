@@ -14,8 +14,8 @@ export interface IPromotion {
   SubTitle?: string;
   Title?: string;
   Type?: PromotionType;
-  Created_at?: IGRPCDate;
-  Updated_at?: IGRPCDate;
+  Created_at: IGRPCDate;
+  Updated_at: IGRPCDate;
   EndDate?: IGRPCDate;
 }
 
