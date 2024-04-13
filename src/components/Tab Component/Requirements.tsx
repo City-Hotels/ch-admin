@@ -20,6 +20,14 @@ const initialValues: IPromotion = {
     MinimumBooking: 0,
     ServiceType: "",
     Account: 0
+  },
+  Created_at: {
+    seconds: 0,
+    nanos: 0
+  },
+  Updated_at: {
+    seconds: 0,
+    nanos: 0
   }
 };
 
