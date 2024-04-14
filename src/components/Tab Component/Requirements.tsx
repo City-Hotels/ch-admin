@@ -1,11 +1,13 @@
-import React, { useState } from "react";
-import SelectGroupOne from "../SelectGroup/SelectGroupOne";
+import React from "react";
 import Dropdown from "../formik/input/dropdown/Dropdowns";
 import { IPromotion } from "@/services/promotions/payload";
 import Button from "../Button/Button";
 import { Formik } from "formik";
 import Input from "@/components/formik/input/Input";
 import { requirementSchema } from "@/utils/formSchema";
+import { useQuery } from "react-query";
+import { getMemberships } from "@/services/promotions";
+import queryKeys from "@/utils/api/queryKeys";
 
 const initialValues: IPromotion = {
   Requirement: {
@@ -31,75 +33,27 @@ const initialValues: IPromotion = {
   }
 };
 
-const onProceed = (values: IPromotion) => {
-  console.log(values);
-};
-
-
 const Requirements = () => {
-  const [options, setOptions] = useState("0");
-  const [options2, setOptions2] = useState("0");
-  const [options3, setOptions3] = useState("0");
-  const updateRequirments = (options: string) => {
-    setOptions(options);
+  const { isLoading, refetch, data } = useQuery([queryKeys.getPromotions], () =>
+    getMemberships({})
+  );
+  const memberships = (data?.data.Promotions as IPromotion[]) || [];
+
+
+  const maxMembershipBookings = memberships.flatMap((item) => ({
+    label: String(item.Requirement?.MaximumBooking),
+    value: String(item.Id)
+  }));
+
+  const minMembershipBookings = memberships.map((item) => ({
+    label: String(item.Requirement?.MinimumBooking ?? "no value"),
+    value: String(item.Id)
+  }));
+
+  const onProceed = (values: IPromotion) => {
+    
   };
-  const updateMaxBookings = (options: string) => {
-    setOptions2(options);
-  };
-  const updateMinBookings = (options: string) => {
-    setOptions3(options);
-  };
 
-  const Requiremnets = [
-    {
-      label: "Standard",
-      value: options
-    },
-
-    {
-      label: "Premium",
-      value: options
-    },
-
-    {
-      label: "Executive",
-      value: options
-    }
-  ];
-
-  const MaxBookings = [
-    {
-      label: "0",
-      value: options2
-    },
-
-    {
-      label: "5",
-      value: options2
-    },
-
-    {
-      label: "10",
-      value: options2
-    }
-  ];
-
-  const MinBookings = [
-    {
-      label: "0",
-      value: options3
-    },
-
-    {
-      label: "2",
-      value: options3
-    },
-
-    {
-      label: "5",
-      value: options3
-    }
-  ];
   return (
     <div>
       <Formik
@@ -111,13 +65,6 @@ const Requirements = () => {
           <form onSubmit={handleSubmit}>
             <div>
               <div className="my-7">
-                <Dropdown
-                  options={Requiremnets}
-                  name={"Requiremnets"}
-                  label=" Max Number of Requiremnets"
-                  className="mb-9 w-full"
-                  onChange={() => updateRequirments}
-                />
                 <div>
                   <h2 className="font-medium text-black dark:text-white">
                     Location
@@ -178,19 +125,17 @@ const Requirements = () => {
                 </div>
 
                 <Dropdown
-                  options={MaxBookings}
+                  options={maxMembershipBookings}
                   name={"Max number of Bookings"}
                   label=" Max Number of Bookings"
                   className="mb-9 w-full"
-                  onChange={() => updateMaxBookings}
                 />
 
                 <Dropdown
-                  options={MinBookings}
+                  options={minMembershipBookings}
                   name={"Min number of Bookings"}
                   label=" Min Number of Bookings"
                   className="mb-9 w-full"
-                  onChange={() => updateMinBookings}
                 />
 
                 <Input
@@ -200,6 +145,43 @@ const Requirements = () => {
                   required
                   name={"ServiceType"}
                 />
+              </div>
+
+              <div className="my-6">
+                <h3 className="font-medium text-black dark:text-white">
+                  Account Type
+                </h3>
+                <div className="mb-4.5 flex items-center gap-3">
+                  <div className="flex items-center gap-3">
+                    <label htmlFor="all">All</label>
+                    <input
+                      type="radio"
+                      id="all"
+                      name="accountType"
+                      value="All"
+                    />
+                  </div>
+
+                  <div className="flex items-center gap-3">
+                    <label htmlFor="business">Business</label>
+                    <input
+                      type="radio"
+                      id="business"
+                      name="accountType"
+                      value="Business"
+                    />
+                  </div>
+
+                  <div className="flex items-center gap-3">
+                    <label htmlFor="apartment">Apartment</label>
+                    <input
+                      type="radio"
+                      id="apartment"
+                      name="accountType"
+                      value="Apartment"
+                    />
+                  </div>
+                </div>
               </div>
             </div>
 

@@ -70,22 +70,20 @@ const Price = () => {
                   </h3>
                   <div className="mb-4.5 flex items-center gap-3">
                     <div className="flex items-center gap-3">
-                      <label>Standard</label>
+                      <label>Subscriptions</label>
                       <input
                         type="radio"
-                        title="promotion type"
-                        name="radio"
-                        value={"Standard"}
+                        name="Pricing Type"
+                        value={"Subscriptions"}
                       />
                     </div>
 
                     <div className="flex items-center gap-3">
-                      <label>Premimum</label>
+                      <label>Commision</label>
                       <input
                         type="radio"
-                        name="radio"
-                        title="promotion type"
-                        value={"Standard"}
+                        name="Pricing Type"
+                        value={"Commision"}
                       />
                     </div>
                   </div>

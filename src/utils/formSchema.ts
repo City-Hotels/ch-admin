@@ -107,14 +107,14 @@ export const accountInfoSchema = Yup.object({
   MaxParticipant: Yup.number().required("Maximum number Participant is required")
 });
 export const requirementSchema = Yup.object({
-  City: Yup.string().required("City is required"),
-  Country: Yup.string().required("Country is required"),
-  PostalCode: Yup.string().required("Postal Code is required"),
-  State: Yup.string().required("State is required"),
-  Street: Yup.string().required("Street is required"),
-  ServiceType: Yup.string().required("Service Type is required"),
-  MaximumBooking: Yup.number().required("Maximum Bookings is required"),
-  MinimumBooking: Yup.number().required("Minimum Bookings is required")
+  City: Yup.string(),
+  Country: Yup.string(),
+  PostalCode: Yup.string(),
+  State: Yup.string(),
+  Street: Yup.string(),
+  ServiceType: Yup.string(),
+  MaximumBooking: Yup.number(),
+  MinimumBooking: Yup.number()
 });
 
 export const priceSchema = Yup.object({
