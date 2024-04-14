@@ -1,8 +1,16 @@
 // TODO: Correct this when you know the exact payload
 export enum HotelStatus {
-  PUBLISHED = 1,
-  UNPUBLISHED = 0,
+  INACTIVE = 0,
+  ACTIVE = 1,
   SUSPENDED = 2,
+  REJECTED = 3
+}
+
+export enum IHotelStatus {
+  ACTIVE = "ACTIVE",
+  INACTIVE = "INACTIVE",
+  SUSPENDED = "SUSPENDED",
+  REJECTED = "REJECTED"
 }
 
 export type HotelPayoad = {
@@ -37,13 +45,14 @@ export type ICooperateInformation = {
 };
 
 export type IHotel = {
+  item: string;
   Id: string;
   Name: string;
   Rating: IRating;
   Score?: number;
   SEO: string;
   Slogan: string;
-  Status: HotelStatus
+  Status: HotelStatus;
   Slug: string;
   SocialLinks?: ISocialLinks;
   Telephone: string;
@@ -60,6 +69,26 @@ export type IHotel = {
   Introduction: string;
 };
 
+export type HotelFilter = {
+  Limit?: number;
+  Page?: number;
+  Id?: string;
+  Name?: string;
+  Status?: IHotelStatus;
+  Telephone?: string;
+  Email?: string;
+  Location?: string;
+  KidsAllowed?: string;
+  GuestAllowed?: string;
+  Facilities?: string;
+  MinRating?: string;
+  MaxRating?: string;
+  MaxTotalReviews?: string;
+  MinTotalReviews?: string;
+  MaxTotalBooking?: string;
+  MinTotalBooking?: string;
+};
+
 export type IFacility = {
   Amenities: string[];
   Icon: string;
@@ -72,7 +101,7 @@ export type IFacility = {
 
 export type IRating = {
   Impressions: number;
-  Clicks: number
+  Clicks: number;
   Likes: number;
   Rating: number;
   TotalBooking: number;

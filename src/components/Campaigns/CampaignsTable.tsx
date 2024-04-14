@@ -8,36 +8,35 @@ import dayjs from "dayjs";
 import type { Meta } from "@/utils/api/calls";
 import { usePagination } from "../Tables/Table/Pagination";
 import { Table } from "../Tables/Table/Table";
-import { convertGrpcDate, formatCurrencyNoSymbol } from "@/utils/helpers";
-import {
-  ITransaction,
-  TransactionFilter,
-  TransactionType
-} from "@/services/transactions/payload";
-import { getTransactions } from "@/services/transactions/index";
+import { convertGrpcDate } from "@/utils/helpers";
 import Input from "../Inputs/Input/Input";
+import { getCampaigns } from "@/services/promotions";
+import {
+  IPromotion,
+  PromotionFilter,
+  PromotionType
+} from "@/services/promotions/payload";
 
-const TransactionTable: React.FC<{
+const CampaignsTable: React.FC<{
   Limit: number;
   hidePagination?: boolean;
-  Filter: TransactionFilter;
+  Filter: PromotionFilter;
 }> = ({ Limit, Filter, hidePagination }) => {
   // const [tableFilter, setTableFilter] = useState<BookingStatus | undefined>();
 
   const [Page, setPage] = useState(1);
   // const [filterValues, setFilterValues] = useState<{ Limit: number;  Page: number}>({ Limit: 10, })
   const { isLoading, refetch, data } = useQuery(
-    [queryKeys.getTransactions, Limit, Page],
-    () => getTransactions({ Limit, ...Filter, Page })
+    [queryKeys.getCampaigns, Limit, Page],
+    () => getCampaigns({ Limit, ...Filter, Page })
   );
-  const transactions = (data?.data.Transactions as ITransaction[]) || [];
+  const campaigns = (data?.data.Promotions as IPromotion[]) || [];
   const meta = (data?.data.Meta as Meta) || [];
 
   // const updateTableFilter = (filter: number) => {
   //   // TODO: Update table request fetch update list
   //   setTableFilter(filter as BookingStatus);
   // };
-  console.log(transactions);
 
   const { currentPage, perPage, handlePageChange } = usePagination({
     defaultCurrentPage: 1,
@@ -60,18 +59,18 @@ const TransactionTable: React.FC<{
         headerComponent={
           <div>
             <div className="items-between flex w-full items-center justify-between gap-3">
-              <H4>Transactions({transactions.length})</H4>
+              <H4>Campaigns({meta.TotalCount || campaigns.length})</H4>
               <div className="flex items-center justify-end gap-3">
                 <div className="page-button-container">
                   <span className="page-button-wrapper flex gap-2">
-                    {Object.values(TransactionType)
+                    {Object.values(PromotionType)
                       .filter((value) => typeof value === "string")
                       .filter(
                         (value) =>
                           typeof value === "string" &&
-                          !["BOOKING", "WITHDRAWAL"].includes(value)
+                          !["REGULAR", "SPECIAL"].includes(value)
                       )
-                      .map((transactionType) => (
+                      .map((promotionType) => (
                         <div
                           // onClick={() =>
                           //   // updateTableFilter(BookingStatus[bookingStatus])
@@ -81,36 +80,26 @@ const TransactionTable: React.FC<{
                           //     : "text-grey-500 border-grey600 bg-white "
                           //   }
                           // }
-                          key={transactionType}
+                          key={promotionType}
                           className={`rounded-full border  px-4 
                        
                          py-2 text-center text-[12.54px]`}
                         >
-                          {transactionType}
-                          {`(${transactions.length})`}
+                          {promotionType}
+                          {`(${campaigns.length})`}
 
-                          {transactionType === TransactionType.BOOKING &&
+                          {promotionType === PromotionType.REGULAR &&
                             `(${
-                              transactions.filter(
-                                (item: ITransaction) =>
-                                  item.TransactionType ===
-                                  TransactionType.BOOKING
+                              campaigns.filter(
+                                (item: IPromotion) =>
+                                  item.Type === PromotionType.REGULAR
                               ).length
                             })`}
-                          {transactionType === TransactionType.WALLETFUND &&
+                          {promotionType === PromotionType.SPECIAL &&
                             `(${
-                              transactions.filter(
-                                (item: ITransaction) =>
-                                  item.TransactionType ===
-                                  TransactionType.WALLETFUND
-                              ).length
-                            })`}
-                          {transactionType === TransactionType.WITHDRAWAL &&
-                            `(${
-                              transactions.filter(
-                                (item: ITransaction) =>
-                                  item.TransactionType ===
-                                  TransactionType.WITHDRAWAL
+                              campaigns.filter(
+                                (item: IPromotion) =>
+                                  item.Type === PromotionType.SPECIAL
                               ).length
                             })`}
                         </div>
@@ -130,31 +119,13 @@ const TransactionTable: React.FC<{
         }
         header={[
           {
-            key: "Credit",
-            title: "CREDIT",
+            key: "Name",
+            title: "Name",
             width: "15%",
             headerClass:
               "font-matter py-2 px-3 whitespace-nowrap text-[12px] font-normal leading-[150%] text-white",
             render(_column, item) {
-              return (
-                <div className="px-4">
-                  {formatCurrencyNoSymbol(item.Credit || 0)}
-                </div>
-              );
-            }
-          },
-          {
-            key: "Debit",
-            title: "DEBIT",
-            width: "15%",
-            headerClass:
-              "font-matter py-2 px-3 whitespace-nowrap text-[12px] font-normal leading-[150%] text-white",
-            render(_column, item) {
-              return (
-                <div className="px-4">
-                  {formatCurrencyNoSymbol(item.Debit || 0)}
-                </div>
-              );
+              return <div className="px-4">{item.Name}</div>;
             }
           },
           {
@@ -174,8 +145,8 @@ const TransactionTable: React.FC<{
             }
           },
           {
-            key: "ServiceId",
-            title: "SERVICE ID",
+            key: "Id",
+            title: "ID",
             width: "10%",
             headerClass:
               "font-matter  whitespace-nowrap text-[12px] font-normal leading-[150%] text-white",
@@ -184,7 +155,7 @@ const TransactionTable: React.FC<{
                 <div
                   className={`text-[var(--grey-grey-600, #5D6679);] text-[14px] leading-[150%]`}
                 >
-                  {item.ServiceId.slice(0, 10)}
+                  {item.Id && item?.Id.slice(0, 10)}
                 </div>
               );
             }
@@ -208,7 +179,7 @@ const TransactionTable: React.FC<{
             }
           },
           {
-            key: "Last_updated",
+            key: "Updated_at",
             title: "LAST UPDATED",
             width: "10%",
             headerClass:
@@ -220,17 +191,15 @@ const TransactionTable: React.FC<{
                 <div
                   className={`text-[var(--grey-grey-600, #5D6679);] text-[14px] leading-[150%]`}
                 >
-                  {dayjs(convertGrpcDate(item.Last_updated)).format(
-                    "DD/MM/YYYY"
-                  )}
+                  {dayjs(convertGrpcDate(item.Updated_at)).format("DD/MM/YYYY")}
                 </div>
               );
             }
           },
 
           {
-            key: "TransactionType",
-            title: "Transaction TYPE",
+            key: "Type",
+            title: "Promotion TYPE",
             headerClass:
               "font-matter py-2 whitespace-nowrap text-[12px] font-normal leading-[150%] text-white",
             width: "10%",
@@ -238,20 +207,15 @@ const TransactionTable: React.FC<{
               return (
                 <div
                   className={` ${
-                    (item.TransactionType === TransactionType.WALLETFUND &&
+                    (item.Type === PromotionType.REGULAR &&
                       "bg-warning50 text-warning400") ||
-                    (item.TransactionType === TransactionType.BOOKING &&
-                      "bg-success50 text-success400") ||
-                    "bg-danger50  text-danger400"
+                    (item.Type === PromotionType.SPECIAL &&
+                      "bg-success50 text-success400")
                   }    inline-block rounded-full px-4 py-1`}
                 >
                   <div className="text-center text-[12px]">
-                    {item?.TransactionType === TransactionType.BOOKING &&
-                      "Booking"}
-                    {item?.TransactionType === TransactionType.WALLETFUND &&
-                      "Wallent fund"}
-                    {item?.TransactionType === TransactionType.WITHDRAWAL &&
-                      "Withdrawal"}
+                    {item?.Type === PromotionType.REGULAR && "Booking"}
+                    {item?.Type === PromotionType.SPECIAL && "Wallent fund"}
                   </div>
                 </div>
               );
@@ -266,11 +230,11 @@ const TransactionTable: React.FC<{
             }
           }
         ]}
-        data={transactions}
+        data={campaigns}
         isLoading={isLoading}
       />
     </div>
   );
 };
 
-export default TransactionTable;
+export default CampaignsTable;
