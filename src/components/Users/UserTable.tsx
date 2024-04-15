@@ -62,8 +62,8 @@ const UsersTable: React.FC<{
                     type="search"
                     placeholder="Search"
                     className=" m-0 w-full border border-[#EAEAEA] outline-none placeholder:text-[#666666]"
-                    value={filters.Firstname}
-                    onChange={(ev) => setFilters({ ...filters, Firstname: ev.currentTarget.value })}
+                    value={filters.Email}
+                    onChange={(ev) => setFilters({ ...filters, Email: ev.currentTarget.value })}
                   />
                 </div>
 
