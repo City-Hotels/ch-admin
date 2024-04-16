@@ -7,59 +7,57 @@ import { Formik } from "formik";
 import { accountInfoSchema } from "@/utils/formSchema";
 import TextArea from "../formik/textarea/TextArea";
 import Dropdown from "../formik/input/dropdown/Dropdowns";
+import { useMutation, useQuery } from "react-query";
+import { getMemberships, submitCampaign } from "@/services/promotions";
+import { useRouter } from "next/navigation";
+import queryKeys from "@/utils/api/queryKeys";
+import FormProps from "./Accoout.props";
 
-const initialValues: IPromotion = {
-  Name: "",
-  Title: "",
-  Description: "",
-  ShortDescription: "",
-  MaxParticipant: 0,
-  Created_at: {
-    seconds: 0,
-    nanos: 0
-  },
-  Updated_at: {
-    seconds: 0,
-    nanos: 0
-  }
-};
-
-const onProceed = (values: IPromotion) => {
-  console.log(values);
-};
-
-const PersonalInfo = () => {
-  const [options, setOptions] = useState("0");
-  const updateMaxParticipant = (options: string) => {
-    setOptions(options);
+const AccountInfoForm: React.FC<FormProps> = ({ onSubmit }) =>  {
+  const initialValues: IPromotion = {
+    Name: "",
+    Title: "",
+    Description: "",
+    ShortDescription: "",
+    MaxParticipant: 0,
+    Created_at: {
+      seconds: 0,
+      nanos: 0
+    },
+    Updated_at: {
+      seconds: 0,
+      nanos: 0
+    }
   };
 
-  const maxNoParticipan2 = [
-    {
-      label: "0",
-      value: options
-    },
+  const handleSubmit = (values: IPromotion) => {
+    onSubmit(values);
+  };
 
-    {
-      label: "1",
-      value: options
-    },
+  const { isLoading, refetch, data } = useQuery([queryKeys.getPromotions], () =>
+    getMemberships({})
+  );
+  const memberships = (data?.data.Promotions as IPromotion[]) || [];
 
-    {
-      label: "2",
-      value: options
-    }
-  ];
+  const MaxParticipant = memberships.flatMap((item) => ({
+    label: String(item.MaxParticipant),
+    value: String(item.Id)
+  }));
+
+  const router = useRouter();
+
+  const { mutate, isLoading: loading } = useMutation(submitCampaign);
+
   return (
     <div>
       <Formik
         initialValues={initialValues}
-        onSubmit={onProceed}
+        onSubmit={handleSubmit}
         validationSchema={accountInfoSchema}
       >
         {({ handleSubmit }) => (
           <form onSubmit={handleSubmit}>
-            <div>
+            <div  className="px-6.5 pt-6">
               <div className="mb-4.5 flex flex-col gap-6 xl:flex-row">
                 <div className="w-full xl:w-1/2">
                   <Input label="Name" name="Name" />
@@ -99,11 +97,10 @@ const PersonalInfo = () => {
               </div>
 
               <Dropdown
-                options={maxNoParticipan2}
+                options={MaxParticipant}
                 name={"MaxParticipant"}
                 label=" Max Number of Participant"
                 className="mb-9 w-full"
-                onChange={() => updateMaxParticipant}
               />
             </div>
 
@@ -111,6 +108,8 @@ const PersonalInfo = () => {
               color="primary"
               size="lg"
               className="flex w-full justify-center rounded bg-primary400 p-3 font-medium text-gray hover:bg-opacity-90"
+              type="submit"
+              isLoading={loading}
             >
               Next
             </Button>
@@ -121,4 +120,4 @@ const PersonalInfo = () => {
   );
 };
 
-export default PersonalInfo;
+export default AccountInfoForm;

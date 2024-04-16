@@ -1,10 +1,14 @@
 "use client";
 // import { Metadata } from "next";
 import DefaultLayout from "@/components/Layouts/DefaultLayout";
-import TabComponent from "@/components/Tab/Tab";
-import PersonalInfo from "@/components/Tab Component/PersonalInfo";
-import Requirements from "@/components/Tab Component/Requirements";
-import Price from "@/components/Tab Component/Price";
+import React, { useState } from "react";
+import { useRouter } from "next/navigation";
+import AccountInfoForm from "@/components/Tab Component/AccountInfo";
+import RequirementsForm from "@/components/Tab Component/Requirements";
+import PriceForm from "@/components/Tab Component/Price";
+import { submitCampaign } from "@/services/promotions";
+import { useMutation } from "react-query";
+import { IPromotion } from "@/services/promotions/payload";
 
 // export const metadata: Metadata = {
 //   title: "Next.js Form Layout | CHB Admin - Dashboard",
@@ -13,6 +17,98 @@ import Price from "@/components/Tab Component/Price";
 // };
 
 const FormLayout = () => {
+  const [step, setStep] = useState(1);
+  const [formData, setFormData] = useState<IPromotion>({
+    // Initialize formData with default values or empty strings
+    Name: "",
+    Title: "",
+    Description: "",
+    ShortDescription: "",
+    MaxParticipant: 0,
+    Created_at: { seconds: 0, nanos: 0 },
+    Updated_at: { seconds: 0, nanos: 0 },
+    Pricing: {
+      BookingDiscount: 0,
+      PricingType: 0,
+      Rate: 0,
+      Unit: ""
+    },
+    Requirement: {
+      Location: {
+        City: "",
+        Country: "",
+        PostalCode: "",
+        State: "",
+        Street: ""
+      },
+      MaximumBooking: 0,
+      MinimumBooking: 0,
+      ServiceType: "",
+      Account: 0
+    },
+  });
+
+  const router = useRouter();
+
+  const onNext = () => {
+    // Move to next step
+    setStep((prevStep) => prevStep + 1);
+  };
+
+
+
+  const { mutate, isLoading: loading } = useMutation(submitCampaign);
+  const handleSubmit = (values: typeof formData) => {
+    mutate(values, {
+      onSuccess(data) {
+        router.push("");
+      }
+    });
+  };
+
+  const renderForm = () => {
+    switch (step) {
+      case 1:
+        return (
+          <AccountInfoForm
+            onSubmit={(values: IPromotion) => {
+              setFormData((prevData) => ({
+                ...prevData,
+                ...values
+              }));
+              onNext();
+            }}
+          />
+        );
+      case 2:
+        return (
+          <RequirementsForm
+            onSubmit={(values: IPromotion) => {
+              setFormData((prevData) => ({
+                ...prevData,
+                ...values
+              }));
+              onNext();
+            }}
+          />
+        );
+      case 3:
+        return (
+          <PriceForm
+            onSubmit={(values: IPromotion) => {
+              setFormData((prevData) => ({
+                ...prevData,
+                ...values
+              }));
+              handleSubmit(formData);
+            }}
+          />
+        );
+      default:
+        return null;
+    }
+  };
+
   return (
     <DefaultLayout>
       <div>
@@ -23,25 +119,8 @@ const FormLayout = () => {
                 Campaign Form
               </h1>
             </div>
-            <div>
-              <TabComponent
-                tabs={[
-                  {
-                    title: "Account Info",
-                    Component: PersonalInfo
-                  },
-                  {
-                    title: "Requirements",
-                    Component: Requirements
-                  },
-                  {
-                    title: "Price",
-                    Component: Price
-                  }
-                ]}
-                title={""}
-              />
-            </div>
+
+            {renderForm()}
           </div>
         </div>
       </div>

@@ -120,7 +120,7 @@ export const requirementSchema = Yup.object({
 export const priceSchema = Yup.object({
   BookingDiscount: Yup.number().required("BookingDiscount is required"),
   Rate: Yup.number().required("Rate is required"),
-  PricingType: Yup.number().required("PricingType is required"),
+  PricingType: Yup.string().required("PricingType is required"),
   Unit: Yup.string().required("Unit is required"),
 });
 
