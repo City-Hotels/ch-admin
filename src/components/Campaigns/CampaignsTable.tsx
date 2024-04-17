@@ -1,0 +1,240 @@
+"use client";
+import { H4 } from "@/components/Headings/Headings";
+import queryKeys from "@/utils/api/queryKeys";
+import React, { useState } from "react";
+import { useQuery } from "react-query";
+import Dots from "@/assets/icons/dots-vertical.svg";
+import dayjs from "dayjs";
+import type { Meta } from "@/utils/api/calls";
+import { usePagination } from "../Tables/Table/Pagination";
+import { Table } from "../Tables/Table/Table";
+import { convertGrpcDate } from "@/utils/helpers";
+import Input from "../Inputs/Input/Input";
+import { getCampaigns } from "@/services/promotions";
+import {
+  IPromotion,
+  PromotionFilter,
+  PromotionType
+} from "@/services/promotions/payload";
+
+const CampaignsTable: React.FC<{
+  Limit: number;
+  hidePagination?: boolean;
+  Filter: PromotionFilter;
+}> = ({ Limit, Filter, hidePagination }) => {
+  // const [tableFilter, setTableFilter] = useState<BookingStatus | undefined>();
+
+  const [Page, setPage] = useState(1);
+  // const [filterValues, setFilterValues] = useState<{ Limit: number;  Page: number}>({ Limit: 10, })
+  const { isLoading, refetch, data } = useQuery(
+    [queryKeys.getCampaigns, Limit, Page],
+    () => getCampaigns({ Limit, ...Filter, Page })
+  );
+  const campaigns = (data?.data.Promotions as IPromotion[]) || [];
+  const meta = (data?.data.Meta as Meta) || [];
+
+  // const updateTableFilter = (filter: number) => {
+  //   // TODO: Update table request fetch update list
+  //   setTableFilter(filter as BookingStatus);
+  // };
+
+  const { currentPage, perPage, handlePageChange } = usePagination({
+    defaultCurrentPage: 1,
+    defaultPerPage: Limit,
+    refetch: (page: number) => {
+      setPage(page);
+    }
+  });
+
+  return (
+    <div className="bg-white p-2 rounded-md">
+      <Table
+        withPagination={!hidePagination}
+        perPage={perPage}
+        currentPage={currentPage}
+        total={meta.TotalCount}
+        onPageChange={handlePageChange}
+        headerColor="primary"
+        errorMessage="You have not gotten any bookings"
+        headerComponent={
+          <div>
+            <div className="items-between flex w-full items-center justify-between gap-3">
+              <H4>Campaigns({meta.TotalCount || campaigns.length})</H4>
+              <div className="flex items-center justify-end gap-3">
+                <div className="page-button-container">
+                  <span className="page-button-wrapper flex gap-2">
+                    {Object.values(PromotionType)
+                      .filter((value) => typeof value === "string")
+                      .filter(
+                        (value) =>
+                          typeof value === "string" &&
+                          !["REGULAR", "SPECIAL"].includes(value)
+                      )
+                      .map((promotionType) => (
+                        <div
+                          // onClick={() =>
+                          //   // updateTableFilter(BookingStatus[bookingStatus])
+                          // ${
+                          //   1 === 2
+                          //     ? "border-orange-500 bg-orange-50 text-orange-500"
+                          //     : "text-grey-500 border-grey600 bg-white "
+                          //   }
+                          // }
+                          key={promotionType}
+                          className={`rounded-full border  px-4 
+                       
+                         py-2 text-center text-[12.54px]`}
+                        >
+                          {promotionType}
+                          {`(${campaigns.length})`}
+
+                          {promotionType === PromotionType.REGULAR &&
+                            `(${
+                              campaigns.filter(
+                                (item: IPromotion) =>
+                                  item.Type === PromotionType.REGULAR
+                              ).length
+                            })`}
+                          {promotionType === PromotionType.SPECIAL &&
+                            `(${
+                              campaigns.filter(
+                                (item: IPromotion) =>
+                                  item.Type === PromotionType.SPECIAL
+                              ).length
+                            })`}
+                        </div>
+                      ))}
+                  </span>
+                </div>
+                <div className="md:min-w-[250px]">
+                  <Input
+                    type="search"
+                    placeholder="Search"
+                    className=" m-0 w-full border border-[#EAEAEA] outline-none placeholder:text-[#666666] "
+                  />
+                </div>
+              </div>
+            </div>
+          </div>
+        }
+        header={[
+          {
+            key: "Name",
+            title: "Name",
+            width: "15%",
+            headerClass:
+              "font-matter py-2 px-3 whitespace-nowrap text-[12px] font-normal leading-[150%] text-white",
+            render(_column, item) {
+              return <div className="px-4">{item.Name}</div>;
+            }
+          },
+          {
+            key: "Description",
+            title: "DESCRIPTION",
+            width: "10%",
+            headerClass:
+              "font-matter  whitespace-nowrap text-[12px] font-normal leading-[150%] text-white",
+            render(_column, item) {
+              return (
+                <div
+                  className={`text-[var(--grey-grey-600, #5D6679);] text-[14px] leading-[150%]`}
+                >
+                  {item.Description}
+                </div>
+              );
+            }
+          },
+          {
+            key: "Id",
+            title: "ID",
+            width: "10%",
+            headerClass:
+              "font-matter  whitespace-nowrap text-[12px] font-normal leading-[150%] text-white",
+            render(_column, item) {
+              return (
+                <div
+                  className={`text-[var(--grey-grey-600, #5D6679);] text-[14px] leading-[150%]`}
+                >
+                  {item.Id && item?.Id.slice(0, 10)}
+                </div>
+              );
+            }
+          },
+          {
+            key: "Created_at",
+            title: "DATE OF CREATION",
+            width: "10%",
+            headerClass:
+              "font-matter py-2 whitespace-nowrap text-[12px] font-normal leading-[150%] text-white",
+            titleClass:
+              "font-inter text-[10px] font-normal leading-[150%] text-black",
+            render(_column, item) {
+              return (
+                <div
+                  className={`text-[var(--grey-grey-600, #5D6679);] text-[14px] leading-[150%]`}
+                >
+                  {dayjs(convertGrpcDate(item.Created_at)).format("DD/MM/YYYY")}
+                </div>
+              );
+            }
+          },
+          {
+            key: "Updated_at",
+            title: "LAST UPDATED",
+            width: "10%",
+            headerClass:
+              "font-matter py-2 whitespace-nowrap text-[12px] font-normal leading-[150%] text-white",
+            titleClass:
+              "font-inter text-[10px] font-normal leading-[150%] text-black",
+            render(_column, item) {
+              return (
+                <div
+                  className={`text-[var(--grey-grey-600, #5D6679);] text-[14px] leading-[150%]`}
+                >
+                  {dayjs(convertGrpcDate(item.Updated_at)).format("DD/MM/YYYY")}
+                </div>
+              );
+            }
+          },
+
+          {
+            key: "Type",
+            title: "Promotion TYPE",
+            headerClass:
+              "font-matter py-2 whitespace-nowrap text-[12px] font-normal leading-[150%] text-white",
+            width: "10%",
+            render(_column, item) {
+              return (
+                <div
+                  className={` ${
+                    (item.Type === PromotionType.REGULAR &&
+                      "bg-warning50 text-warning400") ||
+                    (item.Type === PromotionType.SPECIAL &&
+                      "bg-success50 text-success400")
+                  }    inline-block rounded-full px-4 py-1`}
+                >
+                  <div className="text-center text-[12px]">
+                    {item?.Type === PromotionType.REGULAR && "Booking"}
+                    {item?.Type === PromotionType.SPECIAL && "Wallent fund"}
+                  </div>
+                </div>
+              );
+            }
+          },
+          {
+            key: "more",
+            title: "",
+            width: "1%",
+            render() {
+              return <Dots className="mr-6 cursor-pointer" />;
+            }
+          }
+        ]}
+        data={campaigns}
+        isLoading={isLoading}
+      />
+    </div>
+  );
+};
+
+export default CampaignsTable;

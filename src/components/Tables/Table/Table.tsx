@@ -120,7 +120,7 @@ export function TableRow<T>({
         <tr
           className={styles.tableRow}
           key={`table-body-${itemIndex}`}
-          onClick={() => onRowClick && onRowClick!(item)}
+          onClick={() => onRowClick && onRowClick(item)}
         >
           {columns.map((column, columnIndex) => (
             <TableRoWCell
