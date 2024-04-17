@@ -8,35 +8,36 @@ import dayjs from "dayjs";
 import type { Meta } from "@/utils/api/calls";
 import { usePagination } from "../Tables/Table/Pagination";
 import { Table } from "../Tables/Table/Table";
-import { convertGrpcDate } from "@/utils/helpers";
-import Input from "../Inputs/Input/Input";
-import { getCampaigns } from "@/services/promotions";
+import { convertGrpcDate, formatCurrencyNoSymbol } from "@/utils/helpers";
 import {
-  IPromotion,
-  PromotionFilter,
-  PromotionType
-} from "@/services/promotions/payload";
+  ITransaction,
+  TransactionFilter,
+  TransactionType
+} from "@/services/transactions/payload";
+import { getTransactions } from "@/services/transactions/index";
+import Input from "../Inputs/Input/Input";
 
-const CampaignsTable: React.FC<{
+const TransactionTable: React.FC<{
   Limit: number;
   hidePagination?: boolean;
-  Filter: PromotionFilter;
+  Filter: TransactionFilter;
 }> = ({ Limit, Filter, hidePagination }) => {
   // const [tableFilter, setTableFilter] = useState<BookingStatus | undefined>();
 
   const [Page, setPage] = useState(1);
   // const [filterValues, setFilterValues] = useState<{ Limit: number;  Page: number}>({ Limit: 10, })
   const { isLoading, refetch, data } = useQuery(
-    [queryKeys.getCampaigns, Limit, Page],
-    () => getCampaigns({ Limit, ...Filter, Page })
+    [queryKeys.getTransactions, Limit, Page],
+    () => getTransactions({ Limit, ...Filter, Page })
   );
-  const campaigns = (data?.data.Promotions as IPromotion[]) || [];
+  const transactions = (data?.data.Transactions as ITransaction[]) || [];
   const meta = (data?.data.Meta as Meta) || [];
 
   // const updateTableFilter = (filter: number) => {
   //   // TODO: Update table request fetch update list
   //   setTableFilter(filter as BookingStatus);
   // };
+  console.log(transactions);
 
   const { currentPage, perPage, handlePageChange } = usePagination({
     defaultCurrentPage: 1,
@@ -59,18 +60,18 @@ const CampaignsTable: React.FC<{
         headerComponent={
           <div>
             <div className="items-between flex w-full items-center justify-between gap-3">
-              <H4>Campaigns({meta.TotalCount || campaigns.length})</H4>
+              <H4>Transactions({transactions.length})</H4>
               <div className="flex items-center justify-end gap-3">
                 <div className="page-button-container">
                   <span className="page-button-wrapper flex gap-2">
-                    {Object.values(PromotionType)
+                    {Object.values(TransactionType)
                       .filter((value) => typeof value === "string")
                       .filter(
                         (value) =>
                           typeof value === "string" &&
-                          !["REGULAR", "SPECIAL"].includes(value)
+                          !["BOOKING", "WITHDRAWAL"].includes(value)
                       )
-                      .map((promotionType) => (
+                      .map((transactionType) => (
                         <div
                           // onClick={() =>
                           //   // updateTableFilter(BookingStatus[bookingStatus])
@@ -80,26 +81,36 @@ const CampaignsTable: React.FC<{
                           //     : "text-grey-500 border-grey600 bg-white "
                           //   }
                           // }
-                          key={promotionType}
+                          key={transactionType}
                           className={`rounded-full border  px-4 
                        
                          py-2 text-center text-[12.54px]`}
                         >
-                          {promotionType}
-                          {`(${campaigns.length})`}
+                          {transactionType}
+                          {`(${transactions.length})`}
 
-                          {promotionType === PromotionType.REGULAR &&
+                          {transactionType === TransactionType.BOOKING &&
                             `(${
-                              campaigns.filter(
-                                (item: IPromotion) =>
-                                  item.Type === PromotionType.REGULAR
+                              transactions.filter(
+                                (item: ITransaction) =>
+                                  item.TransactionType ===
+                                  TransactionType.BOOKING
                               ).length
                             })`}
-                          {promotionType === PromotionType.SPECIAL &&
+                          {transactionType === TransactionType.WALLETFUND &&
                             `(${
-                              campaigns.filter(
-                                (item: IPromotion) =>
-                                  item.Type === PromotionType.SPECIAL
+                              transactions.filter(
+                                (item: ITransaction) =>
+                                  item.TransactionType ===
+                                  TransactionType.WALLETFUND
+                              ).length
+                            })`}
+                          {transactionType === TransactionType.WITHDRAWAL &&
+                            `(${
+                              transactions.filter(
+                                (item: ITransaction) =>
+                                  item.TransactionType ===
+                                  TransactionType.WITHDRAWAL
                               ).length
                             })`}
                         </div>
@@ -119,13 +130,31 @@ const CampaignsTable: React.FC<{
         }
         header={[
           {
-            key: "Name",
-            title: "Name",
+            key: "Credit",
+            title: "CREDIT",
             width: "15%",
             headerClass:
               "font-matter py-2 px-3 whitespace-nowrap text-[12px] font-normal leading-[150%] text-white",
             render(_column, item) {
-              return <div className="px-4">{item.Name}</div>;
+              return (
+                <div className="px-4">
+                  {formatCurrencyNoSymbol(item.Credit || 0)}
+                </div>
+              );
+            }
+          },
+          {
+            key: "Debit",
+            title: "DEBIT",
+            width: "15%",
+            headerClass:
+              "font-matter py-2 px-3 whitespace-nowrap text-[12px] font-normal leading-[150%] text-white",
+            render(_column, item) {
+              return (
+                <div className="px-4">
+                  {formatCurrencyNoSymbol(item.Debit || 0)}
+                </div>
+              );
             }
           },
           {
@@ -145,8 +174,8 @@ const CampaignsTable: React.FC<{
             }
           },
           {
-            key: "Id",
-            title: "ID",
+            key: "ServiceId",
+            title: "SERVICE ID",
             width: "10%",
             headerClass:
               "font-matter  whitespace-nowrap text-[12px] font-normal leading-[150%] text-white",
@@ -155,7 +184,7 @@ const CampaignsTable: React.FC<{
                 <div
                   className={`text-[var(--grey-grey-600, #5D6679);] text-[14px] leading-[150%]`}
                 >
-                  {item.Id && item?.Id.slice(0, 10)}
+                  {item.ServiceId.slice(0, 10)}
                 </div>
               );
             }
@@ -179,7 +208,7 @@ const CampaignsTable: React.FC<{
             }
           },
           {
-            key: "Updated_at",
+            key: "Last_updated",
             title: "LAST UPDATED",
             width: "10%",
             headerClass:
@@ -191,15 +220,17 @@ const CampaignsTable: React.FC<{
                 <div
                   className={`text-[var(--grey-grey-600, #5D6679);] text-[14px] leading-[150%]`}
                 >
-                  {dayjs(convertGrpcDate(item.Updated_at)).format("DD/MM/YYYY")}
+                  {dayjs(convertGrpcDate(item.Last_updated)).format(
+                    "DD/MM/YYYY"
+                  )}
                 </div>
               );
             }
           },
 
           {
-            key: "Type",
-            title: "Promotion TYPE",
+            key: "TransactionType",
+            title: "Transaction TYPE",
             headerClass:
               "font-matter py-2 whitespace-nowrap text-[12px] font-normal leading-[150%] text-white",
             width: "10%",
@@ -207,15 +238,20 @@ const CampaignsTable: React.FC<{
               return (
                 <div
                   className={` ${
-                    (item.Type === PromotionType.REGULAR &&
+                    (item.TransactionType === TransactionType.WALLETFUND &&
                       "bg-warning50 text-warning400") ||
-                    (item.Type === PromotionType.SPECIAL &&
-                      "bg-success50 text-success400")
+                    (item.TransactionType === TransactionType.BOOKING &&
+                      "bg-success50 text-success400") ||
+                    "bg-danger50  text-danger400"
                   }    inline-block rounded-full px-4 py-1`}
                 >
                   <div className="text-center text-[12px]">
-                    {item?.Type === PromotionType.REGULAR && "Booking"}
-                    {item?.Type === PromotionType.SPECIAL && "Wallent fund"}
+                    {item?.TransactionType === TransactionType.BOOKING &&
+                      "Booking"}
+                    {item?.TransactionType === TransactionType.WALLETFUND &&
+                      "Wallent fund"}
+                    {item?.TransactionType === TransactionType.WITHDRAWAL &&
+                      "Withdrawal"}
                   </div>
                 </div>
               );
@@ -230,11 +266,11 @@ const CampaignsTable: React.FC<{
             }
           }
         ]}
-        data={campaigns}
+        data={transactions}
         isLoading={isLoading}
       />
     </div>
   );
 };
 
-export default CampaignsTable;
+export default TransactionTable;
