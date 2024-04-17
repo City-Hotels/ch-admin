@@ -22,10 +22,8 @@ const MembershipTable: React.FC<{
   hidePagination?: boolean;
   Filter: PromotionFilter;
 }> = ({ Limit, Filter, hidePagination }) => {
-  // const [tableFilter, setTableFilter] = useState<BookingStatus | undefined>();
 
   const [Page, setPage] = useState(1);
-  // const [filterValues, setFilterValues] = useState<{ Limit: number;  Page: number}>({ Limit: 10, })
   const { isLoading, refetch, data } = useQuery(
     [queryKeys.getPromotions, Limit, Page],
     () => getMemberships({ Limit, ...Filter, Page })
@@ -39,7 +37,7 @@ const MembershipTable: React.FC<{
   // };
 
   const { currentPage, perPage, handlePageChange } = usePagination({
-    defaultCurrentPage: 1,
+    defaultCurrentPage: Page,
     defaultPerPage: Limit,
     refetch: (page: number) => {
       setPage(page);
@@ -47,7 +45,7 @@ const MembershipTable: React.FC<{
   });
 
   return (
-    <div className="bg-white p-2 rounded-md">
+    <div className="bg-white rounded-md">
       <Table
         withPagination={!hidePagination}
         perPage={perPage}
@@ -89,18 +87,16 @@ const MembershipTable: React.FC<{
                           {`(${memberships.length})`}
 
                           {promotionType === PromotionType.REGULAR &&
-                            `(${
-                              memberships.filter(
-                                (item: IPromotion) =>
-                                  item.Type === PromotionType.REGULAR
-                              ).length
+                            `(${memberships.filter(
+                              (item: IPromotion) =>
+                                item.Type === PromotionType.REGULAR
+                            ).length
                             })`}
                           {promotionType === PromotionType.SPECIAL &&
-                            `(${
-                              memberships.filter(
-                                (item: IPromotion) =>
-                                  item.Type === PromotionType.SPECIAL
-                              ).length
+                            `(${memberships.filter(
+                              (item: IPromotion) =>
+                                item.Type === PromotionType.SPECIAL
+                            ).length
                             })`}
                         </div>
                       ))}
@@ -131,7 +127,7 @@ const MembershipTable: React.FC<{
           {
             key: "Description",
             title: "DESCRIPTION",
-            width: "10%",
+            width: "20%",
             headerClass:
               "font-matter  whitespace-nowrap text-[12px] font-normal leading-[150%] text-white",
             render(_column, item) {
@@ -162,7 +158,7 @@ const MembershipTable: React.FC<{
           },
           {
             key: "Created_at",
-            title: "DATE OF CREATION",
+            title: "DATE",
             width: "10%",
             headerClass:
               "font-matter py-2 whitespace-nowrap text-[12px] font-normal leading-[150%] text-white",
@@ -206,12 +202,11 @@ const MembershipTable: React.FC<{
             render(_column, item) {
               return (
                 <div
-                  className={` ${
-                    (item.Type === PromotionType.REGULAR &&
-                      "bg-warning50 text-warning400") ||
+                  className={` ${(item.Type === PromotionType.REGULAR &&
+                    "bg-warning50 text-warning400") ||
                     (item.Type === PromotionType.SPECIAL &&
                       "bg-success50 text-success400")
-                  }    inline-block rounded-full px-4 py-1`}
+                    }    inline-block rounded-full px-4 py-1`}
                 >
                   <div className="text-center text-[12px]">
                     {item?.Type === PromotionType.REGULAR && "Booking"}
