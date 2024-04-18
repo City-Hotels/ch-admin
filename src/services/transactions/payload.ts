@@ -17,14 +17,6 @@ export type ITransaction = {
     nanos: number;
   };
   type?: TransactionType;
-  HostName?: string;
-  BookingDate?: string;
-  UpdatedDate?: string;
-  ReviewStatus?: TransactionReviewFilterStatus;
-  BookedByStartDate?: string;
-  BookedByEndDate?: string;
-  CheckInDate?: string;
-  CheckOutDate?: string;
   Status?: TransactionFilterStatus;
 };
 

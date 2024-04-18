@@ -1,22 +1,15 @@
 import type { FC, ChangeEvent } from "react";
 import React, { useEffect, useState } from "react";
-import StarIcon from "@/assets/icons/star.svg";
 import styles from "./Filter.module.scss";
 import type FilterProps from "./Filter.props";
 import Close from "../../../assets/icons/close.svg";
 import Search from "../../../assets/icons/search.svg";
 import { H4, P2 } from "@/components/Headings/Headings";
-import Checkbox from "@/components/Inputs/checkbox/Checkbox";
-import Button from "@/components/Button/Button";
 import {
-  ITransaction,
   TransactionFilter,
   TransactionType,
-  ITransactionFilter
 } from "@/services/transactions/payload";
-import Radio from "@/components/Inputs/radio/Radio";
 import CheckboxTwo from "@/components/Checkboxes/CheckboxTwo";
-import dayjs from "dayjs";
 
 const Filter: FC<FilterProps> = ({ className, onClose, setFilter, filter }) => {
 
