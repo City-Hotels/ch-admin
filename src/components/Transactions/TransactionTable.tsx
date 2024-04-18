@@ -8,35 +8,42 @@ import dayjs from "dayjs";
 import type { Meta } from "@/utils/api/calls";
 import { usePagination } from "../Tables/Table/Pagination";
 import { Table } from "../Tables/Table/Table";
+import Modal from "@/components/Modal/Modal";
+import FilterComponent from "./Filter/Filter";
 import { convertGrpcDate, formatCurrencyNoSymbol } from "@/utils/helpers";
 import {
   ITransaction,
   TransactionFilter,
-  TransactionType
+  TransactionType,
+  TransactionFilterStatus,
+  ITransactionFilter
 } from "@/services/transactions/payload";
 import { getTransactions } from "@/services/transactions/index";
 import Input from "../Inputs/Input/Input";
+import Button from "../Button/Button";
+import FilterIcon from "@/assets/icons/filter2.svg";
 
 const TransactionTable: React.FC<{
   Limit: number;
   hidePagination?: boolean;
   Filter: TransactionFilter;
 }> = ({ Limit, Filter, hidePagination }) => {
-  // const [tableFilter, setTableFilter] = useState<BookingStatus | undefined>();
+
+const [filters, setFilters] = useState({ ...Filter })
+
+const [showFilterModal, setShowFilterModal] = useState(false);
 
   const [Page, setPage] = useState(1);
-  // const [filterValues, setFilterValues] = useState<{ Limit: number;  Page: number}>({ Limit: 10, })
-  const { isLoading, refetch, data } = useQuery(
-    [queryKeys.getTransactions, Limit, Page],
-    () => getTransactions({ Limit, ...Filter, Page })
+
+
+  const { isLoading, data } = useQuery(
+    [queryKeys.getUserTransactions, Limit, Page, filters],
+    () => getTransactions({ Limit, ...filters, Page })
   );
+
   const transactions = (data?.data.Transactions as ITransaction[]) || [];
   const meta = (data?.data.Meta as Meta) || [];
 
-  // const updateTableFilter = (filter: number) => {
-  //   // TODO: Update table request fetch update list
-  //   setTableFilter(filter as BookingStatus);
-  // };
   console.log(transactions);
 
   const { currentPage, perPage, handlePageChange } = usePagination({
@@ -59,74 +66,76 @@ const TransactionTable: React.FC<{
         errorMessage="You have not gotten any bookings"
         headerComponent={
           <div>
-            <div className="items-between flex w-full items-center justify-between gap-3">
+            <div className="items-between  w-full items-center justify-between gap-3 ml-1">
               <H4>Transactions({transactions.length})</H4>
-              <div className="flex items-center justify-end gap-3">
+
+
+              <div className="flex items-center justify-end gap-3 mr-36 mt-5">
+                <div className="md:min-w-[200px]">
+                  <Input
+                    type="search"
+                    placeholder="Transaction Id"
+                    className="w-full border border-[#EAEAEA] outline-none placeholder:text-[#666666] "
+                    value={filters.UserId}
+                    onChange={(ev) => setFilters({ ...filters, UserId: ev.currentTarget.value })}
+                  />
+                </div>
+
                 <div className="page-button-container">
                   <span className="page-button-wrapper flex gap-2">
-                    {Object.values(TransactionType)
+                    <div
+                      className={`rounded-full border w-17 px-2  py-2 text-center text-[12.54px]  hover:bg-white100. hover:text-primary400 hover:border-primary400 cursor-pointer   ${filters.Type === undefined ? 'text-primary400 border-primary400 ' : 'text-white800 border-white700'}`}
+                      onClick={() => {
+                        setFilters({ ...filters, Type: undefined })
+                      }}
+                    >All ({meta.TotalCount})</div>
+                    {Object.values( TransactionType)
                       .filter((value) => typeof value === "string")
-                      .filter(
-                        (value) =>
-                          typeof value === "string" &&
-                          !["BOOKING", "WITHDRAWAL"].includes(value)
-                      )
-                      .map((transactionType) => (
+                      .map((transactiontype) => (
                         <div
-                          // onClick={() =>
-                          //   // updateTableFilter(BookingStatus[bookingStatus])
-                          // ${
-                          //   1 === 2
-                          //     ? "border-orange-500 bg-orange-50 text-orange-500"
-                          //     : "text-grey-500 border-grey600 bg-white "
-                          //   }
-                          // }
-                          key={transactionType}
-                          className={`rounded-full border  px-4 
+                          key={transactiontype}
+                          className={`rounded-full border  px-2 
                        
-                         py-2 text-center text-[12.54px]`}
+                         py-2 text-center text-[12.54px]  hover:bg-white100. hover:text-primary400 hover:border-primary400 cursor-pointer 
+                          ${filters.Type ===  TransactionType[transactiontype as keyof typeof  TransactionType] ? 'text-primary400 border-primary400 ' : 'text-white800 border-white700 '}`}
+                          onClick={() => {
+                            setFilters({ ...filters, Status: TransactionFilterStatus [transactiontype as keyof typeof TransactionFilterStatus] })
+                          }}
                         >
-                          {transactionType}
+                          {transactiontype}
                           {`(${transactions.length})`}
 
-                          {transactionType === TransactionType.BOOKING &&
-                            `(${
-                              transactions.filter(
-                                (item: ITransaction) =>
-                                  item.TransactionType ===
-                                  TransactionType.BOOKING
-                              ).length
+                          {transactiontype === TransactionType.WALLETFUND &&
+                            `(${transactions.filter(
+                              (item: ITransaction) =>
+                                item.TransactionType=== TransactionType.WALLETFUND
+                            ).length
                             })`}
-                          {transactionType === TransactionType.WALLETFUND &&
-                            `(${
-                              transactions.filter(
-                                (item: ITransaction) =>
-                                  item.TransactionType ===
-                                  TransactionType.WALLETFUND
-                              ).length
+                          {transactiontype === TransactionType.BOOKING &&
+                            `(${transactions.filter(
+                              (item: ITransaction) =>
+                                item.TransactionType === TransactionType.BOOKING
+                            ).length
                             })`}
-                          {transactionType === TransactionType.WITHDRAWAL &&
-                            `(${
-                              transactions.filter(
-                                (item: ITransaction) =>
-                                  item.TransactionType ===
-                                  TransactionType.WITHDRAWAL
-                              ).length
+                          {transactiontype === TransactionType.WITHDRAWAL &&
+                            `(${transactions.filter(
+                              (item: ITransaction) =>
+                                item.TransactionType === TransactionType.WITHDRAWAL
+                            ).length
                             })`}
                         </div>
                       ))}
                   </span>
                 </div>
-                <div className="md:min-w-[250px]">
-                  <Input
-                    type="search"
-                    placeholder="Search"
-                    className=" m-0 w-full border border-[#EAEAEA] outline-none placeholder:text-[#666666] "
-                  />
-                </div>
+                <Button size="sm" color="outline-dark" variant="outline" onClick={() => setShowFilterModal(true)}>
+                <span className="flex gap-2 px-3">
+                  <FilterIcon /> Filter
+                </span>
+              </Button>
               </div>
             </div>
           </div>
+
         }
         header={[
           {
@@ -269,6 +278,16 @@ const TransactionTable: React.FC<{
         data={transactions}
         isLoading={isLoading}
       />
+       <Modal
+        openModal={showFilterModal}
+        setOpenModal={setShowFilterModal}
+        variant="plain"
+      >
+        <FilterComponent filter={filters} onClose={() => setShowFilterModal(false)} setFilter={(filter) => {
+          console.log({ filter })
+          setFilters(filter);
+        }} />
+      </Modal>
     </div>
   );
 };

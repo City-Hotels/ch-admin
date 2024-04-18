@@ -16,6 +16,16 @@ export type ITransaction = {
     seconds: number;
     nanos: number;
   };
+  type?: TransactionType;
+  HostName?: string;
+  BookingDate?: string;
+  UpdatedDate?: string;
+  ReviewStatus?: TransactionReviewFilterStatus;
+  BookedByStartDate?: string;
+  BookedByEndDate?: string;
+  CheckInDate?: string;
+  CheckOutDate?: string;
+  Status?: TransactionFilterStatus;
 };
 
 export interface TransactionFilter {
@@ -24,17 +34,37 @@ export interface TransactionFilter {
   UserId?: string;
   ServiceId?: string;
   Reference?: string;
-  StartDate?:string;
-  EnStartDate?:string;
+  Type?: TransactionType;
+  HostName?: string;
+  Paymentstatus: string;
+  Minamount?: string;
+  Maxamount?: string;
+  Date?: string;
+  Status?: TransactionFilterStatus;
 }
 
+export enum TransactionReviewFilterStatus {
+  GUESTREVIEWED = "GUESTREVIEWED",
+  HOSTREVIEWED = "HOSTREVIEWED",
+  REVIEWCOMPLETE = "REVIEWCOMPLETE",
+}
 
 export enum TransactionType {
   WALLETFUND = 0,
   BOOKING = 1,
   WITHDRAWAL = 2
 }
+export enum Paymentstatus {
+  COMPLETE =0,
+  PENDING = 1,
+  CANCELLED =2,
+}
 
+export enum TransactionFilterStatus {
+  WALLETFUND = "WALLETFUND",
+  BOOKING = "BOOKING",
+  WITHDRAWAL = "WITHDRAWAL"
+}
 export type ITransactionBalance = {
   Balance: number;
   Credit: number;
@@ -51,3 +81,50 @@ export type IConfirmWithdraw = {
   PaymentDetailsId: string;
   Token: string;
 };
+
+export type ITransactionFilter = {
+  UserId?: string;
+  ServiceId?: string;
+  Reference?: string;
+  Type?: TransactionType;
+  Limit?: number;
+  Page?: number;
+  date?: string;
+    HostId?: string;
+      Cost: number;
+    Service: {
+      Name: string;
+      Id: string;
+      Imageurl: string;
+      Address: {
+        Street: string;
+        City: string;
+        Country: string;
+        PostalCode: string;
+        Longitude: string;
+        Latitude: string;
+      };
+    };
+    Guest: {
+      Firstname: string;
+      Lastname: string;
+      Id: string;
+      Email: string;
+      Telephone: string;
+      Imageurl: string;
+    };
+    Host: {
+      Firstname: string;
+      Lastname: string;
+      Email: string;
+      Telephone: string;
+      Bio: string;
+      Id: string;
+      RegisterDate: string;
+    };
+    CheckOutDate: string | Date;
+    CheckInDate: string | Date;
+    Checkbox?: string;
+    Quantity?: number;
+};
+
