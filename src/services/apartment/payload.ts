@@ -63,6 +63,53 @@ export type IAddress = {
   Location: ILocation;
 };
 
+export type IApartmentFilter = {
+  Limit?: number;
+  Page?: number;
+  Id?: string;
+  RoomName?: string;
+  HostId?: string;
+  HostName?: string;
+  MaxAdults: number;
+  MaxBedRoom: number;
+  MaxChildren: number;
+  MaxGuest: number;
+  Medias: IMedia[];
+  Name: string;
+  Pricing: IPrice;
+  Type?: ApartmentType;
+  Space?: SpaceType;
+}
+
+export interface ApartmentFilter {
+  Limit?: number;
+  Page?: number;
+  apartmentid?: string;
+  apartmentname?: string;
+  location?: string;
+  minprice?: number;
+  maxprice: number;
+  dimension: number;
+  minnightlyprice: number;
+  maxnightlyprice: number;
+  minweeklyrate: number;
+  maxweeklyrate: number;
+  minmonthlyrate: number;
+  type?: ApartmentType;
+  maxmonthlyrate?: number;
+  maxguest?: number;
+  maxadults?: number;
+  facilities?: string;
+  checkindate?: string;
+  checkoutdate?: string;
+  carpark?: boolean;
+  bedcount?: number;
+  maxchildren?: number;
+  bathcount?: number;
+  hostid?: string;
+  status?: ApartmentType;
+}
+
 export type IFacility = {
   Amenities?: string[];
   Icon: string;
@@ -120,12 +167,18 @@ export type CompleteApartmentPayload = {
 };
 
 export enum ApartmentType {
-  HOTEL = 0,
-  ROOM = 1
+  // HOTEL = 0,
+  // ROOM = 1,
   // SingleRoom = 0,
   // DoubleRoom = 1,
   // Suite = 2,
   // Studio = 3,
+  // ALL = 2,
+  PENDING = 3,
+  ACTIVE = 4,
+  BOOKED = 5,
+  CHECKEDOUT = 6,
+  SUSPENDED = 7
 }
 
 export enum SpaceType {
