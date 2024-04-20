@@ -4,6 +4,7 @@ import { Table } from "../Tables/Table/Table";
 import { searchApartment } from "@/services/apartment/index";
 import { useQuery } from "react-query";
 import queryKeys from "@/utils/api/queryKeys";
+import FilterIcon from "@/assets/icons/filter2.svg";
 import Img from "../Image/Image";
 import Input from "../Inputs/Input/Input";
 import { usePagination } from "@/components/Tables/Table/Pagination";
@@ -21,8 +22,25 @@ const Index: React.FC<{
   hidePagination?: boolean;
 }> = ({ Limit, Filter, hidePagination }) => {
   const [filters, setFilters] = useState({ ...Filter })
+import {
+  ApartmentFilter,
+  ApartmentType,
+  IApartment
+} from "@/services/apartment/payload";
+import ApartmentFilterComponent from "./Filter/Filter";
+import Modal from "../Modal/Modal";
+import Button from "../Button/Button";
+
+const Index: React.FC<{
+  Limit: number;
+  Filter: ApartmentFilter;
+  hidePagination?: boolean;
+}> = ({ Limit, Filter, hidePagination }) => {
   const [Page, setPage] = useState(1);
-  const { isLoading, data } = useQuery([queryKeys.getApartmentByID, Page, filters],
+  const [filters, setFilters] = useState({ ...Filter });
+  const [showFilterModal, setShowFilterModal] = useState(false);
+  const { isLoading, data } = useQuery(
+    [queryKeys.getApartmentByID, Limit, Page, filters],
     () => searchApartment({ Page, Limit: 7, ...filters })
   );
 
@@ -57,6 +75,10 @@ const Index: React.FC<{
                 type="search"
                 placeholder="Search bar"
                 className="w-full border border-[#EAEAEA] outline-none placeholder:text-[#666666] "
+                value={filters.Name}
+                  onChange={(ev) =>
+                    setFilters({ ...filters, Name: ev.currentTarget.value })
+                  }
               />
 
                 <div className="page-button-container">
