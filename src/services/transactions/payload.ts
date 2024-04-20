@@ -28,7 +28,7 @@ export interface TransactionFilter {
   Reference?: string;
   Type?: TransactionType;
   HostName?: string;
-  Paymentstatus: string;
+  Paymentstatus?: string;
   Minamount?: string;
   Maxamount?: string;
   Date?: string;
