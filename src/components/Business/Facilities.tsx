@@ -4,7 +4,7 @@ import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import Img from "@/components/Image/Image";
 import Modal from "@/components/Modal/Modal";
-import type { IFacility } from "@/services/hotel/payload";
+import type { IFacility, IHotel } from "@/services/hotel/payload";
 import { updateHotelFacilities } from "@/services/hotel";
 import { useMutation } from "react-query";
 import ToastWrapper from "@/components/toast/Toast";
@@ -15,8 +15,8 @@ import styles from "./Dashboard.module.scss";
 import DashBoadFacilityCard from "./DashboardFacilityCard/DashBoardFacilityCard";
 import { EditFacilitiesModal } from "../Facilities/EditFacilitiesModal/EditFacilitiesModal";
 
-const Facilities = () => {
-  const hotel = useSelector(getStateHotel);
+const Facilities: React.FC<{hotel: IHotel}> = ({hotel}) => {
+  // const hotel = useSelector(getStateHotel);
   const facilities = (hotel?.Facilities as IFacility[]) || [];
   const dispatch = useDispatch<AppDispatch>();
 

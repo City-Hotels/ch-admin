@@ -21,6 +21,7 @@ import React, { useState } from "react";
 import toast from "react-hot-toast";
 import { useMutation, useQuery } from "react-query";
 import { useSelector } from "react-redux";
+import { IHotel } from "@/services/hotel/payload";
 
 const ImagesForm: React.FC<{ roomId: string }> = ({ roomId }) => {
   return (
@@ -46,8 +47,8 @@ const ImagesForm: React.FC<{ roomId: string }> = ({ roomId }) => {
   );
 };
 
-const NewRoomsModal = () => {
-  const hotel = useSelector(getStateHotel);
+const NewRoomsModal: React.FC<{hotel: IHotel}> = ({hotel}) => {
+  // const hotel = useSelector(getStateHotel);
   const { data } = useQuery([queryKeys.getRoomType], () =>
     getRoomTypes({ HotelId: hotel?.Id })
   );

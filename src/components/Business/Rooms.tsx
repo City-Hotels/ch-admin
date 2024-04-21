@@ -8,7 +8,7 @@ import type { IHotel } from "@/services/hotel/payload";
 import { getRooms } from "@/services/room";
 import { IRoom } from "@/services/room/payload";
 import queryKeys from "@/utils/api/queryKeys";
-import { useRouter } from "next/router";
+import { useRouter } from "next/navigation";
 import React from "react";
 import { useQuery } from "react-query";
 import { useSelector } from "react-redux";
@@ -31,13 +31,13 @@ const Rooms: React.FC<{ hotel: IHotel }> = ({ hotel }) => {
       <div className=" bg-white">
         <div className="flex items-center justify-between overflow-x-scroll px-2 py-4 md:overscroll-x-none">
           <div className="flex items-center gap-3">
-            <div className="cursor-pointer rounded-full border border-[#989FAD] px-4 py-2 text-sm md:text-base">
+            <div className="cursor-pointer rounded-full border border-[#989FAD] px-4 py-2 text-sm md:text-base max-[425px]:w-[107px]">
               All rooms({meta?.TotalCount})
             </div>
-            <div className="cursor-pointer rounded-full border border-[#989FAD] px-4 py-2 text-sm md:text-base">
+            <div className="cursor-pointer rounded-full border border-[#989FAD] px-4 py-2 text-sm md:text-base max-[425px]:w-[143px]">
               Available rooms({meta?.TotalCount})
             </div>
-            <div className="cursor-pointer rounded-full border border-[#989FAD] px-4 py-2 text-sm md:text-base">
+            <div className="cursor-pointer rounded-full border border-[#989FAD] px-4 py-2 text-sm md:text-base max-[425px]:w-[95px]">
               Booked(0)
             </div>
           </div>
@@ -185,7 +185,7 @@ const Rooms: React.FC<{ hotel: IHotel }> = ({ hotel }) => {
         variant="filled"
         className=" w-11/12 overflow-y-scroll md:w-2/3 lg:w-2/4"
       >
-        <NewRoomsModal />
+        <NewRoomsModal hotel={hotel} />
       </Modal>
     </div>
   );

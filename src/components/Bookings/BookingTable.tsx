@@ -56,14 +56,14 @@ const BookingTable: React.FC<{
         headerColor="primary"
         errorMessage="No bookings match this filter"
         headerComponent={
-          <div className="p-3">
+          <div className="p-3 overflow-x-scroll">
             <div className="items-between flex w-full items-center justify-between gap-3">
               <div className="flex items-center justify-end gap-3">
                 <div className="md:min-w-[200px]">
                   <Input
                     type="search"
                     placeholder="Booking Id"
-                    className="w-full border border-[#EAEAEA] outline-none placeholder:text-[#666666] "
+                    className="w-full border border-[#EAEAEA] outline-none placeholder:text-[#666666] max-[425px]:w-[153px]"
                     value={filters.BookingId}
                     onChange={(ev) => setFilters({ ...filters, BookingId: ev.currentTarget.value })}
                   />

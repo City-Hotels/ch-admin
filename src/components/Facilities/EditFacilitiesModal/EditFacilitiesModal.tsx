@@ -1,13 +1,11 @@
 import React from "react";
 import { H3, H5 } from "@/components/Headings/Headings";
-
 import Button from "@/components/Button/Button";
 import type { IFacility } from "@/services/apartment/payload";
 import { useQuery } from "react-query";
 import queryKeys from "@/utils/api/queryKeys";
 import { getAllFacilities } from "@/services/facilities";
-
-import styles from "./EditFacilitiesModal.module.scss";
+import styles from "@/components/Facilities/EditFacilitiesModal/EditFacilitiesModal.module.scss"
 import FacilityCard from "../FacilityCard/FacilityCard";
 
 export const EditFacilitiesModal: React.FC<{

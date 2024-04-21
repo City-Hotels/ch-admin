@@ -1,4 +1,4 @@
-import { P2 } from "@/components/shared/headings/Headings";
+import { P2 } from "@/components/Headings/Headings";
 import type { IReviewStatisticsPayload } from "@/services/review/payload";
 import ProgressBar from "@ramonak/react-progress-bar";
 import React from "react";

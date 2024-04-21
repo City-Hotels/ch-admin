@@ -1,5 +1,5 @@
 import React from "react";
-import { H5, H6, P2 } from "@/components/shared/headings/Headings";
+import { H5, H6, P2 } from "@/components/Headings/Headings";
 import type { IReview } from "@/services/review/payload";
 import { convertGrpcDate } from "@/utils/helpers";
 import dayjs from "dayjs";

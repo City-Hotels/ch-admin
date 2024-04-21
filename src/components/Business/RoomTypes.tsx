@@ -1,20 +1,20 @@
 import React from "react";
 import { H4, P } from "@/components/Headings/Headings";
-import RoomTypeModal from "@/components/hotelAdmin/modals/roomtype/RoomTypemodal";
+import RoomTypeModal from "@/components/Business/Modals/roomtype/RoomTypemodal";
 import Modal from "@/components/Modal/Modal";
 import { useQuery } from "react-query";
 import queryKeys from "@/utils/api/queryKeys";
 import { getRoomTypes } from "@/services/room";
 import ButtonLink from "@/components/Button/Link/Link";
 import type { IHotel } from "@/services/hotel/payload";
-import { getStateHotel } from "@/store/slice/hotel/hotel.slice";
-import { useSelector } from "react-redux";
-import RoomTypeCard from "../roomTypeCard/RoomTypeCard";
+// import { getStateHotel } from "@/store/slice/hotel/hotel.slice";
+// import { useSelector } from "react-redux";
+import RoomTypeCard from "@/components/Business/RoomTypes";
 import styles from "./Dashboard.module.scss";
 
-const RoomTypes = () => {
+const RoomTypes: React.FC<{hotel: IHotel}> = ({hotel}) => {
   const [firstModal, setFirstModal] = React.useState(false);
-  const hotel = useSelector(getStateHotel) as IHotel;
+  // const hotel = useSelector(getStateHotel) as IHotel;
   const { data } = useQuery([queryKeys.getRoomType], () =>
     getRoomTypes({ HotelId: hotel.Id, Limit: 6, Page: 1 })
   );
@@ -35,7 +35,7 @@ const RoomTypes = () => {
           {roomsTypes
             ?.filter((_item, index) => index < 6)
             .map((item) => (
-              <RoomTypeCard key={item.Id} {...item} />
+              <RoomTypeCard key={item.Id} {...item} hotel={hotel} />
             ))}
         </div>
         {(!roomsTypes || roomsTypes?.length < 1) && (

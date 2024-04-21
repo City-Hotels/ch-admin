@@ -51,9 +51,9 @@
 }
 
 .InfoContainer {
-    @apply hidden md:absolute bottom-10 left-6 md:flex items-center gap-[69px]
+    @apply hidden md:absolute bottom-10 left-6 md:flex items-center gap-[69px] 
 }
 
 .InfoContainerMobile {
-    @apply absolute md:hidden bottom-10 left-6 flex items-center gap-3 md:gap-[69px]
+    @apply absolute md:hidden bottom-10 left-6 flex items-center gap-3 md:gap-[69px] max-[425px]:gap-6 max-[425px]:items-start
 }

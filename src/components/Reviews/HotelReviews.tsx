@@ -1,6 +1,6 @@
 // import React from "react";
 // import ProgressBar from "@ramonak/react-progress-bar";
-// import { P2 } from "@/components/shared/headings/Headings";
+// import { P2 } from "@/components/Headings/Headings";
 // import type { IReviewStatisticsPayload } from "@/services/review/payload";
 // import styles from "./ReviewStatistics.module.scss";
 

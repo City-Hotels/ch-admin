@@ -12,12 +12,10 @@ import type {
   IReview
 } from "@/services/review/payload";
 import ReviewStatistics from "@/components/Reviews/ReviewStatistics";
-import { getStateHotel } from "@/store/slice/hotel/hotel.slice";
-import { useSelector } from "react-redux";
 import styles from "./Review.module.scss";
+import { IHotel } from "@/services/hotel/payload";
 
-const Review: React.FC = () => {
-  const hotel = useSelector(getStateHotel);
+const Review: React.FC<{hotel: IHotel}> = ({hotel}) => {;
   const serviceId = hotel?.Id || "";
   const [showReviewsModal, setShowReviewsModal] = useState(false);
 

@@ -1,4 +1,4 @@
-import { H4, P, H5 } from "@/components/shared/headings/Headings";
+import { H4, P, H5 } from "@/components/Headings/Headings";
 import File from "@/assets/icons/file.svg";
 
 import type { IMedia } from "@/services/hotel/payload";

@@ -9,6 +9,7 @@
     "lint": "next lint"
   },
   "dependencies": {
+    "@ramonak/react-progress-bar": "^5.2.0",
     "@react-oauth/google": "^0.12.1",
     "@reduxjs/toolkit": "^2.2.2",
     "apexcharts": "^3.45.2",
