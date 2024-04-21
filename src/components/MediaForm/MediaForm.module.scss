@@ -1,0 +1,21 @@
+.editIconWrapper {
+  @apply absolute top-0 z-10 h-full w-full;
+}
+.backdrop {
+  background-color: rgba(0, 0, 0, 0.5);
+}
+
+.editIcons {
+  @apply hidden h-full w-full;
+}
+.editIconWrapper:hover {
+  @apply backdrop;
+
+  .editIcons {
+    @apply h-full w-full items-center justify-center gap-5 flex;
+  }
+
+  .icon {
+    @apply cursor-pointer;
+  }
+}

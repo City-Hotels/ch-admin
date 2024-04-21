@@ -90,7 +90,7 @@ export type HotelFilter = {
 };
 
 export type IFacility = {
-  Amenities: string[];
+  Amenities?: string[];
   Icon: string;
   Id: string;
   Label: string;

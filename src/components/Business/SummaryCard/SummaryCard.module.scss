@@ -1,0 +1,59 @@
+.SummaryCardContainer {
+    @apply relative w-full ;
+}
+
+.SummaryCardImage {
+    @apply w-full h-[321px] relative rounded-[10px] shadow-md
+}
+
+
+.EditBanner {
+    @apply absolute right-0 bg-black p-2 hidden rounded-r-lg z-50
+  }
+
+.EditBanner:hover{
+      @apply opacity-[1] bg-[#000];
+  }
+
+.Container {
+    @apply z-0 absolute w-full h-full top-0 bg-white900 opacity-[0.4] rounded-[10px] shadow-md
+
+}
+
+.Container:hover{
+    .EditBanner{
+        @apply block;
+    }
+}
+
+.LogoContainer{
+    @apply relative rounded-full border-2 border-[#FFF] md:h-[137px] md:w-[137px];
+}
+
+.UpdateLogo{ 
+    @apply absolute top-0 h-full w-full cursor-pointer items-center justify-center rounded-full bg-white900 text-[9px] text-white opacity-[0.7] hidden
+}
+
+.LogoContainer:hover{
+    .UpdateLogo{
+        @apply flex;
+    }
+}
+
+
+
+.HotelProfileContainer {
+    @apply absolute top-12 left-2 md:left-6 flex items-center gap-2 md:gap-6
+}
+
+.SocialLinks {
+    @apply mt-4 flex items-center gap-9 text-[white] text-[20px]
+}
+
+.InfoContainer {
+    @apply hidden md:absolute bottom-10 left-6 md:flex items-center gap-[69px]
+}
+
+.InfoContainerMobile {
+    @apply absolute md:hidden bottom-10 left-6 flex items-center gap-3 md:gap-[69px]
+}

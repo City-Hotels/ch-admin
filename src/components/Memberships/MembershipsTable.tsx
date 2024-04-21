@@ -89,18 +89,16 @@ const MembershipTable: React.FC<{
                           {`(${memberships.length})`}
 
                           {promotionType === PromotionType.REGULAR &&
-                            `(${
-                              memberships.filter(
-                                (item: IPromotion) =>
-                                  item.Type === PromotionType.REGULAR
-                              ).length
+                            `(${memberships.filter(
+                              (item: IPromotion) =>
+                                item.Type === PromotionType.REGULAR
+                            ).length
                             })`}
                           {promotionType === PromotionType.SPECIAL &&
-                            `(${
-                              memberships.filter(
-                                (item: IPromotion) =>
-                                  item.Type === PromotionType.SPECIAL
-                              ).length
+                            `(${memberships.filter(
+                              (item: IPromotion) =>
+                                item.Type === PromotionType.SPECIAL
+                            ).length
                             })`}
                         </div>
                       ))}
@@ -206,12 +204,11 @@ const MembershipTable: React.FC<{
             render(_column, item) {
               return (
                 <div
-                  className={` ${
-                    (item.Type === PromotionType.REGULAR &&
+                  className={` ${(item.Type === PromotionType.REGULAR &&
                       "bg-warning50 text-warning400") ||
                     (item.Type === PromotionType.SPECIAL &&
                       "bg-success50 text-success400")
-                  }    inline-block rounded-full px-4 py-1`}
+                    }    inline-block rounded-full px-4 py-1`}
                 >
                   <div className="text-center text-[12px]">
                     {item?.Type === PromotionType.REGULAR && "Booking"}

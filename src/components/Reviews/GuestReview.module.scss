@@ -1,0 +1,54 @@
+.reviews {
+  @apply font-semibold mb-2 text-[22px];
+}
+.ratingReviews {
+  @apply font-semibold mb-2 text-[16px];
+}
+.container {
+  @apply h-[620px] max-w-[503px] rounded-md border border-[#F3F4F6] bg-[#FFF6ED] py-6 pr-5 pl-9 shadow;
+}
+
+.bar {
+  @apply w-[235px] h-[7px] mt-2 bg-gray-300 rounded-lg overflow-hidden;
+}
+
+.review_header {
+  z-index: 1;
+}
+
+.review_container {
+  @apply mt-4 flex w-full gap-10 p-5;
+}
+
+.review_base {
+  @apply mt-5 w-[600px] px-2 flex flex-col gap-5  max-h-[calc(100vh-150px)] overflow-y-auto;
+}
+
+.modal_content {
+  @apply relative;
+}
+
+.review_date {
+  @apply mt-2 text-white900;
+}
+
+.review_content {
+  @apply text-start text-white900;
+}
+
+.review_skeleton {
+  @apply flex flex-col items-start gap-0;
+}
+
+.review_author {
+  @apply mt-2 text-[12px] leading-[18px] font-bold;
+}
+
+.review_border {
+  @apply my-[35px] border border-[#C9C9C9] h-[1px] w-full;
+}
+
+// .review_base::-webkit-scrollbar {
+//   width: 0;
+//   background: transparent;
+// }
