@@ -75,9 +75,9 @@ const [showFilterModal, setShowFilterModal] = useState(false);
                   <Input
                     type="search"
                     placeholder="Transaction Id"
-                    className="w-full border border-[#EAEAEA] outline-none placeholder:text-[#666666] "
-                    value={filters.UserId}
-                    onChange={(ev) => setFilters({ ...filters, UserId: ev.currentTarget.value })}
+                    className="w-full border border-[#EAEAEA] outline-none placeholder:text-[#666666]"
+                    value={filters.Reference}
+                    onChange={(ev) => setFilters({ ...filters, Reference: ev.currentTarget.value })}
                   />
                 </div>
 

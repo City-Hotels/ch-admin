@@ -8,6 +8,8 @@ import { H4, P2 } from "@/components/Headings/Headings";
 import {
   TransactionFilter,
   TransactionType,
+  PaymentStatus,
+  BookingType,
 } from "@/services/transactions/payload";
 import CheckboxTwo from "@/components/Checkboxes/CheckboxTwo";
 
@@ -111,21 +113,6 @@ const Filter: FC<FilterProps> = ({ className, onClose, setFilter, filter }) => {
 
             <div className={`${styles.labelContainer}`}>
               <P2 className=" font-bold leading-[150%] text-black">
-                  Payment Status
-              </P2>
-
-              <div className={`${styles.input}`}>
-                <input
-                  placeholder="Payment Status"
-                  className={`${styles.innerInput}`}
-                  value={filters.Paymentstatus}
-                  onChange={(ev) => setFilter({ ...filters, Paymentstatus: ev.currentTarget.value })}
-                />
-              </div>
-            </div>
-
-            <div className={`${styles.labelContainer}`}>
-              <P2 className=" font-bold leading-[150%] text-black">
                 Min-Amount
               </P2>
 
@@ -133,8 +120,8 @@ const Filter: FC<FilterProps> = ({ className, onClose, setFilter, filter }) => {
                 <input
                   placeholder="Min-Amount"
                   className={`${styles.innerInput}`}
-                  value={filters.Minamount}
-                  onChange={(ev) => setFilter({ ...filters, Minamount: ev.currentTarget.value })}
+                  value={filters.MinAmount}
+                  onChange={(ev) => setFilter({ ...filters, MinAmount: ev.currentTarget.value })}
                 />
               </div>
             </div>
@@ -148,17 +135,16 @@ const Filter: FC<FilterProps> = ({ className, onClose, setFilter, filter }) => {
                 <input
                   placeholder="Max-Amount"
                   className={`${styles.innerInput}`}
-                  value={filters.Maxamount}
-                  onChange={(ev) => setFilter({ ...filters, Maxamount: ev.currentTarget.value })}
+                  value={filters.MaxAmount}
+                  onChange={(ev) => setFilter({ ...filters, MaxAmount: ev.currentTarget.value })}
                 />
               </div>
             </div>
 
             <div className={`${styles.labelContainer}`}>
               <P2 className=" font-bold leading-[150%] text-black">
-              TransactionType
+              Transaction Type
               </P2>
-
                <div className={`${styles.checkBoxConatainer}`}>
                 <CheckboxTwo
                   label="All"
@@ -183,6 +169,67 @@ const Filter: FC<FilterProps> = ({ className, onClose, setFilter, filter }) => {
                   />))}
               </div>
             </div>
+
+
+            <div className={`${styles.labelContainer}`}>
+              <P2 className=" font-bold leading-[150%] text-black">
+              Booking Type
+              </P2>
+               <div className={`${styles.checkBoxConatainer}`}>
+                <CheckboxTwo
+                  label="All"
+                  name="Booking Type"
+                  value={'All'}
+                  checked={filter.Bookingtype === undefined}
+                  onChange={(e) => setFilter({ ...filter, Bookingtype: undefined })}
+                  className="my-4"
+                />
+                {Object.values(BookingType)
+                  .filter((value) => typeof value === "string")
+                  .map((bookingtype) => (<CheckboxTwo
+                    name="BookingType"
+                    key={bookingtype}
+                    label={bookingtype as string}
+                    value={bookingtype}
+                    checked={filters.Bookingtype === BookingType[bookingtype as keyof typeof BookingType]}
+                    onClick={() => {
+                      setFilter({ ...filters, Bookingtype: BookingType[bookingtype as keyof typeof BookingType] })
+                    }}
+                    className="my-4"
+                  />))}
+              </div>
+            </div>
+
+
+            <div className={`${styles.labelContainer}`}>
+              <P2 className=" font-bold leading-[150%] text-black">
+              Payment Status
+              </P2>
+               <div className={`${styles.checkBoxConatainer}`}>
+                <CheckboxTwo
+                  label="All"
+                  name="Payment Status"
+                  value={'All'}
+                  checked={filter.Paymentstatus === undefined}
+                  onChange={(e) => setFilter({ ...filter, Paymentstatus: undefined })}
+                  className="my-4"
+                />
+                {Object.values(PaymentStatus)
+                  .filter((value) => typeof value === "string")
+                  .map((paymentStatus) => (<CheckboxTwo
+                    name="Payment Status"
+                    key={paymentStatus}
+                    label={paymentStatus as string}
+                    value={paymentStatus}
+                    checked={filters.Paymentstatus === PaymentStatus[paymentStatus as keyof typeof PaymentStatus]}
+                    onClick={() => {
+                      setFilter({ ...filters, Paymentstatus: PaymentStatus[paymentStatus as keyof typeof PaymentStatus] })
+                    }}
+                    className="my-4"
+                  />))}
+              </div>
+            </div>
+
           </div>
         </div>
       </div>

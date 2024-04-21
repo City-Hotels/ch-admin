@@ -28,9 +28,10 @@ export interface TransactionFilter {
   Reference?: string;
   Type?: TransactionType;
   HostName?: string;
-  Paymentstatus?: string;
-  Minamount?: string;
-  Maxamount?: string;
+  Paymentstatus?: PaymentStatus;
+  Bookingtype?: BookingType;
+  MinAmount?: string;
+  MaxAmount?: string;
   Date?: string;
   Status?: TransactionFilterStatus;
 }
@@ -46,10 +47,14 @@ export enum TransactionType {
   BOOKING = 1,
   WITHDRAWAL = 2
 }
-export enum Paymentstatus {
+export enum PaymentStatus {
   COMPLETE =0,
   PENDING = 1,
   CANCELLED =2,
+}
+export enum BookingType {
+  APARTMENT =0,
+  HOTEL = 1,
 }
 
 export enum TransactionFilterStatus {
