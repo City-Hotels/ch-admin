@@ -4,7 +4,6 @@ import { Table } from "../Tables/Table/Table";
 import { searchApartment } from "@/services/apartment/index";
 import { useQuery } from "react-query";
 import queryKeys from "@/utils/api/queryKeys";
-import FilterIcon from "@/assets/icons/filter2.svg";
 import Img from "../Image/Image";
 import Input from "../Inputs/Input/Input";
 import { usePagination } from "@/components/Tables/Table/Pagination";
@@ -13,22 +12,7 @@ import { IApartmentFilter, IApartment, ApartmentFilter, ApartmentType } from "@/
 import Modal from "@/components/Modal/Modal";
 import FilterComponent from "./Filter/Filter";
 import FilterIcon from "@/assets/icons/filter2.svg";
-import Button from "../Button/Button";
-
-
-const Index: React.FC<{
-  Limit: number;
-  Filter: IApartmentFilter;
-  hidePagination?: boolean;
-}> = ({ Limit, Filter, hidePagination }) => {
-  const [filters, setFilters] = useState({ ...Filter })
-import {
-  ApartmentFilter,
-  ApartmentType,
-  IApartment
-} from "@/services/apartment/payload";
 import ApartmentFilterComponent from "./Filter/Filter";
-import Modal from "../Modal/Modal";
 import Button from "../Button/Button";
 
 const Index: React.FC<{
@@ -46,8 +30,6 @@ const Index: React.FC<{
 
   const apartments = (data?.data.Apartments as IApartment[]) || [];
   const meta = (data?.data.Meta as Meta) || [];
-
-  const [showFilterModal, setShowFilterModal] = useState(false);
   
   const { currentPage, perPage, handlePageChange } = usePagination({
     defaultCurrentPage: 1,
@@ -245,7 +227,7 @@ const Index: React.FC<{
         setOpenModal={setShowFilterModal}
         variant="plain"
       >
-        <FilterComponent filter={filters} onClose={() => setShowFilterModal(false)} setFilter={(filter) => {
+       <FilterComponent filter={filters} onClose={() => setShowFilterModal(false)} setFilter={(filter) => {
           console.log({ filter })
           setFilters(filter);
         }} />
