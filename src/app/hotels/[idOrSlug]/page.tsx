@@ -12,7 +12,6 @@ import SummaryCard from "@/components/Business/SummaryCard/SummaryCard";
 import Rooms from "@/components/Business/Rooms";
 import RoomTypes from "@/components/Business/RoomTypes";
 import Facilities from "@/components/Business/Facilities";
-import HotelAdminDashboard from "@/components/Business/Dashboard";
 import UserCard from "@/components/Business/userCard/UserCard";
 import Review from "@/components/Business/review/Review";
 
