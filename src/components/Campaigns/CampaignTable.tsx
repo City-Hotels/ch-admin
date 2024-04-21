@@ -8,27 +8,29 @@ import dayjs from "dayjs";
 import type { Meta } from "@/utils/api/calls";
 import { usePagination } from "../Tables/Table/Pagination";
 import { Table } from "../Tables/Table/Table";
-import { convertGrpcDate, } from "@/utils/helpers";
+import { convertGrpcDate } from "@/utils/helpers";
 import Input from "../Inputs/Input/Input";
-import { getMemberships } from "@/services/promotions/index";
+import { getCampaigns } from "@/services/promotions";
 import {
   IPromotion,
   PromotionFilter,
   PromotionType
 } from "@/services/promotions/payload";
 
-const MembershipTable: React.FC<{
+const CampaignsTable: React.FC<{
   Limit: number;
   hidePagination?: boolean;
   Filter: PromotionFilter;
 }> = ({ Limit, Filter, hidePagination }) => {
+  // const [tableFilter, setTableFilter] = useState<BookingStatus | undefined>();
 
   const [Page, setPage] = useState(1);
+  // const [filterValues, setFilterValues] = useState<{ Limit: number;  Page: number}>({ Limit: 10, })
   const { isLoading, refetch, data } = useQuery(
-    [queryKeys.getPromotions, Limit, Page],
-    () => getMemberships({ Limit, ...Filter, Page })
+    [queryKeys.getCampaigns, Limit, Page],
+    () => getCampaigns({ Limit, ...Filter, Page })
   );
-  const memberships = (data?.data.Promotions as IPromotion[]) || [];
+  const campaigns = (data?.data.Promotions as IPromotion[]) || [];
   const meta = (data?.data.Meta as Meta) || [];
 
   // const updateTableFilter = (filter: number) => {
@@ -37,7 +39,7 @@ const MembershipTable: React.FC<{
   // };
 
   const { currentPage, perPage, handlePageChange } = usePagination({
-    defaultCurrentPage: Page,
+    defaultCurrentPage: 1,
     defaultPerPage: Limit,
     refetch: (page: number) => {
       setPage(page);
@@ -45,7 +47,7 @@ const MembershipTable: React.FC<{
   });
 
   return (
-    <div className="bg-white rounded-md">
+    <div className="bg-white p-2 rounded-md">
       <Table
         withPagination={!hidePagination}
         perPage={perPage}
@@ -57,7 +59,7 @@ const MembershipTable: React.FC<{
         headerComponent={
           <div>
             <div className="items-between flex w-full items-center justify-between gap-3">
-              <H4>Memberships({meta.TotalCount || memberships.length})</H4>
+              <H4>Campaigns({meta.TotalCount || campaigns.length})</H4>
               <div className="flex items-center justify-end gap-3">
                 <div className="page-button-container">
                   <span className="page-button-wrapper flex gap-2">
@@ -84,20 +86,21 @@ const MembershipTable: React.FC<{
                          py-2 text-center text-[12.54px]`}
                         >
                           {promotionType}
-                          {`(${memberships.length})`}
+                          {`(${campaigns.length})`}
 
                           {promotionType === PromotionType.REGULAR &&
                             `(${
-                              memberships.filter(
+                              campaigns.filter(
                                 (item: IPromotion) =>
                                   item.Type === PromotionType.REGULAR
                               ).length
                             })`}
                           {promotionType === PromotionType.SPECIAL &&
-                            `(${memberships.filter(
-                              (item: IPromotion) =>
-                                item.Type === PromotionType.SPECIAL
-                            ).length
+                            `(${
+                              campaigns.filter(
+                                (item: IPromotion) =>
+                                  item.Type === PromotionType.SPECIAL
+                              ).length
                             })`}
                         </div>
                       ))}
@@ -128,7 +131,7 @@ const MembershipTable: React.FC<{
           {
             key: "Description",
             title: "DESCRIPTION",
-            width: "20%",
+            width: "10%",
             headerClass:
               "font-matter  whitespace-nowrap text-[12px] font-normal leading-[150%] text-white",
             render(_column, item) {
@@ -159,7 +162,7 @@ const MembershipTable: React.FC<{
           },
           {
             key: "Created_at",
-            title: "DATE",
+            title: "DATE OF CREATION",
             width: "10%",
             headerClass:
               "font-matter py-2 whitespace-nowrap text-[12px] font-normal leading-[150%] text-white",
@@ -203,11 +206,12 @@ const MembershipTable: React.FC<{
             render(_column, item) {
               return (
                 <div
-                  className={` ${(item.Type === PromotionType.REGULAR &&
-                    "bg-warning50 text-warning400") ||
+                  className={` ${
+                    (item.Type === PromotionType.REGULAR &&
+                      "bg-warning50 text-warning400") ||
                     (item.Type === PromotionType.SPECIAL &&
                       "bg-success50 text-success400")
-                      }    inline-block rounded-full px-4 py-1`}
+                  }    inline-block rounded-full px-4 py-1`}
                 >
                   <div className="text-center text-[12px]">
                     {item?.Type === PromotionType.REGULAR && "Booking"}
@@ -226,11 +230,11 @@ const MembershipTable: React.FC<{
             }
           }
         ]}
-        data={memberships}
+        data={campaigns}
         isLoading={isLoading}
       />
     </div>
   );
 };
 
-export default MembershipTable;
+export default CampaignsTable;
