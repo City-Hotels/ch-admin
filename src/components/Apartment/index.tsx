@@ -55,7 +55,7 @@ const Index: React.FC<{
               
               <Input
                 type="search"
-                placeholder="Search bar"
+                placeholder="Apartment Name"
                 className="w-full border border-[#EAEAEA] outline-none placeholder:text-[#666666] "
                 value={filters.Name}
                   onChange={(ev) =>

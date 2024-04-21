@@ -51,31 +51,61 @@ const Filter: FC<FilterProps> = ({ className, onClose, setFilter, filter }) => {
           <div className={styles.filterForm}>
             <div className={`${styles.labelContainer}`}>
               <P2 className="font-bold leading-[150%] text-black">
-                Host
+                Host ID
               </P2>
 
               <div className={`${styles.input}`}>
                 <Search className="text-black" />
                 <input
-                  placeholder="Service Host"
+                  placeholder="search by service host id"
                   className={`${styles.innerInput}`}
-                  value={filters.HostName}
-                  onChange={(ev) => setFilter({ ...filters, HostName: ev.currentTarget.value })}
+                  value={filters.hostid}
+                  onChange={(ev) => setFilter({ ...filters, hostid: ev.currentTarget.value })}
                 />
               </div>
             </div>
             <div className={`${styles.labelContainer}`}>
               <P2 className="font-bold leading-[150%] text-black">
-                Guest
+              Apartment ID
               </P2>
 
               <div className={`${styles.input}`}>
                 <Search className="text-black" />
                 <input
-                  placeholder="Search Guest"
+                  placeholder="search by apartment id"
                   className={`${styles.innerInput}`}
-                  value={filters.HostId}
-                  onChange={(ev) => setFilter({ ...filters, HostId: ev.currentTarget.value })}
+                  value={filters.apartmentid}
+                  onChange={(ev) => setFilter({ ...filters, apartmentid: ev.currentTarget.value })}
+                />
+              </div>
+            </div>
+            <div className={`${styles.labelContainer}`}>
+              <P2 className="font-bold leading-[150%] text-black">
+              Location 
+              </P2>
+
+              <div className={`${styles.input}`}>
+                <Search className="text-black" />
+                <input
+                  placeholder="search by location"
+                  className={`${styles.innerInput}`}
+                  value={filters.location}
+                  onChange={(ev) => setFilter({ ...filters, location: ev.currentTarget.value })}
+                />
+              </div>
+            </div>
+            <div className={`${styles.labelContainer}`}>
+              <P2 className="font-bold leading-[150%] text-black">
+              Facilities
+              </P2>
+
+              <div className={`${styles.input}`}>
+                <Search className="text-black" />
+                <input
+                  placeholder="search by facilities"
+                  className={`${styles.innerInput}`}
+                  value={filters.facilities}
+                  onChange={(ev) => setFilter({ ...filters, facilities: ev.currentTarget.value })}
                 />
               </div>
             </div>
@@ -179,66 +209,8 @@ const Filter: FC<FilterProps> = ({ className, onClose, setFilter, filter }) => {
               </div>
             </div>
 
-            <div className={`${styles.labelContainer}`}>
-              <P2 className=" font-bold leading-[150%] text-black">
-                Customer Review
-              </P2>
-              <div className={`${styles.checkBoxConatainer}`}>
-                <CheckboxTwo
-                  label="All"
-                  name="Rating"
-                  value={undefined}
-                  // checked={filter.Status === undefined}
-                  // onChange={(e) => setFilter({ ...filter, Status: undefined })}
-                  className="my-4"
-                />
-                <CheckboxTwo
-                  label="Excellent (8+)"
-                  name="Rating"
-                  value={8}
-                  // checked={filter.Status === undefined}
-                  // onChange={(e) => setFilter({ ...filter, Status: undefined })}
-                  className="my-4"
-                />
-                <CheckboxTwo
-                  label="Good (6+)"
-                  name="Rating"
-                  value={6}
-                  // checked={filter.Status === undefined}
-                  // onChange={(e) => setFilter({ ...filter, Status: undefined })}
-                  className="my-4"
-                />
-                <CheckboxTwo
-                  label="Average (4+)"
-                  name="Rating"
-                  value={4}
-                  // checked={filter.Status === undefined}
-                  // onChange={(e) => setFilter({ ...filter, Status: undefined })}
-                  className="my-4"
-                />
-                <CheckboxTwo
-                  label="Poor (< 4)"
-                  name="Rating"
-                  value={1}
-                  // checked={filter.Status === undefined}
-                  // onChange={(e) => setFilter({ ...filter, Status: undefined })}
-                  className="my-4"
-                />
-              </div>
-
-            </div>
-
           </div>
 
-          {/* <div className={`${styles.clearFilterContainer}`}>
-            <div className="cursor-pointer font-matter-bold underline">
-              Clear Filter
-            </div>
-
-            <Button color="primary" size="lg">
-              Show 800+ Hotels
-            </Button>
-          </div> */}
         </div>
       </div>
     </div>

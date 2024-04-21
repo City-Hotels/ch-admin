@@ -191,11 +191,11 @@ export enum ApartmentType {
   // Suite = 2,
   // Studio = 3,
   // ALL = 2,
-  PENDING = 3,
-  ACTIVE = 4,
-  BOOKED = 5,
-  CHECKEDOUT = 6,
-  SUSPENDED = 7
+  PENDING = "PENDING",
+  ACTIVE = "ACTIVE",
+  BOOKED = "BOOKED",
+  CHECKEDOUT = "CHECKEDOUT",
+  SUSPENDED = "SUSPENDED"
 }
 
 export enum SpaceType {
