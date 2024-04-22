@@ -3,7 +3,7 @@ import Input from "@/components/formik/input/Input";
 import Dropdown from "@/components/formik/input/dropdown/Dropdowns";
 import TextArea from "@/components/formik/textarea/TextArea";
 import { H5, P } from "@/components/Headings/Headings";
-import ImageInput from "@/components/inputs/image/Image";
+import ImageInput from "@/components/Inputs/image/Image";
 import ToastWrapper from "@/components/toast/Toast";
 import {
   addRoomByType,
@@ -12,7 +12,6 @@ import {
   uploadRoomMedia
 } from "@/services/room";
 import type { ICreateRoomByTypePayload } from "@/services/room/payload";
-import { getStateHotel } from "@/store/slice/hotel/hotel.slice";
 import queryKeys from "@/utils/api/queryKeys";
 import { toastIcons } from "@/utils/constants";
 import { addRoomByTypeSchema } from "@/utils/formSchema";
@@ -22,6 +21,7 @@ import React, { useState } from "react";
 import toast from "react-hot-toast";
 import { useMutation, useQuery } from "react-query";
 import { useSelector } from "react-redux";
+import { IHotel } from "@/services/hotel/payload";
 
 const ImagesForm: React.FC<{ roomId: string }> = ({ roomId }) => {
   return (
@@ -47,8 +47,7 @@ const ImagesForm: React.FC<{ roomId: string }> = ({ roomId }) => {
   );
 };
 
-const NewRoomsModal = () => {
-  const hotel = useSelector(getStateHotel);
+const NewRoomsModal: React.FC<{ hotel: IHotel }> = ({ hotel }) => {
   const { data } = useQuery([queryKeys.getRoomType], () =>
     getRoomTypes({ HotelId: hotel?.Id })
   );
