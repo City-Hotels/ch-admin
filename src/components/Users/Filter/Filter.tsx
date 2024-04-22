@@ -23,7 +23,7 @@ const Filter: FC<FilterProps> = ({ className, onClose, setFilter, filter }) => {
   useEffect(() => {
     updateFilter(filter);
 
-    return () => {};
+    return () => { };
   }, [filter]);
 
   return (
@@ -69,24 +69,6 @@ const Filter: FC<FilterProps> = ({ className, onClose, setFilter, filter }) => {
                   value={filters.Lastname}
                   onChange={(ev) =>
                     setFilter({ ...filters, Lastname: ev.currentTarget.value })
-                  }
-                />
-              </div>
-            </div>
-
-            <div className={`${styles.labelContainer}`}>
-              <P2 className="font-bold leading-[150%] text-black">
-                Email Address
-              </P2>
-
-              <div className={`${styles.input}`}>
-                <Search className="text-black" />
-                <input
-                  placeholder="Email Address"
-                  className={`${styles.innerInput}`}
-                  value={filters.Email}
-                  onChange={(ev) =>
-                    setFilter({ ...filters, Email: ev.currentTarget.value })
                   }
                 />
               </div>

@@ -62,8 +62,8 @@ const UsersTable: React.FC<{
                     type="search"
                     placeholder="Search"
                     className=" m-0 w-full border border-[#EAEAEA] outline-none placeholder:text-[#666666]"
-                    value={filters.Firstname}
-                    onChange={(ev) => setFilters({ ...filters, Firstname: ev.currentTarget.value })}
+                    value={filters.Email}
+                    onChange={(ev) => setFilters({ ...filters, Email: ev.currentTarget.value })}
                   />
                 </div>
 
@@ -86,12 +86,11 @@ const UsersTable: React.FC<{
                           className={`rounded-full border  px-2 
                        
                          py-2 text-center text-[12.54px]  hover:bg-white100. hover:text-primary400 hover:border-primary400 cursor-pointer 
-                          ${
-                            filters.Role ===
-                            UserRoles[roles as keyof typeof UserRoles]
+                          ${filters.Role ===
+                              UserRoles[roles as keyof typeof UserRoles]
                               ? "text-primary400 border-primary400 "
                               : "text-white800 border-white700 "
-                          }`}
+                            }`}
                           onClick={() => {
                             setFilters({
                               ...filters,
@@ -103,24 +102,21 @@ const UsersTable: React.FC<{
                           {`(${users.length})`}
 
                           {roles === UserRoles.ADMIN &&
-                            `(${
-                              users.filter(
-                                (item: IUser) => item.Role === UserRoles.ADMIN
-                              ).length
+                            `(${users.filter(
+                              (item: IUser) => item.Role === UserRoles.ADMIN
+                            ).length
                             })`}
 
                           {roles === UserRoles.HOTELADMIN &&
-                            `(${
-                              users.filter(
-                                (item: IUser) =>
-                                  item.Role === UserRoles.HOTELADMIN
-                              ).length
+                            `(${users.filter(
+                              (item: IUser) =>
+                                item.Role === UserRoles.HOTELADMIN
+                            ).length
                             })`}
                           {roles === UserRoles.USER &&
-                            `(${
-                              users.filter(
-                                (item: IUser) => item.Role === UserRoles.USER
-                              ).length
+                            `(${users.filter(
+                              (item: IUser) => item.Role === UserRoles.USER
+                            ).length
                             })`}
                         </div>
                       ))}

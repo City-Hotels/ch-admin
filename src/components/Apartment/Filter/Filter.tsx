@@ -28,7 +28,7 @@ const Filter: FC<FilterProps> = ({ className, onClose, setFilter, filter }) => {
   useEffect(() => {
     updateFilter(filter);
 
-    return () => {};
+    return () => { };
   }, [filter]);
 
   return (
@@ -138,7 +138,7 @@ const Filter: FC<FilterProps> = ({ className, onClose, setFilter, filter }) => {
                       checked={
                         filters.Type ===
                         ApartmentType[
-                          apartment as keyof typeof ApartmentType
+                        apartment as keyof typeof ApartmentType
                         ]
                       }
                       onClick={() => {
@@ -146,7 +146,7 @@ const Filter: FC<FilterProps> = ({ className, onClose, setFilter, filter }) => {
                           ...filters,
                           Type:
                             ApartmentType[
-                              apartment as keyof typeof ApartmentType
+                            apartment as keyof typeof ApartmentType
                             ]
                         });
                       }}

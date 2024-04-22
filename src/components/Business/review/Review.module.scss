@@ -1,0 +1,7 @@
+.reviewContainer {
+    @apply flex flex-col md:flex-row justify-between gap-7 p-5 bg-white
+}
+
+.reviewButton {
+    @apply mt-6 
+}

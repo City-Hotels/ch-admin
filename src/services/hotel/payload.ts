@@ -45,6 +45,7 @@ export type ICooperateInformation = {
 };
 
 export type IHotel = {
+  BusinessType: any;
   item: string;
   Id: string;
   Name: string;
@@ -90,7 +91,7 @@ export type HotelFilter = {
 };
 
 export type IFacility = {
-  Amenities: string[];
+  Amenities?: string[];
   Icon: string;
   Id: string;
   Label: string;
