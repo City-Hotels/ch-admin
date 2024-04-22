@@ -15,7 +15,7 @@ import {
   ITransaction,
   TransactionFilter,
   TransactionType,
-  TransactionFilterStatus,
+  FilterTransactionType,
   ITransactionFilter
 } from "@/services/transactions/payload";
 import { getTransactions } from "@/services/transactions/index";
@@ -29,9 +29,9 @@ const TransactionTable: React.FC<{
   Filter: TransactionFilter;
 }> = ({ Limit, Filter, hidePagination }) => {
 
-const [filters, setFilters] = useState({ ...Filter })
+  const [filters, setFilters] = useState({ ...Filter })
 
-const [showFilterModal, setShowFilterModal] = useState(false);
+  const [showFilterModal, setShowFilterModal] = useState(false);
 
   const [Page, setPage] = useState(1);
 
@@ -44,8 +44,6 @@ const [showFilterModal, setShowFilterModal] = useState(false);
   const transactions = (data?.data.Transactions as ITransaction[]) || [];
   const meta = (data?.data.Meta as Meta) || [];
 
-  console.log(transactions);
-
   const { currentPage, perPage, handlePageChange } = usePagination({
     defaultCurrentPage: 1,
     defaultPerPage: Limit,
@@ -55,7 +53,7 @@ const [showFilterModal, setShowFilterModal] = useState(false);
   });
 
   return (
-    <div className="bg-white p-2 rounded-md">
+    <div className="bg-white rounded-md">
       <Table
         withPagination={!hidePagination}
         perPage={perPage}
@@ -65,73 +63,72 @@ const [showFilterModal, setShowFilterModal] = useState(false);
         headerColor="primary"
         errorMessage="You have not gotten any bookings"
         headerComponent={
-          <div>
-            <div className="items-between  w-full items-center justify-between gap-3 ml-1">
-              <H4>Transactions({transactions.length})</H4>
+          <div className="p-3">
+            <H4>Transactions</H4>
+            <div className="flex items-center justify-between gap-3 mt-4">
+              <div className="md:min-w-[200px]">
+                <Input
+                  type="search"
+                  placeholder="Transaction Id"
+                  className="w-full border border-[#EAEAEA] outline-none placeholder:text-[#666666]"
+                  value={filters.Reference}
+                  onChange={(ev) => setFilters({ ...filters, Reference: ev.currentTarget.value })}
+                />
+              </div>
 
-
-              <div className="flex items-center justify-end gap-3 mr-36 mt-5">
-                <div className="md:min-w-[200px]">
-                  <Input
-                    type="search"
-                    placeholder="Transaction Id"
-                    className="w-full border border-[#EAEAEA] outline-none placeholder:text-[#666666]"
-                    value={filters.Reference}
-                    onChange={(ev) => setFilters({ ...filters, Reference: ev.currentTarget.value })}
-                  />
-                </div>
-
-                <div className="page-button-container">
-                  <span className="page-button-wrapper flex gap-2">
-                    <div
-                      className={`rounded-full border w-17 px-2  py-2 text-center text-[12.54px]  hover:bg-white100. hover:text-primary400 hover:border-primary400 cursor-pointer   ${filters.Type === undefined ? 'text-primary400 border-primary400 ' : 'text-white800 border-white700'}`}
-                      onClick={() => {
-                        setFilters({ ...filters, Type: undefined })
-                      }}
-                    >All ({meta.TotalCount})</div>
-                    {Object.values( TransactionType)
-                      .filter((value) => typeof value === "string")
-                      .map((transactiontype) => (
-                        <div
-                          key={transactiontype}
-                          className={`rounded-full border  px-2 
+              <div className="page-button-container flex gap-5">
+                <span className="page-button-wrapper flex gap-2">
+                  <div
+                    className={`rounded-full border w-17 px-2  py-2 text-center text-[12.54px]  hover:bg-white100. hover:text-primary400 hover:border-primary400 cursor-pointer   ${filters.TransactionType === undefined ? 'text-primary400 border-primary400 ' : 'text-white800 border-white700'}`}
+                    onClick={() => {
+                      setFilters((filters) => {
+                        delete filters.TransactionType
+                        return ({ ...filters })
+                      })
+                    }}
+                  >All ({meta.TotalCount})</div>
+                  {Object.values(TransactionType)
+                    .filter((value) => typeof value === "string")
+                    .map((transactiontype) => (
+                      <div
+                        key={transactiontype}
+                        className={`rounded-full border  px-2 
                        
                          py-2 text-center text-[12.54px]  hover:bg-white100. hover:text-primary400 hover:border-primary400 cursor-pointer 
-                          ${filters.Type ===  TransactionType[transactiontype as keyof typeof  TransactionType] ? 'text-primary400 border-primary400 ' : 'text-white800 border-white700 '}`}
-                          onClick={() => {
-                            setFilters({ ...filters, Status: TransactionFilterStatus [transactiontype as keyof typeof TransactionFilterStatus] })
-                          }}
-                        >
-                          {transactiontype}
-                          {`(${transactions.length})`}
+                          ${filters.TransactionType === FilterTransactionType[transactiontype as keyof typeof TransactionType] ? 'text-primary400 border-primary400 ' : 'text-white800 border-white700 '}`}
+                        onClick={() => {
+                          setFilters({ ...filters, TransactionType: FilterTransactionType[transactiontype as keyof typeof FilterTransactionType] })
+                        }}
+                      >
+                        {transactiontype}
+                        {`(${transactions.length})`}
 
-                          {transactiontype === TransactionType.WALLETFUND &&
-                            `(${transactions.filter(
-                              (item: ITransaction) =>
-                                item.TransactionType=== TransactionType.WALLETFUND
-                            ).length
-                            })`}
-                          {transactiontype === TransactionType.BOOKING &&
-                            `(${transactions.filter(
-                              (item: ITransaction) =>
-                                item.TransactionType === TransactionType.BOOKING
-                            ).length
-                            })`}
-                          {transactiontype === TransactionType.WITHDRAWAL &&
-                            `(${transactions.filter(
-                              (item: ITransaction) =>
-                                item.TransactionType === TransactionType.WITHDRAWAL
-                            ).length
-                            })`}
-                        </div>
-                      ))}
-                  </span>
-                </div>
-                <Button size="sm" color="outline-dark" variant="outline" onClick={() => setShowFilterModal(true)}>
-                <span className="flex gap-2 px-3">
-                  <FilterIcon /> Filter
+                        {transactiontype === TransactionType.WALLETFUND &&
+                          `(${transactions.filter(
+                            (item: ITransaction) =>
+                              item.TransactionType === TransactionType.WALLETFUND
+                          ).length
+                          })`}
+                        {transactiontype === TransactionType.BOOKING &&
+                          `(${transactions.filter(
+                            (item: ITransaction) =>
+                              item.TransactionType === TransactionType.BOOKING
+                          ).length
+                          })`}
+                        {transactiontype === TransactionType.WITHDRAWAL &&
+                          `(${transactions.filter(
+                            (item: ITransaction) =>
+                              item.TransactionType === TransactionType.WITHDRAWAL
+                          ).length
+                          })`}
+                      </div>
+                    ))}
                 </span>
-              </Button>
+                <Button size="sm" color="outline-dark" variant="outline" onClick={() => setShowFilterModal(true)}>
+                  <span className="flex gap-2 px-3">
+                    <FilterIcon /> Filter
+                  </span>
+                </Button>
               </div>
             </div>
           </div>
@@ -141,7 +138,7 @@ const [showFilterModal, setShowFilterModal] = useState(false);
           {
             key: "Credit",
             title: "CREDIT",
-            width: "15%",
+            width: "10%",
             headerClass:
               "font-matter py-2 px-3 whitespace-nowrap text-[12px] font-normal leading-[150%] text-white",
             render(_column, item) {
@@ -155,7 +152,7 @@ const [showFilterModal, setShowFilterModal] = useState(false);
           {
             key: "Debit",
             title: "DEBIT",
-            width: "15%",
+            width: "10%",
             headerClass:
               "font-matter py-2 px-3 whitespace-nowrap text-[12px] font-normal leading-[150%] text-white",
             render(_column, item) {
@@ -169,7 +166,7 @@ const [showFilterModal, setShowFilterModal] = useState(false);
           {
             key: "Description",
             title: "DESCRIPTION",
-            width: "10%",
+            width: "30%",
             headerClass:
               "font-matter  whitespace-nowrap text-[12px] font-normal leading-[150%] text-white",
             render(_column, item) {
@@ -244,15 +241,15 @@ const [showFilterModal, setShowFilterModal] = useState(false);
               "font-matter py-2 whitespace-nowrap text-[12px] font-normal leading-[150%] text-white",
             width: "10%",
             render(_column, item) {
+              if (!item?.TransactionType) item.TransactionType = TransactionType.WALLETFUND
               return (
                 <div
-                  className={` ${
-                    (item.TransactionType === TransactionType.WALLETFUND &&
-                      "bg-warning50 text-warning400") ||
+                  className={` ${(item.TransactionType === TransactionType.WALLETFUND &&
+                    "bg-warning50 text-warning400") ||
                     (item.TransactionType === TransactionType.BOOKING &&
                       "bg-success50 text-success400") ||
                     "bg-danger50  text-danger400"
-                  }    inline-block rounded-full px-4 py-1`}
+                    }    inline-block rounded-full px-4 py-1`}
                 >
                   <div className="text-center text-[12px]">
                     {item?.TransactionType === TransactionType.BOOKING &&
@@ -278,7 +275,7 @@ const [showFilterModal, setShowFilterModal] = useState(false);
         data={transactions}
         isLoading={isLoading}
       />
-       <Modal
+      <Modal
         openModal={showFilterModal}
         setOpenModal={setShowFilterModal}
         variant="plain"

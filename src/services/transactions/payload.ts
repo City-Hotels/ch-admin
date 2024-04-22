@@ -17,7 +17,7 @@ export type ITransaction = {
     nanos: number;
   };
   type?: TransactionType;
-  Status?: TransactionFilterStatus;
+  Status?: FilterTransactionType;
 };
 
 export interface TransactionFilter {
@@ -33,7 +33,7 @@ export interface TransactionFilter {
   MinAmount?: string;
   MaxAmount?: string;
   Date?: string;
-  Status?: TransactionFilterStatus;
+  TransactionType?: FilterTransactionType;
 }
 
 export enum TransactionReviewFilterStatus {
@@ -57,7 +57,7 @@ export enum BookingType {
   HOTEL = 1,
 }
 
-export enum TransactionFilterStatus {
+export enum FilterTransactionType {
   WALLETFUND = "WALLETFUND",
   BOOKING = "BOOKING",
   WITHDRAWAL = "WITHDRAWAL"
