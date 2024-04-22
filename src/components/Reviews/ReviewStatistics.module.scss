@@ -1,0 +1,15 @@
+.reviewStats {
+    @apply bg-[#FFF6ED] w-full lg:max-w-[503px] p-8
+}
+
+.reviewRatings {
+    @apply flex flex-col gap-6 mb-[46px]
+}
+
+.reviewRating {
+    
+}
+
+.reviewSpecifics {
+    @apply flex flex-col gap-6
+}

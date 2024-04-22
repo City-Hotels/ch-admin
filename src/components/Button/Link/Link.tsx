@@ -1,6 +1,6 @@
 import type { FC, PropsWithChildren } from "react";
 import Link from "next/link";
-import styles from "../button/Button.module.scss";
+import styles from "../Button.module.scss";
 import type LinkProps from "./Link.props";
 import type ButtonProps from "../Button.props";
 import match from "@/utils/match";

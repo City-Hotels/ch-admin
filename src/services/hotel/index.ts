@@ -12,6 +12,7 @@ import type {
   HotelFilter,
   HotelInformationPayload,
   ICooperateInformation,
+  IFacility,
   IHotel,
   ManagerInformationPayload,
   RegisterHotelPayload,
@@ -141,6 +142,25 @@ const uploadHotelBanner = (file: FormData, setProgress: Function) => {
   });
 };
 
+const updateHotelFacilities = (data: IFacility[]) => {
+  return patchRequest({
+    url: "/hotels/facilities",
+    data
+  });
+};
+const uploadHotelLogo = (file: FormData, setProgress: Function) => {
+  return putRequest<FormData, { Path: string }>({
+    url: `hotels/logo`,
+    data: file,
+    config: {
+      onUploadProgress: (ProgressEvent) => {
+        if (ProgressEvent.total)
+          setProgress((ProgressEvent.loaded / ProgressEvent.total) * 100);
+      }
+    }
+  });
+};
+
 export {
   searchHotel,
   getHotel,
@@ -156,5 +176,7 @@ export {
   uploadHotelMedia,
   getHotelCooperateInformation,
   uploadHotelBanner,
-  getRequest
+  getRequest,
+  updateHotelFacilities,
+  uploadHotelLogo
 };

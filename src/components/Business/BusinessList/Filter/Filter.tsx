@@ -23,7 +23,7 @@ const Filter: FC<FilterProps> = ({ className, onClose, setFilter, filter }) => {
   useEffect(() => {
     updateFilter(filter);
 
-    return () => {};
+    return () => { };
   }, [filter]);
 
   return (
