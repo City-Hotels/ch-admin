@@ -12,9 +12,9 @@ import { IApartment, IApartmentFilter, ApartmentType } from "@/services/apartmen
 import Modal from "@/components/Modal/Modal";
 import FilterComponent from "./Filter/Filter";
 import FilterIcon from "@/assets/icons/filter2.svg";
-import ApartmentFilterComponent from "./Filter/Filter";
 import Button from "../Button/Button";
 import { H4 } from "../Headings/Headings";
+import { useRouter } from "next/navigation";
 
 const Index: React.FC<{
   Limit: number;
