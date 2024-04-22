@@ -18,11 +18,11 @@ const Filter: FC<FilterProps> = ({ className, onClose, setFilter, filter }) => {
   const [filters, updateFilter] = useState<TransactionFilter>(filter)
 
   const handleFilterClick = (e: { stopPropagation: () => void }) => {
-    e.stopPropagation(); 
+    e.stopPropagation();
   };
   const handleCloseClick = () => {
     if (onClose) {
-      onClose(); 
+      onClose();
     }
   };
 
@@ -143,9 +143,9 @@ const Filter: FC<FilterProps> = ({ className, onClose, setFilter, filter }) => {
 
             <div className={`${styles.labelContainer}`}>
               <P2 className=" font-bold leading-[150%] text-black">
-              Transaction Type
+                Transaction Type
               </P2>
-               <div className={`${styles.checkBoxConatainer}`}>
+              <div className={`${styles.checkBoxConatainer}`}>
                 <CheckboxTwo
                   label="All"
                   name="TransactionType"
@@ -173,15 +173,15 @@ const Filter: FC<FilterProps> = ({ className, onClose, setFilter, filter }) => {
 
             <div className={`${styles.labelContainer}`}>
               <P2 className=" font-bold leading-[150%] text-black">
-              Booking Type
+                Booking Type
               </P2>
-               <div className={`${styles.checkBoxConatainer}`}>
+              <div className={`${styles.checkBoxConatainer}`}>
                 <CheckboxTwo
                   label="All"
                   name="Booking Type"
                   value={'All'}
-                  checked={filter.Bookingtype === undefined}
-                  onChange={(e) => setFilter({ ...filter, Bookingtype: undefined })}
+                  checked={filter.BookingType === undefined}
+                  onChange={(e) => setFilter({ ...filter, BookingType: undefined })}
                   className="my-4"
                 />
                 {Object.values(BookingType)
@@ -191,9 +191,9 @@ const Filter: FC<FilterProps> = ({ className, onClose, setFilter, filter }) => {
                     key={bookingtype}
                     label={bookingtype as string}
                     value={bookingtype}
-                    checked={filters.Bookingtype === BookingType[bookingtype as keyof typeof BookingType]}
+                    checked={filters.BookingType === BookingType[bookingtype as keyof typeof BookingType]}
                     onClick={() => {
-                      setFilter({ ...filters, Bookingtype: BookingType[bookingtype as keyof typeof BookingType] })
+                      setFilter({ ...filters, BookingType: BookingType[bookingtype as keyof typeof BookingType] })
                     }}
                     className="my-4"
                   />))}
@@ -203,15 +203,15 @@ const Filter: FC<FilterProps> = ({ className, onClose, setFilter, filter }) => {
 
             <div className={`${styles.labelContainer}`}>
               <P2 className=" font-bold leading-[150%] text-black">
-              Payment Status
+                Payment Status
               </P2>
-               <div className={`${styles.checkBoxConatainer}`}>
+              <div className={`${styles.checkBoxConatainer}`}>
                 <CheckboxTwo
                   label="All"
                   name="Payment Status"
                   value={'All'}
-                  checked={filter.Paymentstatus === undefined}
-                  onChange={(e) => setFilter({ ...filter, Paymentstatus: undefined })}
+                  checked={filter.PaymentStatus === undefined}
+                  onChange={(e) => setFilter({ ...filter, PaymentStatus: undefined })}
                   className="my-4"
                 />
                 {Object.values(PaymentStatus)
@@ -221,9 +221,9 @@ const Filter: FC<FilterProps> = ({ className, onClose, setFilter, filter }) => {
                     key={paymentStatus}
                     label={paymentStatus as string}
                     value={paymentStatus}
-                    checked={filters.Paymentstatus === PaymentStatus[paymentStatus as keyof typeof PaymentStatus]}
+                    checked={filters.PaymentStatus === PaymentStatus[paymentStatus as keyof typeof PaymentStatus]}
                     onClick={() => {
-                      setFilter({ ...filters, Paymentstatus: PaymentStatus[paymentStatus as keyof typeof PaymentStatus] })
+                      setFilter({ ...filters, PaymentStatus: PaymentStatus[paymentStatus as keyof typeof PaymentStatus] })
                     }}
                     className="my-4"
                   />))}

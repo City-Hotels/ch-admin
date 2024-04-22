@@ -28,8 +28,8 @@ export interface TransactionFilter {
   Reference?: string;
   Type?: TransactionType;
   HostName?: string;
-  Paymentstatus?: PaymentStatus;
-  Bookingtype?: BookingType;
+  PaymentStatus?: PaymentStatus;
+  BookingType?: BookingType;
   MinAmount?: string;
   MaxAmount?: string;
   Date?: string;
@@ -48,12 +48,12 @@ export enum TransactionType {
   WITHDRAWAL = 2
 }
 export enum PaymentStatus {
-  COMPLETE =0,
+  COMPLETE = 0,
   PENDING = 1,
-  CANCELLED =2,
+  CANCELLED = 2,
 }
 export enum BookingType {
-  APARTMENT =0,
+  APARTMENT = 0,
   HOTEL = 1,
 }
 
@@ -87,41 +87,41 @@ export type ITransactionFilter = {
   Limit?: number;
   Page?: number;
   date?: string;
-    HostId?: string;
-      Cost: number;
-    Service: {
-      Name: string;
-      Id: string;
-      Imageurl: string;
-      Address: {
-        Street: string;
-        City: string;
-        Country: string;
-        PostalCode: string;
-        Longitude: string;
-        Latitude: string;
-      };
+  HostId?: string;
+  Cost: number;
+  Service: {
+    Name: string;
+    Id: string;
+    Imageurl: string;
+    Address: {
+      Street: string;
+      City: string;
+      Country: string;
+      PostalCode: string;
+      Longitude: string;
+      Latitude: string;
     };
-    Guest: {
-      Firstname: string;
-      Lastname: string;
-      Id: string;
-      Email: string;
-      Telephone: string;
-      Imageurl: string;
-    };
-    Host: {
-      Firstname: string;
-      Lastname: string;
-      Email: string;
-      Telephone: string;
-      Bio: string;
-      Id: string;
-      RegisterDate: string;
-    };
-    CheckOutDate: string | Date;
-    CheckInDate: string | Date;
-    Checkbox?: string;
-    Quantity?: number;
+  };
+  Guest: {
+    Firstname: string;
+    Lastname: string;
+    Id: string;
+    Email: string;
+    Telephone: string;
+    Imageurl: string;
+  };
+  Host: {
+    Firstname: string;
+    Lastname: string;
+    Email: string;
+    Telephone: string;
+    Bio: string;
+    Id: string;
+    RegisterDate: string;
+  };
+  CheckOutDate: string | Date;
+  CheckInDate: string | Date;
+  Checkbox?: string;
+  Quantity?: number;
 };
 
