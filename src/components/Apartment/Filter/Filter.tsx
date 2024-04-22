@@ -1,17 +1,14 @@
-import type { FC, ChangeEvent } from "react";
+import type { FC } from "react";
 import React, { useEffect, useState } from "react";
-import StarIcon from "@/assets/icons/star.svg";
+
 import styles from "./Filter.module.scss";
 import type FilterProps from "./Filter.props";
 import Close from "../../../assets/icons/close.svg";
 import Search from "../../../assets/icons/search.svg";
 import { H4, P2 } from "@/components/Headings/Headings";
-import Checkbox from "@/components/Inputs/checkbox/Checkbox";
-import Button from "@/components/Button/Button";
-import { IApartment, IApartmentFilter, ApartmentType, SpaceType } from "@/services/apartment/payload";
-import Radio from "@/components/Inputs/radio/Radio";
+import { IApartmentFilter, ApartmentType } from "@/services/apartment/payload";
+
 import CheckboxTwo from "@/components/Checkboxes/CheckboxTwo";
-import dayjs from "dayjs";
 
 const Filter: FC<FilterProps> = ({ className, onClose, setFilter, filter }) => {
 
@@ -59,14 +56,14 @@ const Filter: FC<FilterProps> = ({ className, onClose, setFilter, filter }) => {
                 <input
                   placeholder="search by service host id"
                   className={`${styles.innerInput}`}
-                  value={filters.hostid}
-                  onChange={(ev) => setFilter({ ...filters, hostid: ev.currentTarget.value })}
+                  value={filters.HostId}
+                  onChange={(ev) => setFilter({ ...filters, HostId: ev.currentTarget.value })}
                 />
               </div>
             </div>
             <div className={`${styles.labelContainer}`}>
               <P2 className="font-bold leading-[150%] text-black">
-              Apartment ID
+                Apartment ID
               </P2>
 
               <div className={`${styles.input}`}>
@@ -74,14 +71,14 @@ const Filter: FC<FilterProps> = ({ className, onClose, setFilter, filter }) => {
                 <input
                   placeholder="search by apartment id"
                   className={`${styles.innerInput}`}
-                  value={filters.apartmentid}
-                  onChange={(ev) => setFilter({ ...filters, apartmentid: ev.currentTarget.value })}
+                  value={filters.ApartmentId}
+                  onChange={(ev) => setFilter({ ...filters, ApartmentId: ev.currentTarget.value })}
                 />
               </div>
             </div>
             <div className={`${styles.labelContainer}`}>
               <P2 className="font-bold leading-[150%] text-black">
-              Location 
+                Location
               </P2>
 
               <div className={`${styles.input}`}>
@@ -89,14 +86,14 @@ const Filter: FC<FilterProps> = ({ className, onClose, setFilter, filter }) => {
                 <input
                   placeholder="search by location"
                   className={`${styles.innerInput}`}
-                  value={filters.location}
-                  onChange={(ev) => setFilter({ ...filters, location: ev.currentTarget.value })}
+                  value={filters.Location}
+                  onChange={(ev) => setFilter({ ...filters, Location: ev.currentTarget.value })}
                 />
               </div>
             </div>
             <div className={`${styles.labelContainer}`}>
               <P2 className="font-bold leading-[150%] text-black">
-              Facilities
+                Facilities
               </P2>
 
               <div className={`${styles.input}`}>
@@ -104,77 +101,115 @@ const Filter: FC<FilterProps> = ({ className, onClose, setFilter, filter }) => {
                 <input
                   placeholder="search by facilities"
                   className={`${styles.innerInput}`}
-                  value={filters.facilities}
-                  onChange={(ev) => setFilter({ ...filters, facilities: ev.currentTarget.value })}
+                  value={filters.Facilities}
+                  onChange={(ev) => setFilter({ ...filters, Facilities: ev.currentTarget.value })}
                 />
               </div>
             </div>
 
             <div className={`${styles.labelContainer}`}>
               <P2 className=" font-bold leading-[150%] text-black">
-                Checkin Date
+                Max Adults
               </P2>
 
               <div className={`${styles.input}`}>
                 <input
-                  placeholder="Service Name"
-                  type="date"
-                  value={filters.RoomName}
+                  placeholder=""
+                  type="number"
+                  value={filters.CheckInDate}
                   className={`${styles.innerInput}`}
-                  onChange={(ev) => setFilter({ ...filters, RoomName: ev.currentTarget.value })}
-                />
-              </div>
-            </div>
-
-            <div className={`${styles.labelContainer}`}>
-              <P2 className=" font-bold leading-[150%] text-black">
-                Checkout Date
-              </P2>
-
-              <div className={`${styles.input}`}>
-                <input
-                  placeholder="Service Name"
-                  type="date"
-                  className={`${styles.innerInput}`}
-                  value={filters.MaxAdults}
                   onChange={(ev) => setFilter({ ...filters, MaxAdults: ev.currentTarget.value })}
                 />
               </div>
             </div>
+
+
             <div className={`${styles.labelContainer}`}>
               <P2 className=" font-bold leading-[150%] text-black">
-                Booking Date
+                Max Children
               </P2>
 
               <div className={`${styles.input}`}>
                 <input
-                  placeholder="Service Name"
-                  type="date"
+                  placeholder=""
+                  type="number"
                   className={`${styles.innerInput}`}
-                  value={filters.MaxBedRoom}
-                  onChange={(ev) => setFilter({ ...filters, MaxBedRoom: ev.currentTarget.value })}
+                  value={filters.CheckOutDate}
+                  onChange={(ev) => setFilter({ ...filters, MaxChildren: ev.currentTarget.value })}
                 />
               </div>
             </div>
             <div className={`${styles.labelContainer}`}>
               <P2 className=" font-bold leading-[150%] text-black">
+                Max Bedroom
+              </P2>
+
+              <div className={`${styles.input}`}>
+                <input
+                  placeholder=""
+                  type="number"
+                  value={filters.CheckInDate}
+                  className={`${styles.innerInput}`}
+                  onChange={(ev) => setFilter({ ...filters, MaxBedroom: ev.currentTarget.value })}
+                />
+              </div>
+            </div>
+            <div className={`${styles.labelContainer}`}>
+              <P2 className=" font-bold leading-[150%] text-black">
+                Bath Rooms
+              </P2>
+
+              <div className={`${styles.input}`}>
+                <input
+                  placeholder="Min. number of bathrooms"
+                  type="number"
+                  className={`${styles.innerInput}`}
+                  value={filters.MaxAdults}
+                  onChange={(ev) => setFilter({ ...filters, BathCount: ev.currentTarget.value })}
+                />
+              </div>
+            </div>
+            <div className={`${styles.labelContainer}`}>
+              <P2 className=" font-bold leading-[150%] text-black">
+                Price Range
+              </P2>
+
+              <div className={`${styles.input} flex gap-3`}>
+                <input
+                  placeholder="Min Nightly Rate"
+                  type="text"
+                  value={filters.CheckInDate}
+                  className={`${styles.innerInput}`}
+                  onChange={(ev) => setFilter({ ...filters, MinNightlyPrice: ev.currentTarget.value })}
+                />
+                <input
+                  placeholder="Max Nightly Rate"
+                  type="text"
+                  className={`${styles.innerInput}`}
+                  value={filters.MaxAdults}
+                  onChange={(ev) => setFilter({ ...filters, MaxNightlyPrice: ev.currentTarget.value })}
+                />
+              </div>
+            </div>
+            <div className={`${styles.labelContainer}`}>
+              <P2 className="font-bold leading-[150%] text-black">
                 Booked Between
               </P2>
 
               <div className={`${styles.input} flex gap-3`}>
                 <input
-                  placeholder="Service Name"
+                  placeholder=""
                   type="date"
+                  value={filters.CheckInDate}
                   className={`${styles.innerInput}`}
-                  value={filters.MaxChildren}
-                  onChange={(ev) => setFilter({ ...filters, MaxChildren: ev.currentTarget.value })}
+                  onChange={(ev) => setFilter({ ...filters, CheckInDate: ev.currentTarget.value })}
                 />
                 <input
                   placeholder="Service Name"
                   type="date"
                   className={`${styles.innerInput}`}
-                  value={filters.MaxGuest}
-                  onChange={(ev) => setFilter({ ...filters, MaxGuest: ev.currentTarget.value })}
+                  value={filters.MaxAdults}
+                  onChange={(ev) => setFilter({ ...filters, MaxBedRoom: ev.currentTarget.value })}
                 />
               </div>
             </div>

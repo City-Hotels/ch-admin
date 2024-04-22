@@ -1,3 +1,4 @@
+import { IGRPCDate } from "@/utils/api/calls";
 import type { ILocation } from "../hotel/payload";
 import type { IUser } from "../user/payload";
 
@@ -49,25 +50,15 @@ export type IApartment = {
   SEO?: string;
   Slug?: string;
   Type?: ApartmentType;
+  Status: {
+    LastCheckIn: IGRPCDate,
+    LastCheckOut: IGRPCDate,
+    NextCheckIn: IGRPCDate,
+    NextCheckOut: IGRPCDate,
+    Status: ApartmentType
+  }
 };
 
-export interface ApartmentFilter {
-  Limit?: number;
-  Page?: number;
-  Name?: string;
-  Id?: string;
-  Rating?: IRating;
-  Bed?: string;
-  HostId?: string;
-  Type?: ApartmentType;
-  Space?: SpaceType;
-  Address?: IAddress;
-  MaxAdult?: number;
-  MaxBedRoom?: number;
-  MaxChildren?: number;
-  MaxGuest?: number;
-  Pricing?: IPrice;
-}
 
 export type IAddress = {
   City: string;
@@ -80,51 +71,34 @@ export type IAddress = {
   Location: ILocation;
 };
 
-export type IApartmentFilter = {
+export interface IApartmentFilter {
   Limit?: number;
   Page?: number;
-  Id?: string;
-  RoomName?: string;
-  HostId?: string;
-  HostName?: string;
-  MaxAdults: number;
-  MaxBedRoom: number;
-  MaxChildren: number;
-  MaxGuest: number;
-  Medias: IMedia[];
-  Name: string;
-  Pricing: IPrice;
+  ApartmentId?: string;
+  ApartmentName?: string;
+  Location?: string;
+  MinPrice?: number;
+  MaxPrice?: number;
+  Dimension?: number;
+  MinNightlyPrice?: number;
+  MaxNightlyPrice?: number;
+  MinWeeklyRate?: number;
+  MaxWeeklyRate?: number;
+  MinMonthlyRate?: number;
   Type?: ApartmentType;
-  Space?: SpaceType;
-}
-
-export interface ApartmentFilter {
-  Limit?: number;
-  Page?: number;
-  apartmentid?: string;
-  apartmentname?: string;
-  location?: string;
-  minprice?: number;
-  maxprice: number;
-  dimension: number;
-  minnightlyprice: number;
-  maxnightlyprice: number;
-  minweeklyrate: number;
-  maxweeklyrate: number;
-  minmonthlyrate: number;
-  type?: ApartmentType;
-  maxmonthlyrate?: number;
-  maxguest?: number;
-  maxadults?: number;
-  facilities?: string;
-  checkindate?: string;
-  checkoutdate?: string;
-  carpark?: boolean;
-  bedcount?: number;
-  maxchildren?: number;
-  bathcount?: number;
-  hostid?: string;
-  status?: ApartmentType;
+  MaxMonthlyRate?: number;
+  MaxGuest?: number;
+  MaxAdults?: number;
+  MaxBedRoom?: number;
+  Facilities?: string;
+  CheckInDate?: string;
+  CheckOutDate?: string;
+  CarPark?: boolean;
+  BedCount?: number;
+  MaxChildren?: number;
+  BathCount?: number;
+  HostId?: string;
+  Status?: ApartmentType;
 }
 
 export type IFacility = {
