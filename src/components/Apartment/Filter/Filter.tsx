@@ -26,11 +26,8 @@ const Filter: FC<FilterProps> = ({ className, onClose, setFilter, filter }) => {
   useEffect(() => {
     updateFilter(filter)
 
-    return () => {
-
-    }
-  }, [filter])
-
+    return () => { };
+  }, [filter]);
 
   return (
     <div className={styles.filter_nav_container}>

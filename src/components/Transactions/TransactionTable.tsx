@@ -90,28 +90,25 @@ const TransactionTable: React.FC<{
                           {`(${transactions.length})`}
 
                           {transactionType === TransactionType.BOOKING &&
-                            `(${
-                              transactions.filter(
-                                (item: ITransaction) =>
-                                  item.TransactionType ===
-                                  TransactionType.BOOKING
-                              ).length
+                            `(${transactions.filter(
+                              (item: ITransaction) =>
+                                item.TransactionType ===
+                                TransactionType.BOOKING
+                            ).length
                             })`}
                           {transactionType === TransactionType.WALLETFUND &&
-                            `(${
-                              transactions.filter(
-                                (item: ITransaction) =>
-                                  item.TransactionType ===
-                                  TransactionType.WALLETFUND
-                              ).length
+                            `(${transactions.filter(
+                              (item: ITransaction) =>
+                                item.TransactionType ===
+                                TransactionType.WALLETFUND
+                            ).length
                             })`}
                           {transactionType === TransactionType.WITHDRAWAL &&
-                            `(${
-                              transactions.filter(
-                                (item: ITransaction) =>
-                                  item.TransactionType ===
-                                  TransactionType.WITHDRAWAL
-                              ).length
+                            `(${transactions.filter(
+                              (item: ITransaction) =>
+                                item.TransactionType ===
+                                TransactionType.WITHDRAWAL
+                            ).length
                             })`}
                         </div>
                       ))}
@@ -237,13 +234,12 @@ const TransactionTable: React.FC<{
             render(_column, item) {
               return (
                 <div
-                  className={` ${
-                    (item.TransactionType === TransactionType.WALLETFUND &&
+                  className={` ${(item.TransactionType === TransactionType.WALLETFUND &&
                       "bg-warning50 text-warning400") ||
                     (item.TransactionType === TransactionType.BOOKING &&
                       "bg-success50 text-success400") ||
                     "bg-danger50  text-danger400"
-                  }    inline-block rounded-full px-4 py-1`}
+                    }    inline-block rounded-full px-4 py-1`}
                 >
                   <div className="text-center text-[12px]">
                     {item?.TransactionType === TransactionType.BOOKING &&

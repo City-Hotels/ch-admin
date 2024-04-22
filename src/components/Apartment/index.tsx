@@ -39,6 +39,7 @@ const Index: React.FC<{
       setPage(page);
     }
   });
+  const router = useRouter();
   return (
     <div className="bg-white rounded-md border border-stroke shadow-default dark:border-strokedark dark:bg-boxdark ">
       <H4 className="p-2 text-black">Apartments</H4>
@@ -51,6 +52,7 @@ const Index: React.FC<{
         totalPages={meta.TotalPages}
         onPageChange={handlePageChange}
         total={meta.TotalCount}
+        onRowClick={(apartment) => router.push(`/apartment/${apartment.Slug}`)}
         headerComponent={
           <div className="p-3 ">
             <div className="  flex items-center justify-between gap-3">

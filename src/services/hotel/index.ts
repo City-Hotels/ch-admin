@@ -1,4 +1,5 @@
 import {
+  ApiResponse,
   Meta,
   getRequest,
   patchRequest,
@@ -8,8 +9,10 @@ import {
 import type {
   BankInformationPayload,
   CompleteHotelRegisterPayload,
+  HotelFilter,
   HotelInformationPayload,
   ICooperateInformation,
+  IFacility,
   IHotel,
   ManagerInformationPayload,
   RegisterHotelPayload,
@@ -17,15 +20,25 @@ import type {
   VerifyHotelRegisterTokenPayload
 } from "./payload";
 
-const searchHotel = (data: any) => {
-  const args = Object.keys(data)
+const searchHotel = (
+  filter: HotelFilter
+): Promise<
+  ApiResponse<{
+    Meta: Meta;
+    Hotels: IHotel[];
+  }>
+> => {
+  const args = Object.keys(filter)
+    .filter((item) => (filter as any)[item] !== undefined)
     .map(
-      (item) => `${encodeURIComponent(item)}=${encodeURIComponent(data[item])}`
+      (item) =>
+        `${encodeURIComponent(item)}=${encodeURIComponent(
+          (filter as any)[item]
+        )}`
     )
     .join("&");
-
-  return getRequest<{ Hotels: IHotel[], Meta: Meta }>({
-    url: `/hotels/search?${args}`
+  return getRequest<{ Hotels: IHotel[]; Meta: Meta }>({
+    url: `admin/hotels?${args}`
   });
 };
 
@@ -129,6 +142,25 @@ const uploadHotelBanner = (file: FormData, setProgress: Function) => {
   });
 };
 
+const updateHotelFacilities = (data: IFacility[]) => {
+  return patchRequest({
+    url: "/hotels/facilities",
+    data
+  });
+};
+const uploadHotelLogo = (file: FormData, setProgress: Function) => {
+  return putRequest<FormData, { Path: string }>({
+    url: `hotels/logo`,
+    data: file,
+    config: {
+      onUploadProgress: (ProgressEvent) => {
+        if (ProgressEvent.total)
+          setProgress((ProgressEvent.loaded / ProgressEvent.total) * 100);
+      }
+    }
+  });
+};
+
 export {
   searchHotel,
   getHotel,
@@ -144,5 +176,7 @@ export {
   uploadHotelMedia,
   getHotelCooperateInformation,
   uploadHotelBanner,
-  getRequest
+  getRequest,
+  updateHotelFacilities,
+  uploadHotelLogo
 };

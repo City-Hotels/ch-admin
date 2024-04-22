@@ -1,0 +1,11 @@
+.FacilityContainer {
+    @apply bg-[#FCFCFC] pt-8 pb-6 px-5 w-[270px] border border-[#E4E4E4] rounded-md text-left cursor-pointer
+}
+
+.SelectedFacilityContainer {
+    @apply bg-[#E4E4E4] pt-8 pb-6 px-5 w-[270px] border border-[#E4E4E4] rounded-md text-left cursor-pointer
+}
+
+.Title {
+    @apply text-white900 font-semibold text-[18px] mt-5
+}
