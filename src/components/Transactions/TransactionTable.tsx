@@ -8,36 +8,41 @@ import dayjs from "dayjs";
 import type { Meta } from "@/utils/api/calls";
 import { usePagination } from "../Tables/Table/Pagination";
 import { Table } from "../Tables/Table/Table";
+import Modal from "@/components/Modal/Modal";
+import FilterComponent from "./Filter/Filter";
 import { convertGrpcDate, formatCurrencyNoSymbol } from "@/utils/helpers";
 import {
   ITransaction,
   TransactionFilter,
-  TransactionType
+  TransactionType,
+  FilterTransactionType,
+  ITransactionFilter
 } from "@/services/transactions/payload";
 import { getTransactions } from "@/services/transactions/index";
 import Input from "../Inputs/Input/Input";
+import Button from "../Button/Button";
+import FilterIcon from "@/assets/icons/filter2.svg";
 
 const TransactionTable: React.FC<{
   Limit: number;
   hidePagination?: boolean;
   Filter: TransactionFilter;
 }> = ({ Limit, Filter, hidePagination }) => {
-  // const [tableFilter, setTableFilter] = useState<BookingStatus | undefined>();
+
+  const [filters, setFilters] = useState({ ...Filter })
+
+  const [showFilterModal, setShowFilterModal] = useState(false);
 
   const [Page, setPage] = useState(1);
-  // const [filterValues, setFilterValues] = useState<{ Limit: number;  Page: number}>({ Limit: 10, })
-  const { isLoading, refetch, data } = useQuery(
-    [queryKeys.getTransactions, Limit, Page],
-    () => getTransactions({ Limit, ...Filter, Page })
+
+
+  const { isLoading, data } = useQuery(
+    [queryKeys.getUserTransactions, Limit, Page, filters],
+    () => getTransactions({ Limit, ...filters, Page })
   );
+
   const transactions = (data?.data.Transactions as ITransaction[]) || [];
   const meta = (data?.data.Meta as Meta) || [];
-
-  // const updateTableFilter = (filter: number) => {
-  //   // TODO: Update table request fetch update list
-  //   setTableFilter(filter as BookingStatus);
-  // };
-  console.log(transactions);
 
   const { currentPage, perPage, handlePageChange } = usePagination({
     defaultCurrentPage: 1,
@@ -48,7 +53,7 @@ const TransactionTable: React.FC<{
   });
 
   return (
-    <div className="bg-white p-2 rounded-md">
+    <div className="bg-white rounded-md">
       <Table
         withPagination={!hidePagination}
         perPage={perPage}
@@ -58,78 +63,82 @@ const TransactionTable: React.FC<{
         headerColor="primary"
         errorMessage="You have not gotten any bookings"
         headerComponent={
-          <div>
-            <div className="items-between flex w-full items-center justify-between gap-3">
-              <H4>Transactions({transactions.length})</H4>
-              <div className="flex items-center justify-end gap-3">
-                <div className="page-button-container">
-                  <span className="page-button-wrapper flex gap-2">
-                    {Object.values(TransactionType)
-                      .filter((value) => typeof value === "string")
-                      .filter(
-                        (value) =>
-                          typeof value === "string" &&
-                          !["BOOKING", "WITHDRAWAL"].includes(value)
-                      )
-                      .map((transactionType) => (
-                        <div
-                          // onClick={() =>
-                          //   // updateTableFilter(BookingStatus[bookingStatus])
-                          // ${
-                          //   1 === 2
-                          //     ? "border-orange-500 bg-orange-50 text-orange-500"
-                          //     : "text-grey-500 border-grey600 bg-white "
-                          //   }
-                          // }
-                          key={transactionType}
-                          className={`rounded-full border  px-4 
-                       
-                         py-2 text-center text-[12.54px]`}
-                        >
-                          {transactionType}
-                          {`(${transactions.length})`}
+          <div className="p-3">
+            <H4>Transactions</H4>
+            <div className="flex items-center justify-between gap-3 mt-4">
+              <div className="md:min-w-[200px]">
+                <Input
+                  type="search"
+                  placeholder="Transaction Id"
+                  className="w-full border border-[#EAEAEA] outline-none placeholder:text-[#666666]"
+                  value={filters.Reference}
+                  onChange={(ev) => setFilters({ ...filters, Reference: ev.currentTarget.value })}
+                />
+              </div>
 
-                          {transactionType === TransactionType.BOOKING &&
-                            `(${transactions.filter(
-                              (item: ITransaction) =>
-                                item.TransactionType ===
-                                TransactionType.BOOKING
-                            ).length
-                            })`}
-                          {transactionType === TransactionType.WALLETFUND &&
-                            `(${transactions.filter(
-                              (item: ITransaction) =>
-                                item.TransactionType ===
-                                TransactionType.WALLETFUND
-                            ).length
-                            })`}
-                          {transactionType === TransactionType.WITHDRAWAL &&
-                            `(${transactions.filter(
-                              (item: ITransaction) =>
-                                item.TransactionType ===
-                                TransactionType.WITHDRAWAL
-                            ).length
-                            })`}
-                        </div>
-                      ))}
+              <div className="page-button-container flex gap-5">
+                <span className="page-button-wrapper flex gap-2">
+                  <div
+                    className={`rounded-full border w-17 px-2  py-2 text-center text-[12.54px]  hover:bg-white100. hover:text-primary400 hover:border-primary400 cursor-pointer   ${filters.TransactionType === undefined ? 'text-primary400 border-primary400 ' : 'text-white800 border-white700'}`}
+                    onClick={() => {
+                      setFilters((filters) => {
+                        delete filters.TransactionType
+                        return ({ ...filters })
+                      })
+                    }}
+                  >All ({meta.TotalCount})</div>
+                  {Object.values(TransactionType)
+                    .filter((value) => typeof value === "string")
+                    .map((transactiontype) => (
+                      <div
+                        key={transactiontype}
+                        className={`rounded-full border  px-2 
+                       
+                         py-2 text-center text-[12.54px]  hover:bg-white100. hover:text-primary400 hover:border-primary400 cursor-pointer 
+                          ${filters.TransactionType === FilterTransactionType[transactiontype as keyof typeof TransactionType] ? 'text-primary400 border-primary400 ' : 'text-white800 border-white700 '}`}
+                        onClick={() => {
+                          setFilters({ ...filters, TransactionType: FilterTransactionType[transactiontype as keyof typeof FilterTransactionType] })
+                        }}
+                      >
+                        {transactiontype}
+                        {`(${transactions.length})`}
+
+                        {transactiontype === TransactionType.WALLETFUND &&
+                          `(${transactions.filter(
+                            (item: ITransaction) =>
+                              item.TransactionType === TransactionType.WALLETFUND
+                          ).length
+                          })`}
+                        {transactiontype === TransactionType.BOOKING &&
+                          `(${transactions.filter(
+                            (item: ITransaction) =>
+                              item.TransactionType === TransactionType.BOOKING
+                          ).length
+                          })`}
+                        {transactiontype === TransactionType.WITHDRAWAL &&
+                          `(${transactions.filter(
+                            (item: ITransaction) =>
+                              item.TransactionType === TransactionType.WITHDRAWAL
+                          ).length
+                          })`}
+                      </div>
+                    ))}
+                </span>
+                <Button size="sm" color="outline-dark" variant="outline" onClick={() => setShowFilterModal(true)}>
+                  <span className="flex gap-2 px-3">
+                    <FilterIcon /> Filter
                   </span>
-                </div>
-                <div className="md:min-w-[250px]">
-                  <Input
-                    type="search"
-                    placeholder="Search"
-                    className=" m-0 w-full border border-[#EAEAEA] outline-none placeholder:text-[#666666] "
-                  />
-                </div>
+                </Button>
               </div>
             </div>
           </div>
+
         }
         header={[
           {
             key: "Credit",
             title: "CREDIT",
-            width: "15%",
+            width: "10%",
             headerClass:
               "font-matter py-2 px-3 whitespace-nowrap text-[12px] font-normal leading-[150%] text-white",
             render(_column, item) {
@@ -143,7 +152,7 @@ const TransactionTable: React.FC<{
           {
             key: "Debit",
             title: "DEBIT",
-            width: "15%",
+            width: "10%",
             headerClass:
               "font-matter py-2 px-3 whitespace-nowrap text-[12px] font-normal leading-[150%] text-white",
             render(_column, item) {
@@ -157,7 +166,7 @@ const TransactionTable: React.FC<{
           {
             key: "Description",
             title: "DESCRIPTION",
-            width: "10%",
+            width: "30%",
             headerClass:
               "font-matter  whitespace-nowrap text-[12px] font-normal leading-[150%] text-white",
             render(_column, item) {
@@ -232,10 +241,11 @@ const TransactionTable: React.FC<{
               "font-matter py-2 whitespace-nowrap text-[12px] font-normal leading-[150%] text-white",
             width: "10%",
             render(_column, item) {
+              if (!item?.TransactionType) item.TransactionType = TransactionType.WALLETFUND
               return (
                 <div
                   className={` ${(item.TransactionType === TransactionType.WALLETFUND &&
-                      "bg-warning50 text-warning400") ||
+                    "bg-warning50 text-warning400") ||
                     (item.TransactionType === TransactionType.BOOKING &&
                       "bg-success50 text-success400") ||
                     "bg-danger50  text-danger400"
@@ -265,6 +275,16 @@ const TransactionTable: React.FC<{
         data={transactions}
         isLoading={isLoading}
       />
+      <Modal
+        openModal={showFilterModal}
+        setOpenModal={setShowFilterModal}
+        variant="plain"
+      >
+        <FilterComponent filter={filters} onClose={() => setShowFilterModal(false)} setFilter={(filter) => {
+          console.log({ filter })
+          setFilters(filter);
+        }} />
+      </Modal>
     </div>
   );
 };
