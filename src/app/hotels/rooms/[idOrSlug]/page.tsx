@@ -1,28 +1,31 @@
-import BookingTable from "@/components/hotel/booking/BookingTable";
+"use client"
 import Carousel from "@/components/Carousel/Carousel";
 import { H2, H3, H4, Label, P2 } from "@/components/Headings/Headings";
 import { getRoom, uploadRoomMedia } from "@/services/room";
 import type { IRoom } from "@/services/room/payload";
 import queryKeys from "@/utils/api/queryKeys";
-import { useRouter } from "next/router";
+import { useParams, useRouter } from "next/navigation";
 import { useQuery } from "react-query";
+import BookingTable from "@/components/Bookings/BookingTable";
+import DefaultLayout from "@/components/Layouts/DefaultLayout";
+import ButtonLink from "@/components/Button/Link/Link";
 
 const RoomPage = () => {
   const router = useRouter();
-  const { slug } = router.query;
+  const { idOrSlug } = useParams<{ idOrSlug: string }>();
 
   const { isLoading, data, isError } = useQuery(
     [queryKeys.getRoomByID],
-    () => getRoom(slug?.toString()),
+    () => getRoom(idOrSlug?.toString()),
     {
-      enabled: !!slug // Would only make this request if slug is truthy
+      enabled: !!idOrSlug // Would only make this request if slug is truthy
     }
   );
 
   const room = data?.data as IRoom;
 
   return (
-    <HotelAdminLayout>
+    <DefaultLayout>
       <div className="size-full items-center">
         {isLoading && (
           <div className="absolute left-1/2 top-1/2 min-h-[70vh] -translate-x-1/2 -translate-y-1/2">
@@ -42,7 +45,7 @@ const RoomPage = () => {
                 <ButtonLink
                   size="sm"
                   color="muted"
-                  href={`/hotel/rooms/${slug?.toString()}/manage`}
+                  href={`/hotel/rooms/${idOrSlug?.toString()}/manage`}
                 >
                   Manage
                 </ButtonLink>
@@ -56,7 +59,7 @@ const RoomPage = () => {
                   autoSlide
                   activeClassName="rounded-xl w-[485px] max-h-[395px]"
                   thumbnailClassName="max-h-[82px] max-w-[83px] rounded-md"
-                  onUpdate={uploadRoomMedia}
+                  onUpdate={uploadRoomMedia} 
                 />
               </div>
               <div className="lg:mt-10">
@@ -93,10 +96,10 @@ const RoomPage = () => {
         )}
 
         <div className="mt-10 bg-white">
-          <BookingTable Limit={5} Filter={{ RoomId: slug?.toString() }} />
+          <BookingTable Limit={5} Filter={{ RoomId: room?.Id }} />
         </div>
       </div>
-    </HotelAdminLayout>
+    </DefaultLayout>
   );
 };
 

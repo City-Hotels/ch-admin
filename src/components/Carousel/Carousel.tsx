@@ -1,8 +1,6 @@
 import React, { useEffect, useState } from "react";
-
 import ChevronLeftIcon from "@/assets/icons/chevron-left.svg";
 import ChevronRightIcon from "@/assets/icons/chevron-right.svg";
-
 import styles from "./Carousel.module.scss";
 import Img from "../Image/Image";
 import Modal from "../Modal/Modal";
