@@ -1,10 +1,10 @@
 import React from "react";
-import { H4, H6, P2 } from "@/components/shared/headings/Headings";
-import Img from "@/components/shared/images/Image";
-import HotelImg from "@/assets/images/Hotelview.png";
-import BookingStatusPill from "@/components/shared/bookingStatusPill/BookingStatusPill";
+// import HotelImg from "@/assets/images/Hotelview.png";
+// import BookingStatusPill from "@/components/BookingStatusPill/BookingStatusPill";
 import type BookingDetailsProps from "./BookingDeails.props";
 import styles from "./BookingDetails.module.scss";
+import { H6, H4, P2 } from "@/components/Headings/Headings";
+import Img from "@/components/Image/Image";
 
 const BookingDetails: React.FC<BookingDetailsProps> = ({
   reservation: { PaymentInfo, CheckOutDate, CheckInDate, Service, Status }
@@ -13,15 +13,14 @@ const BookingDetails: React.FC<BookingDetailsProps> = ({
     <div className={`${styles.bookingDetailsContainer}`}>
       <div className={`${styles.bookingDetailsHeader}`}>
         <H6>Booking Details</H6>
-        <BookingStatusPill Status={Status} />
+        {/* <BookingStatusPill Status={Status} /> */}
       </div>
 
       <div className={`${styles.bookingDetails}`}>
         <Img
-          path={HotelImg}
+          path={""}
           name="image of booked hotel"
           className={`${styles.bookingImg}`}
-          fill
         />
 
         <div className="w-full">
