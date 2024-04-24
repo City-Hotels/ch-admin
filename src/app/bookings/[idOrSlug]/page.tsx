@@ -1,8 +1,10 @@
+"use client"
 import BookingDetails from "@/components/Bookings/BookingDetails/BookingDetails";
 import GuestDetails from "@/components/Bookings/GuestDetails/GuestDetails";
 import GuestReview from "@/components/Bookings/Review/GuestRequestReview";
 import Button from "@/components/Button/Button";
 import { H3, H5, H6 } from "@/components/Headings/Headings";
+import DefaultLayout from "@/components/Layouts/DefaultLayout";
 import {
   confrimReservation,
   declineReservation,
@@ -14,13 +16,14 @@ import {
   type IReservation
 } from "@/services/booking/payload";
 import queryKeys from "@/utils/api/queryKeys";
-import { useRouter } from "next/router";
+import { useParams } from "next/navigation";
+import { useRouter } from "next/navigation";
 import { useMutation, useQuery } from "react-query";
 
 function BookingDetailsPage() {
   const router = useRouter();
-  const { id } = router.query;
-  const bookingId = id?.toString() || "";
+  const { idOrSlug } = useParams<{ idOrSlug: string }>();
+  const bookingId = idOrSlug?.toString() || "";
 
   const { data, isLoading, refetch } = useQuery(
     [queryKeys.getBookingByID],
@@ -55,7 +58,7 @@ function BookingDetailsPage() {
   };
 
   return (
-    <HotelAdminLayout>
+    <DefaultLayout>
       <div>
         <H3 className="mb-[30px] font-semibold text-[#181A20]">
           Guest reservation details
@@ -114,7 +117,7 @@ function BookingDetailsPage() {
           <div>Loading</div>
         )}
       </div>
-    </HotelAdminLayout>
+    </DefaultLayout>
   );
 }
 
