@@ -13,11 +13,11 @@ import type {
   IDetailsPayload,
   IFacility,
   IAddress,
-  ApartmentFilter
+  IApartmentFilter
 } from "./payload";
 
 const searchApartment = (
-  filter: ApartmentFilter
+  filter: IApartmentFilter
 ): Promise<
   ApiResponse<{
     Meta: Meta;
