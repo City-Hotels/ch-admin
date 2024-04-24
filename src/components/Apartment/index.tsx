@@ -8,7 +8,7 @@ import Img from "../Image/Image";
 import Input from "../Inputs/Input/Input";
 import { usePagination } from "@/components/Tables/Table/Pagination";
 import { Meta } from "@/utils/api/calls";
-import { IApartment, IApartmentFilter, ApartmentType } from "@/services/apartment/payload";
+import { IApartment, IApartmentFilter, ApartmentType, ApartmentStatus, FilterSpaceType, FilterApartmentStatus } from "@/services/apartment/payload";
 import Modal from "@/components/Modal/Modal";
 import FilterComponent from "./Filter/Filter";
 import FilterIcon from "@/assets/icons/filter2.svg";
@@ -26,7 +26,7 @@ const Index: React.FC<{
   const [showFilterModal, setShowFilterModal] = useState(false);
   const { isLoading, data } = useQuery(
     [queryKeys.getApartmentByID, Limit, Page, filters],
-    () => searchApartment({ ...filters, Page, Limit: Limit })
+    () => searchApartment({ ...filters, Page, Limit })
   );
 
   const apartments = (data?.data.Apartments as IApartment[]) || [];
@@ -73,51 +73,50 @@ const Index: React.FC<{
                   <div
                     className={`rounded-full border w-17 px-2  py-2 text-center text-[12.54px]  hover:bg-white100. hover:text-primary400 hover:border-primary400 cursor-pointer   ${filters.Type === undefined ? 'text-primary400 border-primary400 ' : 'text-white800 border-white700'}`}
                     onClick={() => {
-                      setFilters({ ...filters, Type: undefined })
-                    }}
-                  >All ({meta.TotalCount})</div>
-                  {Object.values(ApartmentType)
+
+                    }}>All ({meta.TotalCount})</div>
+                  {Object.values(FilterApartmentStatus)
                     .filter((value) => typeof value === "string")
-                    .map((apartmentType) => (
+                    .map((status) => (
                       <div
-                        key={apartmentType}
+                        key={status}
                         className={`rounded-full border  px-2 
                        
-                         py-2 text-center text-[12.54px]  hover:bg-white100. hover:text-primary400 hover:border-primary400 cursor-pointer  ${filters.Type === ApartmentType[apartmentType as keyof typeof ApartmentType] ? 'text-primary400 border-primary400 ' : 'text-white800 border-white700 '}`}
+                         py-2 text-center text-[12.54px]  hover:bg-white100. hover:text-primary400 hover:border-primary400 cursor-pointer  ${filters.Status === FilterApartmentStatus[status as keyof typeof FilterApartmentStatus] ? 'text-primary400 border-primary400 ' : 'text-white800 border-white700 '}`}
                         onClick={() => {
-                          setFilters({ ...filters, Type: ApartmentType[apartmentType as keyof typeof ApartmentType] })
+                          setFilters({ ...filters, Status: FilterApartmentStatus[status as keyof typeof FilterApartmentStatus] })
                         }}
                       >
-                        {apartmentType}
+                        {status}
 
-                        {apartmentType === ApartmentType.PENDING &&
+                        {status === FilterApartmentStatus.PENDING &&
                           `(${apartments.filter(
                             (item: IApartment) =>
-                              item.Status?.Status === ApartmentType.PENDING
+                              item.Status?.Status === ApartmentStatus.PENDING
                           ).length
                           })`}
-                        {apartmentType === ApartmentType.ACTIVE &&
+                        {status === FilterApartmentStatus.ACTIVE &&
                           `(${apartments.filter(
                             (item: IApartment) =>
-                              item?.Status?.Status === ApartmentType.ACTIVE
+                              item?.Status?.Status === ApartmentStatus.ACTIVE
                           ).length
                           })`}
-                        {apartmentType === ApartmentType.BOOKED &&
+                        {status === FilterApartmentStatus.BOOKED &&
                           `(${apartments.filter(
                             (item: IApartment) =>
-                              item?.Status?.Status === ApartmentType.BOOKED
+                              item?.Status?.Status === ApartmentStatus.BOOKED
                           ).length
                           })`}
-                        {apartmentType === ApartmentType.CHECKEDOUT &&
+                        {status === FilterApartmentStatus.CHECKEDOUT &&
                           `(${apartments.filter(
                             (item: IApartment) =>
-                              item?.Status?.Status === ApartmentType.CHECKEDOUT
+                              item?.Status?.Status === ApartmentStatus.CHECKEDOUT
                           ).length
                           })`}
-                        {apartmentType === ApartmentType.SUSPENDED &&
+                        {status === FilterApartmentStatus.SUSPENDED &&
                           `(${apartments.filter(
                             (item: IApartment) =>
-                              item?.Status?.Status === ApartmentType.SUSPENDED
+                              item?.Status?.Status === ApartmentStatus.SUSPENDED
                           ).length
                           })`}
                       </div>
@@ -224,7 +223,7 @@ const Index: React.FC<{
               "font-matter-bold  whitespace-nowrap text-[12px] font-normal leading-[150%] text-white",
             width: "1%",
             render(_column, item) {
-              return <div className="py-3 ">{item?.Rating.Likes || 0}</div>;
+              return <div className="py-3 ">{item?.Rating.Clicks || 0}</div>;
             }
           },
           {
@@ -234,7 +233,28 @@ const Index: React.FC<{
               "font-matter-bold  whitespace-nowrap text-[12px] font-normal leading-[150%] text-white",
             width: "1%",
             render(_column, item) {
-              return <div className="py-3 ">{item?.Bed || ""}</div>;
+
+              if (!item.Status) item.Status = { Status: ApartmentStatus.PENDING }
+              if (!item.Status.Status) item.Status.Status = ApartmentStatus.PENDING;
+              return (
+                <div
+                  className={` ${(item.Status.Status === ApartmentStatus.PENDING &&
+                    "bg-warning50 text-warning400") ||
+                    (item.Status.Status === ApartmentStatus.ACTIVE &&
+                      "bg-success50 text-success400") ||
+                    "bg-danger50  text-danger400"
+                    }    inline-block rounded-full px-4 py-1`}
+                >
+                  <div className="text-center text-[12px]">
+                    {item?.Status?.Status === ApartmentStatus.PENDING && "Pending"}
+                    {item?.Status?.Status === ApartmentStatus.ACTIVE && "Active"}
+                    {item?.Status?.Status === ApartmentStatus.CHECKEDIN && "Checked In"}
+                    {item?.Status?.Status === ApartmentStatus.CHECKEDOUT && "Checked Out"}
+                    {item?.Status?.Status === ApartmentStatus.BOOKED && "Booked"}
+                    {item?.Status?.Status === ApartmentStatus.SUSPENDED && "Suspended"}
+                  </div>
+                </div>
+              );
             }
           }
         ]}

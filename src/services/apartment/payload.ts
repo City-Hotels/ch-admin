@@ -14,6 +14,32 @@ export type IPaymentMethodPayload = {
   Type: PaymentMethodType;
 };
 
+export type ApartmentCompleteStatus = {
+  LastCheckIn?: IGRPCDate,
+  LastCheckOut?: IGRPCDate,
+  NextCheckIn?: IGRPCDate,
+  NextCheckOut?: IGRPCDate,
+  Status: ApartmentStatus
+}
+
+export enum ApartmentStatus {
+  PENDING = 0,
+  ACTIVE = 1,
+  BOOKED = 2,
+  CHECKEDOUT = 3,
+  CHECKEDIN = 4,
+  SUSPENDED = 5,
+};
+
+export enum FilterApartmentStatus {
+  PENDING = "PENDING",
+  ACTIVE = "ACTIVE",
+  BOOKED = "BOOKED",
+  CHECKEDOUT = "CHECKEDOUT",
+  CHECKEDIN = "CHECKEDIN",
+  SUSPENDED = "SUSPENDED",
+};
+
 export type IDetailsPayload = {
   MaxGuest: number;
   MaxBedRoom: number;
@@ -50,13 +76,7 @@ export type IApartment = {
   SEO?: string;
   Slug?: string;
   Type?: ApartmentType;
-  Status: {
-    LastCheckIn: IGRPCDate,
-    LastCheckOut: IGRPCDate,
-    NextCheckIn: IGRPCDate,
-    NextCheckOut: IGRPCDate,
-    Status: ApartmentType
-  }
+  Status: ApartmentCompleteStatus
 };
 
 
@@ -85,20 +105,26 @@ export interface IApartmentFilter {
   MinWeeklyRate?: number;
   MaxWeeklyRate?: number;
   MinMonthlyRate?: number;
-  Type?: ApartmentType;
-  MaxMonthlyRate?: number;
-  MaxGuest?: number;
+  Id?: string;
+  RoomName?: string;
+  HostId?: string;
+  HostName?: string;
   MaxAdults?: number;
   MaxBedRoom?: number;
+  MaxChildren?: number;
+  MaxGuest?: number;
+  Name?: string;
+  Pricing?: IPrice;
+  Type?: FilterApartmentType;
+  MaxMonthlyRate?: number;
   Facilities?: string;
   CheckInDate?: string;
   CheckOutDate?: string;
   CarPark?: boolean;
   BedCount?: number;
-  MaxChildren?: number;
   BathCount?: number;
-  HostId?: string;
-  Status?: ApartmentType;
+  Status?: FilterApartmentStatus;
+  Space?: FilterSpaceType;
 }
 
 export type IFacility = {
@@ -126,6 +152,7 @@ export type IRating = {
   TotalCanceled: number;
   TotalRejected: number;
   TotalReviews: number;
+  Clicks: number;
 };
 
 export type IPrice = {
@@ -157,24 +184,34 @@ export type CompleteApartmentPayload = {
   Apartmnent: IApartment;
 };
 
+export enum FilterApartmentType {
+  HOTEL = "HOTEL",
+  ROOM = "ROOM",
+  SINGLEROOM = "SINGLEROOM",
+  DOUBLEROOM = "DOUBLEROOM",
+  SUITE = "SUITE",
+  STUDIO = "STUDIO",
+  ALL = "ALL"
+}
+
 export enum ApartmentType {
-  // HOTEL = 0,
-  // ROOM = 1,
-  // SingleRoom = 0,
-  // DoubleRoom = 1,
-  // Suite = 2,
-  // Studio = 3,
-  // ALL = 2,
-  PENDING = "PENDING",
-  ACTIVE = "ACTIVE",
-  BOOKED = "BOOKED",
-  CHECKEDOUT = "CHECKEDOUT",
-  SUSPENDED = "SUSPENDED"
+  HOTEL = 0,
+  ROOM = 1,
+  SINGLEROOM = 2,
+  DOUBLEROOM = 3,
+  SUITE = 4,
+  STUDIO = 5,
+  ALL = 6
 }
 
 export enum SpaceType {
   ENTIRESPACE = 0,
   PRIVATEROOOM = 1
+}
+
+export enum FilterSpaceType {
+  ENTIRESPACE = "ENTIRESPACE",
+  PRIVATEROOOM = "PRIVATEROOOM"
 }
 
 export enum PaymentMethodType {

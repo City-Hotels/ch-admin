@@ -6,13 +6,13 @@ import type FilterProps from "./Filter.props";
 import Close from "../../../assets/icons/close.svg";
 import Search from "../../../assets/icons/search.svg";
 import { H4, P2 } from "@/components/Headings/Headings";
-import { IApartmentFilter, ApartmentType } from "@/services/apartment/payload";
+import { IApartmentFilter, ApartmentType, ApartmentStatus } from "@/services/apartment/payload";
 
 import CheckboxTwo from "@/components/Checkboxes/CheckboxTwo";
 
 const Filter: FC<FilterProps> = ({ className, onClose, setFilter, filter }) => {
 
-  const [filters, updateFilter] = useState<IApartmentFilter>(filter)
+  const [filters, updateFilter] = useState<IApartmentFilter>(filter)   
 
   const handleFilterClick = (e: { stopPropagation: () => void }) => {
     e.stopPropagation(); // Prevent event from propagating to parent elements
@@ -75,6 +75,21 @@ const Filter: FC<FilterProps> = ({ className, onClose, setFilter, filter }) => {
             </div>
             <div className={`${styles.labelContainer}`}>
               <P2 className="font-bold leading-[150%] text-black">
+                Apartment Name
+              </P2>
+
+              <div className={`${styles.input}`}>
+                <Search className="text-black" />
+                <input
+                  placeholder="search by apartment name"
+                  className={`${styles.innerInput}`}
+                  value={filters.ApartmentName}
+                  onChange={(ev) => setFilter({ ...filters, ApartmentName: ev.currentTarget.value })}
+                />
+              </div>
+            </div>
+            <div className={`${styles.labelContainer}`}>
+              <P2 className="font-bold leading-[150%] text-black">
                 Location
               </P2>
 
@@ -111,9 +126,9 @@ const Filter: FC<FilterProps> = ({ className, onClose, setFilter, filter }) => {
 
               <div className={`${styles.input}`}>
                 <input
-                  placeholder=""
+                  placeholder="maxadult"
                   type="number"
-                  value={filters.CheckInDate}
+                  value={filters.MaxAdults}
                   className={`${styles.innerInput}`}
                   onChange={(ev) => setFilter({ ...filters, MaxAdults: ev.currentTarget.value })}
                 />
@@ -128,10 +143,10 @@ const Filter: FC<FilterProps> = ({ className, onClose, setFilter, filter }) => {
 
               <div className={`${styles.input}`}>
                 <input
-                  placeholder=""
+                  placeholder="maxchildren"
                   type="number"
                   className={`${styles.innerInput}`}
-                  value={filters.CheckOutDate}
+                  value={filters.MaxChildren}
                   onChange={(ev) => setFilter({ ...filters, MaxChildren: ev.currentTarget.value })}
                 />
               </div>
@@ -143,13 +158,73 @@ const Filter: FC<FilterProps> = ({ className, onClose, setFilter, filter }) => {
 
               <div className={`${styles.input}`}>
                 <input
-                  placeholder=""
+                  placeholder="maxbedroom"
                   type="number"
-                  value={filters.CheckInDate}
                   className={`${styles.innerInput}`}
-                  onChange={(ev) => setFilter({ ...filters, MaxBedroom: ev.currentTarget.value })}
+                  value={filters.MaxBedRoom}
+                  onChange={(ev) => setFilter({ ...filters, MaxBedRoom: ev.currentTarget.value })}
                 />
               </div>
+            </div>
+            <div className={`${styles.labelContainer}`}>
+              <P2 className=" font-bold leading-[150%] text-black">
+                Bed Count
+              </P2>
+
+              <div className={`${styles.input}`}>
+                <input
+                  placeholder="bedcount"
+                  type="number"
+                  className={`${styles.innerInput}`}
+                  value={filters.BedCount}
+                  onChange={(ev) => setFilter({ ...filters, BedCount: ev.currentTarget.value })}
+                />
+              </div>
+            </div>
+            <div className={`${styles.labelContainer}`}>
+              <P2 className=" font-bold leading-[150%] text-black">
+                Max Guest
+              </P2>
+
+              <div className={`${styles.input}`}>
+                <input
+                  placeholder="maxguest"
+                  type="number"
+                  className={`${styles.innerInput}`}
+                  value={filters.MaxGuest}
+                  onChange={(ev) => setFilter({ ...filters, MaxGuest: ev.currentTarget.value })}
+                />
+              </div>
+            </div>
+            <div className={`${styles.labelContainer}`}>
+              <P2 className=" font-bold leading-[150%] text-black">
+                Dimension
+              </P2>
+
+              <div className={`${styles.input}`}>
+                <input
+                  placeholder="dimension"
+                  type="number"
+                  className={`${styles.innerInput}`}
+                  value={filters.Dimension}
+                  onChange={(ev) => setFilter({ ...filters, Dimension: ev.currentTarget.value })}
+                />
+              </div>
+            </div>
+            <div className={`${styles.labelContainer}`}>
+              <P2 className=" font-bold leading-[150%] text-black">
+                CarPark
+              </P2>
+
+              {/* <div className={`${styles.input}`}>
+                <input
+                  placeholder=""
+                  type="boolean"
+                  className={`${styles.innerInput}`}
+                  value={filters.CarPark}
+                  onChange={(ev) => setFilter({ ...filters, CarPark: ev.currentTarget.value })}
+                />
+              </div> */}
             </div>
             <div className={`${styles.labelContainer}`}>
               <P2 className=" font-bold leading-[150%] text-black">
@@ -158,33 +233,99 @@ const Filter: FC<FilterProps> = ({ className, onClose, setFilter, filter }) => {
 
               <div className={`${styles.input}`}>
                 <input
-                  placeholder="Min. number of bathrooms"
+                  placeholder="number of bathrooms"
                   type="number"
                   className={`${styles.innerInput}`}
-                  value={filters.MaxAdults}
+                  value={filters.BathCount}
                   onChange={(ev) => setFilter({ ...filters, BathCount: ev.currentTarget.value })}
                 />
               </div>
             </div>
             <div className={`${styles.labelContainer}`}>
               <P2 className=" font-bold leading-[150%] text-black">
-                Price Range
+                Price
+              </P2>
+
+              <div className={`${styles.input} flex gap-3`}>
+                <input
+                  placeholder="Min Rate"
+                  type="number"
+                  value={filters.MinPrice}
+                  className={`${styles.innerInput}`}
+                  onChange={(ev) => setFilter({ ...filters, MinPrice: ev.currentTarget.value })}
+                />
+                <input
+                  placeholder="Max Rate"
+                  type="number"
+                  className={`${styles.innerInput}`}
+                  value={filters.MaxPrice}
+                  onChange={(ev) => setFilter({ ...filters, MaxPrice: ev.currentTarget.value })}
+                />
+              </div>
+            </div>
+            <div className={`${styles.labelContainer}`}>
+              <P2 className=" font-bold leading-[150%] text-black">
+                Nightly Range
               </P2>
 
               <div className={`${styles.input} flex gap-3`}>
                 <input
                   placeholder="Min Nightly Rate"
-                  type="text"
-                  value={filters.CheckInDate}
+                  type="number"
+                  value={filters.MinNightlyPrice}
                   className={`${styles.innerInput}`}
                   onChange={(ev) => setFilter({ ...filters, MinNightlyPrice: ev.currentTarget.value })}
                 />
                 <input
                   placeholder="Max Nightly Rate"
-                  type="text"
+                  type="number"
                   className={`${styles.innerInput}`}
-                  value={filters.MaxAdults}
+                  value={filters.MaxNightlyPrice}
                   onChange={(ev) => setFilter({ ...filters, MaxNightlyPrice: ev.currentTarget.value })}
+                />
+              </div>
+            </div>
+            <div className={`${styles.labelContainer}`}>
+              <P2 className=" font-bold leading-[150%] text-black">
+                Weekly Range
+              </P2>
+
+              <div className={`${styles.input} flex gap-3`}>
+                <input
+                  placeholder="Min Weekly Rate"
+                  type="number"
+                  value={filters.MinWeeklyRate}
+                  className={`${styles.innerInput}`}
+                  onChange={(ev) => setFilter({ ...filters, MinWeeklyRate: ev.currentTarget.value })}
+                />
+                <input
+                  placeholder="Max Weekly Rate"
+                  type="number"
+                  className={`${styles.innerInput}`}
+                  value={filters.MaxWeeklyRate}
+                  onChange={(ev) => setFilter({ ...filters, MaxWeeklyRate: ev.currentTarget.value })}
+                />
+              </div>
+            </div>
+            <div className={`${styles.labelContainer}`}>
+              <P2 className=" font-bold leading-[150%] text-black">
+                Monthly Range
+              </P2>
+
+              <div className={`${styles.input} flex gap-3`}>
+                <input
+                  placeholder="Min Monthly Rate"
+                  type="number"
+                  value={filters.MinMonthlyRate}
+                  className={`${styles.innerInput}`}
+                  onChange={(ev) => setFilter({ ...filters, MinMonthlyRate: ev.currentTarget.value })}
+                />
+                <input
+                  placeholder="Max Monthly Rate"
+                  type="number"
+                  className={`${styles.innerInput}`}
+                  value={filters.MaxMonthlyRate}
+                  onChange={(ev) => setFilter({ ...filters, MaxMonthlyRate: ev.currentTarget.value })}
                 />
               </div>
             </div>
@@ -202,11 +343,11 @@ const Filter: FC<FilterProps> = ({ className, onClose, setFilter, filter }) => {
                   onChange={(ev) => setFilter({ ...filters, CheckInDate: ev.currentTarget.value })}
                 />
                 <input
-                  placeholder="Service Name"
+                  placeholder=""
                   type="date"
                   className={`${styles.innerInput}`}
-                  value={filters.MaxAdults}
-                  onChange={(ev) => setFilter({ ...filters, MaxBedRoom: ev.currentTarget.value })}
+                  value={filters.CheckOutDate}
+                  onChange={(ev) => setFilter({ ...filters, CheckOutDate: ev.currentTarget.value })}
                 />
               </div>
             </div>
@@ -219,7 +360,7 @@ const Filter: FC<FilterProps> = ({ className, onClose, setFilter, filter }) => {
               <div className={`${styles.checkBoxConatainer}`}>
                 <CheckboxTwo
                   label="All"
-                  name="Status"
+                  name="Apartment Type"
                   value={'All'}
                   checked={filter.Status === undefined}
                   onChange={(e) => setFilter({ ...filter, Status: undefined })}
@@ -228,13 +369,13 @@ const Filter: FC<FilterProps> = ({ className, onClose, setFilter, filter }) => {
                 {Object.values(ApartmentType)
                   .filter((value) => typeof value === "string")
                   .map((apartmentType) => (<CheckboxTwo
-                    name="Status"
+                    name="Apartment Type"
                     key={apartmentType}
                     label={apartmentType as string}
                     value={apartmentType}
-                    checked={filters.Type === ApartmentType[apartmentType as keyof typeof ApartmentType]}
+                    checked={filters.Status === ApartmentType[apartmentType as keyof typeof ApartmentType]}
                     onClick={() => {
-                      setFilter({ ...filters, Type: ApartmentType[apartmentType as keyof typeof ApartmentType] })
+                      setFilter({ ...filters, Status: ApartmentType[apartmentType as keyof typeof ApartmentType] })
                     }}
                     className="my-4"
                   />))}
