@@ -48,7 +48,7 @@ const Rooms: React.FC<{ hotel: IHotel }> = ({ hotel }) => {
         </div>
         <Table
           headerColor="primary"
-          onRowClick={(room) => router.push(`/hotel/rooms/${room.Id}`)}
+          onRowClick={(room) => router.push(`/hotels/rooms/${room.Id}`)}
           errorMessage="You have not added any room yet"
           header={[
             {

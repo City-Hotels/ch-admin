@@ -12,7 +12,7 @@ export const metadata: Metadata = {
 const ApartmentPage = () => {
   return (
     <DefaultLayout>
-      <Apartment Limit={9} Filter={{}} />
+      <Apartment Limit={6} Filter={{}} />
     </DefaultLayout>
   );
 };
