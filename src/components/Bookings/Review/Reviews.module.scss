@@ -1,0 +1,32 @@
+.guest_review_container {
+  @apply border w-full md:w-[684px] rounded-[10px] p-5 py-5 lg:px-8 flex flex-col gap-5;
+}
+
+.guest_review_header {
+  @apply border w-full md:w-[589px] p-5 flex flex-col gap-5;
+}
+
+.guest_review_skeleton {
+  @apply mt-6 flex flex-col gap-[1rem];
+}
+
+.guest_review_button {
+  @apply text-[#FD8501];
+}
+
+.host_review_container {
+  @apply border w-full md:w-[684px] py-5 px-8;
+}
+
+.host_review_header {
+  @apply border w-full md:w-[609px] flex flex-col gap-5 py-5 px-8 items-start ;
+}
+
+.rating {
+  @apply flex gap-2;
+}
+
+.author {
+  @apply mt-3 text-white900 font-bold;
+}
+
