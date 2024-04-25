@@ -1,5 +1,5 @@
 import React from "react";
-import ReactStars from "react-rating-stars-component";
+import ReactStars from "react-rating-star-with-type";
 
 const Ratings: React.FC<{ rating: number }> = ({ rating }) => {
   return (

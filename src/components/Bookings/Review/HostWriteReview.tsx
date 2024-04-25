@@ -1,5 +1,5 @@
 import { useState } from "react";
-import ReactStars from "react-rating-stars-component";
+import ReactStars from "react-rating-star-with-type";
 import { H6, P, P2 } from "@/components/Headings/Headings";
 import Button from "@/components/Button/Button";
 import styles from "./Reviews.module.scss";

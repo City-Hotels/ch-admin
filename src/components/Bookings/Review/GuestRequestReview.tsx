@@ -6,7 +6,7 @@ import type { IReview } from "@/services/review/payload";
 import queryKeys from "@/utils/api/queryKeys";
 import { useState } from "react";
 import { useQuery } from "react-query";
-import ReactStars from "react-rating-stars-component";
+import ReactStars from "react-rating-star-with-type";
 import styles from "./Reviews.module.scss";
 
 interface GuestReviewRequestProps {
