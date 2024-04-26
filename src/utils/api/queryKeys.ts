@@ -27,6 +27,7 @@ const queryKeys = {
   getTransactions: "getTransactions",
   getUserTransactions: "getUserTransactions",
   getUserBalance: "getUserBalance",
+  getUserByID: "getUserByID",
   getUsers: "getUsers",
   getUserPaymentDetails: "getUserPaymentDetails",
   getPromotions: "getPromotions",

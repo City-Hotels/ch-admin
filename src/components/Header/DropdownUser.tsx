@@ -1,5 +1,4 @@
 import React from "react";
-
 import { useEffect, useRef, useState } from "react";
 import Link from "next/link";
 import Image from "next/image";
@@ -105,6 +104,9 @@ const DropdownUser = () => {
             <Link
               href="/profile"
               className="flex items-center gap-3.5 text-sm font-medium duration-300 ease-in-out hover:text-primary lg:text-base"
+              // onClick={
+              //   (user) =>  router.push(`/profile/${user.Id}`)
+              // }
             >
               <svg
                 className="fill-current"
