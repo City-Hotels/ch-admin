@@ -55,8 +55,8 @@ const Profile = () => {
           </div>
 
           <div className="flex flex-col gap-7">
-            <ReservationHistory Limit={5} Filter={{}} />
-            <Apartment Limit={6} Filter={{}} />
+            <ReservationHistory Limit={5} Filter={{HostId: user.Id}} />
+            <Apartment Limit={6} Filter={{HostId: user.Id}} />
             <TransactionTable Limit={5} Filter={{ UserId: user.Id }} />
           </div>
         </div>
