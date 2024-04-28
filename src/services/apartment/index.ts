@@ -13,6 +13,7 @@ import type {
   IDetailsPayload,
   IFacility,
   IAddress,
+  IMedia,
   IApartmentFilter
 } from "./payload";
 

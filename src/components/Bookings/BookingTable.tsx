@@ -132,7 +132,7 @@ const BookingTable: React.FC<{
                       ))}
                   </span>
                 </div>
-                
+
               </div>
               <Button size="sm" color="outline-dark" variant="outline" onClick={() => setShowFilterModal(true)}>
                 <span className="flex gap-2 px-3">
