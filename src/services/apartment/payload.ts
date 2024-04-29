@@ -57,6 +57,7 @@ export type IApartment = {
   Address: IAddress;
   BathCount: number;
   Bed: string;
+  Views?: number;
   BedCount: number;
   CarPark: boolean;
   Description: string;
@@ -77,8 +78,17 @@ export type IApartment = {
   Slug?: string;
   Type?: ApartmentType;
   Status: ApartmentCompleteStatus
+  Banner: IMedia;
+  Logo: IMedia;
 };
 
+
+export enum HotelStatus {
+  INACTIVE = 0,
+  ACTIVE = 1,
+  SUSPENDED = 2,
+  REJECTED = 3
+}
 
 export type IAddress = {
   City: string;
@@ -135,12 +145,6 @@ export type IFacility = {
   Status: boolean;
   Type: number;
   Description: string;
-};
-
-export type IMedia = {
-  Path: string;
-  Type: number;
-  Status: number;
 };
 
 export type IRating = {
@@ -218,3 +222,13 @@ export enum PaymentMethodType {
   BANKDEPOSIT = "BANKDEPOSIT",
   CRYPTOWALLET = "CRYPTOWALLET"
 }
+
+export type IUpdateApartmentResponse = {
+  ApartmentId: string;
+};
+
+export type IMedia = {
+  Path: string;
+  Type: number;
+  Status: number;
+};
