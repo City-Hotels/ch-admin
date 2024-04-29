@@ -17,6 +17,7 @@ import Avatar from "../Avatar/Avatar";
 import UserFilterComponent from "./Filter/Filter";
 import Modal from "../Modal/Modal";
 import Button from "../Button/Button";
+import { useRouter } from "next/navigation";
 
 const UsersTable: React.FC<{
   Limit: number;
@@ -40,6 +41,7 @@ const UsersTable: React.FC<{
       setPage(page);
     }
   });
+  const router = useRouter();
   return (
     <div className="bg-white rounded-md">
       <Table
@@ -51,6 +53,9 @@ const UsersTable: React.FC<{
         onPageChange={handlePageChange}
         headerColor="primary"
         errorMessage="You have not gotten any users"
+        onRowClick={
+          (user) => router.push(`/users/${user.Id}`)
+        }
         headerComponent={
           <div className="p-3">
             <div className="items-between flex w-full items-center justify-between gap-3">
