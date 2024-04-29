@@ -22,12 +22,11 @@ const Profile = () => {
       enabled: !!idOrSlug // Would only make this request if slug is truthy
     }
   );
-  const user = (data?.data as IUser) || [];
-  console.log(user);
+  const user = (data?.data as IUser);
 
   return (
     <DefaultLayout>
-      {!user ? isLoading :  (
+      {!user ? isLoading : (
         <div>
           <div className="mt-10 mb-5 flex items-center justify-between gap-6 ">
             <div className="flex items-center gap-6">
@@ -55,9 +54,9 @@ const Profile = () => {
           </div>
 
           <div className="flex flex-col gap-7">
-            <ReservationHistory Limit={5} Filter={{HostId: user.Id}} />
-            <Apartment Limit={6} Filter={{HostId: user.Id}} />
             <TransactionTable Limit={5} Filter={{ UserId: user.Id }} />
+            <ReservationHistory Limit={5} Filter={{ HostId: user.Id }} />
+            <Apartment Limit={5} Filter={{ HostId: user.Id }} />
           </div>
         </div>
       )}
