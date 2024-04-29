@@ -6,7 +6,6 @@ import Filter from "@/assets/icons/filter.svg";
 import Adjust from "@/assets/icons/adjust.svg";
 import File from "@/assets/icons/file.svg";
 import ReactCrop, { type Crop } from "react-image-crop";
-
 import Img from "@/components/Image/Image";
 import Input from "@/components/Inputs/Input/Input";
 
