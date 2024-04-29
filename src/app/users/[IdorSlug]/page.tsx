@@ -28,7 +28,7 @@ const Profile = () => {
     <DefaultLayout>
       {!user ? isLoading : (
         <div>
-          <div className="mt-10 mb-5 flex items-center justify-between gap-6 ">
+          <div className=" mb-10 flex items-center justify-between gap-6 ">
             <div className="flex items-center gap-6">
               {user?.ImageUrl ? (
                 <Img
@@ -42,7 +42,7 @@ const Profile = () => {
                 </span>
               )}
               <div>
-                <H3>Welcome Back, {user?.Firstname} </H3>
+                <H3>{user?.Firstname} {user?.Lastname}</H3>
                 <P2 className="mt-2 text-[#7A7A7A]">{user?.Email}</P2>
               </div>
             </div>
