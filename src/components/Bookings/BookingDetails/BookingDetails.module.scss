@@ -1,0 +1,23 @@
+.bookingDetailsContainer {
+    @apply w-full md:w-[681px] md:h-[309px] p-5 md:p-8 border border-grey30 rounded-md
+}
+
+.bookingDetailsHeader {
+    @apply flex items-center justify-between mb-6
+}
+
+.bookingDetails {
+    @apply flex flex-col md:flex-row items-center gap-10
+}
+
+.bookingImg {
+    @apply w-full  md:w-[230px] h-[197px]
+}
+
+.bookingAmount {
+    @apply my-[24px]
+}
+
+.bookingDates {
+    @apply flex items-center gap-[29px]
+}

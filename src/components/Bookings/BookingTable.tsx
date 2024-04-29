@@ -17,7 +17,7 @@ import Avatar from "@/components/Avatar/Avatar";
 import Modal from "@/components/Modal/Modal";
 import FilterComponent from "./Filter/Filter";
 import Button from "../Button/Button";
-
+import { useRouter } from "next/navigation";
 const BookingTable: React.FC<{
   Limit: number;
   Filter: BookingFilter;
@@ -43,6 +43,8 @@ const BookingTable: React.FC<{
     }
   });
 
+  const router = useRouter();
+
 
   return (
     <div className="bg-white rounded-md">
@@ -55,6 +57,7 @@ const BookingTable: React.FC<{
         onPageChange={handlePageChange}
         headerColor="primary"
         errorMessage="No bookings match this filter"
+        onRowClick={(bookingDetails) => router.push(`/bookings/${bookingDetails.Id}`)}
         headerComponent={
           <div className="p-3 overflow-x-scroll">
             <div className="items-between flex w-full items-center justify-between gap-3">

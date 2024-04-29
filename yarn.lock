@@ -6361,6 +6361,14 @@ react-query@^3.39.3:
     broadcast-channel "^3.4.1"
     match-sorter "^6.0.2"
 
+react-rating-star-with-type@^1.2.2:
+  version "1.2.2"
+  resolved "https://registry.yarnpkg.com/react-rating-star-with-type/-/react-rating-star-with-type-1.2.2.tgz#cdddc9e085223fc1bef5ad1deeebc601c56fb747"
+  integrity sha512-nWMki7e2OTeJytf/iCitDxQOfnVhvM0ChMyIxHH4SCXjbSOTwWxv+Byp0nM9B1uAJ9iivNdgR+77EuaPDEbBFQ==
+  dependencies:
+    react "^18.2.0"
+    typescript "^5.1.3"
+
 react-redux@^9.1.0:
   version "9.1.1"
   resolved "https://registry.yarnpkg.com/react-redux/-/react-redux-9.1.1.tgz#852ec13084bd7375e26db697d2fc9027ffada204"
@@ -7449,6 +7457,11 @@ typed-array-length@^1.0.6:
     possible-typed-array-names "^1.0.0"
 
 "typescript@^4.6.4 || ^5.2.2", typescript@^5.1.6:
+  version "5.4.5"
+  resolved "https://registry.yarnpkg.com/typescript/-/typescript-5.4.5.tgz#42ccef2c571fdbd0f6718b1d1f5e6e5ef006f611"
+  integrity sha512-vcI4UpRgg81oIRUFwR0WSIHKt11nJ7SAVlYNIu+QpqeyXP+gpQJy/Z4+F0aGxSE4MqwjyXvW/TzgkLAx2AGHwQ==
+
+typescript@^5.1.3:
   version "5.4.5"
   resolved "https://registry.yarnpkg.com/typescript/-/typescript-5.4.5.tgz#42ccef2c571fdbd0f6718b1d1f5e6e5ef006f611"
   integrity sha512-vcI4UpRgg81oIRUFwR0WSIHKt11nJ7SAVlYNIu+QpqeyXP+gpQJy/Z4+F0aGxSE4MqwjyXvW/TzgkLAx2AGHwQ==
