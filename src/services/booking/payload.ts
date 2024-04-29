@@ -253,7 +253,6 @@ export interface BookingFilter {
   Page?: number;
   BookingId?: string;
   RoomId?: string;
-  ApartmentId?: string;
   RoomName?: string;
   HostId?: string;
   HostName?: string;
