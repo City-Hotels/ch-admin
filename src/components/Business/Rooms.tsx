@@ -31,8 +31,9 @@ const Rooms: React.FC<{
   const [filters, setFilters] = useState({ ...Filter });
   const [showFilterModal, setShowFilterModal] = useState(false);
   const [firstModal, setFirstModal] = React.useState(false);
-  const { data } = useQuery([queryKeys.getHotelRooms, Limit, Page, filters], () =>
-    getRooms({ Page, Limit, ...filters })
+  const { data } = useQuery(
+    [queryKeys.getHotelRooms, Limit, Page, filters],
+    () => getRooms({ Page, Limit, ...filters })
   );
   const totalRooms = data?.data.Meta;
   const rooms = (data?.data.Rooms as IRoom[]) || [];
@@ -48,7 +49,12 @@ const Rooms: React.FC<{
 
   return (
     <div>
-      <H4 className="mb-4">Manage rooms</H4>
+      <div className="flex items-center justify-between mb-4 ">
+        <H4 className="mb-4">Manage rooms</H4>
+        <Button size="md" onClick={() => setFirstModal(true)}>
+          Add Room
+        </Button>
+      </div>
       <div className=" bg-white">
         <Table
           headerColor="primary"
@@ -133,9 +139,6 @@ const Rooms: React.FC<{
                     <FilterIcon /> Filter
                   </span>
                 </Button>
-                <Button size="md" onClick={() => setFirstModal(true)}>
-                  Add Room
-                </Button>
               </div>
             </div>
           }
@@ -216,9 +219,7 @@ const Rooms: React.FC<{
               },
               render(_column, room) {
                 return (
-                  <div className="text-center">
-                    {room.MonthlyRate || 0}
-                  </div>
+                  <div className="text-center">{room.MonthlyRate || 0}</div>
                 );
               }
             },
@@ -312,8 +313,7 @@ const Rooms: React.FC<{
                     }    inline-block rounded-full px-4 py-1`}
                   >
                     <div className="text-center text-[12px]">
-                      {room?.Status?.Status === FilterRoomStatus.All &&
-                        "All"}
+                      {room?.Status?.Status === FilterRoomStatus.All && "All"}
                       {room?.Status?.Status ===
                         FilterRoomStatus.AVAILABLEROOMS && "Available Rooms"}
                       {room?.Status?.Status === FilterRoomStatus.BOOKED &&
@@ -326,13 +326,7 @@ const Rooms: React.FC<{
           ]}
           data={rooms || []}
         />
-        {rooms && rooms?.length > 0 && (
-          <div className=" mt-3 flex items-center justify-center border-t py-4">
-            <ButtonLink variant="text" color="text" href={"/hotels/rooms"}>
-              View all
-            </ButtonLink>
-          </div>
-        )}
+       
       </div>
       <Modal
         openModal={firstModal}
@@ -348,10 +342,14 @@ const Rooms: React.FC<{
         setOpenModal={setShowFilterModal}
         variant="plain"
       >
-        <FilterComponent filter={filters} onClose={() => setShowFilterModal(false)} setFilter={(filter) => {
-          console.log({ filter })
-          setFilters(filter);
-        }} />
+        <FilterComponent
+          filter={filters}
+          onClose={() => setShowFilterModal(false)}
+          setFilter={(filter) => {
+            console.log({ filter });
+            setFilters(filter);
+          }}
+        />
       </Modal>
     </div>
   );

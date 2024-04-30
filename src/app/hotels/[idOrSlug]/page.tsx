@@ -14,6 +14,7 @@ import RoomTypes from "@/components/Business/RoomTypes";
 import Facilities from "@/components/Business/Facilities";
 import UserCard from "@/components/Business/userCard/UserCard";
 import Review from "@/components/Business/review/Review";
+import ButtonLink from "@/components/Button/Link/Link";
 
 // export const metadata: Metadata = {
 //   title: "City Hotel Backend Admin  Business Table",
@@ -31,6 +32,7 @@ const HotelPage = () => {
       enabled: !!idOrSlug // Would only make this request if slug is truthy
     }
   );
+  
 
   const hotel = data?.data as IHotel;
   return (
@@ -42,6 +44,13 @@ const HotelPage = () => {
           <SummaryCard hotel={hotel} path="/apartment-01.jpg" />
           <BookingTable Limit={5} Filter={{ HostId: hotel?.Id }} />
           <Rooms Limit={5} Filter={{ HotelId: hotel?.Id }} hotel={hotel} />
+          { (
+            <div className=" mt-3 flex items-center justify-center border-t py-4">
+              <ButtonLink variant="text" color="text" href={"/hotels/rooms"}>
+                View all
+              </ButtonLink>
+            </div>
+          )}
           <Review hotel={hotel} />
           {/* <RoomTypes hotel={hotel}/> */}
           <Facilities hotel={hotel} />
