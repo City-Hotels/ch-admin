@@ -24,12 +24,13 @@ const Rooms: React.FC<{
   Limit: number;
   Filter?: IRoomFilter;
   hidePagination?: boolean;
-}> = ({ Limit, Filter, hidePagination }) => {
+  hotel?: IHotel;
+}> = ({ Limit, Filter, hidePagination, hotel }) => {
   const router = useRouter();
   const [Page, setPage] = useState(1);
   const [filters, setFilters] = useState({ ...Filter });
   const [showFilterModal, setShowFilterModal] = useState(false);
-  const [firstModal, setFirstModal] = React.useState(false);
+
   const { data } = useQuery(
     [queryKeys.getHotelRooms, Limit, Page, filters],
     () => getRooms({ Page, Limit, ...filters })
@@ -48,9 +49,6 @@ const Rooms: React.FC<{
 
   return (
     <div>
-      <div>
-        <H4 className="mb-4">Manage rooms</H4>
-      </div>
       <div className=" bg-white">
         <Table
           headerColor="primary"
@@ -81,8 +79,10 @@ const Rooms: React.FC<{
                 <div className="page-button-container">
                   <span className="page-button-wrapper flex gap-2">
                     <div
-                      className={`rounded-full border w-17 px-2  py-2 text-center text-[12.54px]  hover:bg-white100. hover:text-primary400 hover:border-primary400 cursor-pointer   ${filters.Type === undefined ? "text-primary400 border-primary400 " : "text-white800 border-white700"}`}
-                      onClick={() => {}}
+                      className={`rounded-full border w-17 px-2  py-2 text-center text-[12.54px]  hover:bg-white100. hover:text-primary400 hover:border-primary400 cursor-pointer   ${filters.Status === undefined ? "text-primary400 border-primary400 " : "text-white800 border-white700"}`}
+                      onClick={() => {
+                        setFilters({...filters, Status: undefined})
+                      }}
                     >
                       All ({meta?.TotalCount})
                     </div>
@@ -241,7 +241,7 @@ const Rooms: React.FC<{
             {
               key: "NumberAvailable",
               title: "Available Rooms",
-              width: "15%",
+              width: "10%",
               renderHeader(column) {
                 return (
                   <span className="w-full py-4 text-center  font-inter font-semibold">
@@ -267,7 +267,7 @@ const Rooms: React.FC<{
                   </span>
                 );
               },
-              width: "7%",
+              width: "10%",
               render(_column, room) {
                 // return (
                 //   <div
@@ -295,21 +295,19 @@ const Rooms: React.FC<{
                 // );
 
                 if (!room.Status)
-                  room.Status = { Status: FilterRoomStatus.All };
+                  room.Status = { Status: FilterRoomStatus.AVAILABLEROOMS };
                 if (!room.Status.Status)
-                  room.Status.Status = FilterRoomStatus.All;
+                  room.Status.Status = FilterRoomStatus.AVAILABLEROOMS;
                 return (
                   <div
                     className={` ${
-                      (room.Status.Status === FilterRoomStatus.All &&
-                        "bg-[#FFF8DD] text-[#E4B303]") ||
                       (room.Status.Status === FilterRoomStatus.AVAILABLEROOMS &&
-                        "bg-[#E5F0FD] text-[#3554D1]") ||
-                      "bg-[#FFF5F8]  text-[#F1416C]"
+                        "bg-[#FFF8DD] text-[#E4B303]") ||
+                      (room.Status.Status === FilterRoomStatus.BOOKED &&
+                        "bg-[#E5F0FD] text-[#3554D1]") 
                     }    inline-block rounded-full px-4 py-1`}
                   >
                     <div className="text-center text-[12px]">
-                      {room?.Status?.Status === FilterRoomStatus.All && "All"}
                       {room?.Status?.Status ===
                         FilterRoomStatus.AVAILABLEROOMS && "Available Rooms"}
                       {room?.Status?.Status === FilterRoomStatus.BOOKED &&
@@ -322,7 +320,6 @@ const Rooms: React.FC<{
           ]}
           data={rooms || []}
         />
-       
       </div>
 
       <Modal
@@ -334,7 +331,6 @@ const Rooms: React.FC<{
           filter={filters}
           onClose={() => setShowFilterModal(false)}
           setFilter={(filter) => {
-            console.log({ filter });
             setFilters(filter);
           }}
         />

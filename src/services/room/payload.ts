@@ -161,7 +161,6 @@ export enum FilterRoomType {
 }
 
 export enum FilterRoomStatus {
-  All = "All",
   AVAILABLEROOMS = "AVAILABLEROOMS",
   BOOKED = "BOOKED"
 }
