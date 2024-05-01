@@ -38,12 +38,11 @@ const HotelPage = () => {
   return (
     <DefaultLayout>
       <H3 className="mb-10">{hotel?.Name}</H3>
-
       {hotel && (
         <div className="flex flex-col gap-9">
           <SummaryCard hotel={hotel} path="/apartment-01.jpg" />
           <BookingTable Limit={5} Filter={{ HostId: hotel?.Id }} />
-          <Rooms Limit={5} Filter={{ HotelId: hotel?.Id }} hotel={hotel} />
+          <Rooms Limit={5} Filter={{}} />
           { (
             <div className=" mt-3 flex items-center justify-center border-t py-4">
               <ButtonLink variant="text" color="text" href={"/hotels/rooms"}>

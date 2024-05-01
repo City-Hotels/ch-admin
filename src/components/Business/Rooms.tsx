@@ -24,8 +24,7 @@ const Rooms: React.FC<{
   Limit: number;
   Filter?: IRoomFilter;
   hidePagination?: boolean;
-  hotel: IHotel;
-}> = ({ Limit, Filter, hidePagination, hotel }) => {
+}> = ({ Limit, Filter, hidePagination }) => {
   const router = useRouter();
   const [Page, setPage] = useState(1);
   const [filters, setFilters] = useState({ ...Filter });
@@ -49,11 +48,8 @@ const Rooms: React.FC<{
 
   return (
     <div>
-      <div className="flex items-center justify-between mb-4 ">
+      <div>
         <H4 className="mb-4">Manage rooms</H4>
-        <Button size="md" onClick={() => setFirstModal(true)}>
-          Add Room
-        </Button>
       </div>
       <div className=" bg-white">
         <Table
@@ -328,14 +324,6 @@ const Rooms: React.FC<{
         />
        
       </div>
-      <Modal
-        openModal={firstModal}
-        setOpenModal={setFirstModal}
-        variant="filled"
-        className=" w-11/12 overflow-y-scroll md:w-2/3 lg:w-2/4"
-      >
-        <NewRoomsModal hotel={hotel} />
-      </Modal>
 
       <Modal
         openModal={showFilterModal}

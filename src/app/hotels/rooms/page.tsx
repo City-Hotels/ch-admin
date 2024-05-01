@@ -18,24 +18,11 @@ import Rooms from "@/components/Business/Rooms";
 // };
 
 const RoomsPage = () => {
-  const { idOrSlug } = useParams<{ idOrSlug: string }>();
-
-  const { isLoading, isError, data } = useQuery(
-    [queryKeys.getHotelByID],
-    () => getHotel(idOrSlug?.toString()),
-    {
-      enabled: !!idOrSlug // Would only make this request if slug is truthy
-    }
-  );
-
-  const hotel = data?.data as IHotel;
   return (
     <DefaultLayout>
-      <H3 className="mb-10">{hotel?.Name}</H3>
-
-      {hotel && (
+      {(
         <div className="flex flex-col gap-9">      
-          <Rooms Limit={5} Filter={{ HotelId: hotel?.Id }} hotel={hotel} />
+          <Rooms Limit={5} Filter={{}}  />
         </div>
       )}
     </DefaultLayout>
