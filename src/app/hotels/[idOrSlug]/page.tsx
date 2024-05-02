@@ -14,6 +14,7 @@ import RoomTypes from "@/components/Business/RoomTypes";
 import Facilities from "@/components/Business/Facilities";
 import UserCard from "@/components/Business/userCard/UserCard";
 import Review from "@/components/Business/review/Review";
+import TransactionTable from "@/components/Transactions/TransactionTable";
 
 // export const metadata: Metadata = {
 //   title: "City Hotel Backend Admin  Business Table",
@@ -41,6 +42,7 @@ const HotelPage = () => {
         <div className="flex flex-col gap-9">
           <SummaryCard hotel={hotel} path="/apartment-01.jpg" />
           <BookingTable Limit={5} Filter={{ HostId: hotel?.Id }} />
+          <TransactionTable Limit={5} Filter={{ServiceId: hotel?.Id}}  />
           <Rooms hotel={hotel} />
           <Review hotel={hotel} />
           {/* <RoomTypes hotel={hotel}/> */}
