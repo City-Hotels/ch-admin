@@ -42,7 +42,7 @@ const HotelPage = () => {
         <div className="flex flex-col gap-9">
           <SummaryCard hotel={hotel} path="/apartment-01.jpg" />
           <BookingTable Limit={5} Filter={{ HostId: hotel?.Id }} />
-          <TransactionTable Limit={5} Filter={{ServiceId: hotel?.Id}}  />
+          <TransactionTable Limit={5} Filter={{UserId: hotel?.Id}}  />
           <Rooms hotel={hotel} />
           <Review hotel={hotel} />
           {/* <RoomTypes hotel={hotel}/> */}
