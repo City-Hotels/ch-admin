@@ -22,11 +22,11 @@ function ActionButtons({
     <ActionButtonsContext.Provider value={{}}>
       <div
         className={`${
-          extraButton ? "justify-between" : "justify-end space-x-4"
+          extraButton ? "justify-between" : "justify-end"
         }  flex items-center w-full`}
       >
         {extraButton && extraButton}
-        {children}
+        <div className="space-x-4">{children}</div>
       </div>
     </ActionButtonsContext.Provider>
   );

@@ -34,14 +34,12 @@ function FAQQuestions(): JSX.Element {
             adipisicing elit. Ipsa, officiis!
           </Question>
 
-          <div className="mt-4 flex items-center justify-between">
+          <div className="mt-4">
             <ActionButtons
               extraButton={<ActionButtons.Orange text="Publish" />}
             >
-              <div className="space-x-4">
-                <ActionButtons.Light text="Respond in chat" />
-                <ActionButtons.Orange text="Answer" />
-              </div>
+              <ActionButtons.Light text="Respond in chat" />
+              <ActionButtons.Orange text="Answer" />
             </ActionButtons>
           </div>
         </>
