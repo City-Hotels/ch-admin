@@ -24,6 +24,9 @@ export type IAddress = {
   State: string;
   Street: string;
   Location: ILocation;
+  Latitude: string;
+  Longitude: string;
+
 };
 export type IMedia = {
   Path: string;
@@ -127,6 +130,7 @@ export type INearby = {
   Distance: string;
   Location: string;
   Type: string;
+  Unit: string;
 };
 
 export type IPrice = {
@@ -197,14 +201,9 @@ export interface SupportInformationPayload {
   Telephone: string;
 }
 export interface HotelInformationPayload {
-  HotelName: string;
-  HotelSlogan: string;
+  Name: string;
+  Slogan: string;
+  Introduction: string;
   Email: string;
-  Location: string;
-  Address: string;
-  State: string;
-  City: string;
-  GoogleCoordinate: string;
-  ContactEmail: string;
   Telephone: string;
 }
