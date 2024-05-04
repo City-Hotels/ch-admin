@@ -1,13 +1,7 @@
 "use client";
 import { Metadata } from "next";
 import DefaultLayout from "@/components/Layouts/DefaultLayout";
-import BookingTable from "@/components/Bookings/BookingTable";
-import { useQuery } from "react-query";
-import queryKeys from "@/utils/api/queryKeys";
-import { getHotel } from "@/services/hotel";
-import { useParams } from "next/navigation";
-import { IHotel } from "@/services/hotel/payload";
-import { H3 } from "@/components/Headings/Headings";
+import { useSearchParams } from "next/navigation";
 import Rooms from "@/components/Business/Rooms";
 
 
@@ -17,12 +11,18 @@ import Rooms from "@/components/Business/Rooms";
 //     "Page displaying booking list on City Hotel",
 // };
 
+
 const RoomsPage = () => {
+  const searchParams = useSearchParams()
+  const hotelId  = searchParams.get('hotelid')
+
   return (
     <DefaultLayout>
       {(
         <div className="flex flex-col gap-9">      
-          <Rooms Limit={5} Filter={{}}  />
+       {
+        hotelId &&  <Rooms Limit={5} Filter={{HotelId: hotelId}}  />
+       }  
         </div>
       )}
     </DefaultLayout>
