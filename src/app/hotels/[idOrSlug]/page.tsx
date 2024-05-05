@@ -54,7 +54,7 @@ const HotelPage = () => {
               </Button>
             </div>
 
-            <Rooms Limit={5} Filter={{}} />
+            <Rooms Limit={5} Filter={{HotelId: hotel.Id}} />
             {
               <div className=" mt-3 flex items-center justify-center border-t py-4">
                 <ButtonLink variant="text" color="text" href={`/hotels/rooms?hotelid=${hotel.Id}`}>
