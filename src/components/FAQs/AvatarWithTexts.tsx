@@ -1,6 +1,7 @@
 import Avatar from "../Avatar/Avatar";
 import { P3 } from "../Headings/Headings";
 import Img from "../Image/Image";
+import ArrowDownIcon from "@/assets/icons/icon-arrow-down.svg";
 
 interface AvatarWithTextProps {
   withIcon: boolean;
@@ -39,12 +40,7 @@ function AvatarWithText({
           </P3>
           {withIcon && (
             <button onClick={() => setIsOpen?.((s: boolean) => !s)}>
-              <Img
-                path="/images/icon/icon-arrow-down.svg"
-                alt="arrow-down"
-                name=""
-                className="h-3 w-3"
-              />
+              <ArrowDownIcon />
             </button>
           )}
         </div>

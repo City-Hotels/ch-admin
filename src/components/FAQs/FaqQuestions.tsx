@@ -4,7 +4,7 @@ import Question from "./Question";
 import ActionButtons from "./ActionButtons";
 
 function FAQQuestions(): JSX.Element {
-  const [isOpen, setIsOpen] = useState<boolean>(false); // later on this state will be managed by the parent element
+  const [isOpen, setIsOpen] = useState<boolean>(false); // later on, this state will be managed by the parent element
 
   const testClassNames = "mt-20 ml-20";
 

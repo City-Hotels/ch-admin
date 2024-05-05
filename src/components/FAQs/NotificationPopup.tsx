@@ -1,6 +1,7 @@
 import { H44, P3 } from "../Headings/Headings";
 import Img from "../Image/Image";
 import AvatarWithText from "./AvatarWithTexts";
+import MessageIcon from "@/assets/icons/question.svg";
 
 function NotificationPopup(): JSX.Element {
   const testClassNames = "w-[400px] ml-40 mt-40";
@@ -19,12 +20,7 @@ function NotificationPopup(): JSX.Element {
       />
 
       <div className="px-3 my-3 flex items-start gap-2">
-        <Img
-          path="/images/icon/question.svg"
-          alt="question-icon"
-          name=""
-          className="h-5 w-5"
-        />
+        <MessageIcon />
         <span className="space-y-2">
           <P3 className="font-semibold text-black">FAQ</P3>
           <P3>A host responded to a question you asked</P3>
