@@ -14,15 +14,11 @@ import RoomTypes from "@/components/Business/RoomTypes";
 import Facilities from "@/components/Business/Facilities";
 import UserCard from "@/components/Business/userCard/UserCard";
 import Review from "@/components/Business/review/Review";
-<<<<<<< HEAD
-import TransactionTable from "@/components/Transactions/TransactionTable";
-=======
 import ButtonLink from "@/components/Button/Link/Link";
 import React from "react";
 import NewRoomsModal from "@/components/Business/Modals/NewRoomsModal";
 import Button from "@/components/Button/Button";
 import Modal from "@/components/Modal/Modal";
->>>>>>> main
 
 // export const metadata: Metadata = {
 //   title: "City Hotel Backend Admin  Business Table",
@@ -49,10 +45,6 @@ const HotelPage = () => {
         <div className="flex flex-col gap-9">
           <SummaryCard hotel={hotel} path="/apartment-01.jpg" />
           <BookingTable Limit={5} Filter={{ HostId: hotel?.Id }} />
-<<<<<<< HEAD
-          <TransactionTable Limit={5} Filter={{UserId: hotel?.Id}}  />
-          <Rooms hotel={hotel} />
-=======
 
           <div className="bg-white ">
             <div className="flex items-center justify-between my-4 mx-3">
@@ -81,7 +73,6 @@ const HotelPage = () => {
             </Modal>
           </div>
 
->>>>>>> main
           <Review hotel={hotel} />
           {/* <RoomTypes hotel={hotel}/> */}
           <Facilities hotel={hotel} />
