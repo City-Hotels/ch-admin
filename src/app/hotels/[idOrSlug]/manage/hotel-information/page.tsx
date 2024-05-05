@@ -1,16 +1,31 @@
 import React from "react";
 import HotelInformation from "@/components/HotelInformation/HotelInformation";
-import { updateHotelInformation } from "@/services/hotel";
+import { getHotel, updateHotelInformation } from "@/services/hotel";
 import { toastIcons } from "@/utils/constants";
-import { useMutation } from "react-query";
+import { useMutation, useQuery } from "react-query";
 import ToastWrapper from "@/components/toast/Toast";
 import toast from "react-hot-toast";
 import { useDispatch, useSelector } from "react-redux";
-import { HotelInformationPayload } from "@/services/hotel/payload";
+import { HotelInformationPayload, IHotel } from "@/services/hotel/payload";
 import { AppDispatch } from "@/store";
+import DefaultLayout from "@/components/Layouts/DefaultLayout";
+import { useParams } from "next/navigation";
+import queryKeys from "@/utils/api/queryKeys";
 
 const Hotelinformation = () => {
   const { mutate, isLoading: isSubmitting } = useMutation(updateHotelInformation);
+
+  const { idOrSlug } = useParams<{ idOrSlug: string }>();
+
+  const { isLoading, isError, data } = useQuery(
+    [queryKeys.getHotelByID],
+    () => getHotel(idOrSlug?.toString()),
+    {
+      enabled: !!idOrSlug // Would only make this request if slug is truthy
+    }
+  );
+
+  const hotel = data?.data as IHotel;
 
   const onSubmit = (values: HotelInformationPayload) => {
     mutate(values, {
@@ -23,11 +38,11 @@ const Hotelinformation = () => {
   };
 
   return (
-    <HotelAdminLayout>
+    <DefaultLayout>
       <div className="max-w-[600px]">
         <HotelInformation onSubmit={onSubmit} hotel={hotel} isSubmitting={isSubmitting} />
       </div>
-    </HotelAdminLayout>
+    </DefaultLayout>
   );
 };
 
