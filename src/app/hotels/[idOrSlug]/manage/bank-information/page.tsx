@@ -11,7 +11,7 @@ import {
   setDefaultPaymentDetails
 } from "@/services/payment-details";
 import type { IPaymentDetails } from "@/services/payment-details/payload";
-import HotelAdminLayout from "@/layout/hotelAdmin/HotelAdmin";
+import DefaultLayout from "@/components/Layouts/DefaultLayout";
 import styles from "./PaymentSettings.module.scss";
 import AddPayOutPayout from "@/components/AddPayOutPayout/AddPayOutPayout";
 
@@ -32,7 +32,6 @@ const PaymentSettings = () => {
 
   const onSelectDefault = useCallback(
     (paymentDetailsId: string) => {
-      // if (paymentDetails?.find((item) => item.PaymentId)?.IsDefault) return;
       mutate(paymentDetailsId, {
         onSuccess() {
           refetch();
@@ -43,7 +42,7 @@ const PaymentSettings = () => {
   );
 
   return (
-    <HotelAdminLayout>
+    <DefaultLayout>
       <div className="min-h-[80vh] max-w-[620px] bg-white  p-5">
         <H3 className="mb-8">Payment Settings</H3>
         <H6>Pay-out Options</H6>
@@ -107,7 +106,7 @@ const PaymentSettings = () => {
           />
         </section>
       </Modal>
-    </HotelAdminLayout>
+    </DefaultLayout>
   );
 };
 
