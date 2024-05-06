@@ -1,11 +1,27 @@
 import HotelMediaForm from "@/components/HotelMediaForm/HotelMediaForm";
-import HotelAdminLayout from "@/layout/hotelAdmin/HotelAdmin";
-import { deleteHotelMedia, uploadHotelMedia } from "@/services/hotel";
+import DefaultLayout from "@/components/Layouts/DefaultLayout";
+import { deleteHotelMedia, getHotel, uploadHotelMedia } from "@/services/hotel";
+import { IHotel } from "@/services/hotel/payload";
 import { ApiResponse } from "@/utils/api/calls";
+import queryKeys from "@/utils/api/queryKeys";
+import { useParams } from "next/navigation";
 import React from "react";
+import { useQuery } from "react-query";
 
 
 const BannerImages = () => {
+
+  const { idOrSlug } = useParams<{ idOrSlug: string }>();
+
+  const { data } = useQuery(
+    [queryKeys.getHotelByID],
+    () => getHotel(idOrSlug?.toString()),
+    {
+      enabled: !!idOrSlug // Would only make this request if slug is truthy
+    }
+  );
+
+  const hotel = data?.data as IHotel;
 
   const uploadImage = (
     data: FormData,
@@ -27,11 +43,11 @@ const BannerImages = () => {
   };
 
   return (
-    <HotelAdminLayout>
+    <DefaultLayout>
       <div className="w-[800px]">
         <HotelMediaForm hotel={hotel} onSubmit={uploadImage} onDeleteItem={deleteMedia} />
       </div>
-    </HotelAdminLayout>
+    </DefaultLayout>
   );
 };
 
