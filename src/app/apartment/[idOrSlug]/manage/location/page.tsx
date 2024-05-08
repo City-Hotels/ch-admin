@@ -1,23 +1,22 @@
 import React, { useEffect } from "react";
-
 import type { IAddress, IApartment } from "@/services/apartment/payload";
-import UserLayout from "@/layout/user/User";
-import { H3, P2 } from "@/components/shared/headings/Headings";
-import Button from "@/components/shared/button/Button";
 import { useRouter } from "next/router";
 import { useMutation, useQuery } from "react-query";
 import { getApartment, updateApartmentAddress } from "@/services/apartment";
 import queryKeys from "@/utils/api/queryKeys";
-import ToastWrapper from "@/components/shared/toast/Toast";
+import ToastWrapper from "@/components/toast/Toast";
 import { toastIcons } from "@/utils/constants";
 import { toast } from "react-hot-toast";
-import PlacesNearbyForm from "@/components/shared/placesNearbyForm/PlacesNearbyForm";
+import PlacesNearbyForm from "@/components/PlacesNearbyForm/PlacesNearbyForm";
 import type { INearby } from "@/services/hotel/payload";
-import Modal from "@/components/shared/modal/Modal";
-import Map from "@/components/shared/map/Map";
-import TextArea from "@/components/shared/inputs/textarea/TextArea";
-import MapForm from "@/components/shared/map/MapForm";
+import Modal from "@/components/Modal/Modal";
+import Map from "@/components/Map/Map";
+import TextArea from "@/components/Inputs/textarea/TextArea";
+import MapForm from "@/components/Map/MapForm";
 import type { ILocation } from "@/services/location/payload";
+import Button from "@/components/Button/Button";
+import DefaultLayout from "@/components/Layouts/DefaultLayout";
+import { H3, P2 } from "@/components/Headings/Headings";
 
 const EditApartmentDetails = () => {
   const router = useRouter();
@@ -26,7 +25,7 @@ const EditApartmentDetails = () => {
   const { data } = useQuery(
     [queryKeys.getApartmentByID],
     () => {
-      const res = getApartment(slug?.toString());
+      const res = getApartment(slug?.toString() ?? "");
       return res;
     },
     {
@@ -123,7 +122,7 @@ const EditApartmentDetails = () => {
   }, [apartmentDetails]);
 
   return (
-    <UserLayout>
+    <DefaultLayout>
       <div className="w-full lg:w-[556px]">
         <H3 className="mb-5">Apartment Location</H3>
         <div onClick={() => setShowAddressModal(true)} className=" ">
@@ -204,7 +203,7 @@ const EditApartmentDetails = () => {
           />
         </div>
       </Modal>
-    </UserLayout>
+    </DefaultLayout>
   );
 };
 
