@@ -13,7 +13,7 @@ import Rooms from "@/components/Business/Rooms";
 import RoomTypes from "@/components/Business/RoomTypes";
 import Facilities from "@/components/Business/Facilities";
 import UserCard from "@/components/Business/userCard/UserCard";
-import Review from "@/components/Business/review/Review";
+import Review from "@/components/Business/Review/Review";
 import ButtonLink from "@/components/Button/Link/Link";
 import React from "react";
 import NewRoomsModal from "@/components/Business/Modals/NewRoomsModal";
@@ -40,7 +40,6 @@ const HotelPage = () => {
 
   return (
     <DefaultLayout>
-      <H3 className="mb-10">{hotel?.Name}</H3>
       {hotel && (
         <div className="flex flex-col gap-9">
           <SummaryCard hotel={hotel} path="/apartment-01.jpg" />
@@ -54,7 +53,7 @@ const HotelPage = () => {
               </Button>
             </div>
 
-            <Rooms Limit={5} Filter={{HotelId: hotel.Id}} />
+            <Rooms Limit={5} Filter={{ HotelId: hotel.Id }} />
             {
               <div className=" mt-3 flex items-center justify-center border-t py-4">
                 <ButtonLink variant="text" color="text" href={`/hotels/rooms?hotelid=${hotel.Id}`}>

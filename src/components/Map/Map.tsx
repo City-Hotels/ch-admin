@@ -1,5 +1,5 @@
 import type { FC } from "react";
-import { GoLocation } from "react-icons/go";
+// import { GoLocation } from "react-icons/go";
 import { GoogleMap, useLoadScript } from "@react-google-maps/api";
 import { useMemo } from "react";
 import type MapProps from "./Map.props";
@@ -37,7 +37,7 @@ const Map: FC<MapProps> = ({ location, showAddress, className }) => {
       {showAddress && (
         <div className={styles.addressHeader}>
           <div className={styles.iconHeader}>
-            <GoLocation className={styles.icon} />
+            {/* <GoLocation className={styles.icon} /> */}
           </div>
           <P3 weight="bold">
             {location &&

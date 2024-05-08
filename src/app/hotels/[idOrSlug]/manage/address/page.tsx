@@ -1,3 +1,4 @@
+"use client"
 import React, { useEffect } from "react";
 
 import type { IAddress } from "@/services/apartment/payload";
@@ -28,14 +29,13 @@ const EditHotelDetails = () => {
 
   const { idOrSlug } = useParams<{ idOrSlug: string }>();
   const { isLoading: isFetching, isError, data } = useQuery(
-    [queryKeys.getHotelByID],
+    [queryKeys.getHotelByID, idOrSlug],
     () => getHotel(idOrSlug?.toString()),
     {
       enabled: !!idOrSlug // Would only make this request if slug is truthy
     }
   );
   const hotel = data?.data as IHotel;
-
 
   const [address, setAddress] = React.useState<ILocation>({
     Street: hotel?.Address?.Street || "",
@@ -46,6 +46,7 @@ const EditHotelDetails = () => {
     Latitude: hotel?.Address?.Latitude || "",
     Longitude: hotel?.Address?.Longitude || ""
   });
+
   const [apartmentDetails, setApartmentDetails] = React.useState<IAddress>({
     City: hotel?.Address?.City || "",
     Country: hotel?.Address?.Country || "",

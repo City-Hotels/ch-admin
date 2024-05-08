@@ -11,21 +11,17 @@ import type {
 } from "@/services/review/payload";
 import { getRooms } from "@/services/room";
 import { getBalance } from "@/services/transactions";
-import type { AppDispatch } from "@/store";
-// import { fetchUserHotel, getStateHotel } from "@/store/slice/hotel/hotel.slice";
 import queryKeys from "@/utils/api/queryKeys";
 import { formatCurrencyNoSymbol } from "@/utils/helpers";
 import Link from "next/link";
 import React, { useState } from "react";
 import { useQuery } from "react-query";
-import { useDispatch, useSelector } from "react-redux";
 import styles from "./SummaryCard.module.scss";
 import SummaryCardProps from "./SummaryCard.props";
 import BannerForm from "@/components/MediaForm/BannerForm";
+import PencilIcon from "@/assets/icons/pencil.svg"
 
 const SummaryCard: React.FC<SummaryCardProps> = ({ hotel }) => {
-  // const hotel = useSelector(getStateHotel);
-  // const dispatch = useDispatch<AppDispatch>();
   const { data } = useQuery([queryKeys.getHotelRooms], () =>
     getRooms({ HotelId: hotel?.Id })
   );
@@ -121,10 +117,10 @@ const SummaryCard: React.FC<SummaryCardProps> = ({ hotel }) => {
             </div>
           </div>
           <Link
-            href={"/hotel/manage/hotel-information"}
+            href={`/hotels/${hotel.Id}/manage`}
             className="mt-1 rounded-full bg-[#FFF] p-[7px] hover:bg-primary400"
           >
-            {/* <BsFillPencilFill className="cursor-pointer text-primary400 hover:text-[#FFF]" /> */}
+            <PencilIcon className="cursor-pointer text-primary400 hover:text-[#FFF]" />
           </Link>
         </div>
       </div>
@@ -132,14 +128,14 @@ const SummaryCard: React.FC<SummaryCardProps> = ({ hotel }) => {
       <div className={styles.InfoContainer}>
         <div>
           <P2 className="mb-2 text-[#F4F4F4]">Rooms</P2>
-          <Link href={"hotel/rooms"}>
+          <Link href={`rooms?hotelid=${hotel.Id}`}>
             <H2 className=" text-white"> {totalRooms?.TotalCount}</H2>
           </Link>
         </div>
 
         <div>
           <P2 className="mb-2 text-[#F4F4F4]">Total Bookings</P2>
-          <Link href={"hotel/bookings"}>
+          <Link href={`bookings?hostid=${hotel.Id}`}>
             <H2 className=" text-white">{hotel?.Rating?.TotalBooking || 0}</H2>
           </Link>
         </div>
@@ -176,13 +172,13 @@ const SummaryCard: React.FC<SummaryCardProps> = ({ hotel }) => {
         <div>
           <P2 className="mb-2 font-normal text-[#F4F4F4]">Total Bookings</P2>
           <P className="text-[28px] font-black text-white">
-            {/* {hotel?.Rating?.TotalBooking || 0} */}
+            {hotel?.Rating?.TotalBooking || 0}
           </P>
         </div>
 
         <div>
           <P2 className="mb-2 font-normal text-[#F4F4F4]">Visit</P2>
-          <P className="text-[28px] font-black text-white">192</P>
+          <P className="text-[28px] font-black text-white">{hotel.Rating.Clicks}</P>
         </div>
 
         <div>

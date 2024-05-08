@@ -1,4 +1,4 @@
-import ForwardArrowIcon from "@/assets/icons/arrow-forward.svg";
+// import ForwardArrowIcon from "@/assets/icons/arrow-forward.svg";
 import { H4 } from "@/components/Headings/Headings";
 import Link from "next/link";
 import styles from "./ManageHotelAccount.module.scss";
@@ -18,14 +18,14 @@ const ManageAccountItem: React.FC<ManageHotelAccountProps> = ({
         <div>{content}</div>
       </div>
       <div className={styles.editIcon}>
-        <ForwardArrowIcon />
+        {/* <ForwardArrowIcon /> */}
       </div>
     </Link>
   );
 };
 
 // Example usage of the EditApartment component
-const ManageAccountComponent: React.FC = () => {
+const ManageAccountComponent: React.FC<{ hotelid: string }> = ({ hotelid }) => {
   return (
     <div className="w-full">
       <H4>Manage</H4>
@@ -33,47 +33,47 @@ const ManageAccountComponent: React.FC = () => {
         <div className={styles.apartmentContent}>
           <ManageAccountItem
             content="Basic Information"
-            link={`/hotel/manage/hotel-information`}
+            link={`/hotels/${hotelid}/manage/hotel-information`}
           />
         </div>
         <div className={styles.apartmentContent}>
           <ManageAccountItem
             content="Location"
-            link={`/hotel/manage/address`}
+            link={`/hotels/${hotelid}/manage/address`}
           />
         </div>
         <div className={styles.apartmentContent}>
           <ManageAccountItem
             content="Images"
-            link={`/hotel/manage/banner-images`}
+            link={`/hotels/${hotelid}/manage/banner-images`}
           />
         </div>
         <div className={styles.apartmentContent}>
           <ManageAccountItem
             content="Management"
-            link={`/hotel/manage/management-information`}
+            link={`/hotels/${hotelid}/manage/management-information`}
           />
         </div>
         <div className={styles.apartmentContent}>
           <ManageAccountItem
             content="Support/Contact Person"
-            link={`/hotel/manage/support`}
+            link={`/hotels/${hotelid}/manage/support`}
           />
         </div>
         <div className={styles.apartmentContent}>
           <ManageAccountItem
             content="Bank Information"
-            link={`/hotel/manage/bank-information`}
+            link={`/hotels/${hotelid}/manage/bank-information`}
           />
         </div>
         <div className={styles.apartmentContent}>
           <ManageAccountItem
             content="Earnings"
-            link={`/hotel/manage/earnings`}
+            link={`/hotels/${hotelid}/manage/earnings`}
           />
         </div>
         <div className={styles.apartmentContent}>
-          <ManageAccountItem content="FAQs" link={`/hotel/manage/faq`} />
+          <ManageAccountItem content="FAQs" link={`/hotels/${hotelid}/manage/faq`} />
         </div>
       </div>
     </div>

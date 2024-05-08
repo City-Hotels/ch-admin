@@ -1,15 +1,18 @@
+"use client"
+import DefaultLayout from "@/components/Layouts/DefaultLayout";
 import { ManageAccountComponent } from "@/components/ManageHotelAccount/ManageHotelAccount";
-import HotelAdminLayout from "@/layout/hotelAdmin/HotelAdmin";
+import { useParams } from "next/navigation";
 
 import React from "react";
 
 const Index: React.FC = () => {
+  const { idOrSlug } = useParams<{ idOrSlug: string }>();
   return (
-    <HotelAdminLayout>
+    <DefaultLayout>
       <>
-        <ManageAccountComponent />
+        <ManageAccountComponent hotelid={idOrSlug} />
       </>
-    </HotelAdminLayout>
+    </DefaultLayout>
   );
 };
 

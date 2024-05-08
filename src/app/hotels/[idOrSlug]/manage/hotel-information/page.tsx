@@ -1,3 +1,4 @@
+"use client"
 import React from "react";
 import HotelInformation from "@/components/HotelInformation/HotelInformation";
 import { getHotel, updateHotelInformation } from "@/services/hotel";
@@ -38,7 +39,8 @@ const Hotelinformation = () => {
   return (
     <DefaultLayout>
       <div className="max-w-[600px]">
-        <HotelInformation onSubmit={onSubmit} hotel={hotel} isSubmitting={isSubmitting} />
+        {!isLoading && hotel &&
+          <HotelInformation onSubmit={onSubmit} hotel={hotel} isSubmitting={isSubmitting} />}
       </div>
     </DefaultLayout>
   );
