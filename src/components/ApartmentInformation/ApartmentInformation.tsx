@@ -29,7 +29,7 @@ const AparmtentInformation: React.FC<ApartmentInformationFormProps> = ({ onSubmi
         {({ handleSubmit }) => (
           <form onSubmit={handleSubmit}>
             <div className="">
-              <H4 className="font-semibold">Basic Information</H4>
+              <H4 className="font-semibold">Apartment Information</H4>
 
               <div className="mt-10">
                 <div>
