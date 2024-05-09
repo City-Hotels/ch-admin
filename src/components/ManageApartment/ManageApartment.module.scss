@@ -1,0 +1,23 @@
+.container {
+  @apply w-full lg:w-[705px] h-[64px] border border-white500 flex justify-between cursor-pointer items-center p-4  hover:bg-white200;
+}
+
+.content {
+  @apply ml-4 flex;
+}
+
+.editIcon {
+  @apply ml-auto;
+}
+
+.apartmentContent {
+  @apply cursor-pointer mt-6;
+}
+
+.prevIcon {
+  @apply flex gap-4 items-center cursor-pointer p-0 my-3 mb-7;
+}
+
+.modalContent {
+  @apply min-h-[400px] w-full;
+}

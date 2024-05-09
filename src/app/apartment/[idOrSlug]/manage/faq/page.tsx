@@ -1,6 +1,7 @@
+"use client"
 import Button from "@/components/Button/Button";
 import { useMutation, useQuery } from "react-query";
-import { useRouter } from "next/router";
+
 import type { IFAQ } from "@/services/faq/payload";
 import React from "react";
 import ChevronDownIcon from "@/assets/icons/chevron-down.svg";
@@ -19,6 +20,7 @@ import FAQForm from "@/components/Faq/FAQForm";
 import { ServiceTypes } from "@/utils/enums";
 import DefaultLayout from "@/components/Layouts/DefaultLayout";
 import { H3, P, P2 } from "@/components/Headings/Headings";
+import { useParams } from "next/navigation";
 
 const FAQItem: React.FC<
   IFAQ & {
@@ -85,9 +87,9 @@ const FAQItem: React.FC<
 };
 
 const FAQ = () => {
-  const router = useRouter();
-  const { slug } = router.query;
-  const apartmentId = slug ? slug.toString() : "";
+  const { idOrSlug } = useParams<{ idOrSlug: string }>();
+
+  const apartmentId = idOrSlug ? idOrSlug.toString() : "";
   const [isOpen, setIsOpen] = React.useState(false);
 
   const { mutate: createFaq, isLoading: isCreatingFaq } =
@@ -97,13 +99,13 @@ const FAQ = () => {
     [queryKeys.getServiceFAQs],
     () => {
       const res = getServiceFaqs(
-        slug?.toString() || "",
+        idOrSlug?.toString() || "",
         ServiceTypes.APARTMENT
       );
       return res;
     },
     {
-      enabled: !!slug // Would only make this request if slug is truthy
+      enabled: !!idOrSlug // Would only make this request if slug is truthy
     }
   );
 
