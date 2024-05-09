@@ -18,19 +18,21 @@ import type { ILocation } from "@/services/location/payload";
 import Button from "@/components/Button/Button";
 import DefaultLayout from "@/components/Layouts/DefaultLayout";
 import { H3, P2 } from "@/components/Headings/Headings";
+import { useParams } from "next/navigation";
 
 const EditApartmentDetails = () => {
-  const router = useRouter();
-  const { slug } = router.query;
+
+  const { idOrSlug } = useParams<{ idOrSlug: string }>();
+
 
   const { data } = useQuery(
     [queryKeys.getApartmentByID],
     () => {
-      const res = getApartment(slug?.toString() ?? "");
+      const res = getApartment(idOrSlug?.toString() ?? "");
       return res;
     },
     {
-      enabled: !!slug // Would only make this request if slug is truthy
+      enabled: !!idOrSlug // Would only make this request if slug is truthy
     }
   );
 
@@ -52,7 +54,7 @@ const EditApartmentDetails = () => {
     Longitude: apartmentDetails.Longitude || ""
   });
 
-  const apartmentId = slug ? slug.toString() : "";
+  const apartmentId = idOrSlug ? idOrSlug.toString() : "";
   const { mutate, isLoading } = useMutation((payload: IAddress) =>
     updateApartmentAddress(apartmentId, payload)
   );
