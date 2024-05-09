@@ -3,7 +3,6 @@ import React from "react";
 import type { IApartment, IDetailsPayload } from "@/services/apartment/payload";
 import UserLayout from "@/layout/user/User";
 import { H3 } from "@/components/shared/headings/Headings";
-import DetailsForm from "@/components/user/apartment/details-form/DetailsForm";
 import { useRouter } from "next/router";
 import { useMutation, useQuery } from "react-query";
 import { getApartment, updateApartmentDetails } from "@/services/apartment";
@@ -13,6 +12,7 @@ import { toast } from "react-hot-toast";
 import Button from "@/components/shared/button/Button";
 import type { GetServerSideProps } from "next";
 import queryKeys from "@/utils/api/queryKeys";
+import ApartmentDetailsForm from "@/components/ApartmentDetailsForm/ApartmentDetailsForm";
 
 interface ManageApartmentPageProps {
   apartment?: IApartment;
@@ -68,7 +68,7 @@ const EditApartmentDetails: React.FC<ManageApartmentPageProps> = ({
       <div className="w-full lg:w-[556px]">
         <H3 className="mb-5">Edit Apartment Basics</H3>
         {
-          <DetailsForm
+          <ApartmentDetailsForm
             value={apartmentDetails}
             onUpdateDetails={setApartmentDetails}
           />

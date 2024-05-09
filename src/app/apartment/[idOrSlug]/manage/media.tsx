@@ -1,5 +1,4 @@
 import { H3 } from "@/components/shared/headings/Headings";
-import ImageForm from "@/components/shared/image-form/ImageForm";
 import UserLayout from "@/layout/user/User";
 import {
   deleteApartmentMedia,
@@ -16,6 +15,7 @@ import { toastIcons } from "@/utils/constants";
 import { toast } from "react-hot-toast";
 import type { IApartment } from "@/services/apartment/payload";
 import type { GetServerSideProps } from "next";
+import ImageForm from "@/components/ImageForm/ImageForm";
 
 interface ManageApartmentPageProps {
   apartment?: IApartment;

@@ -17,7 +17,7 @@ import {
 import ToastWrapper from "@/components/shared/toast/Toast";
 import { toastIcons } from "@/utils/constants";
 import { toast } from "react-hot-toast";
-import FAQForm from "@/components/shared/faq/FAQForm";
+import FAQForm from "@/components/Faq/FAQForm";
 import { ServiceTypes } from "@/utils/enums";
 
 const FAQItem: React.FC<

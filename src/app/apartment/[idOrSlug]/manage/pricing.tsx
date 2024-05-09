@@ -1,5 +1,4 @@
 import React from "react";
-import PricingForm from "@/components/user/apartment/set-price/SetPrice";
 import type { IPricingPayload } from "@/services/apartment/payload";
 import UserLayout from "@/layout/user/User";
 import { H3, P } from "@/components/shared/headings/Headings";
@@ -11,6 +10,7 @@ import { useMutation, useQuery } from "react-query";
 import ToastWrapper from "@/components/shared/toast/Toast";
 import { toastIcons } from "@/utils/constants";
 import { toast } from "react-hot-toast";
+import PricingForm from "@/components/PricingForm/PricingForm";
 
 const EditApartmentPricing = () => {
   const router = useRouter();

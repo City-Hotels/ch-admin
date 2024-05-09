@@ -1,8 +1,6 @@
 import Button from "@/components/shared/button/Button";
 import { H3 } from "@/components/shared/headings/Headings";
 import Modal from "@/components/shared/modal/Modal";
-import AmenitiesDropDown from "@/components/user/apartment/amenities-description/AmenitiesDescription";
-import { EditAmenitiesModal } from "@/components/user/modals/edit-amenities/EditAmenitiesModal";
 import UserLayout from "@/layout/user/User";
 import { getApartment, updateApartmentFacilities } from "@/services/apartment";
 import type { IFacility } from "@/services/apartment/payload";
@@ -13,6 +11,8 @@ import { useMutation, useQuery } from "react-query";
 import ToastWrapper from "@/components/shared/toast/Toast";
 import { toastIcons } from "@/utils/constants";
 import { toast } from "react-hot-toast";
+import { SelectFacilities } from "@/components/SelectFacilities/SelectFacilities";
+import FacilityDescription from "@/components/SelectFacilities/FacilityDescription";
 
 const EditApartmentFacilities = () => {
   const router = useRouter();
@@ -30,7 +30,8 @@ const EditApartmentFacilities = () => {
   const { isLoading: gettingApartment } = useQuery(
     [queryKeys.getApartmentByID],
     () => {
-      const res = getApartment(slug?.toString());
+      const res = getApartment(slug?.toString() || ""
+      );
       return res;
     },
     {
@@ -79,7 +80,7 @@ const EditApartmentFacilities = () => {
             !gettingApartment &&
             "You have not selected any facility for this listing"}
           {facilities.map((facility, index) => (
-            <AmenitiesDropDown
+            <FacilityDescription
               {...facility}
               key={index}
               onUpdateDescription={(description: string) =>
