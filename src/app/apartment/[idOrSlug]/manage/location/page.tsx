@@ -1,3 +1,4 @@
+"use client"
 import React, { useEffect } from "react";
 import type { IAddress, IApartment } from "@/services/apartment/payload";
 import { useRouter } from "next/router";
