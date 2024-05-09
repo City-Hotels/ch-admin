@@ -1,10 +1,8 @@
-import Button from "@/components/shared/button/Button";
-import UserLayout from "@/layout/user/User";
+import Button from "@/components/Button/Button";
 import { useMutation, useQuery } from "react-query";
 import { useRouter } from "next/router";
 import type { IFAQ } from "@/services/faq/payload";
 import React from "react";
-import { H3, P, P2 } from "@/components/shared/headings/Headings";
 import ChevronDownIcon from "@/assets/icons/chevron-down.svg";
 import ChevronUpIcon from "@/assets/icons/chevron-up.svg";
 import queryKeys from "@/utils/api/queryKeys";
@@ -14,11 +12,13 @@ import {
   updateServiceFaq,
   deleteServiceFaq
 } from "@/services/faq";
-import ToastWrapper from "@/components/shared/toast/Toast";
+import ToastWrapper from "@/components/toast/Toast";
 import { toastIcons } from "@/utils/constants";
 import { toast } from "react-hot-toast";
-import FAQForm from "@/components/shared/faq/FAQForm";
+import FAQForm from "@/components/Faq/FAQForm";
 import { ServiceTypes } from "@/utils/enums";
+import DefaultLayout from "@/components/Layouts/DefaultLayout";
+import { H3, P, P2 } from "@/components/Headings/Headings";
 
 const FAQItem: React.FC<
   IFAQ & {
@@ -120,7 +120,7 @@ const FAQ = () => {
   };
 
   return (
-    <UserLayout>
+    <DefaultLayout>
       <H3>FAQs</H3>
       <P2 className="my-7">
         Add questions and answers that your guests might be interested in asking
@@ -161,7 +161,7 @@ const FAQ = () => {
           />
         ))}
       </div>
-    </UserLayout>
+    </DefaultLayout>
   );
 };
 
