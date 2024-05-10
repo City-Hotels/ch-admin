@@ -1,18 +1,19 @@
+"use client"
 import React from "react";
-
 import type { IApartment, IDetailsPayload } from "@/services/apartment/payload";
-import UserLayout from "@/layout/user/User";
-import { H3 } from "@/components/shared/headings/Headings";
-import { useRouter } from "next/router";
+import { useRouter } from "next/navigation";
 import { useMutation, useQuery } from "react-query";
 import { getApartment, updateApartmentDetails } from "@/services/apartment";
-import ToastWrapper from "@/components/shared/toast/Toast";
 import { toastIcons } from "@/utils/constants";
 import { toast } from "react-hot-toast";
-import Button from "@/components/shared/button/Button";
 import type { GetServerSideProps } from "next";
 import queryKeys from "@/utils/api/queryKeys";
 import ApartmentDetailsForm from "@/components/ApartmentDetailsForm/ApartmentDetailsForm";
+import DefaultLayout from "@/components/Layouts/DefaultLayout";
+import { H3 } from "@/components/Headings/Headings";
+import Button from "@/components/Button/Button";
+import { useParams } from "next/navigation";
+import ToastWrapper from "@/components/toast/Toast";
 
 interface ManageApartmentPageProps {
   apartment?: IApartment;
@@ -30,8 +31,8 @@ const EditApartmentDetails: React.FC<ManageApartmentPageProps> = ({
       BathCount: apartment?.BathCount || 0
     });
 
-  const { slug } = router.query;
-  const apartmentId = slug ? slug.toString() : "";
+  const { idOrSlug } = useParams<{ idOrSlug: string }>();
+  const apartmentId = idOrSlug ? idOrSlug.toString() : "";
   const { mutate, isLoading } = useMutation((payload: IDetailsPayload) =>
     updateApartmentDetails(apartmentId, payload)
   );
@@ -39,7 +40,7 @@ const EditApartmentDetails: React.FC<ManageApartmentPageProps> = ({
   useQuery(
     [queryKeys.getApartmentByID],
     () => {
-      const res = getApartment(slug?.toString());
+      const res = getApartment(idOrSlug?.toString());
       return res;
     },
     {
@@ -49,7 +50,7 @@ const EditApartmentDetails: React.FC<ManageApartmentPageProps> = ({
         // eslint-disable-next-line no-console
         setApartmentDetails({ MaxGuest, BedCount, MaxBedRoom, BathCount });
       },
-      enabled: !apartment?.Id // Would only make this request if slug is truthy
+      enabled: !apartment?.Id // Would only make this request if idOrSlug is truthy
     }
   );
 
@@ -64,7 +65,7 @@ const EditApartmentDetails: React.FC<ManageApartmentPageProps> = ({
   };
 
   return (
-    <UserLayout>
+    <DefaultLayout>
       <div className="w-full lg:w-[556px]">
         <H3 className="mb-5">Edit Apartment Basics</H3>
         {
@@ -87,34 +88,34 @@ const EditApartmentDetails: React.FC<ManageApartmentPageProps> = ({
           </Button>
         </div>
       </div>
-    </UserLayout>
+    </DefaultLayout>
   );
 };
 
-export const getServerSideProps: GetServerSideProps<
-  ManageApartmentPageProps
-> = async ({ params }) => {
-  if (!params)
-    return {
-      props: {
-        apartment: undefined
-      }
-    };
-  const { slug } = params;
-  try {
-    const apartment = await getApartment(slug?.toString());
-    return {
-      props: {
-        apartment: apartment.data as IApartment
-      }
-    };
-  } catch (error) {
-    return {
-      props: {
-        apartment: undefined
-      }
-    };
-  }
-};
+// export const getServerSideProps: GetServerSideProps<
+//   ManageApartmentPageProps
+// > = async ({ params }) => {
+//   if (!params)
+//     return {
+//       props: {
+//         apartment: undefined
+//       }
+//     };
+//   const { slug } = params;
+//   try {
+//     const apartment = await getApartment(slug?.toString() ?? "");
+//     return {
+//       props: {
+//         apartment: apartment.data as IApartment
+//       }
+//     };
+//   } catch (error) {
+//     return {
+//       props: {
+//         apartment: undefined
+//       }
+//     };
+//   }
+// };
 
 export default EditApartmentDetails;
