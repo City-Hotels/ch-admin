@@ -3,7 +3,7 @@ import Button from "@/components/Button/Button";
 import { H6 } from "@/components/Headings/Headings";
 import React, { useState, type ChangeEvent } from "react";
 import type AmenitiesProps from "./FacilityDescription.props";
-import styles from "./AmenitiesDescription.module.scss";
+import styles from "./FacilityDescription.module.scss";
 import Img from "../Image/Image";
 
 const FacilityDescription: React.FC<AmenitiesProps> = ({

@@ -1,27 +1,28 @@
-import Button from "@/components/shared/button/Button";
-import { H3 } from "@/components/shared/headings/Headings";
-import Modal from "@/components/shared/modal/Modal";
-import UserLayout from "@/layout/user/User";
+"use client"
 import { getApartment, updateApartmentFacilities } from "@/services/apartment";
 import type { IFacility } from "@/services/apartment/payload";
 import queryKeys from "@/utils/api/queryKeys";
-import { useRouter } from "next/router";
+import { useParams, useRouter } from "next/navigation";
 import React from "react";
 import { useMutation, useQuery } from "react-query";
-import ToastWrapper from "@/components/shared/toast/Toast";
 import { toastIcons } from "@/utils/constants";
 import { toast } from "react-hot-toast";
 import { SelectFacilities } from "@/components/SelectFacilities/SelectFacilities";
 import FacilityDescription from "@/components/SelectFacilities/FacilityDescription";
+import ToastWrapper from "@/components/toast/Toast";
+import DefaultLayout from "@/components/Layouts/DefaultLayout";
+import { H3 } from "@/components/Headings/Headings";
+import Button from "@/components/Button/Button";
+import Modal from "@/components/Modal/Modal";
+import { EditFacilitiesModal } from "@/components/Facilities/EditFacilitiesModal/EditFacilitiesModal";
 
 const EditApartmentFacilities = () => {
   const router = useRouter();
   const [editApartmentAmenitiesModal, setEditApartmentAmenitiesModal] =
     React.useState(false);
   const [facilities, setFacilities] = React.useState<IFacility[]>([]);
-
-  const { slug } = router.query;
-  const apartmentId = slug ? slug.toString() : "";
+  const { idOrSlug } = useParams<{ idOrSlug: string }>();
+  const apartmentId = idOrSlug ? idOrSlug.toString() : "";
 
   const { mutate, isLoading } = useMutation((payload: IFacility[]) =>
     updateApartmentFacilities(apartmentId, payload)
@@ -30,8 +31,7 @@ const EditApartmentFacilities = () => {
   const { isLoading: gettingApartment } = useQuery(
     [queryKeys.getApartmentByID],
     () => {
-      const res = getApartment(slug?.toString() || ""
-      );
+      const res = getApartment(idOrSlug?.toString() || "");
       return res;
     },
     {
@@ -40,7 +40,7 @@ const EditApartmentFacilities = () => {
         // eslint-disable-next-line no-console
         setFacilities(response.data.Facilities || []);
       },
-      enabled: !!slug // Would only make this request if slug is truthy
+      enabled: !!idOrSlug // Would only make this request if slug is truthy
     }
   );
 
@@ -62,7 +62,7 @@ const EditApartmentFacilities = () => {
   };
 
   return (
-    <UserLayout>
+    <DefaultLayout>
       <div className=" max-w-[662px]">
         <div className="mb-10 flex justify-between">
           <H3>Edit Facilities</H3>
@@ -112,14 +112,14 @@ const EditApartmentFacilities = () => {
         variant="plain"
       >
         <div>
-          <EditAmenitiesModal
+          <EditFacilitiesModal
             setFacilities={setFacilities}
             facilities={facilities}
             onCancel={() => setEditApartmentAmenitiesModal(false)}
           />
         </div>
       </Modal>
-    </UserLayout>
+    </DefaultLayout>
   );
 };
 
