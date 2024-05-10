@@ -1,21 +1,23 @@
+"use client"
 import React from "react";
 import type { IPricingPayload } from "@/services/apartment/payload";
-import UserLayout from "@/layout/user/User";
-import { H3, P } from "@/components/shared/headings/Headings";
-import Button from "@/components/shared/button/Button";
 import { getApartment, updateApartmentPrice } from "@/services/apartment";
 import queryKeys from "@/utils/api/queryKeys";
-import { useRouter } from "next/router";
+import { useRouter } from "next/navigation";
 import { useMutation, useQuery } from "react-query";
-import ToastWrapper from "@/components/shared/toast/Toast";
 import { toastIcons } from "@/utils/constants";
 import { toast } from "react-hot-toast";
 import PricingForm from "@/components/PricingForm/PricingForm";
+import ToastWrapper from "@/components/toast/Toast";
+import { H3, P } from "@/components/Headings/Headings";
+import Button from "@/components/Button/Button";
+import DefaultLayout from "@/components/Layouts/DefaultLayout";
+import { useParams } from "next/navigation";
 
 const EditApartmentPricing = () => {
   const router = useRouter();
-  const { slug } = router.query;
-  const apartmentId = slug ? slug.toString() : "";
+  const { idOrSlug } = useParams<{ idOrSlug: string }>();
+  const apartmentId = idOrSlug ? idOrSlug.toString() : "";
 
   const { mutate, isLoading } = useMutation((payload: IPricingPayload) =>
     updateApartmentPrice(apartmentId, payload)
@@ -30,7 +32,7 @@ const EditApartmentPricing = () => {
   useQuery(
     [queryKeys.getApartmentByID],
     () => {
-      const res = getApartment(slug?.toString());
+      const res = getApartment(idOrSlug?.toString());
       return res;
     },
     {
@@ -41,7 +43,7 @@ const EditApartmentPricing = () => {
         // eslint-disable-next-line no-console
         setApartmentPrice({ Price, WeeklyRate, MonthlyRate });
       },
-      enabled: !!slug // Would only make this request if slug is truthy
+      enabled: !!idOrSlug // Would only make this request if idOrSlug is truthy
     }
   );
 
@@ -56,7 +58,7 @@ const EditApartmentPricing = () => {
   };
 
   return (
-    <UserLayout>
+    <DefaultLayout>
       <div className="w-full lg:w-[556px]">
         <H3>Edit Prices</H3>
         <P className="mb-7 mt-5 text-white900">
@@ -85,7 +87,7 @@ const EditApartmentPricing = () => {
           </Button>
         </div>
       </div>
-    </UserLayout>
+    </DefaultLayout>
   );
 };
 
