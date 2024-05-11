@@ -17,7 +17,7 @@ const Hotelinformation = () => {
   const { idOrSlug } = useParams<{ idOrSlug: string }>();
 
   const { isLoading, isError, data } = useQuery(
-    [queryKeys.getHotelByID],
+    [queryKeys.getHotelByID, idOrSlug],
     () => getHotel(idOrSlug?.toString()),
     {
       enabled: !!idOrSlug // Would only make this request if slug is truthy

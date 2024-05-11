@@ -13,7 +13,7 @@ import Rooms from "@/components/Business/Rooms";
 import RoomTypes from "@/components/Business/RoomTypes";
 import Facilities from "@/components/Business/Facilities";
 import UserCard from "@/components/Business/userCard/UserCard";
-import Review from "@/components/Business/review/Review";
+import Review from "@/components/Business/Review/Review";
 import ButtonLink from "@/components/Button/Link/Link";
 import React from "react";
 import NewRoomsModal from "@/components/Business/Modals/NewRoomsModal";
@@ -29,7 +29,7 @@ import Modal from "@/components/Modal/Modal";
 const HotelPage = () => {
   const { idOrSlug } = useParams<{ idOrSlug: string }>();
   const { isLoading, isError, data } = useQuery(
-    [queryKeys.getHotelByID],
+    [queryKeys.getHotelByID, idOrSlug],
     () => getHotel(idOrSlug?.toString()),
     {
       enabled: !!idOrSlug // Would only make this request if slug is truthy

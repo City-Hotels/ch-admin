@@ -1,3 +1,4 @@
+"use client"
 import Button from "@/components/Button/Button";
 import { useMutation, useQuery } from "react-query";
 import type { IFAQ } from "@/services/faq/payload";
@@ -29,7 +30,7 @@ const FAQItem: React.FC<
     onUpdate: Function;
   }
 > = ({ Id, Question, Answer, onUpdate, ServiceId, onDelete, ServiceType }) => {
-  const [isOpen, setIsOpen] = React.useState(false);
+  const [isOpen, setIsOpen] = React.useState(true);
   const { mutate, isLoading } = useMutation(updateServiceFaq);
   const { mutate: deleteFaq, isLoading: isDeletingFaq } = useMutation(
     (id: string) => deleteServiceFaq(id, "Hotel")
@@ -93,15 +94,15 @@ const FAQ = () => {
   const { mutate: createFaq, isLoading: isCreatingFaq } =
     useMutation(createServiceFaq);
 
-    const { idOrSlug } = useParams<{ idOrSlug: string }>();
-    const { data:hotelRes } = useQuery(
-      [queryKeys.getHotelByID],
-      () => getHotel(idOrSlug?.toString()),
-      {
-        enabled: !!idOrSlug 
-      }
-    );
-    const hotel = hotelRes?.data as IHotel;
+  const { idOrSlug } = useParams<{ idOrSlug: string }>();
+  const { data: hotelRes } = useQuery(
+    [queryKeys.getHotelByID, idOrSlug],
+    () => getHotel(idOrSlug?.toString()),
+    {
+      enabled: !!idOrSlug
+    }
+  );
+  const hotel = hotelRes?.data as IHotel;
 
   const { refetch, data } = useQuery(
     [queryKeys.getServiceFAQs],
@@ -110,7 +111,7 @@ const FAQ = () => {
       return res;
     },
     {
-      enabled: !!idOrSlug 
+      enabled: !!idOrSlug
     }
   );
 
