@@ -13,7 +13,7 @@ import Rooms from "@/components/Business/Rooms";
 import RoomTypes from "@/components/Business/RoomTypes";
 import Facilities from "@/components/Business/Facilities";
 import UserCard from "@/components/Business/userCard/UserCard";
-import Review from "@/components/Business/Review/Review";
+import Review from "@/components/Business/Review/Reviews";
 import ButtonLink from "@/components/Button/Link/Link";
 import React from "react";
 import NewRoomsModal from "@/components/Business/Modals/NewRoomsModal";
