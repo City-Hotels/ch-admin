@@ -5,6 +5,7 @@ import { ManageAccountComponent } from "@/components/ManageHotelAccount/ManageHo
 import { getHotel } from "@/services/hotel";
 import { IHotel } from "@/services/hotel/payload";
 import queryKeys from "@/utils/api/queryKeys";
+import Link from "next/link";
 import { useParams } from "next/navigation";
 
 import React from "react";
@@ -25,7 +26,7 @@ const Index: React.FC = () => {
   return (
     <DefaultLayout>
       <>
-        <H4>Manage - {hotel?.Name}</H4>
+        <H4>Manage - <Link href={`/hotels/${idOrSlug}`}>{hotel?.Name}</Link> </H4>
         <ManageAccountComponent hotelid={idOrSlug} />
       </>
     </DefaultLayout>

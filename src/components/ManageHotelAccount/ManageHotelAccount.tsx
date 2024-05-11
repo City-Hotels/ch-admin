@@ -62,8 +62,14 @@ const ManageAccountComponent: React.FC<{ hotelid: string }> = ({ hotelid }) => {
         </div>
         <div className={styles.apartmentContent}>
           <ManageAccountItem
-            content="Support/Contact Person"
+            content="Contact Person"
             link={`/hotels/${hotelid}/manage/support`}
+          />
+        </div>
+        <div className={styles.apartmentContent}>
+          <ManageAccountItem
+            content="Users"
+            link={`/hotels/${hotelid}/manage/users`}
           />
         </div>
         <div className={styles.apartmentContent}>
@@ -79,7 +85,7 @@ const ManageAccountComponent: React.FC<{ hotelid: string }> = ({ hotelid }) => {
           />
         </div>
         <div className={styles.apartmentContent}>
-          <ManageAccountItem content="FAQs" link={`/hotels/${hotelid}/manage/faq`} />
+          <ManageAccountItem content="Frequently Asked Questions" link={`/hotels/${hotelid}/manage/faq`} />
         </div>
       </div>
     </div>

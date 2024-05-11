@@ -1,113 +1,107 @@
+"use client"
 import Edit from "@/assets/icons/edit.svg";
-import AddHotelAdmin from "@/components/Hotel/addHotelAdmin/AddHotelAdmin";
 import AddButton from "@/components/Button/Button"
 import { H4 } from "@/components/Headings/Headings";
-import Img from "@/components/Image/Image";
-import Checkbox from "@/components/Inputs/checkbox/Checkbox";
 import Input from "@/components/Inputs/Input/Input";
 import Modal from "@/components/Modal/Modal";
-import {Table} from "@/components/Tables/Table/Table"
+import { Table } from "@/components/Tables/Table/Table"
 import DefaultLayout from "@/components/Layouts/DefaultLayout";
 import { useState } from "react";
 import Select from "react-select";
+import Avatar from "@/components/Avatar/Avatar";
+import Button from "@/components/Button/Button";
+import NewAdminModal from "@/components/Business/Modals/newAdmin/NewAdminModal";
+import { useQuery } from "react-query";
+import { getHotelRoles, getHotelUsers } from "@/services/hotel-users";
+import queryKeys from "@/utils/api/queryKeys";
+import { HOTELROLES } from "@/utils/constants";
+import NewUserRoleModel from "@/components/Business/Modals/newAdminRole/NewUserRoleModal";
 
 export default function Users() {
-  // Select container Styling
-  const countBegin = 1;
-  const bookings = new Array(10)
-    .fill({
-      customer_name: "Customer Name 1",
-      customer_email: "example@gmail.com",
-      customer_profile: "/customer-1.svg",
-      checkbox: "checkbox",
-      // Michael: I just added this for the hotel dashboard user Page
-      role: "9660",
-      telephone_no: "08011001110",
-      status: "confirmed"
-    })
-    .map((assignment) => ({ id: countBegin + 1, ...assignment }));
+  const [custonRoleModal, setCustonRoleModal] = useState(false);
+  const { data } = useQuery([queryKeys.getHotelUsers], getHotelUsers);
 
-  const options = [
-    { value: "chocolate", label: "Chocolate" },
-    { value: "strawberry", label: "Strawberry" },
-    { value: "vanilla", label: "Vanilla" }
-  ];
-  // Modal form style
+  const hotelUsers = data?.data.HotelUsers;
 
   const [showAddUserModal, setShowAddUserModal] = useState(false);
 
+  const { data: savedRoleRes } = useQuery(
+    [queryKeys.getHotelRoles],
+    getHotelRoles
+  );
+
+  const savedRoles = savedRoleRes?.data.ServiceRoles || [];
+  const roles = [...HOTELROLES, ...savedRoles];
+
   return (
     <DefaultLayout>
-      <div className="size-full items-center p-8">
-        <H4 className="mb-[30px] text-[24px] font-semibold">Users</H4>
+      <div className="size-full items-center p-5">
+        <div className="flex justify-between items-center w-full  mb-3">
+          <H4 className="font-semibold">Users</H4>
+          <Button size="md" onClick={() => setShowAddUserModal(true)}>
+            Add a new User
+          </Button>
+        </div>
         <div className="bg-white">
           <Table
             headerColor="primary"
             headerComponent={
-              <div>
-                <div className="flex h-[42px] items-center justify-between gap-3">
-                  <div className="items-between mb-8 flex w-full justify-between gap-3">
-                    <div className="min h-[50px] w-[calc(100%-200px)]">
-                      <Input
-                        type="search"
-                        placeholder="Search"
-                        className=" w-full border border-[#EAEAEA] outline-none placeholder:text-[#666666] "
-                      />
-                    </div>
-
-                    <div className="h-[50px] w-[185px] ">
-                      <Select
-                        classNamePrefix="table__filter"
-                        className="h-full text-[14px] text-[#666666]"
-                        placeholder={"Sort By: Recents"}
-                        name="options"
-                        options={options}
-                      />
-                    </div>
+              <div className="flex items-center justify-between gap-3 p-3">
+                <div className="items-between flex w-full justify-between gap-3">
+                  <div className=" w-[calc(100%-200px)]">
+                    <Input
+                      type="search"
+                      placeholder="Search"
+                      className=" w-full border border-[#EAEAEA] outline-none placeholder:text-[#666666] "
+                    />
                   </div>
 
-                  <span onClick={() => setShowAddUserModal(true)}>
-                    <AddButton />
-                  </span>
+                  <div className="h-[50px] w-[185px] ">
+                    <Select
+                      classNamePrefix="table__filter"
+                      className="h-full text-[14px] text-[#666666]"
+                      placeholder={"Sort By: Recents"}
+                      name="options"
+                      options={roles.map((role) => ({
+                        label: role.Title,
+                        value: role.Id
+                      }))}
+                    />
+                  </div>
                 </div>
+
+                <span onClick={() => setShowAddUserModal(true)}>
+                  <AddButton />
+                </span>
               </div>
             }
             header={[
               {
-                key: "checkbox",
-                title: "checkbox",
-                width: "2%",
-
+                key: "customer_name",
+                title: "NAME",
+                width: "30%",
                 renderHeader() {
                   return (
-                    <div className="py-3">
-                      <Checkbox label={""} value={false} onChange={() => { }} />
+                    <div className="py-2">
+                      ADMIN
                     </div>
                   );
                 },
                 render(_column, item) {
-                  return <input type="checkbox" name={item.checkbox} />;
-                }
-              },
-              {
-                key: "customer_name",
-                title: "NAME",
-                width: "13%",
-                render(_column, item) {
                   return (
                     <div className="flex items-center gap-5">
-                      <Img
-                        path={item.customer_profile}
-                        alt="User Profile"
-                        name="Hotel Img"
+                      <Avatar
+                        Imageurl={item.Imageurl || ""}
                         className="size-[50px]"
+                        Firstname={item.Firstname || ""}
+                        Lastname={item.Lastname || ""}
                       />
                       <div className="flex  flex-col gap-1">
                         <div className={` text-[14px] text-black`}>
-                          {item.customer_name}
+                          {item.Firstname}
                         </div>
                         <div className="text-[12px] text-black">
-                          {item.customer_email}
+                          {item.Lastname}
                         </div>
                       </div>
                     </div>
@@ -117,29 +111,29 @@ export default function Users() {
               {
                 key: "role",
                 title: "ROLE",
-                width: "4%"
+                width: "10%"
               },
               {
                 key: "telephone_no",
-                title: "TELEPHONE NO",
-                width: "4%"
+                title: "TELEPHONE",
+                width: "10%"
               },
               {
                 key: "status",
-                title: "Status",
+                title: "STATUS",
                 width: "1%",
                 render(_column, item) {
                   return (
                     <div
-                      className={`${(item.status === "active" && "bg-[#3401FE]") ||
-                        (item.status === "checked in" && "bg-[#FE8501]") ||
-                        (item.status === "confirmed" && "bg-[#3CBC00]") ||
+                      className={`${(item.Status === "active" && "bg-[#3401FE]") ||
+                        (item.Status === "checked in" && "bg-[#FE8501]") ||
+                        (item.Status === "confirmed" && "bg-[#3CBC00]") ||
                         "bg-[#FE012F]"
                         }   flex items-center justify-center gap-2 rounded-md px-[11px] py-[6px]`}
                     >
                       <span className="size-[5px] rounded-full bg-[#FFF] "></span>
                       <div className="text-right text-[#FFF]">
-                        {item.status}
+                        {item.Status}
                       </div>
                     </div>
                   );
@@ -154,17 +148,27 @@ export default function Users() {
                 }
               }
             ]}
-            data={bookings}
+            data={hotelUsers || []}
           />
         </div>
       </div>
+      {custonRoleModal && (
+        <div className="fixed left-0 top-0 z-[1000000] flex h-screen w-screen items-center justify-center bg-transparent shadow-lg">
+          <div className="h-[98vh] w-full max-w-[600px] bg-white px-10">
+            <NewUserRoleModel closeModal={() => setCustonRoleModal(false)} />
+          </div>
+        </div>
+      )}
       <Modal
         openModal={showAddUserModal}
         setOpenModal={setShowAddUserModal}
-        variant="plain"
+        variant="filled"
       >
         <section>
-          <AddHotelAdmin onCancel={() => setShowAddUserModal(false)} />
+          <NewAdminModal
+            onClickCreateCustomRole={() => setCustonRoleModal(true)}
+            closeModal={setShowAddUserModal}
+          />
         </section>
       </Modal>
     </DefaultLayout>
