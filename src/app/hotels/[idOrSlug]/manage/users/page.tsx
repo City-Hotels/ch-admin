@@ -1,13 +1,13 @@
 import Edit from "@/assets/icons/edit.svg";
-import AddHotelAdmin from "@/components/hotel/addHotelAdmin/AddHotelAdmin";
-import AddButton from "@/components/button/AddButton";
+import AddHotelAdmin from "@/components/Hotel/addHotelAdmin/AddHotelAdmin";
+import AddButton from "@/components/Button/Button"
 import { H4 } from "@/components/Headings/Headings";
 import Img from "@/components/Image/Image";
-import Checkbox from "@/components/inputs/checkbox/Checkbox";
-import Input from "@/components/inputs/input/Input";
-import Modal from "@/components/modal/Modal";
-import { Table } from "@/components/table/Table";
-import HotelAdminLayout from "@/layout/hotelAdmin/HotelAdmin";
+import Checkbox from "@/components/Inputs/checkbox/Checkbox";
+import Input from "@/components/Inputs/Input/Input";
+import Modal from "@/components/Modal/Modal";
+import {Table} from "@/components/Tables/Table/Table"
+import DefaultLayout from "@/components/Layouts/DefaultLayout";
 import { useState } from "react";
 import Select from "react-select";
 
@@ -37,7 +37,7 @@ export default function Users() {
   const [showAddUserModal, setShowAddUserModal] = useState(false);
 
   return (
-    <HotelAdminLayout>
+    <DefaultLayout>
       <div className="size-full items-center p-8">
         <H4 className="mb-[30px] text-[24px] font-semibold">Users</H4>
         <div className="bg-white">
@@ -167,6 +167,6 @@ export default function Users() {
           <AddHotelAdmin onCancel={() => setShowAddUserModal(false)} />
         </section>
       </Modal>
-    </HotelAdminLayout>
+    </DefaultLayout>
   );
 }
