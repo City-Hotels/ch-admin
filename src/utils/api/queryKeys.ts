@@ -4,6 +4,7 @@ const queryKeys = {
   getRoomsByID: "getRoomsByID",
   getRoomsByRoomTypeId: "getRoomsByRoomTypeId",
   getHotelRooms: "getHotelRooms",
+  getHotelCooperateInformation: "getHotelCooperateInformation",
   getRoomTypes: "getRoomTypes",
   getRoomType: "getRoomType",
   getHotelUsers: "getHotelUsers",

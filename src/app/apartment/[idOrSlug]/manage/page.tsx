@@ -1,6 +1,6 @@
 "use client"
 import DefaultLayout from "@/components/Layouts/DefaultLayout";
-import ManageApartment from "@/components/ManageApartment/ManageApartment";
+import  ManageApartment  from "@/components/ManageApartment/ManageApartment";
 import { useParams } from "next/navigation";
 
 import React from "react";

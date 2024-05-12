@@ -2,6 +2,7 @@ export type IHotelUser = {
   Id?: string;
   Firstname: string;
   Lastname: string;
+  Imageurl?: string;
   Email: string;
   Telephone: string;
   Role: string;

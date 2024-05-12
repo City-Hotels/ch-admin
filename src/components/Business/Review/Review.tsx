@@ -15,7 +15,8 @@ import ReviewStatistics from "@/components/Reviews/ReviewStatistics";
 import styles from "./Review.module.scss";
 import { IHotel } from "@/services/hotel/payload";
 
-const Review: React.FC<{hotel: IHotel}> = ({hotel}) => {;
+const Review: React.FC<{ hotel: IHotel }> = ({ hotel }) => {
+  ;
   const serviceId = hotel?.Id || "";
   const [showReviewsModal, setShowReviewsModal] = useState(false);
 
@@ -48,7 +49,7 @@ const Review: React.FC<{hotel: IHotel}> = ({hotel}) => {;
             {reviews && reviews?.length > 0
               ? `${reviewStats?.Overall || 0}/10 • ${reviews?.length} Review${reviews?.length > 1 ? "s" : ""
               }`
-              : `Your ${hotel?.BusinessType?.toLocaleLowerCase()} has no reviews!`}
+              : `${hotel?.BusinessType?.toLocaleLowerCase()} has no reviews!`}
           </P>
 
           {reviews && reviews?.length > 0 && reviewStats && (
