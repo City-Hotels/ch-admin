@@ -13,13 +13,12 @@ import Rooms from "@/components/Business/Rooms";
 import RoomTypes from "@/components/Business/RoomTypes";
 import Facilities from "@/components/Business/Facilities";
 import UserCard from "@/components/Business/userCard/UserCard";
-
 import ButtonLink from "@/components/Button/Link/Link";
 import React from "react";
 import NewRoomsModal from "@/components/Business/Modals/NewRoomsModal";
 import Button from "@/components/Button/Button";
 import Modal from "@/components/Modal/Modal";
-import Review from "@/components/Business/review/Review";
+import Review from "@/components/Business/Review/Review";
 
 // export const metadata: Metadata = {
 //   title: "City Hotel Backend Admin  Business Table",
@@ -30,7 +29,7 @@ import Review from "@/components/Business/review/Review";
 const HotelPage = () => {
   const { idOrSlug } = useParams<{ idOrSlug: string }>();
   const { isLoading, isError, data } = useQuery(
-    [queryKeys.getHotelByID],
+    [queryKeys.getHotelByID, idOrSlug],
     () => getHotel(idOrSlug?.toString()),
     {
       enabled: !!idOrSlug // Would only make this request if slug is truthy

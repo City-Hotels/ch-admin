@@ -117,7 +117,7 @@ const SummaryCard: React.FC<SummaryCardProps> = ({ hotel }) => {
             </div>
           </div>
           <Link
-            href={`/hotels/${hotel.Id}/manage`}
+            href={`/hotels/${hotel.Slug}/manage`}
             className="mt-1 rounded-full bg-[#FFF] p-[7px] hover:bg-primary400"
           >
             <PencilIcon className="cursor-pointer text-primary400 hover:text-[#FFF]" />
