@@ -40,7 +40,7 @@ const ManageApartment: React.FC<{ apartmentid: string}> = ({apartmentid}) => {
             content="Specification"
             link={`/apartment/${apartmentid}/manage/details`}
           />
-        </div>
+        </div>    
         <div className={styles.apartmentContent}>
           <ManageApartmentItem
             content="Location"
