@@ -1,0 +1,15 @@
+.paymentItem {
+  @apply mb-10 flex relative items-center gap-12 rounded-md border px-3 py-5 shadow-sm cursor-pointer
+}
+
+.tooltiptext {
+  @apply hidden w-28 bg-white800 text-white rounded-md py-1 px-2 absolute right-5 top-3;
+}
+
+.paymentItem:hover {
+  @apply bg-white50;
+
+  .tooltiptext {
+    @apply visible z-20 block
+  }
+}
