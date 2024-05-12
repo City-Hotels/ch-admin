@@ -1,7 +1,8 @@
+"use client";
 import SupportOfficerForm from "@/components/ManagementInformation/SupportOfficerForm";
 import ToastWrapper from "@/components/toast/Toast";
-import { getHotel, updateSupportOfficerInformation } from "@/services/hotel";
-import { IHotel, SupportInformationPayload } from "@/services/hotel/payload";
+import { getHotel, getHotelCooperateInformation, updateSupportOfficerInformation } from "@/services/hotel";
+import { ICooperateInformation, IHotel, SupportInformationPayload } from "@/services/hotel/payload";
 import { toastIcons } from "@/utils/constants";
 import React from "react";
 import toast from "react-hot-toast";
@@ -10,24 +11,28 @@ import DefaultLayout from "@/components/Layouts/DefaultLayout";
 import { useParams } from "next/navigation";
 import queryKeys from "@/utils/api/queryKeys";
 
-const index = () => {
-
+const SupportOfficeFormPage = () => {
   const { idOrSlug } = useParams<{ idOrSlug: string }>();
 
   const { data } = useQuery(
-    [queryKeys.getHotelByID],
+    [queryKeys.getHotelByID, idOrSlug],
     () => getHotel(idOrSlug?.toString()),
     {
       enabled: !!idOrSlug // Would only make this request if slug is truthy
     }
   );
-
   const hotel = data?.data as IHotel;
 
-  const { Support } = hotel?.CooperateInformation || {};
+  const { data: hotelCooperateRes } = useQuery(
+    [queryKeys.getHotelCooperateInformation, idOrSlug],
+    () => getHotelCooperateInformation(idOrSlug?.toString()),
+    {
+      enabled: !!hotel?.Id // Would only make this request if slug is truthy
+    }
+  );
+  const { Support } = hotelCooperateRes?.data as ICooperateInformation || {};
 
   const { mutate, isLoading } = useMutation(updateSupportOfficerInformation);
-  
   const onSubmit = (values: SupportInformationPayload) => {
     mutate(values, {
       onSuccess(data) {
@@ -38,13 +43,20 @@ const index = () => {
     });
   };
 
+  const initialValues: SupportInformationPayload = {
+    Firstname: Support?.Firstname || "",
+    Lastname: Support?.Lastname || "",
+    Email: Support?.Email || "",
+    Telephone: Support?.Telephone || ""
+  };
+
   return (
     <DefaultLayout>
       <div className="w-full max-w-[600px]">
-        <SupportOfficerForm manager={Support} onSubmit={onSubmit} isSubmitting={isLoading} />
+        {<SupportOfficerForm manager={initialValues} onSubmit={onSubmit} isSubmitting={isLoading} />}
       </div>
     </DefaultLayout>
   );
 };
 
-export default index;
+export default SupportOfficeFormPage;

@@ -1,3 +1,4 @@
+"use client";
 import { Formik } from "formik";
 import Input from "@/components/formik/input/Input";
 import type { SupportInformationPayload } from "@/services/hotel/payload";

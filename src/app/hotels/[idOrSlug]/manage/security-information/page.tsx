@@ -1,3 +1,4 @@
+"use client";
 import React from "react";
 import EditPassword from "@/components/EditPasswordInfo/EditPassword";
 import DefaultLayout from "@/components/Layouts/DefaultLayout";
