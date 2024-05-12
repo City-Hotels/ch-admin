@@ -21,10 +21,10 @@ const Input: React.FC<InputProps> = ({
   const [mode, setMode] = useState("password");
 
   return (
-    <div className="relative">
+    <div className="relative mb-2">
       {label && (
-        <label htmlFor={name} className={` ${styles.label}`}>
-          <div>{label}</div>
+        <label htmlFor={name} className={`${styles.label}`}>
+          {label}
         </label>
       )}
       <>

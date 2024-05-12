@@ -1,32 +1,32 @@
 "use client"
 import React from "react";
-import HotelInformation from "@/components/HotelInformation/HotelInformation";
-import { getHotel, updateHotelInformation } from "@/services/hotel";
+import ApartmentInfo from "@/components/ApartmentInformation/ApartmentInformation"
 import { toastIcons } from "@/utils/constants";
 import { useMutation, useQuery } from "react-query";
 import ToastWrapper from "@/components/toast/Toast";
 import toast from "react-hot-toast";
-import { HotelInformationPayload, IHotel } from "@/services/hotel/payload";
 import DefaultLayout from "@/components/Layouts/DefaultLayout";
 import { useParams } from "next/navigation";
 import queryKeys from "@/utils/api/queryKeys";
+import { getApartment, updateApartmentInformation } from "@/services/apartment";
+import { IApartment, IApartmentInformationPayload } from "@/services/apartment/payload";
 
-const Hotelinformation = () => {
-  const { mutate, isLoading: isSubmitting } = useMutation(updateHotelInformation);
+const AparmtentInformation = () => {
+  const { mutate, isLoading: isSubmitting } = useMutation(updateApartmentInformation);
 
   const { idOrSlug } = useParams<{ idOrSlug: string }>();
 
   const { isLoading, isError, data } = useQuery(
-    [queryKeys.getHotelByID, idOrSlug],
-    () => getHotel(idOrSlug?.toString()),
+    [queryKeys.getApartmentByID],
+    () => getApartment(idOrSlug?.toString()),
     {
       enabled: !!idOrSlug // Would only make this request if slug is truthy
     }
   );
 
-  const hotel = data?.data as IHotel;
+  const apartment = data?.data as IApartment;
 
-  const onSubmit = (values: HotelInformationPayload) => {
+  const onSubmit = (values: IApartmentInformationPayload) => {
     mutate(values, {
       onSuccess(data) {
         toast.success((t) => <ToastWrapper message={data?.message} t={t} />, {
@@ -39,11 +39,11 @@ const Hotelinformation = () => {
   return (
     <DefaultLayout>
       <div className="max-w-[600px]">
-        {!isLoading && hotel &&
-          <HotelInformation onSubmit={onSubmit} hotel={hotel} isSubmitting={isSubmitting} />}
+        {!isLoading && apartment &&
+          <ApartmentInfo onSubmit={onSubmit} apartment={apartment} isSubmitting={isSubmitting} />}
       </div>
     </DefaultLayout>
   );
 };
 
-export default Hotelinformation;
+export default AparmtentInformation;

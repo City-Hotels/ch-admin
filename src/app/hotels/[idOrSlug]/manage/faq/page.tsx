@@ -1,8 +1,15 @@
+"use client"
 import Button from "@/components/Button/Button";
 import { useMutation, useQuery } from "react-query";
+<<<<<<<< HEAD:src/app/apartment/[idOrSlug]/manage/faq/page.tsx
+
+import type { IFAQ } from "@/services/faq/payload";
+import React from "react";
+========
 import type { IFAQ } from "@/services/faq/payload";
 import React from "react";
 import { H3, P, P2 } from "@/components/Headings/Headings";
+>>>>>>>> CHW-459-manage-apartment:src/app/hotels/[idOrSlug]/manage/faq/page.tsx
 import ChevronDownIcon from "@/assets/icons/chevron-down.svg";
 import ChevronUpIcon from "@/assets/icons/chevron-up.svg";
 import queryKeys from "@/utils/api/queryKeys";
@@ -17,9 +24,15 @@ import { toastIcons } from "@/utils/constants";
 import { toast } from "react-hot-toast";
 import FAQForm from "@/components/Faq/FAQForm";
 import { ServiceTypes } from "@/utils/enums";
-import { useSelector } from "react-redux";
-import { getStateHotel } from "@/store/slice/hotel/hotel.slice";
-import HotelAdminLayout from "@/layout/hotelAdmin/HotelAdmin";
+import DefaultLayout from "@/components/Layouts/DefaultLayout";
+<<<<<<<< HEAD:src/app/apartment/[idOrSlug]/manage/faq/page.tsx
+import { H3, P, P2 } from "@/components/Headings/Headings";
+import { useParams } from "next/navigation";
+========
+import { useParams } from "next/navigation";
+import { IHotel } from "@/services/hotel/payload";
+import { getHotel } from "@/services/hotel";
+>>>>>>>> CHW-459-manage-apartment:src/app/hotels/[idOrSlug]/manage/faq/page.tsx
 
 const FAQItem: React.FC<
   IFAQ & {
@@ -28,7 +41,7 @@ const FAQItem: React.FC<
     onUpdate: Function;
   }
 > = ({ Id, Question, Answer, onUpdate, ServiceId, onDelete, ServiceType }) => {
-  const [isOpen, setIsOpen] = React.useState(false);
+  const [isOpen, setIsOpen] = React.useState(true);
   const { mutate, isLoading } = useMutation(updateServiceFaq);
   const { mutate: deleteFaq, isLoading: isDeletingFaq } = useMutation(
     (id: string) => deleteServiceFaq(id, "Hotel")
@@ -87,24 +100,47 @@ const FAQItem: React.FC<
 };
 
 const FAQ = () => {
-  // const router = useRouter();
-  // const { slug } = router.query;
-  // const apartmentId = slug ? slug.toString() : "";
-  const hotel = useSelector(getStateHotel);
+<<<<<<<< HEAD:src/app/apartment/[idOrSlug]/manage/faq/page.tsx
+  const { idOrSlug } = useParams<{ idOrSlug: string }>();
+
+  const apartmentId = idOrSlug ? idOrSlug.toString() : "";
+========
+>>>>>>>> CHW-459-manage-apartment:src/app/hotels/[idOrSlug]/manage/faq/page.tsx
   const [isOpen, setIsOpen] = React.useState(false);
 
   const { mutate: createFaq, isLoading: isCreatingFaq } =
     useMutation(createServiceFaq);
 
-  const { data, refetch } = useQuery(
+  const { idOrSlug } = useParams<{ idOrSlug: string }>();
+  const { data: hotelRes } = useQuery(
+    [queryKeys.getHotelByID, idOrSlug],
+    () => getHotel(idOrSlug?.toString()),
+    {
+      enabled: !!idOrSlug
+    }
+  );
+  const hotel = hotelRes?.data as IHotel;
+
+  const { refetch, data } = useQuery(
     [queryKeys.getServiceFAQs],
     () => {
+<<<<<<<< HEAD:src/app/apartment/[idOrSlug]/manage/faq/page.tsx
+      const res = getServiceFaqs(
+        idOrSlug?.toString() || "",
+        ServiceTypes.APARTMENT
+      );
+      return res;
+    },
+    {
+      enabled: !!idOrSlug // Would only make this request if slug is truthy
+========
       const res = getServiceFaqs(hotel?.Slug || "", ServiceTypes.HOTEL);
       return res;
+    },
+    {
+      enabled: !!idOrSlug
+>>>>>>>> CHW-459-manage-apartment:src/app/hotels/[idOrSlug]/manage/faq/page.tsx
     }
-    // {
-    //   enabled: !!slug // Would only make this request if slug is truthy
-    // }
   );
 
   const onSubmit = (faq: IFAQ) => {
@@ -120,7 +156,7 @@ const FAQ = () => {
   };
 
   return (
-    <HotelAdminLayout>
+    <DefaultLayout>
       <H3>FAQs</H3>
       <P2 className="my-7">
         Add questions and answers that your guests might be interested in asking
@@ -161,7 +197,7 @@ const FAQ = () => {
           />
         ))}
       </div>
-    </HotelAdminLayout>
+    </DefaultLayout>
   );
 };
 

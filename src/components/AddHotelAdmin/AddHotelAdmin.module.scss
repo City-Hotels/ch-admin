@@ -1,0 +1,11 @@
+.header {
+  @apply rounded-xl bg-white px-8 py-11;
+}
+
+.form {
+  @apply flex h-full w-full flex-col gap-8;
+}
+
+.button {
+  @apply flex justify-between;
+}
