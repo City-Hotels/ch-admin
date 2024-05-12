@@ -23,7 +23,7 @@ const ManageApartmentItem: React.FC<ManageApartmentProps> = ({ content, link }) 
 };
 
 // Example usage of the ManageApartment component
-const ManageApartment: React.FC<{aparmentid: string}> = ({aparmentid}) => {
+const ManageApartment: React.FC<{ apartmentid: string}> = ({apartmentid}) => {
   const router = useRouter();
   return (
     <div className="">
@@ -31,50 +31,50 @@ const ManageApartment: React.FC<{aparmentid: string}> = ({aparmentid}) => {
       <div>
         <div className={styles.apartmentContent}>
           <ManageApartmentItem
-            content="Name and Description"
-            link={`/apartment/${aparmentid}/manage/info`}
+            content="Apartment Infrormation"
+            link={`/apartment/${apartmentid}/manage/apartment-information`}
           />
         </div>
         <div className={styles.apartmentContent}>
           <ManageApartmentItem
-            content="Location"
-            link={`/apartment/${aparmentid}/manage/location`}
+            content="Specification"
+            link={`/apartment/${apartmentid}/manage/details`}
           />
-        </div>
+        </div>    
         <div className={styles.apartmentContent}>
           <ManageApartmentItem
             content="Location"
-            link={`/apartment/${aparmentid}/manage/location`}
+            link={`/apartment/${apartmentid}/manage/location`}
           />
         </div>
         <div className={styles.apartmentContent}>
           <ManageApartmentItem
             content="Media"
-            link={`/apartment/${aparmentid}/manage/media`}
+            link={`/apartment/${apartmentid}/manage/media`}
           />
         </div>
         <div className={styles.apartmentContent}>
           <ManageApartmentItem
             content="Prices"
-            link={`/apartment/${aparmentid}/manage/pricing`}
+            link={`/apartment/${apartmentid}/manage/pricing`}
           />
         </div>
         <div className={styles.apartmentContent}>
           <ManageApartmentItem
             content="Facilities"
-            link={`/apartment/${aparmentid}/manage/facilities`}
+            link={`/apartment/${apartmentid}/manage/facilities`}
           />
         </div>
         <div className={styles.apartmentContent}>
           <ManageApartmentItem
             content="FAQs"
-            link={`/apartment/${aparmentid}/manage/faq`}
+            link={`/apartment/${apartmentid}/manage/faq`}
           />
         </div>
         <div className={styles.apartmentContent}>
           <ManageApartmentItem
             content="Payments"
-            link={`/apartment/${aparmentid}/manage/payment`}
+            link={`/apartment/${apartmentid}/manage/payment`}
           />
         </div>
       </div>

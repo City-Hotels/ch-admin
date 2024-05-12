@@ -1,7 +1,6 @@
 "use client"
 import DefaultLayout from "@/components/Layouts/DefaultLayout";
-import ManageApartment from "@/components/ManageApartment/ManageApartment";
-
+import  ManageApartment  from "@/components/ManageApartment/ManageApartment";
 import { useParams } from "next/navigation";
 
 import React from "react";
@@ -11,7 +10,7 @@ const Index: React.FC = () => {
   return (
     <DefaultLayout>
       <>
-        <ManageApartment aparmentid={idOrSlug} />
+        <ManageApartment apartmentid={idOrSlug} />
       </>
     </DefaultLayout>
   );
