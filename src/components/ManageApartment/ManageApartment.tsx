@@ -3,6 +3,7 @@ import { H4 } from "@/components/Headings/Headings";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import styles from "./ManageApartment.module.scss";
+import { useParams } from "next/navigation";
 
 interface ManageApartmentProps {
   content: string;
