@@ -1,10 +1,7 @@
 import ForwardArrowIcon from "@/assets/icons/arrow-forward.svg";
 import { H4 } from "@/components/Headings/Headings";
 import Link from "next/link";
-<<<<<<< HEAD
-=======
 import { useRouter } from "next/navigation";
->>>>>>> CHW-459-manage-apartment
 import styles from "./ManageApartment.module.scss";
 
 interface ManageApartmentProps {
@@ -26,19 +23,12 @@ const ManageApartmentItem: React.FC<ManageApartmentProps> = ({ content, link }) 
 };
 
 // Example usage of the ManageApartment component
-<<<<<<< HEAD
-const ManageApartment: React.FC<{apartmentid: string}> = ({apartmentid}) => {
-=======
 const ManageApartment: React.FC<{ apartmentid: string}> = ({apartmentid}) => {
   const router = useRouter();
->>>>>>> CHW-459-manage-apartment
   return (
     <div className="">
       <H4>Manage Apartment</H4>
       <div>
-<<<<<<< HEAD
-    
-=======
         <div className={styles.apartmentContent}>
           <ManageApartmentItem
             content="Apartment Infrormation"
@@ -57,13 +47,10 @@ const ManageApartment: React.FC<{ apartmentid: string}> = ({apartmentid}) => {
             link={`/apartment/${apartmentid}/manage/location`}
           />
         </div>
->>>>>>> CHW-459-manage-apartment
         <div className={styles.apartmentContent}>
           <ManageApartmentItem
             content="Media"
             link={`/apartment/${apartmentid}/manage/media`}
-<<<<<<< HEAD
-=======
           />
         </div>
         <div className={styles.apartmentContent}>
@@ -88,7 +75,6 @@ const ManageApartment: React.FC<{ apartmentid: string}> = ({apartmentid}) => {
           <ManageApartmentItem
             content="Payments"
             link={`/apartment/${apartmentid}/manage/payment`}
->>>>>>> CHW-459-manage-apartment
           />
         </div>
       </div>
