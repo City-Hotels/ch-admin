@@ -16,6 +16,7 @@ import type {
   ICooperateInformation,
   IFacility,
   IHotel,
+  IManagementInformationPayload,
   ManagerInformationPayload,
   RegisterHotelPayload,
   SupportInformationPayload,
@@ -56,9 +57,9 @@ const getUserHotel = () => {
   });
 };
 
-const getHotelCooperateInformation = () => {
+const getHotelCooperateInformation = (hotelId: string) => {
   return getRequest<ICooperateInformation>({
-    url: `/hotels/cooperate`
+    url: `/hotels/${hotelId}/cooperate`
   });
 };
 
@@ -121,6 +122,16 @@ const updateHotelAddress = (data: IAddress) => {
 const updateHotelInformation = (data: HotelInformationPayload) => {
   return patchRequest({
     url: "/hotel/setup",
+    data
+  });
+};
+
+
+const updateHotelManagementInformation = (
+  data: IManagementInformationPayload
+) => {
+  return patchRequest({
+    url: "/hotels/management",
     data
   });
 };
@@ -191,6 +202,7 @@ export {
   updateHotelInformation,
   uploadHotelMedia,
   getHotelCooperateInformation,
+  updateHotelManagementInformation,
   uploadHotelBanner,
   getRequest,
   updateHotelAddress,

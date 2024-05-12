@@ -1,3 +1,5 @@
+"use client";
+
 import ADollarIcon from "@/assets/icons/available-money.svg";
 import ChartIcon from "@/assets/icons/chart.svg";
 import RDollarIcon from "@/assets/icons/revenue-money.svg";
