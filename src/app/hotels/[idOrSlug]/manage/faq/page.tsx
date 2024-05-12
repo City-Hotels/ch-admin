@@ -1,3 +1,4 @@
+"use client"
 import Button from "@/components/Button/Button";
 import { useMutation, useQuery } from "react-query";
 import type { IFAQ } from "@/services/faq/payload";
@@ -17,9 +18,10 @@ import { toastIcons } from "@/utils/constants";
 import { toast } from "react-hot-toast";
 import FAQForm from "@/components/Faq/FAQForm";
 import { ServiceTypes } from "@/utils/enums";
-import { useSelector } from "react-redux";
-import { getStateHotel } from "@/store/slice/hotel/hotel.slice";
-import HotelAdminLayout from "@/layout/hotelAdmin/HotelAdmin";
+import DefaultLayout from "@/components/Layouts/DefaultLayout";
+import { useParams } from "next/navigation";
+import { IHotel } from "@/services/hotel/payload";
+import { getHotel } from "@/services/hotel";
 
 const FAQItem: React.FC<
   IFAQ & {
@@ -28,7 +30,7 @@ const FAQItem: React.FC<
     onUpdate: Function;
   }
 > = ({ Id, Question, Answer, onUpdate, ServiceId, onDelete, ServiceType }) => {
-  const [isOpen, setIsOpen] = React.useState(false);
+  const [isOpen, setIsOpen] = React.useState(true);
   const { mutate, isLoading } = useMutation(updateServiceFaq);
   const { mutate: deleteFaq, isLoading: isDeletingFaq } = useMutation(
     (id: string) => deleteServiceFaq(id, "Hotel")
@@ -87,24 +89,30 @@ const FAQItem: React.FC<
 };
 
 const FAQ = () => {
-  // const router = useRouter();
-  // const { slug } = router.query;
-  // const apartmentId = slug ? slug.toString() : "";
-  const hotel = useSelector(getStateHotel);
   const [isOpen, setIsOpen] = React.useState(false);
 
   const { mutate: createFaq, isLoading: isCreatingFaq } =
     useMutation(createServiceFaq);
 
-  const { data, refetch } = useQuery(
+  const { idOrSlug } = useParams<{ idOrSlug: string }>();
+  const { data: hotelRes } = useQuery(
+    [queryKeys.getHotelByID, idOrSlug],
+    () => getHotel(idOrSlug?.toString()),
+    {
+      enabled: !!idOrSlug
+    }
+  );
+  const hotel = hotelRes?.data as IHotel;
+
+  const { refetch, data } = useQuery(
     [queryKeys.getServiceFAQs],
     () => {
       const res = getServiceFaqs(hotel?.Slug || "", ServiceTypes.HOTEL);
       return res;
+    },
+    {
+      enabled: !!idOrSlug
     }
-    // {
-    //   enabled: !!slug // Would only make this request if slug is truthy
-    // }
   );
 
   const onSubmit = (faq: IFAQ) => {
@@ -120,7 +128,7 @@ const FAQ = () => {
   };
 
   return (
-    <HotelAdminLayout>
+    <DefaultLayout>
       <H3>FAQs</H3>
       <P2 className="my-7">
         Add questions and answers that your guests might be interested in asking
@@ -161,7 +169,7 @@ const FAQ = () => {
           />
         ))}
       </div>
-    </HotelAdminLayout>
+    </DefaultLayout>
   );
 };
 
