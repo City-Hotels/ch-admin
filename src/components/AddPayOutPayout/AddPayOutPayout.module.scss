@@ -1,0 +1,7 @@
+.header {
+  @apply max-w-[450px] mx-auto rounded-md border border-[#F3F4F6] bg-white py-6 shadow;
+}
+
+.formInput {
+  @apply  flex flex-col gap-4 md:flex-row;
+}

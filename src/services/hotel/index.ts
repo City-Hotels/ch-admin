@@ -1,6 +1,7 @@
 import {
   ApiResponse,
   Meta,
+  deleteRequest,
   getRequest,
   patchRequest,
   postRequest,
@@ -11,9 +12,11 @@ import type {
   CompleteHotelRegisterPayload,
   HotelFilter,
   HotelInformationPayload,
+  IAddress,
   ICooperateInformation,
   IFacility,
   IHotel,
+  IManagementInformationPayload,
   ManagerInformationPayload,
   RegisterHotelPayload,
   SupportInformationPayload,
@@ -54,9 +57,9 @@ const getUserHotel = () => {
   });
 };
 
-const getHotelCooperateInformation = () => {
+const getHotelCooperateInformation = (hotelId: string) => {
   return getRequest<ICooperateInformation>({
-    url: `/hotels/cooperate`
+    url: `/hotels/${hotelId}/cooperate`
   });
 };
 
@@ -108,6 +111,13 @@ const updateDebitInformation = (data: BankInformationPayload) => {
     data
   });
 };
+const updateHotelAddress = (data: IAddress) => {
+  return patchRequest({
+    url: "/hotels/address",
+    data
+  });
+};
+
 
 const updateHotelInformation = (data: HotelInformationPayload) => {
   return patchRequest({
@@ -116,8 +126,18 @@ const updateHotelInformation = (data: HotelInformationPayload) => {
   });
 };
 
+
+const updateHotelManagementInformation = (
+  data: IManagementInformationPayload
+) => {
+  return patchRequest({
+    url: "/hotels/management",
+    data
+  });
+};
+
 const uploadHotelMedia = (file: FormData, setProgress: Function) => {
-  return putRequest<FormData, null>({
+  return putRequest<FormData, { Path: string }>({
     url: `hotels/media`,
     data: file,
     config: {
@@ -128,6 +148,13 @@ const uploadHotelMedia = (file: FormData, setProgress: Function) => {
     }
   });
 };
+
+const deleteHotelMedia = (path: string) => {
+  return deleteRequest<{ FilePath: string }, null>({
+    url: `hotels/media?FilePath=${path}`
+  });
+};
+
 
 const uploadHotelBanner = (file: FormData, setProgress: Function) => {
   return putRequest<FormData, null>({
@@ -175,8 +202,11 @@ export {
   updateHotelInformation,
   uploadHotelMedia,
   getHotelCooperateInformation,
+  updateHotelManagementInformation,
   uploadHotelBanner,
   getRequest,
+  updateHotelAddress,
   updateHotelFacilities,
-  uploadHotelLogo
+  uploadHotelLogo,
+  deleteHotelMedia
 };

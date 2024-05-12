@@ -405,20 +405,20 @@ export const toastIcons = {
 //   PostalCode: ""
 // };
 
-// export const CountryOptions = [
-//   {
-//     label: "Nigeria",
-//     value: "nigeria"
-//   },
-//   {
-//     label: "Singapore",
-//     value: "singapore"
-//   },
-//   {
-//     label: "Canada",
-//     value: "canada"
-//   }
-// ];
+export const CountryOptions = [
+  {
+    label: "Nigeria",
+    value: "nigeria"
+  },
+  // {
+  //   label: "Singapore",
+  //   value: "singapore"
+  // },
+  // {
+  //   label: "Canada",
+  //   value: "canada"
+  // }
+];
 
 // export const CityOptions = [
 //   {

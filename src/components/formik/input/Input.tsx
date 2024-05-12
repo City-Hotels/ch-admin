@@ -1,3 +1,4 @@
+"use client"
 import { useState } from "react";
 import EyeOpenIcon from "@/assets/icons/eye-open.svg";
 import EyeOffIcon from "@/assets/icons/eye-off.svg";
@@ -20,10 +21,10 @@ const Input: React.FC<InputProps> = ({
   const [mode, setMode] = useState("password");
 
   return (
-    <div className="relative">
+    <div className="relative mb-2">
       {label && (
-        <label htmlFor={name} className={` ${styles.label}`}>
-          <div>{label}</div>
+        <label htmlFor={name} className={`${styles.label}`}>
+          {label}
         </label>
       )}
       <>
@@ -54,8 +55,8 @@ const Input: React.FC<InputProps> = ({
           <>
             <div
               className={`${styles.input_container} ${meta.touched && meta.error
-                  ? "border-primary400"
-                  : "border-grey30"
+                ? "border-primary400"
+                : "border-grey30"
                 } ${className}`}
             >
               <AmountInput
@@ -76,8 +77,8 @@ const Input: React.FC<InputProps> = ({
           <>
             <div
               className={`${styles.input_container} ${meta.touched && meta.error
-                  ? "border-primary400"
-                  : "border-grey30"
+                ? "border-primary400"
+                : "border-grey30"
                 } ${className}`}
             >
               <input
