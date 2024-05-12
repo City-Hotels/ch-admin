@@ -1,15 +1,9 @@
 "use client"
 import Button from "@/components/Button/Button";
 import { useMutation, useQuery } from "react-query";
-<<<<<<<< HEAD:src/app/apartment/[idOrSlug]/manage/faq/page.tsx
 
 import type { IFAQ } from "@/services/faq/payload";
 import React from "react";
-========
-import type { IFAQ } from "@/services/faq/payload";
-import React from "react";
-import { H3, P, P2 } from "@/components/Headings/Headings";
->>>>>>>> CHW-459-manage-apartment:src/app/hotels/[idOrSlug]/manage/faq/page.tsx
 import ChevronDownIcon from "@/assets/icons/chevron-down.svg";
 import ChevronUpIcon from "@/assets/icons/chevron-up.svg";
 import queryKeys from "@/utils/api/queryKeys";
@@ -25,14 +19,8 @@ import { toast } from "react-hot-toast";
 import FAQForm from "@/components/Faq/FAQForm";
 import { ServiceTypes } from "@/utils/enums";
 import DefaultLayout from "@/components/Layouts/DefaultLayout";
-<<<<<<<< HEAD:src/app/apartment/[idOrSlug]/manage/faq/page.tsx
 import { H3, P, P2 } from "@/components/Headings/Headings";
 import { useParams } from "next/navigation";
-========
-import { useParams } from "next/navigation";
-import { IHotel } from "@/services/hotel/payload";
-import { getHotel } from "@/services/hotel";
->>>>>>>> CHW-459-manage-apartment:src/app/hotels/[idOrSlug]/manage/faq/page.tsx
 
 const FAQItem: React.FC<
   IFAQ & {
@@ -40,12 +28,11 @@ const FAQItem: React.FC<
     onDelete: Function;
     onUpdate: Function;
   }
-> = ({ Id, Question, Answer, onUpdate, ServiceId, onDelete, ServiceType }) => {
-  const [isOpen, setIsOpen] = React.useState(true);
+> = ({ Id, Question, Answer, onUpdate, ServiceId, onDelete }) => {
+  const [isOpen, setIsOpen] = React.useState(false);
   const { mutate, isLoading } = useMutation(updateServiceFaq);
-  const { mutate: deleteFaq, isLoading: isDeletingFaq } = useMutation(
-    (id: string) => deleteServiceFaq(id, "Hotel")
-  );
+  const { mutate: deleteFaq, isLoading: isDeletingFaq } =
+    useMutation(deleteServiceFaq);
 
   const onSubmit = (faq: IFAQ) => {
     mutate(faq, {
@@ -87,7 +74,7 @@ const FAQItem: React.FC<
             isDeleting={isDeletingFaq}
             initialValues={{
               ServiceId,
-              ServiceType,
+              ServiceType: "Apartment",
               Question,
               Answer,
               Id
@@ -100,31 +87,17 @@ const FAQItem: React.FC<
 };
 
 const FAQ = () => {
-<<<<<<<< HEAD:src/app/apartment/[idOrSlug]/manage/faq/page.tsx
   const { idOrSlug } = useParams<{ idOrSlug: string }>();
 
   const apartmentId = idOrSlug ? idOrSlug.toString() : "";
-========
->>>>>>>> CHW-459-manage-apartment:src/app/hotels/[idOrSlug]/manage/faq/page.tsx
   const [isOpen, setIsOpen] = React.useState(false);
 
   const { mutate: createFaq, isLoading: isCreatingFaq } =
     useMutation(createServiceFaq);
 
-  const { idOrSlug } = useParams<{ idOrSlug: string }>();
-  const { data: hotelRes } = useQuery(
-    [queryKeys.getHotelByID, idOrSlug],
-    () => getHotel(idOrSlug?.toString()),
-    {
-      enabled: !!idOrSlug
-    }
-  );
-  const hotel = hotelRes?.data as IHotel;
-
-  const { refetch, data } = useQuery(
+  const { data, refetch } = useQuery(
     [queryKeys.getServiceFAQs],
     () => {
-<<<<<<<< HEAD:src/app/apartment/[idOrSlug]/manage/faq/page.tsx
       const res = getServiceFaqs(
         idOrSlug?.toString() || "",
         ServiceTypes.APARTMENT
@@ -133,13 +106,6 @@ const FAQ = () => {
     },
     {
       enabled: !!idOrSlug // Would only make this request if slug is truthy
-========
-      const res = getServiceFaqs(hotel?.Slug || "", ServiceTypes.HOTEL);
-      return res;
-    },
-    {
-      enabled: !!idOrSlug
->>>>>>>> CHW-459-manage-apartment:src/app/hotels/[idOrSlug]/manage/faq/page.tsx
     }
   );
 
@@ -179,8 +145,8 @@ const FAQ = () => {
             onCancel={() => setIsOpen(false)}
             isSubmitting={isCreatingFaq}
             initialValues={{
-              ServiceId: "",
-              ServiceType: "Hotel",
+              ServiceId: apartmentId,
+              ServiceType: "Apartment",
               Question: "",
               Answer: ""
             }}
@@ -191,7 +157,7 @@ const FAQ = () => {
           <FAQItem
             {...item}
             key={item.Id}
-            ServiceId={""}
+            ServiceId={apartmentId}
             onUpdate={refetch}
             onDelete={refetch}
           />
