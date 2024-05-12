@@ -1,3 +1,5 @@
+"use client";
+
 import HotelMediaForm from "@/components/HotelMediaForm/HotelMediaForm";
 import DefaultLayout from "@/components/Layouts/DefaultLayout";
 import { deleteHotelMedia, getHotel, uploadHotelMedia } from "@/services/hotel";
@@ -14,7 +16,7 @@ const BannerImages = () => {
   const { idOrSlug } = useParams<{ idOrSlug: string }>();
 
   const { data } = useQuery(
-    [queryKeys.getHotelByID],
+    [queryKeys.getHotelByID, idOrSlug],
     () => getHotel(idOrSlug?.toString()),
     {
       enabled: !!idOrSlug // Would only make this request if slug is truthy

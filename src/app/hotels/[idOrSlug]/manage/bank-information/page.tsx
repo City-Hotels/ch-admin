@@ -1,3 +1,4 @@
+"use client";
 import { H3, H6, P2, P3 } from "@/components/Headings/Headings";
 import BankIcon from "@/assets/icons/bank.svg";
 import AddIcon from "@/assets/icons/add.svg";
@@ -38,7 +39,7 @@ const PaymentSettings = () => {
         }
       });
     },
-    [paymentDetails]
+    [mutate, refetch]
   );
 
   return (
