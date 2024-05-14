@@ -16,6 +16,7 @@ const Img: FC<ImageProps> = ({
     <figure className={`relative overflow-hidden ${className}`}>
       {responsive && width ? (
         <Image
+
           src={path}
           // className={styles.base}
           alt={name}
