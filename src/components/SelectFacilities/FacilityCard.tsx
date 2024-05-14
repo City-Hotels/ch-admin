@@ -1,5 +1,5 @@
-import { H4 } from "@/components/shared/headings/Headings";
-import Img from "@/components/shared/images/Image";
+import { H4 } from "@/components/Headings/Headings";
+import Img from "@/components/Image/Image";
 import React from "react";
 import styles from "./FacilityCard.module.scss";
 import type FacilityCardProps from "./FacilityCard.props";
@@ -12,9 +12,8 @@ const FacilityCard: React.FC<FacilityCardProps> = ({
 }) => {
   return (
     <div
-      className={`${styles.FacilityContainer} ${
-        selected && styles.SelectedFacilityContainer
-      }`}
+      className={`${styles.FacilityContainer} ${selected && styles.SelectedFacilityContainer
+        }`}
       onClick={() => onSelected && onSelected()}
     >
       {/* <Icon className={styles.Icon} /> */}
