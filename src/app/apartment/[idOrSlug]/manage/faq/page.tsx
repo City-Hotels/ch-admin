@@ -1,7 +1,6 @@
 "use client"
 import Button from "@/components/Button/Button";
 import { useMutation, useQuery } from "react-query";
-
 import type { IFAQ } from "@/services/faq/payload";
 import React from "react";
 import ChevronDownIcon from "@/assets/icons/chevron-down.svg";
