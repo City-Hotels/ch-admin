@@ -1,5 +1,3 @@
-
-
 .counterTitle {
   @apply mt-[33px] font-bold;
 }
@@ -17,7 +15,7 @@
 }
 
 .addButton {
-  @apply mr-2 text-white800 text-[20px]  px-2;
+  @apply mr-2 text-white800 text-[20px] px-2;
 }
 
 .counterHeader {
@@ -25,9 +23,13 @@
 }
 
 .container {
-  @apply justify-center items-center border pb-8 rounded-[10px] px-5;
+  @apply justify-center items-center border pb-8 rounded-[10px] px-5 relative;
 }
 
 .button {
   @apply h-[52px] w-[112px] rounded-[9px];
+}
+
+.loader {
+  @apply absolute top-5 right-5;
 }

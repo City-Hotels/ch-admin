@@ -13,7 +13,7 @@ const CounterItem: React.FC<{
 }> = ({ title, description, onDecreaseCount, onIncreaseCount, count }) => (
   <div className=" mt-3">
     <H6>{title}</H6>
-    <P2 className="mt-2 text-white900">{description}</P2>
+    <P2 className="mt-2 dark:text-white300 text-white900">{description}</P2>
     <div className={styles.counterButton}>
       <button className={styles.removeButton} onClick={() => onDecreaseCount()}>
         -
@@ -30,6 +30,7 @@ const CounterItem: React.FC<{
 
 const ApartmentDetailsForm: React.FC<ApartmentDetailsFormProps> = ({
   onUpdateDetails,
+  isSubmitting,
   value
 }) => {
   const [counter, setCounter] = useState<IDetailsPayload>(value);
@@ -46,14 +47,55 @@ const ApartmentDetailsForm: React.FC<ApartmentDetailsFormProps> = ({
     return () => { };
   }, [value]);
 
-  const { MaxBedRoom, MaxGuest, BedCount, BathCount } = counter;
+  const { MaxBedRoom, MaxAdults,
+    MaxChildren,
+    MaxPets, BedCount, BathCount } = counter;
 
   return (
     <div className={styles.container}>
+      {isSubmitting && <div className={styles.loader}>
+        Submitting..
+      </div>}
+
+      <CounterItem
+        title="Number of Adults"
+        description="The maximum adults that can sleep comfortably given the total bed space and sofas."
+        count={MaxAdults || 0}
+        onDecreaseCount={() =>
+          setCounter({ ...counter, MaxAdults: MaxAdults - 1 })
+        }
+        onIncreaseCount={() =>
+          setCounter({ ...counter, MaxAdults: MaxAdults + 1 })
+        }
+      />
+      <CounterItem
+        title="Number of Children"
+        description="The maximum number of children that can sleep comfortably given the total bed space and sofas."
+        count={MaxChildren || 0}
+        onDecreaseCount={() =>
+          setCounter({ ...counter, MaxChildren: MaxChildren - 1 })
+        }
+        onIncreaseCount={() =>
+          setCounter({ ...counter, MaxChildren: MaxChildren + 1 })
+        }
+      />
+
+      <CounterItem
+        title="Number of Pets"
+        description="The maximum number of pets allowed in the apartment"
+        count={MaxPets || 0}
+        onDecreaseCount={() =>
+          setCounter({ ...counter, MaxPets: (MaxPets || 0) - 1 })
+        }
+        onIncreaseCount={() =>
+          setCounter({ ...counter, MaxPets: (MaxPets || 0) + 1 })
+        }
+      />
+
       <CounterItem
         title="Number of Bedrooms"
         description="The number of bedrooms in the property"
-        count={MaxBedRoom}
+        count={MaxBedRoom || 0}
         onDecreaseCount={() =>
           setCounter({ ...counter, MaxBedRoom: MaxBedRoom - 1 })
         }
@@ -61,21 +103,11 @@ const ApartmentDetailsForm: React.FC<ApartmentDetailsFormProps> = ({
           setCounter({ ...counter, MaxBedRoom: MaxBedRoom + 1 })
         }
       />
-      <CounterItem
-        title="Number of Guests"
-        description="The maximum number of people who can sleep comfortably given the total bed space and sofas."
-        count={MaxGuest}
-        onDecreaseCount={() =>
-          setCounter({ ...counter, MaxGuest: MaxGuest - 1 })
-        }
-        onIncreaseCount={() =>
-          setCounter({ ...counter, MaxGuest: MaxGuest + 1 })
-        }
-      />
+
       <CounterItem
         title="Number of Beds"
         description="The total number of people who can sleep comfortably given the total bed space and sofas."
-        count={BedCount}
+        count={BedCount || 0}
         onDecreaseCount={() =>
           setCounter({ ...counter, BedCount: BedCount - 1 })
         }
@@ -86,7 +118,7 @@ const ApartmentDetailsForm: React.FC<ApartmentDetailsFormProps> = ({
       <CounterItem
         title="Number of Bathrooms"
         description="The maximum number of people who can sleep comfortably given the total bed space and sofas."
-        count={BathCount}
+        count={BathCount || 0}
         onDecreaseCount={() =>
           setCounter({ ...counter, BathCount: BathCount - 1 })
         }
@@ -94,6 +126,8 @@ const ApartmentDetailsForm: React.FC<ApartmentDetailsFormProps> = ({
           setCounter({ ...counter, BathCount: BathCount + 1 })
         }
       />
+
+
     </div>
   );
 };

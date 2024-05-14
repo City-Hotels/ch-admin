@@ -41,7 +41,9 @@ export enum FilterApartmentStatus {
 };
 
 export type IDetailsPayload = {
-  MaxGuest: number;
+  MaxAdults: number;
+  MaxChildren: number;
+  MaxPets: number;
   MaxBedRoom: number;
   BedCount: number;
   BathCount: number;
@@ -70,6 +72,7 @@ export type IApartment = {
   MaxAdults: number;
   MaxBedRoom: number;
   MaxChildren: number;
+  MaxPets: number;
   MaxGuest: number;
   Medias: IMedia[];
   Name: string;

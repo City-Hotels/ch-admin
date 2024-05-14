@@ -1,5 +1,5 @@
 "use client"
-import React from "react";
+import React, { useCallback, useEffect } from "react";
 import type { IApartment, IDetailsPayload } from "@/services/apartment/payload";
 import { useRouter } from "next/navigation";
 import { useMutation, useQuery } from "react-query";
@@ -15,54 +15,73 @@ import Button from "@/components/Button/Button";
 import { useParams } from "next/navigation";
 import ToastWrapper from "@/components/toast/Toast";
 
-interface ManageApartmentPageProps {
-  apartment?: IApartment;
-}
-
-const EditApartmentDetails: React.FC<ManageApartmentPageProps> = ({
-  apartment
-}) => {
-  const router = useRouter();
-  const [apartmentDetails, setApartmentDetails] =
-    React.useState<IDetailsPayload>({
-      MaxGuest: apartment?.MaxGuest || 0,
-      MaxBedRoom: apartment?.MaxBedRoom || 0,
-      BedCount: apartment?.BedCount || 0,
-      BathCount: apartment?.BathCount || 0
-    });
-
+const EditApartmentDetails: React.FC = () => {
   const { idOrSlug } = useParams<{ idOrSlug: string }>();
-  const apartmentId = idOrSlug ? idOrSlug.toString() : "";
-  const { mutate, isLoading } = useMutation((payload: IDetailsPayload) =>
-    updateApartmentDetails(apartmentId, payload)
-  );
 
-  useQuery(
+  const { data, refetch } = useQuery(
     [queryKeys.getApartmentByID],
-    () => {
-      const res = getApartment(idOrSlug?.toString());
-      return res;
-    },
+    () => getApartment(idOrSlug?.toString()),
     {
-      onSuccess: (response) => {
-        const { MaxGuest, BedCount, MaxBedRoom, BathCount } = response.data;
-        // Set state based on response
-        // eslint-disable-next-line no-console
-        setApartmentDetails({ MaxGuest, BedCount, MaxBedRoom, BathCount });
-      },
-      enabled: !apartment?.Id // Would only make this request if idOrSlug is truthy
+      enabled: !!idOrSlug // Would only make this request if apartment was not fetch in server side
     }
   );
 
-  const onSubmit = () => {
-    mutate(apartmentDetails, {
+  const { MaxAdults,
+    MaxChildren,
+    MaxPets, BedCount, MaxBedRoom, BathCount } = data?.data as IApartment || {
+      MaxAdults: 0,
+      MaxChildren: 0,
+      MaxPets: 0, BedCount: 0, MaxBedRoom: 0, BathCount: 0
+    }
+  const [apartmentDetails, setApartmentDetails] =
+    React.useState<IDetailsPayload>({
+      MaxAdults,
+      MaxChildren,
+      MaxPets, BedCount, MaxBedRoom, BathCount
+    });
+
+  useEffect(() => {
+    setApartmentDetails({
+      MaxAdults,
+      MaxChildren,
+      MaxPets, BedCount, MaxBedRoom, BathCount
+    })
+    return () => { }
+  }, [MaxAdults,
+    MaxChildren,
+    MaxPets, BedCount, MaxBedRoom, BathCount, setApartmentDetails])
+
+
+
+
+  const { mutate, isLoading } = useMutation((payload: IDetailsPayload) =>
+    updateApartmentDetails(idOrSlug?.toString(), payload)
+  );
+
+  const onSubmit = useCallback((details: IDetailsPayload) => {
+    mutate(details, {
       onSuccess({ message }) {
+        refetch();
         toast.success((t) => <ToastWrapper message={message} t={t} />, {
           icon: toastIcons.success
         });
-      }
+      },
+      onError(error: any) {
+        console.log({ error })
+        refetch();
+        toast.success((t) => <ToastWrapper message={"Update failed: " + error.message} t={t} />, {
+          icon: toastIcons.error
+        });
+      },
     });
-  };
+  }, [mutate, refetch]);
+
+  useEffect(() => {
+    onSubmit(apartmentDetails)
+    return () => { }
+  }, [apartmentDetails, onSubmit])
+
+
 
   return (
     <DefaultLayout>
@@ -70,52 +89,14 @@ const EditApartmentDetails: React.FC<ManageApartmentPageProps> = ({
         <H3 className="mb-5">Edit Apartment Basics</H3>
         {
           <ApartmentDetailsForm
+            isSubmitting={isLoading}
             value={apartmentDetails}
             onUpdateDetails={setApartmentDetails}
           />
         }
-        <div className="mt-5 flex justify-end gap-3">
-          <Button size="sm" color="muted" onClick={router.back}>
-            Cancel
-          </Button>
-          <Button
-            size="sm"
-            color="primary"
-            onClick={onSubmit}
-            isLoading={isLoading}
-          >
-            Save
-          </Button>
-        </div>
       </div>
     </DefaultLayout>
   );
 };
-
-// export const getServerSideProps: GetServerSideProps<
-//   ManageApartmentPageProps
-// > = async ({ params }) => {
-//   if (!params)
-//     return {
-//       props: {
-//         apartment: undefined
-//       }
-//     };
-//   const { slug } = params;
-//   try {
-//     const apartment = await getApartment(slug?.toString() ?? "");
-//     return {
-//       props: {
-//         apartment: apartment.data as IApartment
-//       }
-//     };
-//   } catch (error) {
-//     return {
-//       props: {
-//         apartment: undefined
-//       }
-//     };
-//   }
-// };
 
 export default EditApartmentDetails;
