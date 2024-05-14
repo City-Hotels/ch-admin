@@ -1,17 +1,14 @@
 "use client"
 import React, { useCallback, useEffect } from "react";
 import type { IApartment, IDetailsPayload } from "@/services/apartment/payload";
-import { useRouter } from "next/navigation";
 import { useMutation, useQuery } from "react-query";
 import { getApartment, updateApartmentDetails } from "@/services/apartment";
 import { toastIcons } from "@/utils/constants";
 import { toast } from "react-hot-toast";
-import type { GetServerSideProps } from "next";
 import queryKeys from "@/utils/api/queryKeys";
 import ApartmentDetailsForm from "@/components/ApartmentDetailsForm/ApartmentDetailsForm";
 import DefaultLayout from "@/components/Layouts/DefaultLayout";
 import { H3 } from "@/components/Headings/Headings";
-import Button from "@/components/Button/Button";
 import { useParams } from "next/navigation";
 import ToastWrapper from "@/components/toast/Toast";
 
@@ -33,6 +30,7 @@ const EditApartmentDetails: React.FC = () => {
       MaxChildren: 0,
       MaxPets: 0, BedCount: 0, MaxBedRoom: 0, BathCount: 0
     }
+
   const [apartmentDetails, setApartmentDetails] =
     React.useState<IDetailsPayload>({
       MaxAdults,
@@ -50,8 +48,6 @@ const EditApartmentDetails: React.FC = () => {
   }, [MaxAdults,
     MaxChildren,
     MaxPets, BedCount, MaxBedRoom, BathCount, setApartmentDetails])
-
-
 
 
   const { mutate, isLoading } = useMutation((payload: IDetailsPayload) =>
@@ -80,8 +76,6 @@ const EditApartmentDetails: React.FC = () => {
     onSubmit(apartmentDetails)
     return () => { }
   }, [apartmentDetails, onSubmit])
-
-
 
   return (
     <DefaultLayout>
