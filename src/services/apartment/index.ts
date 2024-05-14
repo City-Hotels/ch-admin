@@ -67,12 +67,14 @@ const getUserApartment = () => {
 //   });
 // };
 
-const updateApartmentInformation = (data: IApartmentInformationPayload) => {
-  return patchRequest({
-    url: "/aparment/setup",
+
+const updateApartmentInformation = (apartmentid: string, data: IApartmentInformationPayload) => {
+  return patchRequest<IApartmentInformationPayload, any>({
+    url: `/host/apartments/${apartmentid}/information`,
     data
   });
 };
+
 
 const updateApartmentPrice = (apartmentid: string, data: IPricingPayload) => {
   return patchRequest<IPricingPayload, any>({
