@@ -10,6 +10,7 @@ export interface CounterData {
 }
 
 export interface ApartmentDetailsFormProps {
+  isSubmitting: boolean;
   value: IDetailsPayload;
   onUpdateDetails: (details: IDetailsPayload) => void;
 }

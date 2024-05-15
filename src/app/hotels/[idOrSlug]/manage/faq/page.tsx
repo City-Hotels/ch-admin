@@ -1,6 +1,4 @@
 "use client"
-import Button from "@/components/Button/Button";
-import { useMutation, useQuery } from "react-query";
 import type { IFAQ } from "@/services/faq/payload";
 import React from "react";
 import { H3, P, P2 } from "@/components/Headings/Headings";
@@ -19,9 +17,12 @@ import { toast } from "react-hot-toast";
 import FAQForm from "@/components/Faq/FAQForm";
 import { ServiceTypes } from "@/utils/enums";
 import DefaultLayout from "@/components/Layouts/DefaultLayout";
+
 import { useParams } from "next/navigation";
 import { IHotel } from "@/services/hotel/payload";
 import { getHotel } from "@/services/hotel";
+import { useMutation, useQuery } from "react-query";
+import Button from "@/components/Button/Button";
 
 const FAQItem: React.FC<
   IFAQ & {
@@ -102,6 +103,7 @@ const FAQ = () => {
       enabled: !!idOrSlug
     }
   );
+
   const hotel = hotelRes?.data as IHotel;
 
   const { refetch, data } = useQuery(

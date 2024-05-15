@@ -6,47 +6,38 @@ import {
 } from "@/services/apartment";
 import type { IMedia } from "@/services/hotel/payload";
 import queryKeys from "@/utils/api/queryKeys";
-import { useParams, useRouter } from "next/navigation";
-import React from "react";
+import { useParams } from "next/navigation";
+import React, { useEffect } from "react";
 import { useMutation, useQuery } from "react-query";
 import { toastIcons } from "@/utils/constants";
 import { toast } from "react-hot-toast";
 import type { IApartment } from "@/services/apartment/payload";
-import type { GetServerSideProps } from "next";
 import ImageForm from "@/components/ImageForm/ImageForm";
 import { H3 } from "@/components/Headings/Headings";
 import DefaultLayout from "@/components/Layouts/DefaultLayout";
 import ToastWrapper from "@/components/toast/Toast";
 
-interface ManageApartmentPageProps {
-  apartment?: IApartment;
-}
 
-const EditApartmentMedia: React.FC<ManageApartmentPageProps> = ({
-  apartment
-}) => {
-  const [apartmentMedia, setApartmentMedia] = React.useState<IMedia[]>(
-    apartment?.Medias || []
-  );
-  const { IdOrSlug } = useParams<{IdOrSlug: string}>();
-  const apartmentId = IdOrSlug ? IdOrSlug.toString() : "";
+const EditApartmentMedia: React.FC = () => {
+  const [apartmentMedia, setApartmentMedia] = React.useState<IMedia[]>([]);
+  const { idOrSlug } = useParams<{ idOrSlug: string }>();
+  const apartmentId = idOrSlug ? idOrSlug.toString() : "";
 
-  const { refetch } = useQuery(
+  const { refetch, data } = useQuery(
     [queryKeys.getApartmentByID],
-    () => {
-      const res = getApartment(IdOrSlug?.toString() ?? "");
-      return res;
-    },
+    () => getApartment(idOrSlug?.toString()),
     {
-      onSuccess: (response) => {
-        const { Medias } = response.data;
-        // Set state based on response
-        // eslint-disable-next-line no-console
-        setApartmentMedia(Medias);
-      },
-      enabled: !apartment?.Id // Would only make this request if IdOrSlug is truthy
+      enabled: !!idOrSlug // Would only make this request if IdOrSlug is truthy
     }
   );
+
+  const apartment = data?.data as IApartment
+
+  useEffect(() => {
+    if (apartment) setApartmentMedia(apartment.Medias)
+    return () => { }
+  }, [apartment])
+
 
   const { mutate } = useMutation((media: IMedia) =>
     deleteApartmentMedia(apartmentId, media.Path)
@@ -77,37 +68,12 @@ const EditApartmentMedia: React.FC<ManageApartmentPageProps> = ({
           selected={undefined}
           uploaded={apartmentMedia}
           onDelete={onDelete}
-          itemId={apartment?.Id}
+          itemId={idOrSlug}
         />
       </div>
     </DefaultLayout>
   );
 };
 
-// export const getServerSideProps: GetServerSideProps<
-//   ManageApartmentPageProps
-// > = async ({ params }) => {
-//   if (!params)
-//     return {
-//       props: {
-//         apartment: undefined
-//       }
-//     };
-//   const { IdOrSlug } = params;
-//   try {
-//     const apartment = await getApartment(IdOrSlug?.toString() ?? "");
-//     return {
-//       props: {
-//         apartment: apartment.data as IApartment
-//       }
-//     };
-//   } catch (error) {
-//     return {
-//       props: {
-//         apartment: undefined
-//       }
-//     };
-//   }
-// };
 
 export default EditApartmentMedia;

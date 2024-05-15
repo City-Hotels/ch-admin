@@ -10,7 +10,7 @@ import { fileListToArray } from "@/utils/helpers";
 import React from "react";
 import ImageInput from "../Inputs/image/Image";
 import styles from "./ImageForm.module.scss";
-import Image from "next/image";
+import Img from "../Image/Image";
 
 const DropzoneInput: React.FC<{ onSelectFiles: (files: FileList) => void }> = ({
   onSelectFiles
@@ -41,13 +41,14 @@ const FilePreview: React.FC<{
   onSelectFiles: (files: FileList) => void;
 }> = ({ file, className, uploadedPath, onDelete, onSelectFiles }) => {
   return (
-    <div>
+    <>
       {file || uploadedPath ? (
         <div className={`relative ${className}`}>
-          <Image
-            src={file ? URL.createObjectURL(file) : uploadedPath || ""}
+          <Img
+            name="Image"
+            path={file ? URL.createObjectURL(file) : uploadedPath || ""}
             alt="Selected Image"
-            className="z-0 max-h-full w-full object-cover"
+            className="z-0 max-h-full w-full left-0 top-0 relative object-cover"
           />
           <div className={styles.editIconWrapper}>
             <div className={styles.editIcons}>
@@ -72,7 +73,7 @@ const FilePreview: React.FC<{
           />
         </div>
       )}
-    </div>
+    </>
   );
 };
 

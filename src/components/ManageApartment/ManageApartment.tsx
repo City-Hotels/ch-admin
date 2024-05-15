@@ -30,6 +30,7 @@ const ManageApartment: React.FC<{ apartmentid: string}> = ({apartmentid}) => {
     <div className="">
       <H4>Manage Apartment</H4>
       <div>
+  
         <div className={styles.apartmentContent}>
           <ManageApartmentItem
             content="Apartment Infrormation"
