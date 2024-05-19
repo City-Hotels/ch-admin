@@ -1,7 +1,6 @@
-import { hotelInformationSchema } from "@/utils/formSchema";
+import { apartmentInformationSchema, hotelInformationSchema } from "@/utils/formSchema";
 import Input from "@/components/formik/input/Input";
 import { Formik } from "formik";
-import TextArea from "@/components/formik/textarea/TextArea";
 import type { AppDispatch } from "@/store";
 import { H4 } from "../Headings/Headings";
 import Button from "../Button/Button";
@@ -9,7 +8,7 @@ import { IApartment, IApartmentInformationPayload } from "@/services/apartment/p
 
 export interface ApartmentInformationFormProps {
   onSubmit: (values: IApartmentInformationPayload) => void;
-  apartment: IApartment;
+  apartment: IApartmentInformationPayload;
   isSubmitting: boolean;
 }
 
@@ -24,7 +23,7 @@ const AparmtentInformation: React.FC<ApartmentInformationFormProps> = ({ onSubmi
       <Formik
         initialValues={initialValues}
         onSubmit={onSubmit}
-        validationSchema={hotelInformationSchema}
+        validationSchema={apartmentInformationSchema}
       >
         {({ handleSubmit }) => (
           <form onSubmit={handleSubmit}>
@@ -34,18 +33,7 @@ const AparmtentInformation: React.FC<ApartmentInformationFormProps> = ({ onSubmi
               <div className="mt-10">
                 <div>
                   <Input label="Name" name="Name" />
-                  <Input label="Email" name="Email" />
-                  <Input label="Telephone" name="Telephone" />
-                  <Input
-                    label="Slogan"
-                    name="Slogan"
-                    placeholder="e.g Best hotel in lagos"
-                  />
-                  <TextArea
-                    label="Introduction"
-                    name="Introduction"
-                    placeholder="Short welcome to the hotel"
-                  />
+                  <Input label="Description" name="Description" />
                 </div>
               </div>
               <div className="text-center md:text-right">
