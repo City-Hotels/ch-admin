@@ -12,9 +12,11 @@ import { useParams } from "next/navigation";
 import queryKeys from "@/utils/api/queryKeys";
 
 const Hotelinformation = () => {
-  const { mutate, isLoading: isSubmitting } = useMutation(updateHotelInformation);
-
   const { idOrSlug } = useParams<{ idOrSlug: string }>();
+  const hotelId = idOrSlug ? idOrSlug.toString() : "";
+
+  const { mutate, isLoading: isSubmitting } = useMutation( (payload: HotelInformationPayload) => updateHotelInformation(hotelId, payload)
+);
 
   const { isLoading, isError, data } = useQuery(
     [queryKeys.getHotelByID, idOrSlug],

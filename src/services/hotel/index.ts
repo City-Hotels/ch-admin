@@ -119,12 +119,13 @@ const updateHotelAddress = (data: IAddress) => {
 };
 
 
-const updateHotelInformation = (data: HotelInformationPayload) => {
-  return patchRequest({
-    url: "/hotel/setup",
+const updateHotelInformation = (hotelid: string, data: HotelInformationPayload) => {
+  return patchRequest<HotelInformationPayload, any>({
+    url: `/hotels/${hotelid}/information`,
     data
   });
 };
+
 
 
 const updateHotelManagementInformation = (
