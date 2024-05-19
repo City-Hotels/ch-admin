@@ -50,9 +50,9 @@ const getHotel = (hotelId: string | undefined) => {
   });
 };
 
-const getUserHotel = () => {
+const getUserHotel = (hotelId: string) => {
   return getRequest<{ Hotels: IHotel[] }>({
-    url: `/hotels/`
+    url: `/hotels/${hotelId}`
   });
 };
 
@@ -125,9 +125,9 @@ const updateHotelInformation = (data: HotelInformationPayload) => {
   });
 };
 
-const uploadHotelMedia = (file: FormData, setProgress: Function) => {
+const uploadHotelMedia = (hotelId: string, file: FormData, setProgress: Function) => {
   return putRequest<FormData, { Path: string }>({
-    url: `hotels/media`,
+    url:`/hotels/${hotelId}/media`,
     data: file,
     config: {
       onUploadProgress: (ProgressEvent) => {
