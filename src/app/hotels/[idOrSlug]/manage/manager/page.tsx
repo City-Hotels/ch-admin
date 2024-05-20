@@ -15,25 +15,17 @@ import queryKeys from "@/utils/api/queryKeys";
 const ManagerInformation = () => {
   const { idOrSlug } = useParams<{ idOrSlug: string }>();
 
-  const { data } = useQuery(
-    [queryKeys.getHotelByID, idOrSlug],
-    () => getHotel(idOrSlug?.toString()),
-    {
-      enabled: !!idOrSlug // Would only make this request if slug is truthy
-    }
-  );
-  const hotel = data?.data as IHotel;
 
   const { data: hotelCooperateRes } = useQuery(
     [queryKeys.getHotelCooperateInformation, idOrSlug],
     () => getHotelCooperateInformation(idOrSlug?.toString()),
     {
-      enabled: !!hotel?.Id // Would only make this request if slug is truthy
+      enabled: !!idOrSlug// Would only make this request if slug is truthy
     }
   );
   const { Manager } = hotelCooperateRes?.data as ICooperateInformation || {};
 
-  const { mutate, isLoading } = useMutation(updateHotelManagerInformation);
+  const { mutate, isLoading } = useMutation((payload: ManagerInformationPayload) => updateHotelManagerInformation(idOrSlug?.toString(), payload));
   const onSubmit = (values: ManagerInformationPayload) => {
     mutate(values, {
       onSuccess(data) {

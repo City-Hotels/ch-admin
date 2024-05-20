@@ -50,6 +50,11 @@ const ManagerForm: React.FC<ManamentInformationFormProps> = ({ manager, onSubmit
                 label="Telephone"
                 name="Telephone"
               />
+              <Input
+                className="rounded-lg"
+                label="Parent Company"
+                name="ParentCompany"
+              />
             </div>
 
             <div className="mt-5 text-center md:text-right">
