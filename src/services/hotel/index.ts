@@ -121,7 +121,7 @@ const updateHotelAddress = (data: IAddress) => {
 
 const updateHotelInformation = (hotelid: string, data: HotelInformationPayload) => {
   return patchRequest<HotelInformationPayload, any>({
-    url: `/hotels/${hotelid}/information`,
+    url: `/hotels/${hotelid}/info`,
     data
   });
 };
