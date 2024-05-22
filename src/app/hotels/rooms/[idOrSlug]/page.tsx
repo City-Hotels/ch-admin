@@ -45,7 +45,7 @@ const RoomPage = () => {
                 <ButtonLink
                   size="sm"
                   color="muted"
-                  href={`/hotel/rooms/${idOrSlug?.toString()}/manage`}
+                  href={`/hotels/rooms/${idOrSlug?.toString()}/manage`}
                 >
                   Manage
                 </ButtonLink>
