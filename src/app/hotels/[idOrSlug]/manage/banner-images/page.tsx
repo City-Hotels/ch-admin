@@ -33,7 +33,7 @@ const BannerImages = () => {
       Path: string;
     }>
   > => {
-    return uploadHotelMedia(data, setProgress).then((res) => {
+    return uploadHotelMedia(data, setProgress,).then((res) => {
       return res;
     });
   };
