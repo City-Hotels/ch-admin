@@ -84,9 +84,12 @@ const completeHotelRegister = (data: CompleteHotelRegisterPayload) => {
   });
 };
 
-const updateHotelManagerInformation = (data: ManagerInformationPayload) => {
-  return patchRequest({
-    url: "/hotel/manager",
+const updateHotelManagerInformation = (
+  hotelid: string,
+  data: ManagerInformationPayload
+) => {
+  return patchRequest<ManagerInformationPayload, any>({
+    url: `/hotels/${hotelid}/manager`,
     data
   });
 };
