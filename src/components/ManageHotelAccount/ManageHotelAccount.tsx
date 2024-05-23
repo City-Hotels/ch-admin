@@ -32,7 +32,7 @@ const ManageAccountComponent: React.FC<{ hotelid: string }> = ({ hotelid }) => {
       <div className="mt-5 flex flex-col gap-4">
         <div className={styles.apartmentContent}>
           <ManageAccountItem
-            content="Basic Information"
+            content="Hotel Information"
             link={`/hotels/${hotelid}/manage/hotel-information`}
           />
         </div>

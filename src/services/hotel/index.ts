@@ -84,12 +84,9 @@ const completeHotelRegister = (data: CompleteHotelRegisterPayload) => {
   });
 };
 
-const updateHotelManagerInformation = (
-  hotelid: string,
-  data: ManagerInformationPayload
-) => {
-  return patchRequest<ManagerInformationPayload, any>({
-    url: `/hotels/${hotelid}/manager`,
+const updateHotelManagerInformation = (data: ManagerInformationPayload) => {
+  return patchRequest({
+    url: "/hotel/manager",
     data
   });
 };
@@ -121,12 +118,15 @@ const updateHotelAddress = (data: IAddress) => {
   });
 };
 
-const updateHotelInformation = (data: HotelInformationPayload) => {
-  return patchRequest({
-    url: "/hotel/setup",
+
+const updateHotelInformation = (hotelid: string, data: HotelInformationPayload) => {
+  return patchRequest<HotelInformationPayload, any>({
+    url: `/hotels/${hotelid}/info`,
     data
   });
 };
+
+
 
 const updateHotelManagementInformation = (
   data: IManagementInformationPayload
@@ -155,6 +155,7 @@ const deleteHotelMedia = (path: string) => {
     url: `hotels/media?FilePath=${path}`
   });
 };
+
 
 const uploadHotelBanner = (file: FormData, setProgress: Function) => {
   return putRequest<FormData, null>({
