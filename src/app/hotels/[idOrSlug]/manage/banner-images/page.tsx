@@ -14,6 +14,7 @@ import { useQuery } from "react-query";
 const BannerImages = () => {
 
   const { idOrSlug } = useParams<{ idOrSlug: string }>();
+  const hotelId = idOrSlug ? idOrSlug.toString() : "";
 
   const { data } = useQuery(
     [queryKeys.getHotelByID, idOrSlug],
@@ -33,13 +34,13 @@ const BannerImages = () => {
       Path: string;
     }>
   > => {
-    return uploadHotelMedia(data, setProgress,).then((res) => {
+    return uploadHotelMedia(data, setProgress, hotelId).then((res) => {
       return res;
     });
   };
 
   const deleteMedia = (file: string): Promise<void | ApiResponse<null>> => {
-    return deleteHotelMedia(file).then((res) => {
+    return deleteHotelMedia(file, hotelId).then((res) => {
       return res;
     });
   };
@@ -47,7 +48,7 @@ const BannerImages = () => {
   return (
     <DefaultLayout>
       <div className="w-[800px]">
-        <HotelMediaForm hotel={hotel} onSubmit={uploadImage} onDeleteItem={deleteMedia} />
+        <HotelMediaForm hotel={hotel} onSubmit={uploadImage} onDeleteItem={deleteMedia}/>
       </div>
     </DefaultLayout>
   );
