@@ -245,6 +245,11 @@ export const hotelInformationSchema = Yup.object({
     })
 });
 
+export const roomInformationSchema = Yup.object({
+  Name: Yup.string().required("Please provide the hotel name."),
+  Description: Yup.string().required("Please provide Description."),
+});
+
 export const apartmentInformationSchema = Yup.object({
   Name: Yup.string().required("Please provide the Apartment name."),
   Description: Yup.string().required(
