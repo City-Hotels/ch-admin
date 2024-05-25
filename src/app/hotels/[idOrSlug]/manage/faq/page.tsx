@@ -32,9 +32,19 @@ const FAQItem: React.FC<
   }
 > = ({ Id, Question, Answer, onUpdate, ServiceId, onDelete, ServiceType }) => {
   const [isOpen, setIsOpen] = React.useState(true);
-  const { mutate, isLoading } = useMutation(updateServiceFaq);
+  const { idOrSlug } = useParams<{ idOrSlug: string }>();
+  const { data: hotelRes } = useQuery(
+    [queryKeys.getHotelByID, idOrSlug],
+    () => getHotel(idOrSlug?.toString()),
+    {
+      enabled: !!idOrSlug
+    }
+  );
+
+  const hotel = hotelRes?.data as IHotel;
+  const { mutate, isLoading } = useMutation((payload: IFAQ) => updateServiceFaq(payload, hotel.Id));
   const { mutate: deleteFaq, isLoading: isDeletingFaq } = useMutation(
-    (id: string) => deleteServiceFaq(id, "Hotel")
+    (id: string) => deleteServiceFaq(hotel.Id, "Hotel")
   );
 
   const onSubmit = (faq: IFAQ) => {
@@ -49,7 +59,7 @@ const FAQItem: React.FC<
   };
 
   const remove = () => {
-    deleteFaq(Id || "", {
+    deleteFaq(Id || hotel.Id, {
       onSuccess({ message }) {
         onDelete();
         toast.success((t) => <ToastWrapper message={message} t={t} />, {
@@ -92,8 +102,6 @@ const FAQItem: React.FC<
 const FAQ = () => {
   const [isOpen, setIsOpen] = React.useState(false);
 
-  const { mutate: createFaq, isLoading: isCreatingFaq } =
-    useMutation(createServiceFaq);
 
   const { idOrSlug } = useParams<{ idOrSlug: string }>();
   const { data: hotelRes } = useQuery(
@@ -105,6 +113,10 @@ const FAQ = () => {
   );
 
   const hotel = hotelRes?.data as IHotel;
+
+  const { mutate: createFaq, isLoading: isCreatingFaq } =
+  useMutation((payload: IFAQ) => createServiceFaq(payload, hotel.Id));
+
 
   const { refetch, data } = useQuery(
     [queryKeys.getServiceFAQs],
