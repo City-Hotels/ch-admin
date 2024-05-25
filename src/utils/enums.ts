@@ -1,6 +1,7 @@
 export enum ServiceTypes {
   APARTMENT = "Apartment",
-  HOTEL = "Hotel"
+  HOTEL = "Hotel",
+  HOTELROOM = "HOTELROOM"
 }
 export enum ServerServiceTypes {
   APARTMENT = "Apartment",
