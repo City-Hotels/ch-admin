@@ -7,9 +7,9 @@ import {
 
 import type { IFAQ } from "./payload";
 
-const createServiceFaq = (faq: IFAQ, hotelid: string) => {
+const createServiceFaq = (faq: IFAQ) => {
   return postRequest<IFAQ, any>({
-    url: `/faq/${faq.ServiceType.toLowerCase()}/${hotelid.toLowerCase()}`,
+    url: `/faq/${faq.ServiceType.toLowerCase()}/${faq.ServiceId.toLowerCase()}`,
     data: faq
   });
 };
@@ -21,9 +21,9 @@ const getServiceFaqs = (
     url: `/faq/${serviceType.toLowerCase()}/${serviceId}`
   });
 };
-const updateServiceFaq = (faq: IFAQ, hotelId: string) => {
+const updateServiceFaq = (faq: IFAQ) => {
   return patchRequest<IFAQ, any>({
-    url: `/faq/${faq.ServiceType.toLowerCase()}/${hotelId}`,
+    url: `/faq/${faq.ServiceType.toLowerCase()}/${faq.Id}`,
     data: faq
   });
 };

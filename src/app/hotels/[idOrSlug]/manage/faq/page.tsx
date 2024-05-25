@@ -42,7 +42,7 @@ const FAQItem: React.FC<
   );
 
   const hotel = hotelRes?.data as IHotel;
-  const { mutate, isLoading } = useMutation((payload: IFAQ) => updateServiceFaq(payload, hotel.Id));
+  const { mutate, isLoading } = useMutation(updateServiceFaq);
   const { mutate: deleteFaq, isLoading: isDeletingFaq } = useMutation(
     (id: string) => deleteServiceFaq(hotel.Id, "Hotel")
   );
@@ -101,8 +101,6 @@ const FAQItem: React.FC<
 
 const FAQ = () => {
   const [isOpen, setIsOpen] = React.useState(false);
-
-
   const { idOrSlug } = useParams<{ idOrSlug: string }>();
   const { data: hotelRes } = useQuery(
     [queryKeys.getHotelByID, idOrSlug],
@@ -115,13 +113,13 @@ const FAQ = () => {
   const hotel = hotelRes?.data as IHotel;
 
   const { mutate: createFaq, isLoading: isCreatingFaq } =
-  useMutation((payload: IFAQ) => createServiceFaq(payload, hotel.Id));
+  useMutation(createServiceFaq);
 
 
   const { refetch, data } = useQuery(
     [queryKeys.getServiceFAQs],
     () => {
-      const res = getServiceFaqs(hotel?.Slug || "", ServiceTypes.HOTEL);
+      const res = getServiceFaqs(hotel.Id|| "", ServiceTypes.HOTEL);
       return res;
     },
     {
