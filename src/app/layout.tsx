@@ -4,6 +4,7 @@ import { QueryClient, QueryClientProvider } from "react-query";
 import "flatpickr/dist/flatpickr.min.css";
 import "@/css/satoshi.css";
 import "@/css/style.scss";
+import '@/css/tiptap.module.scss'; // E
 import React, { useEffect, useRef, useState } from "react";
 import Loader from "@/components/common/Loader";
 import { throwError } from "@/utils/response/error";
