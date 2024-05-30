@@ -30,23 +30,29 @@ interface TiptapEditorProps {
 const TiptapEditor: React.FC<TiptapEditorProps> = ({ value, onChange }) => {
   const editor = useEditor({
     extensions: [
-      StarterKit.configure({
-        bulletList: {
-          keepMarks: true,
-          keepAttributes: false // TODO : Making this as `false` becase marks are not preserved when I try to preserve attrs, awaiting a bit of help
-        },
-        orderedList: {
-          keepMarks: true,
-          keepAttributes: false // TODO : Making this as `false` becase marks are not preserved when I try to preserve attrs, awaiting a bit of help
-        }
-      }),
+      StarterKit,
       Bold,
       Italic,
       Underline,
       Strike,
-      BulletList,
-      OrderedList,
       ListItem,
+      BulletList.configure({
+        HTMLAttributes: {
+          class: "my-bulletlist-class"
+        },
+        itemTypeName: 'listItem',
+        keepMarks: true,
+        keepAttributes: true,
+    
+      }),
+      OrderedList.configure({
+        HTMLAttributes: {
+          class: "my-orderlist-class"
+        },
+        itemTypeName: 'listItem',
+        keepMarks: true,
+        keepAttributes: true,
+      }),
       Link,
       Heading,
       Placeholder.configure({

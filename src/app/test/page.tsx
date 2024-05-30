@@ -5,7 +5,7 @@ import dynamic from 'next/dynamic';
 const RichTextEditor = dynamic(() => import('@/components/RichTextEditor/RichTextEditor'), { ssr: false });
 
 const EditorPage = () => {
-  const [content, setContent] = useState('<p>Kaiser is cooking....</p>');
+  const [content, setContent] = useState('Kaiser is Cooking...');
 
   const handleContentChange = (newContent: string) => {
     setContent(newContent);

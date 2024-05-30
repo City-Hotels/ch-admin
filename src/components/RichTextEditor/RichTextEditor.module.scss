@@ -4,6 +4,7 @@
   font-family: "Arial", sans-serif;
   max-width: 800px;
   margin: 0 auto;
+  outline: none;
 }
 
 .toolbar {
@@ -40,27 +41,7 @@
   padding: 16px;
   min-height: 400px;
   background: white;
-  outline: none;
 }
 
-.ProseMirror {
-  padding: 1em;
-  border: 1px solid #ddd;
-  border-radius: 4px;
-  min-height: 300px;
-  outline: none;
-}
 
-.ProseMirror p {
-  margin: 0;
-  padding: 0.5em 0;
-  outline: none;
-}
 
-.ProseMirror ol {
-  list-style-type: decimal;
-}
-
-.ProseMirror .is-placeholder {
-  color: black;
-}
