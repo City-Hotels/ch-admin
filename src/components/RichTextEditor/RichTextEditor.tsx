@@ -1,19 +1,26 @@
-import React, { useEffect } from 'react';
-import { useEditor, EditorContent } from '@tiptap/react';
-import StarterKit from '@tiptap/starter-kit';
-import Bold from '@tiptap/extension-bold';
-import Italic from '@tiptap/extension-italic';
-import Underline from '@tiptap/extension-underline';
-import Strike from '@tiptap/extension-strike';
-import BulletList from '@tiptap/extension-bullet-list';
-import OrderedList from '@tiptap/extension-ordered-list';
-import ListItem from '@tiptap/extension-list-item';
-import Link from '@tiptap/extension-link';
-import Heading from '@tiptap/extension-heading';
-import Placeholder from '@tiptap/extension-placeholder';
-import dynamic from 'next/dynamic';
-import 'prosemirror-view/style/prosemirror.css';
-import styles from './RichTextEditor.module.scss';
+import React, { useEffect } from "react";
+import { useEditor, EditorContent } from "@tiptap/react";
+import StarterKit from "@tiptap/starter-kit";
+import Bold from "@tiptap/extension-bold";
+import Italic from "@tiptap/extension-italic";
+import Underline from "@tiptap/extension-underline";
+import Strike from "@tiptap/extension-strike";
+import BulletList from "@tiptap/extension-bullet-list";
+import OrderedList from "@tiptap/extension-ordered-list";
+import ListItem from "@tiptap/extension-list-item";
+import Link from "@tiptap/extension-link";
+import Heading from "@tiptap/extension-heading";
+import Placeholder from "@tiptap/extension-placeholder";
+import dynamic from "next/dynamic";
+import "prosemirror-view/style/prosemirror.css";
+import styles from "./RichTextEditor.module.scss";
+import BoldIcon from "@/assets/icons/bold.svg";
+import ItalicIcon from "@/assets/icons/italic.svg";
+import BulletListIcon from "@/assets/icons/bulletlist.svg";
+import OrderListIcon from "@/assets/icons/orderedlist.svg";
+import LinkIcon from "@/assets/icons/link-1.svg";
+import LinkeThroughIcon from "@/assets/icons/line-through.svg";
+import UnderLineIcon from "@/assets/icons/text-underline.svg";
 
 interface TiptapEditorProps {
   value: string;
@@ -23,7 +30,16 @@ interface TiptapEditorProps {
 const TiptapEditor: React.FC<TiptapEditorProps> = ({ value, onChange }) => {
   const editor = useEditor({
     extensions: [
-      StarterKit,
+      StarterKit.configure({
+        bulletList: {
+          keepMarks: true,
+          keepAttributes: false // TODO : Making this as `false` becase marks are not preserved when I try to preserve attrs, awaiting a bit of help
+        },
+        orderedList: {
+          keepMarks: true,
+          keepAttributes: false // TODO : Making this as `false` becase marks are not preserved when I try to preserve attrs, awaiting a bit of help
+        }
+      }),
       Bold,
       Italic,
       Underline,
@@ -34,13 +50,13 @@ const TiptapEditor: React.FC<TiptapEditorProps> = ({ value, onChange }) => {
       Link,
       Heading,
       Placeholder.configure({
-        placeholder: 'Work in progress',
-      }),
+        placeholder: "Kaiser is cooking...."
+      })
     ],
     content: value,
     onUpdate: ({ editor }) => {
       onChange(editor.getHTML());
-    },
+    }
   });
 
   useEffect(() => {
@@ -52,9 +68,14 @@ const TiptapEditor: React.FC<TiptapEditorProps> = ({ value, onChange }) => {
   }, [editor]);
 
   const addLink = () => {
-    const url = prompt('Enter the URL');
+    const url = prompt("Enter the URL");
     if (url) {
-      editor?.chain().focus().extendMarkRange('link').setLink({ href: url }).run();
+      editor
+        ?.chain()
+        .focus()
+        .extendMarkRange("link")
+        .setLink({ href: url })
+        .run();
     }
   };
 
@@ -67,45 +88,45 @@ const TiptapEditor: React.FC<TiptapEditorProps> = ({ value, onChange }) => {
       <div className={styles.toolbar}>
         <button
           onClick={() => editor.chain().focus().toggleBold().run()}
-          className={editor.isActive('bold') ? styles.isActive : ''}
+          className={editor.isActive("bold") ? styles.isActive : ""}
         >
-          <b>B</b>
+          <BoldIcon />
         </button>
         <button
           onClick={() => editor.chain().focus().toggleItalic().run()}
-          className={editor.isActive('italic') ? styles.isActive : ''}
+          className={editor.isActive("italic") ? styles.isActive : ""}
         >
-          <i>I</i>
+          <ItalicIcon />
         </button>
         <button
           onClick={() => editor.chain().focus().toggleUnderline().run()}
-          className={editor.isActive('underline') ? styles.isActive : ''}
+          className={editor.isActive("underline") ? styles.isActive : ""}
         >
-          <u>U</u>
+          <UnderLineIcon />
         </button>
         <button
           onClick={() => editor.chain().focus().toggleStrike().run()}
-          className={editor.isActive('strike') ? styles.isActive : ''}
+          className={editor.isActive("strike") ? styles.isActive : ""}
         >
-          <s>S</s>
+          <LinkeThroughIcon />
         </button>
         <button
           onClick={() => editor.chain().focus().toggleBulletList().run()}
-          className={editor.isActive('bulletList') ? styles.isActive : ''}
+          className={editor.isActive("bulletList") ? styles.isActive : ""}
         >
-          Bullet List
+          <BulletListIcon />
         </button>
         <button
           onClick={() => editor.chain().focus().toggleOrderedList().run()}
-          className={editor.isActive('orderedList') ? styles.isActive : ''}
+          className={editor.isActive("orderedList") ? styles.isActive : ""}
         >
-          Ordered List
+          <OrderListIcon />
         </button>
         <button
           onClick={addLink}
-          className={editor.isActive('link') ? styles.isActive : ''}
+          className={editor.isActive("link") ? styles.isActive : ""}
         >
-          Link
+          <LinkIcon />
         </button>
       </div>
       <EditorContent editor={editor} className={styles.editorContent} />
