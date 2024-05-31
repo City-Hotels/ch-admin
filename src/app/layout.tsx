@@ -4,7 +4,7 @@ import { QueryClient, QueryClientProvider } from "react-query";
 import "flatpickr/dist/flatpickr.min.css";
 import "@/css/satoshi.css";
 import "@/css/style.scss";
-import '@/components/RichTextEditor/RichTextEditor.module.scss'; 
+import '@/components/formik/RichTextEditor/RichTextEditor.module.scss'; 
 import React, { useEffect, useRef, useState } from "react";
 import Loader from "@/components/common/Loader";
 import { throwError } from "@/utils/response/error";
