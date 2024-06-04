@@ -121,62 +121,57 @@ const TiptapEditor: React.FC<TiptapEditorProps> = ({
 
       <div className={styles.editorContainer}>
         <div className={styles.toolbar}>
-          <button
-            type="button"
+          <div
             onClick={() => editor.chain().focus().toggleBold().run()}
             className={editor.isActive("bold") ? styles.isActive : ""}
           >
-            <BoldIcon />
-          </button>
-          <button
-            type="button"
+            <BoldIcon className={editor.isActive("bold") ? styles.isActive &&  styles.activeIcon : styles.icon}/>
+          </div>
+          <div
             onClick={() => editor.chain().focus().toggleItalic().run()}
             className={editor.isActive("italic") ? styles.isActive : ""}
           >
-            <ItalicIcon />
-          </button>
-          <button
-            type="button"
+            <ItalicIcon className={editor.isActive("italic") ? styles.isActive &&  styles.activeIcon : styles.icon}/>
+          </div>
+          <div
             onClick={() => editor.chain().focus().toggleUnderline().run()}
             className={editor.isActive("underline") ? styles.isActive : ""}
           >
-            <UnderLineIcon />
-          </button>
-          <button
-            type="button"
+            <UnderLineIcon className={editor.isActive("underline") ? styles.isActive &&  styles.activeIcon  : styles.icon}/>
+          </div>
+
+          <span className={styles.editorSpan}></span>
+          <div
             onClick={() => editor.chain().focus().toggleStrike().run()}
             className={editor.isActive("strike") ? styles.isActive : ""}
           >
-            <LinkeThroughIcon />
-          </button>
-          <button
-            type="button"
+            <LinkeThroughIcon className={editor.isActive("strike") ? styles.isActive &&  styles.activeIcon  : styles.icon}/>
+          </div>
+          <div
             onClick={() => editor.chain().focus().toggleBulletList().run()}
             className={editor.isActive("bulletList") ? styles.isActive : ""}
           >
-            <BulletListIcon />
-          </button>
-          <button
-            type="button"
+            <BulletListIcon className={editor.isActive("bulletList") ? styles.isActive &&  styles.activeIcon  : styles.icon}/>
+          </div>
+          <div
             onClick={() => editor.chain().focus().toggleOrderedList().run()}
             className={editor.isActive("orderedList") ? styles.isActive : ""}
           >
-            <OrderListIcon />
-          </button>
-          <button
-            type="button"
+            <OrderListIcon className={editor.isActive("orderedList") ? styles.isActive &&  styles.activeIcon  :styles.icon}/>
+          </div>
+          <div
             onClick={addLink}
             className={editor.isActive("link") ? styles.isActive : ""}
           >
-            <LinkIcon />
-          </button>
+            <LinkIcon className={editor.isActive("link") ? styles.isActive &&  styles.activeIcon  : styles.icon}/>
+          </div>
         </div>
         <div onBlur={handleBlur}>
           <EditorContent
             editor={editor}
             className={
               meta.error && meta.touched
-                ? "border-primary400"
+                ? styles.editorContentActive
                 : styles.editorContent
             }
             {...field}
