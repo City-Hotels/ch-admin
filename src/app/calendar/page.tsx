@@ -4,9 +4,9 @@ import { Metadata } from "next";
 import DefaultLayout from "@/components/Layouts/DefaultLayout";
 
 export const metadata: Metadata = {
-  title: "Next.js Calender | CHB Admin - Dashboard",
+  title: "Next.js Calender | CSB Admin - Dashboard",
   description:
-    " Calender page for CHB Admin  Tailwind CSS Admin Dashboard Template"
+    " Calender page for CSB Admin  Tailwind CSS Admin Dashboard Template"
 };
 
 const CalendarPage = () => {

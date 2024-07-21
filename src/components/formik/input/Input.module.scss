@@ -3,16 +3,16 @@
 }
 
 .input_container_2 {
-  @apply h-[60px] py-[18px] flex border border-grey30 focus-within:border-primary400 rounded-md;
+  @apply h-14 flex flex-col border focus-within:border-primary400 rounded-md;
 }
 
 .input {
-  @apply w-full px-[13px] focus:outline-0 bg-inherit text-black border-none my-1 mt-3;
+  @apply w-full px-[13px] h-full focus:outline-0 bg-inherit text-black dark:text-white border-none;
   border-radius: inherit;
 }
 
 .input::placeholder {
-  @apply text-black text-[14px];
+  @apply text-black dark:text-white text-[14px];
 }
 
 .icon-container {
@@ -27,7 +27,7 @@
 }
 
 .label {
-  @apply text-[14px] text-left font-matter-bold leading-[150%] mb-1 block;
+  @apply text-[14px] text-left font-matter-bold leading-[150%];
 }
 
 .password {
@@ -37,9 +37,17 @@
 // input-4 styling
 
 .input__container {
-  @apply flex border rounded-md border-grey30 focus-within:border-primary400 my-2;
+  @apply flex border h-[48px] rounded-md border-grey30 focus-within:border-primary400 my-1;
 }
 
 .passwordContainer {
   @apply absolute inset-y-0 right-0 flex cursor-pointer items-center pr-2;
+}
+
+.inputNew {
+  @apply w-full px-[13px] focus:outline-0 bg-inherit text-black dark:text-white border-b border-b-slate-300 mb-3
+}
+
+.inputEdit {
+  @apply cursor-not-allowed w-full px-[13px] focus:outline-0 bg-inherit text-black dark:text-white border-b border-b-slate-300 m-3
 }

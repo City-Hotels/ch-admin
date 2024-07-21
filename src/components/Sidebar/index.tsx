@@ -429,7 +429,7 @@ const Sidebar = ({ sidebarOpen, setSidebarOpen }: SidebarProps) => {
                               className={`group relative flex items-center gap-2.5 rounded-md px-4 font-medium text-white900 dark:text-white100 duration-300 ease-in-out hover:text-white ${pathname === "/users" && "text-white"
                                 }`}
                             >
-                              CHB Users
+                              CSB Users
                             </Link>
                           </li>
                           <li>

@@ -52,6 +52,10 @@ const TransactionTable: React.FC<{
     }
   });
 
+  function isTransactionType(key: any): key is TransactionType {
+    return Object.values(TransactionType).includes(key);
+  }
+
   return (
     <div className="bg-white rounded-md">
       <Table
@@ -103,19 +107,19 @@ const TransactionTable: React.FC<{
                         {transactiontype}
                         {`(${transactions.length})`}
 
-                        {transactiontype === TransactionType.WALLETFUND &&
+                        {isTransactionType(transactiontype) && transactiontype === TransactionType.WALLETFUND &&
                           `(${transactions.filter(
                             (item: ITransaction) =>
                               item.TransactionType === TransactionType.WALLETFUND
                           ).length
                           })`}
-                        {transactiontype === TransactionType.BOOKING &&
+                        {isTransactionType(transactiontype) && transactiontype === TransactionType.BOOKING &&
                           `(${transactions.filter(
                             (item: ITransaction) =>
                               item.TransactionType === TransactionType.BOOKING
                           ).length
                           })`}
-                        {transactiontype === TransactionType.WITHDRAWAL &&
+                        {isTransactionType(transactiontype) && transactiontype === TransactionType.WITHDRAWAL &&
                           `(${transactions.filter(
                             (item: ITransaction) =>
                               item.TransactionType === TransactionType.WITHDRAWAL

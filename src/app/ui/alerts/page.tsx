@@ -3,9 +3,9 @@ import { Metadata } from "next";
 import DefaultLayout from "@/components/Layouts/DefaultLayout";
 
 export const metadata: Metadata = {
-  title: "Next.js Alerts | CHB Admin - Dashboard",
+  title: "Next.js Alerts | CSB Admin - Dashboard",
   description:
-    " Alerts page for CHB Admin - Next.js Tailwind CSS Admin Dashboard Template",
+    " Alerts page for CSB Admin - Next.js Tailwind CSS Admin Dashboard Template",
   // other metadata
 };
 
