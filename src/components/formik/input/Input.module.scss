@@ -1,0 +1,45 @@
+.input_container {
+  @apply flex border rounded-md h-[44px] focus-within:border-primary400;
+}
+
+.input_container_2 {
+  @apply h-[60px] py-[18px] flex border border-grey30 focus-within:border-primary400 rounded-md;
+}
+
+.input {
+  @apply w-full px-[13px] focus:outline-0 bg-inherit text-black border-none my-1 mt-3;
+  border-radius: inherit;
+}
+
+.input::placeholder {
+  @apply text-black text-[14px];
+}
+
+.icon-container {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: absolute;
+  right: 1rem;
+  top: 0;
+  bottom: 0;
+  margin: auto;
+}
+
+.label {
+  @apply text-[14px] text-left font-matter-bold leading-[150%] mb-1 block;
+}
+
+.password {
+  @apply absolute inset-y-0 right-0 flex cursor-pointer items-center pr-2;
+}
+
+// input-4 styling
+
+.input__container {
+  @apply flex border rounded-md border-grey30 focus-within:border-primary400 my-2;
+}
+
+.passwordContainer {
+  @apply absolute inset-y-0 right-0 flex cursor-pointer items-center pr-2;
+}

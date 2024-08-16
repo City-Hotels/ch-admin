@@ -1,0 +1,26 @@
+.MapContainer {
+  @apply relative flex justify-center;
+}
+
+.MapInputContainer {
+  @apply absolute top-6 right-[43p] w-full flex flex-col justify-center items-center;
+}
+.MapInput {
+  @apply w-[328px] md:w-[485px] h-[70px] py-[23px] px-[27px] flex items-center gap-6 bg-white rounded-[50px];
+}
+
+.LocationContainer {
+  @apply w-[328px] md:w-[485px]  gap-6  mt-2 bg-white  max-h-60 overflow-auto;
+}
+
+.LocationItem {
+  @apply py-5 flex border-b border-b-white500 gap-3 py-2 px-[10px] cursor-pointer hover:bg-white100;
+}
+
+.MapSelect {
+  @apply w-full text-white900 outline-none;
+}
+
+.SelectOption {
+  @apply flex items-start gap-[14px] w-[485px] h-[61px] py-2 px-[10px];
+}

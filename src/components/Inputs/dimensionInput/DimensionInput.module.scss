@@ -1,0 +1,13 @@
+.input_container {
+  @apply flex border rounded-md h-[48px] border-grey30  focus-within:border-primary400;
+}
+
+.input {
+  width: 100%;
+  @apply w-full px-5 py-2 focus:outline-0 bg-inherit text-inherit border-none;
+  border-radius: inherit;
+}
+
+.squareFeet {
+  @apply flex w-[150px] cursor-pointer items-center border-l-2 px-[10px] py-2;
+}

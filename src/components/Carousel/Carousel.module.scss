@@ -1,0 +1,19 @@
+.active {
+  @apply mx-auto h-[300px] lg:h-[400px] xl:h-[525px] xl:max-w-[684px];
+}
+
+.container {
+  @apply mt-4 hidden w-full items-center justify-center gap-2 overflow-x-auto lg:flex;
+}
+
+.chevronLeftIcon {
+  @apply mr-3 flex h-8 w-8 cursor-pointer items-center justify-center rounded-full border border-black hover:border-primary400;
+}
+
+.chevronRightIcon {
+  @apply ml-3 flex h-8 w-8  cursor-pointer items-center justify-center rounded-full border border-black hover:border-primary400;
+}
+
+.img {
+  @apply h-[100px] cursor-pointer lg:h-[90px] lg:w-[100px] xl:h-[146px] xl:w-[164px];
+}

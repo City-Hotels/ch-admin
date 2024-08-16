@@ -1,0 +1,7 @@
+.EarningsCard{
+  @apply border cursor-pointer rounded-lg w-[334px] h-[124px] flex justify-between py-3 px-4 hover:bg-orange-50;
+}
+
+.Icon{
+  @apply w-4 h-4;
+}

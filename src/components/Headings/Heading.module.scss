@@ -1,0 +1,67 @@
+.H1 {
+  @apply font-cal text-[32px] md:text-[64px] font-semibold leading-[120%] tracking-wider text-white lg:text-[50px]
+}
+
+.H11 {
+  @apply font-cal text-[32px] font-normal leading-[120%] tracking-wide;
+}
+
+.H2 {
+  @apply font-cal text-[28px] font-normal leading-[120%] tracking-wide;
+}
+
+.H3 {
+  @apply font-cal text-[22px] md:text-[25px] font-normal leading-[120%] tracking-wide
+}
+
+.H4 {
+  @apply font-cal text-[22px] leading-[120%];
+}
+
+.H5 {
+  @apply font-cal text-[20px] font-semibold leading-[120%];
+}
+
+.H6 {
+  @apply font-cal text-[18px] font-normal leading-[150%];
+}
+
+.P__Regular {
+  @apply font-matter text-[16px] leading-[150%];
+}
+
+.P__Bold {
+  @apply font-matter-bold text-[16px] leading-[150%];
+}
+
+.P2__Regular {
+  @apply font-matter text-[14px] leading-[150%];
+}
+
+.P2__Bold {
+  @apply font-matter-bold text-[14px] leading-[150%];
+}
+
+.P3__Regular {
+  @apply font-matter text-[12px] leading-[150%];
+}
+
+.P3__Bold {
+  @apply font-matter-bold text-[12px] leading-[150%];
+}
+
+.Label__Regular {
+  @apply font-matter md:text-[14px] text-[12px] leading-[150%];
+}
+
+.Label__Bold {
+  @apply font-matter-bold md:text-[14px] text-[12px] leading-[150%];
+}
+
+.Label2 {
+  @apply font-matter-bold text-[16px] leading-[150%];
+}
+
+.Label1 {
+  @apply font-matter text-[15px] leading-[150%];
+}

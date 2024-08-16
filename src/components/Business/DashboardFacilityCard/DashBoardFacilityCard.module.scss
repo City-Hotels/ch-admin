@@ -1,0 +1,19 @@
+.DashBoardContainer {
+    @apply py-7 pl-5 pr-5 w-40 md:w-52 xl:w-[180px]  border border-[#DDDDDD] rounded-md relative
+}
+
+.Dot {
+    @apply absolute top-6 right-5 cursor-pointer
+}
+
+.Icon {
+    @apply text-black20 mb-4 
+}
+
+.Facility {
+    @apply mb-3 font-black
+}
+
+.StatusContainer {
+    @apply rounded-2xl text-[12px]
+}

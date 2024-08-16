@@ -1,0 +1,35 @@
+.select__wrapper {
+  @apply relative flex items-center  w-full focus:border border-grey30;
+}
+
+.select {
+  @apply w-full z-10 bg-transparent border px-5 py-0 my-3 h-full cursor-pointer rounded-lg focus:outline-0 focus:border-primary400 border-grey30 appearance-none;
+}
+
+.Select {
+  @apply w-full z-10 bg-transparent text-[14px] py-0 h-full cursor-pointer outline-none appearance-none;
+}
+
+.Container {
+  @apply border border-[#E4E4E4] flex items-center gap-2 justify-between rounded-md py-2 px-4 relative focus:outline-0 focus:border-primary400;
+}
+
+.select__caret {
+  @apply absolute z-0 right-0 flex h-[14px] w-[54px] mx-0 border-l border-grey30 items-center justify-center rounded-l-none rounded-r-lg;
+}
+
+.select__caret__2 {
+  // @apply h-[54px] w-[54px];
+}
+
+.PriceContainer {
+  @apply h-[61px] flex justify-between border border-[#E4E4E4] rounded-md;
+}
+
+.PriceSelect {
+  @apply h-full outline-none pt-5 pb-4  pl-[14px] appearance-none;
+}
+
+.Tag {
+  @apply p-5 bg-[#E4E4E4] text-white900;
+}

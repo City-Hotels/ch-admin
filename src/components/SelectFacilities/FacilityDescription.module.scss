@@ -1,0 +1,7 @@
+.amenitiesDropDown {
+  @apply w-[360px] lg:w-[663px] md:w-[500px] h-[117px] border border-[#E4E4E4] rounded-md bg-[#EFEFEF];
+}
+
+.amenity {
+  @apply flex items-center justify-between cursor-pointer py-10 px-6;
+}

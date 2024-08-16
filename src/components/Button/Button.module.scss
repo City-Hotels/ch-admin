@@ -1,0 +1,132 @@
+.base {
+  @apply text-[14px] text-center leading-[150%] font-bold rounded-[5px] cursor-pointer;
+}
+
+.size {
+  &__small {
+    @apply p-[10px];
+  }
+
+  &__md {
+    @apply min-w-[136px] py-[10px] px-5 rounded-[5px];
+  }
+
+  &__lg {
+    @apply min-w-[136px] w-full rounded-lg py-[12px] px-[26px] leading-[24px];
+  }
+}
+
+.color {
+  &__primary {
+    @apply bg-primary400 hover:bg-orange600 disabled:bg-orange300 text-white;
+  }
+
+  &__secondary {
+    @apply bg-black text-white disabled:bg-white400;
+  }
+
+
+  &__black {
+    @apply bg-black text-white disabled:bg-white900;
+    ;
+  }
+
+  &__muted {
+    @apply bg-grey30 text-black disabled:bg-white400;
+  }
+
+  &__neutral {
+    @apply border border-[#214dee] bg-[#FFF] text-[#214dee] hover:bg-[#214dee] hover:text-[#FFF] active:bg-[#214dee];
+  }
+
+  &__danger {
+    @apply border border-danger400 bg-danger400 text-[#fff] hover:bg-danger600 active:bg-danger600;
+  }
+
+  &__media {
+    @apply text-white900 hover:bg-primary400 hover:text-white;
+  }
+
+
+  &__text {
+    @apply text-primary400 hover:text-orange600;
+  }
+
+  &__text__dark {
+    @apply text-black hover:text-primary400 bg-transparent;
+  }
+
+  &__text__danger {
+    @apply text-danger400 hover:text-danger600 bg-transparent;
+  }
+
+
+  &__outline {
+    @apply text-primary400 hover:text-white bg-white border-primary400 hover:bg-primary400;
+  }
+
+  &__outline__dark {
+    @apply text-black hover:text-white900 bg-white border-white500 hover:bg-white100;
+  }
+}
+
+.variant {
+  &__round {
+    @apply rounded-full;
+  }
+
+  &__text {
+    @apply bg-transparent border-none;
+  }
+
+  &__outline {
+    @apply border;
+  }
+}
+
+
+.variants {
+  &__primary {
+    @apply bg-primary400 hover:bg-orange600 disabled:bg-orange300 text-white;
+  }
+
+  &__secondary {
+    @apply bg-white900 text-white disabled:bg-white400;
+  }
+
+  &__black {
+    @apply bg-black text-white disabled:bg-white900;
+  }
+
+  &__muted {
+    @apply bg-white200 text-black disabled:bg-white400;
+  }
+
+  &__neutral {
+    @apply border border-[#214dee] bg-[#FFF] text-[#214dee] hover:bg-[#214dee] hover:text-[#FFF] active:bg-[#214dee];
+  }
+
+  &__danger {
+    @apply border border-danger400 bg-danger400 text-[#fff] hover:bg-danger600 active:bg-danger600;
+  }
+
+  &__danger_outline {
+    @apply border border-[#FE8501] bg-[#FFF] text-[#FE8501] hover:bg-[#FE8501] hover:text-[#FFF] active:bg-[#FE8501];
+  }
+
+  &__media {
+    @apply text-black hover:bg-primary400 hover:text-white;
+  }
+
+  &__text {
+    @apply text-black hover:text-white;
+  }
+
+  &__outline {
+    @apply text-primary400 border border-primary400 hover:text-white;
+  }
+
+  &__tertiary {
+    @apply text-black hover:bg-[#FFF3E6] hover:text-primary400 hover:border-primary400;
+  }
+}

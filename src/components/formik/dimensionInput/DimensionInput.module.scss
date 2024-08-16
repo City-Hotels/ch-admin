@@ -1,0 +1,21 @@
+.input_container {
+  @apply flex border rounded-md h-[48px] border-grey30  focus-within:border-primary400;
+}
+
+.input {
+  width: 100%;
+  @apply w-full px-5  focus:outline-0 bg-inherit text-inherit border-none;
+  border-radius: inherit;
+}
+
+.square_feet {
+  @apply flex w-[150px] cursor-pointer items-center border-l-2 px-[10px];
+}
+
+.meta {
+  @apply h-5 text-[10px] text-primary400;
+}
+.label{
+  @apply text-[14px] text-left w-full;
+}
+  

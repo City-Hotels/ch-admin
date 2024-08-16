@@ -1,0 +1,19 @@
+.guestDetailsContainer {
+    @apply border border-grey30 rounded-md p-5 md:p-8  w-full md:w-[681px] 
+}
+
+.guestProfile {
+    @apply mt-[30px] flex  flex-col md:flex-row items-start gap-4
+}
+
+.guestInfo {
+    @apply my-4
+}
+
+.guestAddsOn {
+    @apply flex items-center gap-[50px] my-10 md:justify-center
+}
+
+.guestSpecialRequest {
+    @apply mt-[33px]
+}
