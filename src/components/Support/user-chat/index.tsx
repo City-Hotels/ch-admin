@@ -181,11 +181,7 @@ const UserChat: React.FC<{ showConversation?: boolean }> = ({
               </div>
               <div className="grid grid-cols-1  gap-3 md:grid-cols-[2fr_1fr]">
                 <div className="relative w-full border-r">
-                  <ChatMain
-                    conversation={conversation}
-                    isTyping={isTyping}
-                    socket={socket}
-                  />
+                  <ChatMain conversation={conversation} isTyping={isTyping} />
                   {conversation && (
                     <div className="w-full bg-white">
                       <TypeChat
@@ -201,7 +197,7 @@ const UserChat: React.FC<{ showConversation?: boolean }> = ({
                 >
                   {/* <SupportBookingSummary /> */}
                   <Information>
-                    <Information.User />
+                    <Information.User userId={conversation?.User?.Id}/>
                     <Information.Ticket />
                   </Information>
                 </div>

@@ -47,8 +47,20 @@ function TicketForm() {
             <Popup.Btn>Reservation</Popup.Btn>
           </Popup.Window>
         </span>
+        <span className="relative block">
+          <Popup.Open opens="assignee">
+            <Input name="assignee" label="Assignee" />
+          </Popup.Open>
+          <Popup.Window
+            className="w-60 left-[50%] -translate-x-[50%]"
+            name="assignee"
+          >
+            <Popup.Btn>Test 1</Popup.Btn>
+            <Popup.Btn>Test 2</Popup.Btn>
+            <Popup.Btn>Test 3</Popup.Btn>
+          </Popup.Window>
+        </span>
       </Popup>
-      <Input name="assignee" label="Assignee" />
       <TextArea name="summary" label="Summary" />
 
       <Checkbox

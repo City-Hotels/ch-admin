@@ -5,6 +5,40 @@ export const getUserConversations = (socket: WebSocket) => {
   socket.send(JSON.stringify(msg));
 };
 
+export const createTicket = ({
+  socket,
+  ConversationId,
+  assigneedId,
+  Title,
+  Subtitle,
+  Description
+}: {
+  socket: WebSocket;
+  ConversationId: string;
+  assigneedId: string;
+  Title: string;
+  Subtitle: string;
+  Description: string;
+}) => {
+  const msg = {
+    Data: {
+      ConversationId,
+      Ticket: {
+        Title,
+        Subtitle,
+        Description
+      },
+      Assignee: {
+        Id: assigneedId
+      },
+
+      Type: "CREATE_TICKET"
+    }
+  };
+
+  socket.send(JSON.stringify(msg));
+};
+
 export const getConversationMessages = (
   socket: WebSocket,
   ConversationId: string

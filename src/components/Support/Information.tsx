@@ -1,15 +1,29 @@
+import { getUser } from "@/services/user";
 import { P, P2 } from "../Headings/Headings";
+import { useQuery } from "react-query";
+import { IUser } from "@/services/user/payload";
+import UserInfoLoader from "./UserInfoLoader";
 
 function Information({ children }: { children: JSX.Element | JSX.Element[] }) {
   return <div className="w-[95%] rounded-md bg-white p-4">{children}</div>;
 }
 
-function UserInformation() {
+function UserInformation({ userId }: { userId: string | undefined }) {
+  const { data, isLoading } = useQuery({
+    queryFn: () => getUser(userId),
+    queryKey: ["user-information"],
+    enabled: !!userId
+  });
+
+  const { Email, Telephone } = (data?.data as IUser) || {};
+
+  if (isLoading || !userId) return <UserInfoLoader />;
+
   return (
     <section className="space-y-5">
       <P className="font-bold">User Information</P>
-      <Text mainText="Email" subText="John@gmail.com" />
-      <Text mainText="Phone" subText="08041922404" />
+      <Text mainText="Email" subText={Email} />
+      <Text mainText="Phone" subText={Telephone} />
     </section>
   );
 }

@@ -1,7 +1,7 @@
 "use client";
 
 import ChatLayout from "@/components/ChatLayout/Chat";
-import UserChat from "@/components/support-1/user-chat";
+import UserChat from "@/components/Support/user-chat";
 import { WebSocketProvider } from "@/context/WebSocketContext";
 import { useState } from "react";
 

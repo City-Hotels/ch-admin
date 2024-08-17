@@ -7,7 +7,7 @@ import OrangeSupportIcon from "@/assets/icons/orange-support.svg";
 // import { P, P3 } from "@/components/shared/headings/Headings";
 import Link from "next/link";
 import UserLayout from "../User/User";
-import ChatDashboard from "../support-1/chat-dashboard/ChatDashboard";
+import ChatDashboard from "../Support/chat-dashboard/ChatDashboard";
 
 const ChatTab: React.FC<{
   value: "ticket" | "support";

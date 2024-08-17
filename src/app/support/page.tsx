@@ -1,12 +1,12 @@
 "use client";
 
 import ChatLayout from "@/components/ChatLayout/Chat";
-import UserChat from "@/components/support-1/user-chat";
 import { useState } from "react";
 import { WebSocketProvider } from "@/context/WebSocketContext";
 
 import { Metadata } from "next";
 import DefaultLayout from "@/components/Layouts/DefaultLayout";
+import UserChat from "@/components/Support/user-chat";
 
 const ChatPage = () => {
   const [chat, setChat] = useState<"ticket" | "support">("ticket");

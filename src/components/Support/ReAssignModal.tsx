@@ -4,7 +4,7 @@ import SelectDropDown from "../Inputs/selectdropdown/SelectDropDown";
 import Modal from "../Modal/Modal";
 
 function ReAssignModal() {
-  const [isOpen, setIsOpen] = useState(true);
+  const [isOpen, setIsOpen] = useState(false);
 
   return (
     <Modal openModal={isOpen} setOpenModal={setIsOpen}>
