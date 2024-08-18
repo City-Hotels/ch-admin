@@ -11,7 +11,7 @@ function Information({ children }: { children: JSX.Element | JSX.Element[] }) {
 function UserInformation({ userId }: { userId: string | undefined }) {
   const { data, isLoading } = useQuery({
     queryFn: () => getUser(userId),
-    queryKey: ["user-information"],
+    queryKey: ["user-information", userId],
     enabled: !!userId
   });
 

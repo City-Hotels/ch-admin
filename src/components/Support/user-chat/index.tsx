@@ -196,10 +196,12 @@ const UserChat: React.FC<{ showConversation?: boolean }> = ({
                   className={`hidden w-full flex-col gap-5 overflow-y-auto xl:flex ${styles.scrollBars} py-5 md:h-[calc(100vh-197px)]`}
                 >
                   {/* <SupportBookingSummary /> */}
-                  <Information>
-                    <Information.User userId={conversation?.User?.Id}/>
-                    <Information.Ticket />
-                  </Information>
+                  {conversation && (
+                    <Information>
+                      <Information.User userId={conversation?.User?.Id} />
+                      {/* <Information.Ticket /> */}
+                    </Information>
+                  )}
                 </div>
               </div>
             </div>

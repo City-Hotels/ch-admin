@@ -38,15 +38,15 @@ const socket = createSlice({
     setConnected: (state, action: PayloadAction<boolean>) => {
       state.isConnecting = action.payload;
     }
-  },
-  extraReducers: {
-    [HYDRATE]: (state, action) => {
-      return {
-        ...state,
-        ...action.payload.room
-      };
-    }
   }
+  // extraReducers: {
+  //   [HYDRATE]: (state, action) => {
+  //     return {
+  //       ...state,
+  //       ...action.payload.room
+  //     };
+  //   }
+  // }
 });
 
 export const {

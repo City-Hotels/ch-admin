@@ -16,6 +16,7 @@ import chatReducer from "./slice/support/chat.slice";
 
 const combinedReducer = combineReducers({
   auth: authReducer,
+  socket: socketReducer,
   chat: chatReducer
 });
 
