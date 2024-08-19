@@ -1,6 +1,6 @@
 import { Metadata } from "next";
 import DefaultLayout from "@/components/Layouts/DefaultLayout";
-import CampaignsTable from "@/components/Campaigns/CampaignsTable";
+import CampaignTable from "@/components/Campaigns/CampaignTable";
 
 export const metadata: Metadata = {
   title: "City Hotel Backend Admin  Campaigns Table",
@@ -11,7 +11,7 @@ export const metadata: Metadata = {
 const Campaigns = () => {
   return (
     <DefaultLayout>
-      <CampaignsTable Limit={9} Filter={{}} />
+      <CampaignTable Limit={9} Filter={{}} />
     </DefaultLayout>
   );
 };

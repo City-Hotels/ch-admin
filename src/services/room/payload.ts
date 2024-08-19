@@ -1,3 +1,4 @@
+import { IGRPCDate } from "@/utils/api/calls";
 import type { IFacility, IHotel, IMedia } from "../hotel/payload";
 
 // TODO: Correct this when you know the exact payload
@@ -98,6 +99,11 @@ export type IRoom = {
   MaxGuest: number;
   MaxAdults: number;
   MaxChildren: number;
+  MonthlyRate: number,
+  MinPrice: number;
+  MaxPrice: number;
+  MinMonthlyRate: number;
+  MaxMonthlyRate: number;
   NumberAvailable: number;
   MaxBedRoom: number;
   BedCount: number;
@@ -109,7 +115,7 @@ export type IRoom = {
   Pricing: IRoomPriceFormPayload;
   SEO: string;
   Slug: string;
-  Status: 1 | 0 | 2; // 1 = "PUBLISHED", 0 = UNPUBLISHED, 2 = SUSPENDED
+  Status: RoomCompeleteStatus; // 1 = "PUBLISHED", 0 = UNPUBLISHED, 2 = SUSPENDED
   Rating?: {
     Impressions?: number;
     Likes: number;
@@ -122,6 +128,48 @@ export type IRoom = {
   };
   RoomType?: IRoomType;
 };
+
+export type IRoomFilter = {
+  Limit?: number;
+  Page?: number;
+  HotelId?: string;
+  Id?: string;
+  Status?: FilterRoomStatus;
+  Views?: number;
+  Bookings?: number;
+  MaxGuest?: number;
+  MaxAdults?: number;
+  MaxChildren?: number;
+  MinMonthlyRate?: number;
+  MaxMonthlyRate?: number;
+  NumberAvailable?: number;
+  MaxBedRoom?: number;
+  BedCount?: number;
+  BathCount?: number;
+  Dimension?: number;
+  MonthlyRate?: number,
+  MinPrice?: number;
+  MaxPrice?: number;
+  Name?: string;
+  Type?: FilterRoomType;
+};
+
+export enum FilterRoomType {
+  PUBLISHED = "PUBLISHED",
+  PENDING = "PENDING",
+  INREVIEW = 'INEVIEW'
+}
+
+export enum FilterRoomStatus {
+  AVAILABLEROOMS = "AVAILABLEROOMS",
+  BOOKED = "BOOKED"
+}
+
+export type RoomCompeleteStatus = {
+  Created_at?: IGRPCDate,
+  Last_updated?: IGRPCDate,
+  Status: FilterRoomStatus
+}
 
 export type IGetRoomsResponse = {
   Rooms: IRoom[];

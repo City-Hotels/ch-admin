@@ -25,4 +25,10 @@ const updateProfile = (data: UserPayload) => {
   });
 };
 
-export { getProfile, ListUsers, updateProfile };
+const getUser = (userId: string | undefined) => {
+  return getRequest<IUser>({
+    url: `/user/${userId}`
+  });
+};
+
+export { getProfile, ListUsers, updateProfile, getUser };

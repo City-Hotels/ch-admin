@@ -1,4 +1,5 @@
 import {
+  ApiResponse,
   deleteRequest,
   getRequest,
   patchRequest,
@@ -15,6 +16,7 @@ import type {
   IGetRoomsResponse,
   IPricingPayload,
   IRoom,
+  IRoomFilter,
   IRoomInformationPayload,
   IRoomType,
   IUpdateRoomPayload,
@@ -42,14 +44,23 @@ const addRoomByType = (data: ICreateRoomByTypePayload) => {
   });
 };
 
-const getRooms = (data: any) => {
-  const args = Object.keys(data)
+const getRooms = (
+  filter: IRoomFilter
+): Promise<
+  ApiResponse<{
+    Meta: Meta;
+    Rooms: IRoom[];
+  }>
+> => {
+  const args = Object.keys(filter)
     .map(
-      (item) => `${encodeURIComponent(item)}=${encodeURIComponent(data[item])}`
+      (item) =>
+        `${encodeURIComponent(item)}=${encodeURIComponent(
+          (filter as any)[item]
+        )}`
     )
     .join("&");
-
-  return getRequest<IGetRoomsResponse>({
+  return getRequest<{ Rooms: IRoom[]; Meta: Meta }>({
     url: `rooms?${args}`
   });
 };

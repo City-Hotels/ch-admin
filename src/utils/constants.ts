@@ -19,8 +19,8 @@ import WarningIcon from "@/assets/icons/warning";
 
 export const baseURL = process.env.NEXT_PUBLIC_BASE_URL;
 export const chatBaseURL = process.env.NEXT_CHAT_BASE_URL;
-// export const HOTEL_PLACEHOLDER_IMAGE =
-//   "https://cityhotels.s3.amazonaws.com/hotel2.png";
+export const HOTEL_PLACEHOLDER_IMAGE =
+  "https://cityhotels.s3.amazonaws.com/hotel2.png";
 // export const ROOM_PLACEHOLDER_IMAGE =
 //   "https://cityhotels.s3.amazonaws.com/hotel2.png";
 
@@ -405,20 +405,20 @@ export const toastIcons = {
 //   PostalCode: ""
 // };
 
-// export const CountryOptions = [
-//   {
-//     label: "Nigeria",
-//     value: "nigeria"
-//   },
-//   {
-//     label: "Singapore",
-//     value: "singapore"
-//   },
-//   {
-//     label: "Canada",
-//     value: "canada"
-//   }
-// ];
+export const CountryOptions = [
+  {
+    label: "Nigeria",
+    value: "nigeria"
+  },
+  // {
+  //   label: "Singapore",
+  //   value: "singapore"
+  // },
+  // {
+  //   label: "Canada",
+  //   value: "canada"
+  // }
+];
 
 // export const CityOptions = [
 //   {
@@ -448,63 +448,63 @@ export const toastIcons = {
 //     value: "ekiti"
 //   }
 // ];
-// export const HOTELROLES = [
-//   {
-//     Id: "001",
-//     Title: "OWNER"
-//   },
-//   {
-//     Id: "002",
-//     Title: "MANAGER"
-//   },
-//   {
-//     Id: "003",
-//     Title: "IT/SUPPORT"
-//   },
-//   {
-//     Id: "004",
-//     Title: "RECEPTIONIST"
-//   },
-//   {
-//     Id: "005",
-//     Title: "ACCOUNTANT"
-//   },
-//   {
-//     Id: "006",
-//     Title: "PAYOUT"
-//   }
-// ];
+export const HOTELROLES = [
+  {
+    Id: "001",
+    Title: "OWNER"
+  },
+  {
+    Id: "002",
+    Title: "MANAGER"
+  },
+  {
+    Id: "003",
+    Title: "IT/SUPPORT"
+  },
+  {
+    Id: "004",
+    Title: "RECEPTIONIST"
+  },
+  {
+    Id: "005",
+    Title: "ACCOUNTANT"
+  },
+  {
+    Id: "006",
+    Title: "PAYOUT"
+  }
+];
 
-// export const HOTELPERMISSONS = [
-//   {
-//     Id: "001",
-//     Name: "ADMIN"
-//   },
-//   {
-//     Id: "002",
-//     Name: "USER"
-//   },
-//   {
-//     Id: "003",
-//     Name: "FACILITY"
-//   },
-//   {
-//     Id: "004",
-//     Name: "RESERVATIONS"
-//   },
-//   {
-//     Id: "005",
-//     Name: "TRANSACTIONS"
-//   },
-//   {
-//     Id: "006",
-//     Name: "PAYOUT"
-//   },
-//   {
-//     Id: "007",
-//     Name: "ROOMS"
-//   }
-// ];
+export const HOTELPERMISSONS = [
+  {
+    Id: "001",
+    Name: "ADMIN"
+  },
+  {
+    Id: "002",
+    Name: "USER"
+  },
+  {
+    Id: "003",
+    Name: "FACILITY"
+  },
+  {
+    Id: "004",
+    Name: "RESERVATIONS"
+  },
+  {
+    Id: "005",
+    Name: "TRANSACTIONS"
+  },
+  {
+    Id: "006",
+    Name: "PAYOUT"
+  },
+  {
+    Id: "007",
+    Name: "ROOMS"
+  }
+];
 // export const mockSafetyAmenities: IFacility[] = [
 //   {
 //     Icon: "/pool-2.svg",

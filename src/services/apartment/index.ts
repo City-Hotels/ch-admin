@@ -13,11 +13,12 @@ import type {
   IDetailsPayload,
   IFacility,
   IAddress,
-  ApartmentFilter
+  IMedia,
+  IApartmentFilter
 } from "./payload";
 
 const searchApartment = (
-  filter: ApartmentFilter
+  filter: IApartmentFilter
 ): Promise<
   ApiResponse<{
     Meta: Meta;
@@ -56,15 +57,24 @@ const getUserApartment = () => {
   });
 };
 
-const updateApartmentInformation = (
-  apartmentid: string,
-  data: IApartmentInformationPayload
-) => {
+// const  = (
+//   apartmentid: string,
+//   data: IApartmentInformationPayload
+// ) => {
+//   return patchRequest<IApartmentInformationPayload, any>({
+//     url: `/host/apartments/${apartmentid}/information`,
+//     data
+//   });
+// };
+
+
+const updateApartmentInformation = (apartmentid: string, data: IApartmentInformationPayload) => {
   return patchRequest<IApartmentInformationPayload, any>({
     url: `/host/apartments/${apartmentid}/information`,
     data
   });
 };
+
 
 const updateApartmentPrice = (apartmentid: string, data: IPricingPayload) => {
   return patchRequest<IPricingPayload, any>({

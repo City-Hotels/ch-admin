@@ -1,0 +1,66 @@
+.header {
+  @apply h-full w-full flex flex-col gap-10;
+}
+
+.dashboardCard {
+  @apply flex flex-col gap-3 xl:gap-7 my-3 md:my-0 md:mb-7 md:flex-row md:justify-center md:pt-7;
+}
+
+.tableHeader {
+  @apply flex w-full items-center justify-between;
+}
+
+.tableForm {
+  @apply mb-8 flex items-center w-full justify-between gap-3;
+}
+
+.input {
+  @apply w-full border border-[#EAEAEA] outline-none placeholder:text-[#666666];
+}
+
+.customerName {
+  @apply w-full py-3 text-[13px];
+}
+
+.customerHeader {
+  @apply flex items-center gap-5 px-4;
+}
+
+.customerContainer {
+  @apply flex flex-col gap-1;
+}
+
+.bookingId {
+  @apply mx-auto w-full justify-center py-3 text-center text-[13px];
+}
+
+.date {
+  @apply gap-5 text-center text-[13px];
+}
+
+.status {
+  @apply mx-auto w-full justify-center gap-5 text-center text-[13px];
+}
+
+.itemStatus {
+  @apply flex items-center justify-center gap-2 rounded-md px-[11px] py-[6px];
+}
+.span {
+  @apply h-[5px] w-[5px] rounded-full bg-[#FFF];
+}
+
+.editIcon {
+  @apply ml-8 cursor-pointer;
+}
+
+.h4 {
+  @apply text-[21px] font-semibold;
+}
+
+.container {
+  @apply flex justify-between items-center  mb-5
+}
+
+.button {
+  @apply rounded-xl w-[141px] h-[39px];
+}

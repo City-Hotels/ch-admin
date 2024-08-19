@@ -1,4 +1,12 @@
 // TODO: Correct this when you know the exact payload
+export enum SpaceType {
+  HOTEL = "HOTEL",
+  APARTMENT = "APARTMENT",
+  RESTAURANT = "RESTAURANT",
+  EVENT = "EVENT",
+  TOUR = "TOUR"
+}
+
 export enum HotelStatus {
   INACTIVE = 0,
   ACTIVE = 1,
@@ -24,6 +32,9 @@ export type IAddress = {
   State: string;
   Street: string;
   Location: ILocation;
+  Latitude: string;
+  Longitude: string;
+
 };
 export type IMedia = {
   Path: string;
@@ -38,13 +49,27 @@ export type ISocialLinks = {
   Pinterest: string;
 };
 
+export interface IManagementCompany {
+  Name: string;
+  OfficeAddress: IAddress;
+  BusinessRegistration: string;
+}
+
 export type ICooperateInformation = {
   Support: SupportInformationPayload;
   Manager: ManagerInformationPayload;
   PayInData: BankInformationPayload;
+  ParentCompany: IManagementCompany;
+};
+
+export type IManagementInformationPayload = {
+  BusinessRegistration: string;
+  ParentCompany: string;
+  Country: string;
 };
 
 export type IHotel = {
+  BusinessType: any;
   item: string;
   Id: string;
   Name: string;
@@ -90,7 +115,7 @@ export type HotelFilter = {
 };
 
 export type IFacility = {
-  Amenities: string[];
+  Amenities?: string[];
   Icon: string;
   Id: string;
   Label: string;
@@ -126,6 +151,7 @@ export type INearby = {
   Distance: string;
   Location: string;
   Type: string;
+  Unit: string;
 };
 
 export type IPrice = {
@@ -196,14 +222,10 @@ export interface SupportInformationPayload {
   Telephone: string;
 }
 export interface HotelInformationPayload {
-  HotelName: string;
-  HotelSlogan: string;
+  Name: string;
+  Slogan: string;
+  Introduction: string;
   Email: string;
-  Location: string;
-  Address: string;
-  State: string;
-  City: string;
-  GoogleCoordinate: string;
-  ContactEmail: string;
   Telephone: string;
 }
+
