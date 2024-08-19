@@ -1,3 +1,5 @@
+import { NewTicket } from "./payload";
+
 export const getUserConversations = (socket: WebSocket) => {
   const msg = {
     Type: "PENDING_REQUESTS"
@@ -8,18 +10,11 @@ export const getUserConversations = (socket: WebSocket) => {
 export const createTicket = ({
   socket,
   ConversationId,
-  assigneedId,
+  assigneeId,
   Title,
   Subtitle,
   Description
-}: {
-  socket: WebSocket;
-  ConversationId: string;
-  assigneedId: string;
-  Title: string;
-  Subtitle: string;
-  Description: string;
-}) => {
+}: NewTicket) => {
   const msg = {
     Data: {
       ConversationId,
@@ -29,12 +24,13 @@ export const createTicket = ({
         Description
       },
       Assignee: {
-        Id: assigneedId
-      },
-
-      Type: "CREATE_TICKET"
-    }
+        Id: assigneeId
+      }
+    },
+    Type: "CREATE_TICKET"
   };
+
+  console.log({ msg }, "called");
 
   socket.send(JSON.stringify(msg));
 };

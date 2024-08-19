@@ -94,3 +94,12 @@ export interface IListConversationResponse {
   Conversations: IConversation[];
   Meta: Meta;
 }
+
+export interface NewTicket {
+  socket: WebSocket;
+  ConversationId: string;
+  assigneeId: string;
+  Title: string;
+  Subtitle: string;
+  Description: string;
+}

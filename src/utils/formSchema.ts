@@ -249,9 +249,15 @@ export const apartmentInformationSchema = Yup.object({
   Name: Yup.string().required("Please provide the Apartment name."),
   Description: Yup.string().required(
     "Please provide a short Description of your Apartment."
-  ),
+  )
 });
 
+export const createTicketSchema = Yup.object({
+  ticketTitle: Yup.string().required("a title is required"),
+  ticketSubtitle: Yup.string().required("please enter a subtitle"),
+  ticketAssignee: Yup.string().required("please select an assignee"),
+  description: Yup.string().required("ticket description is required")
+});
 
 // // Validation schema for hotel information
 // export const hotelInformationSchema = Yup.object({

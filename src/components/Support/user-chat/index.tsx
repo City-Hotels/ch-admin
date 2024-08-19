@@ -176,7 +176,7 @@ const UserChat: React.FC<{ showConversation?: boolean }> = ({
                   className="text-orange-400"
                   onClick={() => setCreateTicketOpen((s) => !s)}
                 >
-                  re-assign
+                  Create ticket
                 </P>
               </div>
               <div className="grid grid-cols-1  gap-3 md:grid-cols-[2fr_1fr]">
@@ -210,6 +210,7 @@ const UserChat: React.FC<{ showConversation?: boolean }> = ({
         <ReAssignModal />
         {createTicketOpen && (
           <CreateTicket
+            conversationId={conversation?.Id || ""}
             isOpen={createTicketOpen}
             setIsOpen={setCreateTicketOpen}
           />

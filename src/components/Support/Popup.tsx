@@ -78,12 +78,27 @@ function PopupWindow({
   );
 }
 
-function PopupBtn({ children }: { children: string }) {
-  const { forTicketPopup } = useContext(PopupContext);
+function PopupBtn({
+  children,
+  type,
+  onClick
+}: {
+  children: string;
+  type?: "button" | "submit" | "reset";
+  onClick?: () => void;
+}) {
+  const { forTicketPopup, close } = useContext(PopupContext);
+
+  function handleClick() {
+    onClick?.();
+    close();
+  }
 
   return (
     <li>
       <button
+        onClick={handleClick}
+        type={type}
         className={`h-full w-full border ${!forTicketPopup ? "p-3" : "p-2"} text-sm text-start border-none hover:bg-white100`}
       >
         {children}
