@@ -7,6 +7,17 @@ export const getUserConversations = (socket: WebSocket) => {
   socket.send(JSON.stringify(msg));
 };
 
+export const getTicketsList = (socket: WebSocket) => {
+  const msg = {
+    Data: {
+      TicketId: ""
+    },
+    Type: "LIST_TICKETS"
+  };
+
+  socket.send(JSON.stringify(msg));
+};
+
 export const createTicket = ({
   socket,
   ConversationId,
@@ -30,7 +41,74 @@ export const createTicket = ({
     Type: "CREATE_TICKET"
   };
 
-  console.log({ msg }, "called");
+  socket.send(JSON.stringify(msg));
+  console.log("works", msg);
+  // const res = socket.send(JSON.stringify(msg));
+  // console.log({ res }, "called");
+};
+
+export const reassignTicket = ({
+  ticketId,
+  AssigneeId,
+  socket
+}: {
+  ticketId: string;
+  AssigneeId: string;
+  socket: WebSocket;
+}) => {
+  const msg = {
+    Data: {
+      ticketId,
+      Assignee: {
+        Id: AssigneeId
+      }
+    },
+    Type: "REASSIGN_TICKET"
+  };
+
+  console.log({ msg });
+
+  socket.send(JSON.stringify(msg));
+};
+
+export const updateTicketStatus = ({
+  socket,
+  ticketId,
+  status
+}: {
+  socket: WebSocket;
+  ticketId: string;
+  status: number;
+}) => {
+  const msg = {
+    Data: {
+      TicketId: ticketId, //"66b2ab79f2f5646940874b9e",
+      Status: status //1
+    },
+    Type: "UPDATE_TICKET_STATUS"
+  };
+
+  console.log(msg);
+
+  socket.send(JSON.stringify(msg));
+};
+
+export const updateStatus = ({
+  ConversationId,
+  Status,
+  socket
+}: {
+  ConversationId: string;
+  Status: string;
+  socket: WebSocket;
+}) => {
+  const msg = {
+    Data: {
+      ConversationId,
+      Status
+    },
+    Type: "UPDATE_STATUS"
+  };
 
   socket.send(JSON.stringify(msg));
 };

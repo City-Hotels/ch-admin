@@ -39,10 +39,10 @@ export interface TicketEntry {
   Title: string;
   Subtitle: string;
   Description: string;
-  UserAssignee: IUser;
-  Status: TicketStatus;
-  CreatedAt: TimeStamp;
-  LastUpdated: TimeStamp;
+  Assignee: IUser;
+  Status?: TicketStatus;
+  CreatedAt?: TimeStamp;
+  LastUpdated?: TimeStamp;
   Creator: IUser;
 }
 

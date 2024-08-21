@@ -59,6 +59,25 @@ function CreateTicket({
 
     createTicket(data);
   }
+
+  // event: MessageEvent<any>) => {
+  //   const msg = JSON.parse(event.data);
+  //   if (msg.Type === "INCOMING_MESSAGE") {
+  //     const data = msg.Data as IMessage;
+
+  useEffect(() => {
+    function handler(e: MessageEvent<any>) {
+      const msg = JSON.parse(e.data);
+      if (msg.Type === "TICKET") setIsOpen(false);
+      console.log("message received ooo", msg);
+    }
+    if (socket) socket.addEventListener("message", handler);
+
+    return () => {
+      if (socket) socket.removeEventListener("message", handler);
+    };
+  }, [socket, setIsOpen]);
+
   return (
     <Modal openModal={isOpen} setOpenModal={setIsOpen}>
       <header className="text-center border-b border-white400 pb-4 pt-6">
@@ -154,8 +173,6 @@ function TicketForm({
                       adminId: admin.Id || "",
                       adminName: `${admin.Firstname} ${admin.Lastname}`
                     });
-
-                    console.log(admin);
                   }}
                 >
                   {`${admin.Firstname} ${admin.Lastname}`}

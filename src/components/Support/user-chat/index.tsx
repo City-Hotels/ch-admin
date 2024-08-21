@@ -150,34 +150,38 @@ const UserChat: React.FC<{ showConversation?: boolean }> = ({
             >
               <div className="flex w-full flex-row items-center justify-between border-b px-3 py-1 shadow-sm">
                 <ChatRecipient conversation={conversation} />
-                <Popup>
-                  <span className="relative block  w-[7rem]">
-                    <Popup.Window
-                      name="ticket-status"
-                      className="top-[100%] left-[80%]"
-                    >
-                      <Popup.Btn>New</Popup.Btn>
-                      <Popup.Btn>On-hold</Popup.Btn>
-                      <Popup.Btn>Resolved</Popup.Btn>
-                    </Popup.Window>
-                    <Popup.Open opens="ticket-status">
-                      <button className="bg-white size-full px-3 py-1 border border-white500 text-start rounded-md flex justify-between items-center">
-                        New
-                        <ChevronDown />
-                      </button>
-                    </Popup.Open>
-                    {/* <select className="border border-white400 p-2 rounded-md outline-none">
+                {idOrSlug && (
+                  <>
+                    <Popup>
+                      <span className="relative block  w-[7rem]">
+                        <Popup.Window
+                          name="ticket-status"
+                          className="top-[100%] left-[80%]"
+                        >
+                          <Popup.Btn>New</Popup.Btn>
+                          <Popup.Btn>On-hold</Popup.Btn>
+                          <Popup.Btn>Resolved</Popup.Btn>
+                        </Popup.Window>
+                        <Popup.Open opens="ticket-status">
+                          <button className="bg-white size-full px-3 py-1 border border-white500 text-start rounded-md flex justify-between items-center">
+                            New
+                            <ChevronDown />
+                          </button>
+                        </Popup.Open>
+                        {/* <select className="border border-white400 p-2 rounded-md outline-none">
                       <option>New</option>
                     </select> */}
-                  </span>
-                </Popup>
-                <P
-                  role="button"
-                  className="text-orange-400"
-                  onClick={() => setCreateTicketOpen((s) => !s)}
-                >
-                  Create ticket
-                </P>
+                      </span>
+                    </Popup>
+                    <P
+                      role="button"
+                      className="text-orange-400"
+                      onClick={() => setCreateTicketOpen((s) => !s)}
+                    >
+                      Create ticket
+                    </P>
+                  </>
+                )}
               </div>
               <div className="grid grid-cols-1  gap-3 md:grid-cols-[2fr_1fr]">
                 <div className="relative w-full border-r">
