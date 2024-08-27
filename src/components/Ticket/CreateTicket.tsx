@@ -64,19 +64,22 @@ function CreateTicket({
   //   const msg = JSON.parse(event.data);
   //   if (msg.Type === "INCOMING_MESSAGE") {
   //     const data = msg.Data as IMessage;
+  // console.log("message received ooo");
 
-  useEffect(() => {
-    function handler(e: MessageEvent<any>) {
-      const msg = JSON.parse(e.data);
-      if (msg.Type === "TICKET") setIsOpen(false);
-      console.log("message received ooo", msg);
-    }
-    if (socket) socket.addEventListener("message", handler);
+  // useEffect(() => {
+  //   console.log("message received ooo");
 
-    return () => {
-      if (socket) socket.removeEventListener("message", handler);
-    };
-  }, [socket, setIsOpen]);
+  //   function handler(e: MessageEvent<any>) {
+  //     const msg = JSON.parse(e.data);
+  //     if (msg.Type === "TICKET") setIsOpen(false);
+  //     console.log("message received ooo", msg);
+  //   }
+  //   if (socket) socket.addEventListener("message", handler);
+
+  //   return () => {
+  //     if (socket) socket.removeEventListener("message", handler);
+  //   };
+  // }, [socket, setIsOpen]);
 
   return (
     <Modal openModal={isOpen} setOpenModal={setIsOpen}>

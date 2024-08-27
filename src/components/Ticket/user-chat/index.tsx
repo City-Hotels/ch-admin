@@ -156,7 +156,7 @@ const UserChat: React.FC<{ showConversation?: boolean }> = ({
       socket.removeEventListener("message", handler);
       // if (list) socket?.removeEventListener("message", list);
     };
-  }, [user.Id, tickets?.length, socket]);
+  }, [user.Id, tickets?.length, socket, dispatch]);
 
   // useEffect(() => {
   //   if (!conversation && conversations.length > 0)

@@ -38,7 +38,7 @@ const ChatRecipient: React.FC<{ ticket?: TicketEntry }> = ({ ticket }) => {
         Firstname={recipient?.Firstname || ""}
         Lastname={recipient?.Lastname || ""}
         Imageurl={recipient?.Imageurl || ""}
-        className="size-14"
+        className="size-14 !bg-primary400"
       />
       <div className="flex w-full flex-col">
         <H5>

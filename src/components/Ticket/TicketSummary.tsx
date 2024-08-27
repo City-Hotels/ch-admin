@@ -4,7 +4,7 @@ import { P, P2 } from "../Headings/Headings";
 function TicketSummary({ ticket }: { ticket: TicketEntry }) {
   return (
     <div className="h-[90%] w-[80%] flex flex-col justify-between items-center m-auto">
-      <span className="mt-8 bg-white p-5 w-full">
+      <span className="mt-8 bg-inherit p-5 w-full border border-white400">
         <P>{ticket.Title}</P>
         <P2 className="text-sm mt-5">{ticket.Description}</P2>
       </span>

@@ -8,6 +8,7 @@ import OrangeSupportIcon from "@/assets/icons/orange-support.svg";
 import Link from "next/link";
 import UserLayout from "../User/User";
 import ChatDashboard from "../Support/chat-dashboard/ChatDashboard";
+import { usePathname } from "next/navigation";
 
 const ChatTab: React.FC<{
   value: "ticket" | "support";
@@ -16,27 +17,35 @@ const ChatTab: React.FC<{
   label: "ticket" | "support";
   notificationCount: number;
   setValue: (value: "ticket" | "support") => void;
-}> = ({ label, Icon, HoverIcon, value, notificationCount }) => (
-  <Link href={`/${label}`} className="group cursor-pointer">
-    <div
-      className={`flex items-center gap-2 border-b pb-1 group-hover:text-primary400  ${
-        label === value && "border-b-primary400 text-primary400"
-      }`}
-    >
-      {value === label ? <HoverIcon /> : <Icon />}
-      <p>{label}</p>
-      {notificationCount > 0 && (
-        <p
-          className={`flex h-4 w-7 items-center justify-center rounded-xl bg-[#F0F2F5] py-1 text-center group-hover:bg-primary400 group-hover:text-white ${
-            label === value && "bg-primary400 text-white"
-          }`}
-        >
-          {notificationCount}
-        </p>
-      )}
-    </div>
-  </Link>
-);
+}> = ({ label, Icon, HoverIcon, value, notificationCount, setValue }) => {
+  const pathname = usePathname();
+
+  return (
+    <Link href={`/${label}`} className="group cursor-pointer">
+      <div
+        onClick={() => setValue(label)}
+        className={`flex items-center gap-2 border-b pb-1 group-hover:text-primary400  ${
+          // label === value && "border-b-primary400 text-primary400"
+          pathname.includes(label) && "border-b-primary400 text-primary400"
+        }`}
+      >
+        {/* {value === label ? <HoverIcon /> : <Icon />} */}
+        {pathname.includes(label) ? <HoverIcon /> : <Icon />}
+        <p>{label}</p>
+        {notificationCount > 0 && (
+          <p
+            className={`flex h-4 w-7 items-center justify-center rounded-xl bg-[#F0F2F5] py-1 text-center group-hover:bg-primary400 group-hover:text-white ${
+              // label === value && "bg-primary400 text-white"
+              pathname.includes(label) && "bg-primary400 text-white"
+            }`}
+          >
+            {notificationCount}
+          </p>
+        )}
+      </div>
+    </Link>
+  );
+};
 
 // 70.66667175292969
 const ChatLayout: React.FC<

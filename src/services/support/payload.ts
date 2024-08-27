@@ -76,14 +76,14 @@ export interface IMessage {
   Id: string;
   ConversationId: string;
   Message: string;
-  SenderId: string;
-  RecipientId: string;
+  SenderId?: string;
+  RecipientId?: string;
   Type: string;
   Sender: IUser;
   Recipient: IUser;
   Status: MessageStatus;
-  CreatedAt: string;
-  UpdatedAt: string;
+  CreatedAt: TimeStamp;
+  UpdatedAt: TimeStamp;
 }
 export interface IChatSocketMessageEventData {
   Type: string;

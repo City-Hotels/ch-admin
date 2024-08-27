@@ -1,5 +1,5 @@
 import type { IConversation, IMessage } from "@/services/support/payload";
-import { useEffect, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { getUserConversations } from "@/services/support";
 import { useSelector } from "react-redux";
 import { selectCurrentUser } from "@/store/slice/auth/auth.slice";
@@ -21,23 +21,83 @@ import { P } from "@/components/Headings/Headings";
 import Popup from "../Popup";
 import ChevronDown from "@/assets/icons/chevron-down.svg";
 
+function dateToTimestamp(date: Date): { seconds: number; nanos: number } {
+  // Ensure the input is a valid Date object
+  if (!(date instanceof Date)) {
+    throw new Error("Invalid date object");
+  }
+  // Get the timestamp in milliseconds
+  const millis = date.getTime();
+  // Convert milliseconds to seconds (integer part)
+  const seconds = Math.floor(millis / 1000);
+  // Calculate the nanoseconds (remaining milliseconds converted to nanoseconds)
+  const nanos = (millis % 1000) * 1e6;
+  return { seconds, nanos };
+}
+// Example usage:
+// const date = new Date();
+// const timestamp = dateToTimestamp(date);
+// console.log("Seconds:", timestamp.seconds);
+// console.log("Nanoseconds:", timestamp.nanos);
+
 const UserChat: React.FC<{ showConversation?: boolean }> = ({
   showConversation
 }) => {
   const [conversation, setConversation] = useState<IConversation>();
-  const conversations = useSelector(getChatConversations) || [];
+
+  const chatConversations = useSelector(getChatConversations);
+  const conversations = useMemo(
+    () => chatConversations || [],
+    [chatConversations]
+  );
+
+  const selectedUser = useSelector(selectCurrentUser) || {};
+  const user = useMemo(() => selectedUser || {}, [selectedUser]);
+
+  // const conversations = useSelector(getChatConversations) || [];
   const router = useRouter();
   const { idOrSlug } = useParams<{ idOrSlug: string }>();
 
   // const { slug } = router.query;
 
-  console.log({ conversations });
+  // console.log({ conversations });
 
   const socket = useWebSocket();
-  const user = useSelector(selectCurrentUser) || {};
+  // const user = useSelector(selectCurrentUser) || {};
   const [isTyping, setIsTyping] = useState(false);
   const search = useSearchParams();
   const [createTicketOpen, setCreateTicketOpen] = useState(false);
+
+  // const [message, setMessage] = useState("");
+  const [messages, setMessages] = useState<IMessage[]>([]);
+
+  // useEffect(() => {
+  //   if (!socket) return;
+  //   getUserConversations(socket);
+
+  //   const handler = (event: MessageEvent<any>) => {
+  //     const msg = JSON.parse(event.data);
+  //     if (msg.Type === "INCOMING_MESSAGE") {
+  //       const data = msg.Data as IMessage;
+  //       if (
+  //         conversation?.Id === "" &&
+  //         ((data.Recipient.Id === conversation.SupportAgent.Id &&
+  //           data.Sender.Id === user.Id) ||
+  //           (data.Recipient.Id === user.Id &&
+  //             data.Sender.Id === conversation.SupportAgent.Id))
+  //       ) {
+  //         setConversation({ ...conversation, Id: data.ConversationId });
+  //       }
+  //     }
+  //     return event;
+  //   };
+
+  //   socket.addEventListener("message", handler);
+
+  //   return () => {
+  //     socket.removeEventListener("message", handler);
+  //   };
+  // }, [socket, conversation, user.Id, conversations?.length]);
 
   useEffect(() => {
     const base64String = search.get("h");
@@ -79,10 +139,11 @@ const UserChat: React.FC<{ showConversation?: boolean }> = ({
     }
     if (socket && conversations?.length < 1) getUserConversations(socket);
 
-    socket.addEventListener("message", (event: MessageEvent<any>) => {
+    const handler = (event: MessageEvent<any>) => {
       const msg = JSON.parse(event.data);
       if (msg.Type === "INCOMING_MESSAGE") {
         const data = msg.Data as IMessage;
+        // console.log({ testttt: data });
         if (
           conversation?.Id === "" &&
           ((data.Recipient.Id === conversation.SupportAgent.Id &&
@@ -95,16 +156,51 @@ const UserChat: React.FC<{ showConversation?: boolean }> = ({
         }
       }
       return event;
-    });
+    };
+
+    //   {
+    //     "testttt": {
+    //         "Id": "66cdd6560c03049723c7004a",
+    //         "ConversationId": "66cc7f98f31745b6616357c2",
+    //         "Message": "hllo lekan",
+    //         "Type": "",
+    //         "Sender": {
+    //             "Id": "474109c4-41dc-4a35-a7e9-bd6504fdc84c",
+    //             "Firstname": "Femi",
+    //             "Lastname": "Majek",
+    //             "Imageurl": "",
+    //             "Role": "ADMIN"
+    //         },
+    //         "Recipient": {
+    //             "Id": "dc4e41ef-4ff1-4e5e-94f2-55086c40ecbf",
+    //             "Firstname": "Adiro",
+    //             "Lastname": "Olalekan",
+    //             "Imageurl": "https://image.cityhotelsandbookings.com/users/dc4e41ef-4ff1-4e5e-94f2-55086c40ecbf/profile/head.jpg",
+    //             "Role": "USER"
+    //         },
+    //         "Status": 0,
+    //         "CreatedAt": {
+    //             "seconds": 1724765782,
+    //             "nanos": 918616243
+    //         },
+    //         "UpdatedAt": {
+    //             "seconds": 1724765782,
+    //             "nanos": 918617877
+    //         },
+    //         "TicketEntry": {}
+    //     }
+    // }
+
+    socket.addEventListener("message", handler);
 
     return () => {
+      socket.removeEventListener("message", handler);
       // if (list) socket?.removeEventListener("message", list);
     };
   }, [socket, conversation, user.Id, conversations?.length]);
 
   // useEffect(() => {
   //   if (!conversation && conversations.length > 0)
-
   //     setConversation(conversations[0]);
 
   //   return () => {};
@@ -121,8 +217,9 @@ const UserChat: React.FC<{ showConversation?: boolean }> = ({
     return () => {};
   }, [conversations, idOrSlug]);
 
-  console.log({ conversation, socket });
-
+  // console.log({ conversation, socket });
+  console.log(messages);
+  console.log("plllllllll");
   return (
     <>
       <div className="h-full rounded-md border border-[#ddd] lg:min-w-[90vw]">
@@ -185,13 +282,22 @@ const UserChat: React.FC<{ showConversation?: boolean }> = ({
               </div>
               <div className="grid grid-cols-1  gap-3 md:grid-cols-[2fr_1fr]">
                 <div className="relative w-full border-r">
-                  <ChatMain conversation={conversation} isTyping={isTyping} />
+                  <ChatMain
+                    conversation={conversation}
+                    isTyping={isTyping}
+                    onSend_receive_message={setMessages}
+                    sent_received_messages={messages}
+                  />
                   {conversation && (
                     <div className="w-full bg-white">
                       <TypeChat
                         conversation={conversation}
                         setIsTyping={setIsTyping}
                         isTyping={isTyping}
+                        onSend_receive_message={setMessages}
+
+                        // message={message}
+                        // setMessage={setMessage}
                       />
                     </div>
                   )}

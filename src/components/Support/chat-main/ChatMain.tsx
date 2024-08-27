@@ -1,4 +1,10 @@
-import React, { useCallback, useEffect, useRef, useState } from "react";
+import React, {
+  SetStateAction,
+  useCallback,
+  useEffect,
+  useRef,
+  useState
+} from "react";
 import {
   MessageStatus,
   type IConversation,
@@ -38,9 +44,16 @@ const SkeletonLoader = () => (
 const ChatMain: React.FC<{
   conversation?: IConversation;
   isTyping?: boolean;
-}> = ({ conversation, isTyping }) => {
+  onSend_receive_message: React.Dispatch<SetStateAction<IMessage[]>>;
+  sent_received_messages: IMessage[];
+}> = ({
+  conversation,
+  isTyping,
+  sent_received_messages,
+  onSend_receive_message
+}) => {
   const user = useSelector(selectCurrentUser);
-  const [messages, setMessages] = useState<IMessage[]>([]);
+  // const [messages, setMessages] = useState<IMessage[]>([]);
   const [isFetchingMsgs, setIsFetchingMsgs] = useState(true);
   const [pageNum, setPageNum] = useState(1);
   const socket = useWebSocket();
@@ -54,20 +67,21 @@ const ChatMain: React.FC<{
   }, [chatContainerRef.current]);
 
   useEffect(() => {
-    console.log("runs", 1, socket);
+    // console.log("runs", 1, socket);
     if (!socket || !conversation?.Id) return () => {};
     getConversationMessages(socket, conversation.Id);
-    console.log("runs", 2, socket);
-    if (messages.length < 1 && pageNum === 1) setIsFetchingMsgs(true);
+    if (sent_received_messages.length < 1 && pageNum === 1)
+      setIsFetchingMsgs(true);
 
     return () => {};
-  }, [conversation?.Id, socket, messages, pageNum]);
+  }, [conversation?.Id, socket, sent_received_messages, pageNum]);
 
-  useEffect(() => {
-    setMessages([]);
+  // useEffect(() => {
+  //   // setMessages([]);
+  //   onSend_receive_message([]);
 
-    return () => {};
-  }, [conversation?.Id]);
+  //   return () => {};
+  // }, [conversation?.Id]);
 
   useEffect(() => {
     let list: any;
@@ -80,7 +94,8 @@ const ChatMain: React.FC<{
         if (msg.Type === "CONVERSATION_MESSAGES") {
           setIsFetchingMsgs(false);
           const Data = msg.Data as { Messages: IMessage[]; Meta: Meta };
-          setMessages((Data.Messages as IMessage[]) || []);
+          // setMessages((Data.Messages as IMessage[]) || []);
+          onSend_receive_message((Data.Messages as IMessage[]) || []);
           setPageNum(Data.Meta.CurrentPage);
           setTimeout(scrollToBottom, 100);
         } else if (msg.Type === "INCOMING_MESSAGE") {
@@ -88,16 +103,20 @@ const ChatMain: React.FC<{
           const data = msg.Data as IMessage;
           if (data.ConversationId === conversation?.Id) {
             getConversationMessages(socket, conversation.Id);
-            setMessages([...messages, data]);
+            // setMessages([...messages, data]);
+            onSend_receive_message((msgs) => [...msgs, data]);
             setTimeout(scrollToBottom, 100);
           }
         }
+
+        return event;
       });
     }
+
     return () => {
       socket?.removeEventListener("message", list);
     };
-  }, [socket, messages, conversation, scrollToBottom]);
+  }, [socket, onSend_receive_message, conversation, scrollToBottom]);
 
   return (
     <div
@@ -108,16 +127,17 @@ const ChatMain: React.FC<{
       } flex-col overflow-y-auto px-5 py-3 ${styles.scrollBars}`}
       ref={chatContainerRef}
     >
-      {messages.map((chat, index) =>
+      {sent_received_messages.map((chat, index) =>
         chat.Sender.Id === user.Id ? (
           <div className="ml-auto" key={chat.Id}>
             <SentChat
               chat={chat}
               showStatus={
-                !messages[index + 1] ||
-                messages[index + 1]?.Sender?.Id !== user.Id ||
-                (messages[index + 1]?.Sender?.Id === user.Id &&
-                  messages[index + 1]?.Status !== MessageStatus.Read &&
+                !sent_received_messages[index + 1] ||
+                sent_received_messages[index + 1]?.Sender?.Id !== user.Id ||
+                (sent_received_messages[index + 1]?.Sender?.Id === user.Id &&
+                  sent_received_messages[index + 1]?.Status !==
+                    MessageStatus.Read &&
                   chat.Status === MessageStatus.Read)
               }
             />
@@ -126,7 +146,9 @@ const ChatMain: React.FC<{
           <div key={chat.Id}>
             <RecievedChat
               chat={chat}
-              showStatus={messages[index + 1]?.Recipient?.Id !== user.Id}
+              showStatus={
+                sent_received_messages[index + 1]?.Recipient?.Id !== user.Id
+              }
             />
           </div>
         )

@@ -25,6 +25,7 @@ import { H3, P, P2 } from "@/components/Headings/Headings";
 import { IConversation, MessageStatus } from "@/services/support/payload";
 import Avatar from "@/components/Avatar/Avatar";
 import Popup from "../Popup";
+import { convertGrpcDate } from "@/utils/helpers";
 
 const ChatItem: React.FC<{
   conversation: IConversation;
@@ -35,20 +36,20 @@ const ChatItem: React.FC<{
 }> = ({ conversation, isActive, isStarred, toggleStar }) => {
   const user = useSelector(selectCurrentUser);
 
+  const date =
+    conversation.LastMessage?.CreatedAt &&
+    convertGrpcDate(conversation.LastMessage?.CreatedAt);
+
+  // console.log({ date, lll: conversation.LastMessage?.CreatedAt });
+
   const sender = useMemo(() => conversation?.User, [conversation?.User]);
   let lastChatTime = "";
-  if (dayjs(new Date()).diff(conversation.LastMessage?.CreatedAt, "day") === 1)
-    lastChatTime = "Yesterday";
-  else if (
-    dayjs(conversation.LastMessage?.CreatedAt).diff(new Date(), "day") === 0
-  ) {
-    lastChatTime = dayjs(conversation.LastMessage?.CreatedAt).format("hh:mma");
-  } else if (
-    dayjs(conversation.LastMessage?.CreatedAt).diff(new Date(), "day") > -6
-  ) {
-    lastChatTime = dayjs(conversation.LastMessage?.CreatedAt).format("dddd");
-  } else
-    lastChatTime = dayjs(conversation.LastMessage?.CreatedAt).format("DD MMM");
+  if (dayjs(new Date()).diff(date, "day") === 1) lastChatTime = "Yesterday";
+  else if (dayjs(date).diff(new Date(), "day") === 0) {
+    lastChatTime = dayjs(date).format("hh:mma");
+  } else if (dayjs(date).diff(new Date(), "day") > -6) {
+    lastChatTime = dayjs(date).format("dddd");
+  } else lastChatTime = dayjs(date).format("DD MMM");
 
   return (
     <Link
@@ -65,8 +66,9 @@ const ChatItem: React.FC<{
           className="size-[64px]"
         />
       </div>
-      <div className="ml-4 ">
-        <P className="font-medium text-black">
+      {/* <div className="ml-4 "> */}
+      <div className="ml-2">
+        <P className="font-medium">
           {sender.Firstname} {sender.Lastname}
         </P>
         <P2 className={styles.conversationMessage}>
@@ -119,7 +121,7 @@ const ChatHistory: React.FC<{
   onClickConversation,
   conversations,
   activeConversation,
-  title = "All Tickets"
+  title = "All Messages"
 }) => {
   const [starredConversations, setStarredConversations] = useState<string[]>(
     []
@@ -167,7 +169,7 @@ const ChatHistory: React.FC<{
 
   return (
     <div className="">
-      <div className="sticky top-0 z-20 bg-white p-3">
+      <div className="sticky top-0 z-20 bg-white dark:bg-slate-900 p-3">
         <div className="flex flex-row items-center gap-3 relative">
           <Popup>
             <Popup.Window name="history-popup">

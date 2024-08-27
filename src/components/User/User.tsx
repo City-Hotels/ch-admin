@@ -35,7 +35,7 @@ const UserLayout: React.FC<PropsWithChildren & { collapsed?: boolean }> = ({
       <div
         className={
           collapsed
-            ? "gap-5 md:flex" // md:px-5 md:justify-around
+            ? "gap-5 md:flex bg-white dark:bg-inherit lg:h-[calc(100vh- 70px)] relative h-[calc(100vh-80px)] md:h-[calc(100vh-81px)] overflow-hidden md:pb-5" // md:px-5 md:justify-around
             : "gap-6 md:flex md:px-5"
         }
       >

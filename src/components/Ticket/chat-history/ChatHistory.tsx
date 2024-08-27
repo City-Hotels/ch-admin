@@ -57,7 +57,7 @@ const ChatItem: React.FC<{
   return (
     <Link
       className={`flex w-full cursor-pointer flex-row items-center border-transparent border border-b-inherit px-3  py-2 hover:bg-orange-100 hover:border-orange-400 hover:rounded-md ${
-        isActive && "bg-white100"
+        isActive && "bg-orange-100"
       }`}
       href={`/ticket/${ticketData.Id}`}
     >
@@ -73,7 +73,7 @@ const ChatItem: React.FC<{
         <P3 className="text-white800 text-xs">
           {sender.Firstname} {sender.Lastname}
         </P3>
-        <P className="font-medium text-black">Ticket#: 123456</P>
+        <P className="font-medium">Ticket#: {ticketData.Id.slice(-6)}</P>
         <P2 className={styles.conversationMessage}>{ticketData.Title}</P2>
       </div>
       <div className="ml-auto flex flex-col items-center">
@@ -171,7 +171,7 @@ const ChatHistory: React.FC<{
 
   return (
     <div className="">
-      <div className="sticky top-0 z-20 bg-white p-3">
+      <div className="sticky top-0 z-20 bg-white dark:bg-slate-900 p-3">
         <div className="flex flex-row items-center gap-3 relative">
           <Popup>
             <Popup.Window name="history-popup">

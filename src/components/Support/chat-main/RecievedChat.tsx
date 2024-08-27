@@ -10,6 +10,7 @@ import styles from "./ChatMain.module.scss";
 import Avatar from "@/components/Avatar/Avatar";
 import { P2, P3 } from "@/components/Headings/Headings";
 import useIntersectionObserver from "@/hooks/useIntersectionObserver";
+import { convertGrpcDate } from "@/utils/helpers";
 // import Avatar from "../../../user/avatar/Avatar";
 
 const RecievedChat: React.FC<{ chat: IMessage; showStatus: boolean }> = ({
@@ -23,6 +24,8 @@ const RecievedChat: React.FC<{ chat: IMessage; showStatus: boolean }> = ({
     threshold: 0.1, // Adjust the threshold as needed
     freezeOnceVisible: true // Optional: freeze observer once component is visible
   });
+
+  // console.log(chat);
 
   useEffect(() => {
     if (isIntersecting && chat.Status === MessageStatus.Unread && socket) {
@@ -39,20 +42,22 @@ const RecievedChat: React.FC<{ chat: IMessage; showStatus: boolean }> = ({
     return () => {};
   }, [isIntersecting, chat, socket]);
 
+  const date = convertGrpcDate(chat.CreatedAt);
+
   let lastChatTime = "";
   if (
-    dayjs(chat.CreatedAt).diff(new Date(), "day") === 0 &&
-    dayjs(chat.CreatedAt).day() === new Date().getDay()
+    dayjs(date).diff(new Date(), "day") === 0 &&
+    dayjs(date).day() === new Date().getDay()
   ) {
-    lastChatTime = dayjs(chat.CreatedAt).format("hh:mm A");
+    lastChatTime = dayjs(date).format("hh:mm A");
   } else if (
-    dayjs(new Date()).diff(chat.CreatedAt, "day") === 0 &&
-    dayjs(new Date()).diff(chat.CreatedAt, "hours") < 24
+    dayjs(new Date()).diff(date, "day") === 0 &&
+    dayjs(new Date()).diff(date, "hours") < 24
   ) {
-    lastChatTime = `Yesterday ${dayjs(chat.CreatedAt).format("hh:mm A")}`;
-  } else if (dayjs(chat.CreatedAt).diff(new Date(), "day") > -6) {
-    lastChatTime = dayjs(chat.CreatedAt).format("dddd");
-  } else lastChatTime = dayjs(chat.CreatedAt).format("DD MMM hh:mm A");
+    lastChatTime = `Yesterday ${dayjs(date).format("hh:mm A")}`;
+  } else if (dayjs(date).diff(new Date(), "day") > -6) {
+    lastChatTime = dayjs(date).format("dddd");
+  } else lastChatTime = dayjs(date).format("DD MMM hh:mm A");
 
   return (
     <div className={styles.container} ref={ref}>

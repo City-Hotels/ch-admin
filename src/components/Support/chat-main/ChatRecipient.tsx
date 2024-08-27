@@ -16,7 +16,7 @@ const ChatRecipient: React.FC<{ conversation?: IConversation }> = ({
   const socket = useWebSocket();
   const recipient = useMemo(() => conversation?.User, [conversation?.User]);
 
-  console.log({ socket }, "socket");
+  // console.log({ socket }, "socket");
 
   // useEffect(() => {
   //   let list: any;

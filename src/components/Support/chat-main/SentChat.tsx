@@ -4,25 +4,27 @@ import { MessageStatus, type IMessage } from "@/services/support/payload";
 import dayjs from "dayjs";
 import styles from "./ChatMain.module.scss";
 import { P2, P3 } from "@/components/Headings/Headings";
+import { convertGrpcDate } from "@/utils/helpers";
 
 const SentChat: React.FC<{ chat: IMessage; showStatus: boolean }> = ({
   chat,
   showStatus
 }) => {
+  const date = convertGrpcDate(chat.CreatedAt);
   let lastChatTime = "";
   if (
-    dayjs(chat.CreatedAt).diff(new Date(), "day") === 0 &&
-    dayjs(chat.CreatedAt).day() === new Date().getDay()
+    dayjs(date).diff(new Date(), "day") === 0 &&
+    dayjs(date).day() === new Date().getDay()
   ) {
-    lastChatTime = dayjs(chat.CreatedAt).format("hh:mm A");
+    lastChatTime = dayjs(date).format("hh:mm A");
   } else if (
-    dayjs(new Date()).diff(chat.CreatedAt, "day") === 0 &&
-    dayjs(new Date()).diff(chat.CreatedAt, "hours") < 24
+    dayjs(new Date()).diff(date, "day") === 0 &&
+    dayjs(new Date()).diff(date, "hours") < 24
   ) {
-    lastChatTime = `Yesterday ${dayjs(chat.CreatedAt).format("hh:mm A")}`;
-  } else if (dayjs(chat.CreatedAt).diff(new Date(), "day") > -6) {
-    lastChatTime = dayjs(chat.CreatedAt).format("dddd");
-  } else lastChatTime = dayjs(chat.CreatedAt).format("DD MMM hh:mm A");
+    lastChatTime = `Yesterday ${dayjs(date).format("hh:mm A")}`;
+  } else if (dayjs(date).diff(new Date(), "day") > -6) {
+    lastChatTime = dayjs(date).format("dddd");
+  } else lastChatTime = dayjs(date).format("DD MMM hh:mm A");
 
   return (
     <div className={`${showStatus ? "mb-6" : "mb-1"} *:gap-2`}>

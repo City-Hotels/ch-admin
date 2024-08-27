@@ -5,7 +5,11 @@ import { IUser } from "@/services/user/payload";
 import UserInfoLoader from "./UserInfoLoader";
 
 function Information({ children }: { children: JSX.Element | JSX.Element[] }) {
-  return <div className="w-[95%] rounded-md bg-white p-4">{children}</div>;
+  return (
+    <div className="w-[95%] rounded-md bg-inherit p-4 border border-white400">
+      {children}
+    </div>
+  );
 }
 
 function UserInformation({ userId }: { userId: string | undefined }) {
@@ -46,7 +50,7 @@ function TicketInformation() {
 function Text({ mainText, subText }: { mainText: string; subText: string }) {
   return (
     <P2 className="flex justify-between items-center text-white600">
-      {mainText} <span className="font-semibold text-black">{subText}</span>
+      {mainText} <span className="font-semibold text-xs">{subText}</span>
     </P2>
   );
 }

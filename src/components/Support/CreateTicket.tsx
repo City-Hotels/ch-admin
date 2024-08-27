@@ -59,6 +59,20 @@ function CreateTicket({
 
     createTicket(data);
   }
+
+  useEffect(() => {
+    function handler(e: MessageEvent<any>) {
+      const msg = JSON.parse(e.data);
+      if (msg.Type === "TICKET") setIsOpen(false);
+      if (msg.Type === "TICKET") console.log("true");
+    }
+    if (socket) socket.addEventListener("message", handler);
+
+    return () => {
+      if (socket) socket.removeEventListener("message", handler);
+    };
+  }, [socket, setIsOpen]);
+
   return (
     <Modal openModal={isOpen} setOpenModal={setIsOpen}>
       <header className="text-center border-b border-white400 pb-4 pt-6">

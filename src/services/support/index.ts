@@ -132,11 +132,21 @@ export const updateConversationStatus = (
   ConversationId: string
 ) => {
   const msg = {
-    ConversationId,
+    Data: {
+      ConversationId
+    },
     Type: "MESSAGE_READ"
   };
   socket.send(JSON.stringify(msg));
 };
+
+// {
+//   "Data": {
+//     "conversationId":"66b042800ba5b8ca81393a3e"
+//   },
+
+//   "Type": "MESSAGE_READ"
+// }
 
 export const sendChatMessage = (
   socket: WebSocket,
@@ -144,14 +154,31 @@ export const sendChatMessage = (
   conversationId: string,
   RecipientId?: string
 ) => {
+  console.log({ message, RecipientId });
+
   const msg = {
-    Message: message,
-    ConversationId: conversationId,
-    Recipient: { Id: RecipientId },
+    Data: {
+      // ConversationId: "",
+      ConversationId: conversationId,
+      Message: message,
+      Recipient: { Id: RecipientId }
+    },
     Type: "POST_MESSAGE"
   };
+  console.log({ msg });
   socket.send(JSON.stringify(msg));
 };
+
+// {
+//   "Data": {
+//       "ConversationId": "",
+//       "Message": "ticket test",
+//       "Recipient": {
+//           "Id": "d73bc724-9656-4f74-a174-9a538381ce57"
+//       }
+//   },
+//   "Type": "POST_MESSAGE"
+// }
 
 export const getRecipientStatus = (
   socket: WebSocket,
