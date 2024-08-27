@@ -2,6 +2,7 @@ import React, {
   SetStateAction,
   useCallback,
   useEffect,
+  useMemo,
   useRef,
   useState
 } from "react";
@@ -52,110 +53,112 @@ const ChatMain: React.FC<{
   sent_received_messages,
   onSend_receive_message
 }) => {
-  const user = useSelector(selectCurrentUser);
-  // const [messages, setMessages] = useState<IMessage[]>([]);
-  const [isFetchingMsgs, setIsFetchingMsgs] = useState(true);
-  const [pageNum, setPageNum] = useState(1);
-  const socket = useWebSocket();
+    const user = useSelector(selectCurrentUser);
+    // const [messages, setMessages] = useState<IMessage[]>([]);
+    const [isFetchingMsgs, setIsFetchingMsgs] = useState(true);
+    const [pageNum, setPageNum] = useState(1);
+    const socket = useWebSocket();
 
-  const chatContainerRef = useRef<HTMLDivElement>(null);
-  const scrollToBottom = useCallback(() => {
-    if (chatContainerRef.current) {
-      chatContainerRef.current.scrollTop =
-        chatContainerRef.current.scrollHeight;
-    }
-  }, [chatContainerRef.current]);
+    const chatContainerRef = useRef<HTMLDivElement>(null);
+    const scrollToBottom = useCallback(() => {
+      if (chatContainerRef.current) {
+        chatContainerRef.current.scrollTop =
+          chatContainerRef.current.scrollHeight;
+      }
+    }, [chatContainerRef.current]);
 
-  useEffect(() => {
-    // console.log("runs", 1, socket);
-    if (!socket || !conversation?.Id) return () => {};
-    getConversationMessages(socket, conversation.Id);
-    if (sent_received_messages.length < 1 && pageNum === 1)
-      setIsFetchingMsgs(true);
+    // Use Memoized value, each time the content of sent_received_messages is altered 
+    // it forces a refetch  resulting the in infinite request to  the backend
+    const noPreviousMessages = useMemo(() => sent_received_messages.length < 1 && pageNum === 1, [sent_received_messages])
 
-    return () => {};
-  }, [conversation?.Id, socket, sent_received_messages, pageNum]);
+    useEffect(() => {
+      // console.log("runs", 1, socket);
+      if (!socket || !conversation?.Id) return () => { };
+      getConversationMessages(socket, conversation.Id);
+      if (noPreviousMessages)
+        setIsFetchingMsgs(true);
 
-  // useEffect(() => {
-  //   // setMessages([]);
-  //   onSend_receive_message([]);
+      return () => { };
+    }, [conversation?.Id, socket, noPreviousMessages]);
+    // useEffect(() => {
+    //   // setMessages([]);
+    //   onSend_receive_message([]);
 
-  //   return () => {};
-  // }, [conversation?.Id]);
+    //   return () => {};
+    // }, [conversation?.Id]);
 
-  useEffect(() => {
-    let list: any;
-    if (socket) {
-      list = socket.addEventListener("message", (event: MessageEvent<any>) => {
-        const msg = JSON.parse(event.data) as {
-          Data: IMessage | { Messages: IMessage[]; Meta: Meta };
-          Type: string;
-        };
-        if (msg.Type === "CONVERSATION_MESSAGES") {
-          setIsFetchingMsgs(false);
-          const Data = msg.Data as { Messages: IMessage[]; Meta: Meta };
-          // setMessages((Data.Messages as IMessage[]) || []);
-          onSend_receive_message((Data.Messages as IMessage[]) || []);
-          setPageNum(Data.Meta.CurrentPage);
-          setTimeout(scrollToBottom, 100);
-        } else if (msg.Type === "INCOMING_MESSAGE") {
-          getUserConversations(socket);
-          const data = msg.Data as IMessage;
-          if (data.ConversationId === conversation?.Id) {
-            getConversationMessages(socket, conversation.Id);
-            // setMessages([...messages, data]);
-            onSend_receive_message((msgs) => [...msgs, data]);
+    useEffect(() => {
+      let list: any;
+      if (socket) {
+        list = socket.addEventListener("message", (event: MessageEvent<any>) => {
+          const msg = JSON.parse(event.data) as {
+            Data: IMessage | { Messages: IMessage[]; Meta: Meta };
+            Type: string;
+          };
+          if (msg.Type === "CONVERSATION_MESSAGES") {
+            setIsFetchingMsgs(false);
+            const Data = msg.Data as { Messages: IMessage[]; Meta: Meta };
+            // setMessages((Data.Messages as IMessage[]) || []);
+            onSend_receive_message((Data.Messages as IMessage[]) || []);
+            setPageNum(Data.Meta.CurrentPage);
             setTimeout(scrollToBottom, 100);
+          } else if (msg.Type === "INCOMING_MESSAGE") {
+            getUserConversations(socket);
+            const data = msg.Data as IMessage;
+            if (data.ConversationId === conversation?.Id) {
+              getConversationMessages(socket, conversation.Id);
+              // setMessages([...messages, data]);
+              onSend_receive_message((msgs) => [...msgs, data]);
+              setTimeout(scrollToBottom, 100);
+            }
           }
-        }
 
-        return event;
-      });
-    }
+          return event;
+        });
+      }
 
-    return () => {
-      socket?.removeEventListener("message", list);
-    };
-  }, [socket, onSend_receive_message, conversation, scrollToBottom]);
+      return () => {
+        socket?.removeEventListener("message", list);
+      };
+    }, [socket, onSend_receive_message, conversation, scrollToBottom]);
 
-  return (
-    <div
-      className={`flex ${
-        isTyping
+    return (
+      <div
+        className={`flex ${isTyping
           ? "h-[calc(100vh-300px)]"
           : "h-[calc(100vh-250px)] md:h-[calc(100vh-260px)]"
-      } flex-col overflow-y-auto px-5 py-3 ${styles.scrollBars}`}
-      ref={chatContainerRef}
-    >
-      {sent_received_messages.map((chat, index) =>
-        chat.Sender.Id === user.Id ? (
-          <div className="ml-auto" key={chat.Id}>
-            <SentChat
-              chat={chat}
-              showStatus={
-                !sent_received_messages[index + 1] ||
-                sent_received_messages[index + 1]?.Sender?.Id !== user.Id ||
-                (sent_received_messages[index + 1]?.Sender?.Id === user.Id &&
-                  sent_received_messages[index + 1]?.Status !==
+          } flex-col overflow-y-auto px-5 py-3 ${styles.scrollBars}`}
+        ref={chatContainerRef}
+      >
+        {sent_received_messages.map((chat, index) =>
+          chat.Sender.Id === user.Id ? (
+            <div className="ml-auto" key={chat.Id}>
+              <SentChat
+                chat={chat}
+                showStatus={
+                  !sent_received_messages[index + 1] ||
+                  sent_received_messages[index + 1]?.Sender?.Id !== user.Id ||
+                  (sent_received_messages[index + 1]?.Sender?.Id === user.Id &&
+                    sent_received_messages[index + 1]?.Status !==
                     MessageStatus.Read &&
-                  chat.Status === MessageStatus.Read)
-              }
-            />
-          </div>
-        ) : (
-          <div key={chat.Id}>
-            <RecievedChat
-              chat={chat}
-              showStatus={
-                sent_received_messages[index + 1]?.Recipient?.Id !== user.Id
-              }
-            />
-          </div>
-        )
-      )}
-      {isFetchingMsgs && conversation?.Id && <SkeletonLoader />}
-    </div>
-  );
-};
+                    chat.Status === MessageStatus.Read)
+                }
+              />
+            </div>
+          ) : (
+            <div key={chat.Id}>
+              <RecievedChat
+                chat={chat}
+                showStatus={
+                  sent_received_messages[index + 1]?.Recipient?.Id !== user.Id
+                }
+              />
+            </div>
+          )
+        )}
+        {isFetchingMsgs && conversation?.Id && <SkeletonLoader />}
+      </div>
+    );
+  };
 
 export default ChatMain;
