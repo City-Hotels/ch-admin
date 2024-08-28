@@ -2,6 +2,7 @@ import React, {
   SetStateAction,
   useCallback,
   useEffect,
+  useMemo,
   useRef,
   useState
 } from "react";
@@ -23,6 +24,7 @@ import SkeletonSentChat from "./Skeleton/SkeletonSentChat";
 import SkeletonRecievedChat from "./Skeleton/SkeletonRecievedChat";
 import styles from "./ChatMain.module.scss";
 import { Meta } from "@/utils/api/calls";
+import ChatMain2 from "./TypeChat-2";
 
 const SkeletonLoader = () => (
   <>
@@ -46,11 +48,13 @@ const ChatMain: React.FC<{
   isTyping?: boolean;
   onSend_receive_message: React.Dispatch<SetStateAction<IMessage[]>>;
   sent_received_messages: IMessage[];
+  isFocused: boolean;
 }> = ({
   conversation,
   isTyping,
   sent_received_messages,
-  onSend_receive_message
+  onSend_receive_message,
+  isFocused
 }) => {
   const user = useSelector(selectCurrentUser);
   // const [messages, setMessages] = useState<IMessage[]>([]);
@@ -66,15 +70,19 @@ const ChatMain: React.FC<{
     }
   }, [chatContainerRef.current]);
 
+  const noPreviousMessages = useMemo(
+    () => sent_received_messages.length < 1 && pageNum === 1,
+    [sent_received_messages, pageNum]
+  );
+
   useEffect(() => {
     // console.log("runs", 1, socket);
     if (!socket || !conversation?.Id) return () => {};
     getConversationMessages(socket, conversation.Id);
-    if (sent_received_messages.length < 1 && pageNum === 1)
-      setIsFetchingMsgs(true);
+    if (noPreviousMessages) setIsFetchingMsgs(true);
 
     return () => {};
-  }, [conversation?.Id, socket, sent_received_messages, pageNum]);
+  }, [conversation?.Id, socket, noPreviousMessages]);
 
   // useEffect(() => {
   //   // setMessages([]);
@@ -94,8 +102,21 @@ const ChatMain: React.FC<{
         if (msg.Type === "CONVERSATION_MESSAGES") {
           setIsFetchingMsgs(false);
           const Data = msg.Data as { Messages: IMessage[]; Meta: Meta };
+          console.log(Data.Messages);
           // setMessages((Data.Messages as IMessage[]) || []);
           onSend_receive_message((Data.Messages as IMessage[]) || []);
+          // onSend_receive_message((msg) =>
+          //   Data.Messages.reduce((acc, cur, i) => {
+          //     const isPresent = msg.find((curMsg) => curMsg.Id === cur.Id);
+          //     if (isPresent) acc.push(isPresent);
+          //     else acc.push(msg);
+          //     return acc;
+          //   }, [])
+          // );
+
+          // onSend_receive_message(
+          //   (msg) => [...msg, ...(Data.Messages as IMessage[])] || []
+          // );
           setPageNum(Data.Meta.CurrentPage);
           setTimeout(scrollToBottom, 100);
         } else if (msg.Type === "INCOMING_MESSAGE") {
@@ -123,7 +144,7 @@ const ChatMain: React.FC<{
       className={`flex ${
         isTyping
           ? "h-[calc(100vh-300px)]"
-          : "h-[calc(100vh-250px)] md:h-[calc(100vh-260px)]"
+          : `h-[calc(100vh-250px)] md:h-[calc(100vh-300px)]`
       } flex-col overflow-y-auto px-5 py-3 ${styles.scrollBars}`}
       ref={chatContainerRef}
     >
@@ -154,6 +175,7 @@ const ChatMain: React.FC<{
         )
       )}
       {isFetchingMsgs && conversation?.Id && <SkeletonLoader />}
+      {/* <ChatMain2 /> */}
     </div>
   );
 };

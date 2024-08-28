@@ -7,6 +7,15 @@ export const getUserConversations = (socket: WebSocket) => {
   socket.send(JSON.stringify(msg));
 };
 
+export const getAssignedConversations = (socket: WebSocket) => {
+  const msg = {
+    Data: {},
+    Type: "LIST_ASSIGNED_CONVERSATIONS"
+  };
+
+  socket.send(JSON.stringify(msg));
+};
+
 export const getTicketsList = (socket: WebSocket) => {
   const msg = {
     Data: {
@@ -165,7 +174,7 @@ export const sendChatMessage = (
     },
     Type: "POST_MESSAGE"
   };
-  console.log({ msg });
+  // console.log({ msg });
   socket.send(JSON.stringify(msg));
 };
 

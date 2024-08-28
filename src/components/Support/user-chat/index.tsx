@@ -1,15 +1,21 @@
 import type { IConversation, IMessage } from "@/services/support/payload";
 import { useEffect, useMemo, useState } from "react";
-import { getUserConversations } from "@/services/support";
-import { useSelector } from "react-redux";
+import {
+  getAssignedConversations,
+  getUserConversations
+} from "@/services/support";
+import { useDispatch, useSelector } from "react-redux";
 import { selectCurrentUser } from "@/store/slice/auth/auth.slice";
 import { useParams, useSearchParams } from "next/navigation";
 import type { IUser } from "@/services/user/payload";
 import { useWebSocket } from "@/context/WebSocketContext";
-import { getChatConversations } from "@/store/slice/support/chat.slice";
+import {
+  getChatConversations,
+  setConversations
+} from "@/store/slice/support/chat.slice";
 import { useRouter } from "next/navigation";
 import ChatRecipient from "../chat-main/ChatRecipient";
-import TypeChat from "../chat-main/TypeChat";
+// import TypeChat from "../chat-main/TypeChat";
 import ChatHistory from "../chat-history/ChatHistory";
 import ChatMain from "../chat-main/ChatMain";
 import SupportBookingSummary from "../support-booking-summary/SupportBookingSummary";
@@ -20,6 +26,7 @@ import ReAssignModal from "../ReAssignModal";
 import { P } from "@/components/Headings/Headings";
 import Popup from "../Popup";
 import ChevronDown from "@/assets/icons/chevron-down.svg";
+import TypeChat from "../chat-main/TypeChat-2";
 
 function dateToTimestamp(date: Date): { seconds: number; nanos: number } {
   // Ensure the input is a valid Date object
@@ -63,13 +70,37 @@ const UserChat: React.FC<{ showConversation?: boolean }> = ({
   // console.log({ conversations });
 
   const socket = useWebSocket();
+  const dispatch = useDispatch();
   // const user = useSelector(selectCurrentUser) || {};
   const [isTyping, setIsTyping] = useState(false);
   const search = useSearchParams();
   const [createTicketOpen, setCreateTicketOpen] = useState(false);
 
-  // const [message, setMessage] = useState("");
   const [messages, setMessages] = useState<IMessage[]>([]);
+  const params = useSearchParams();
+  const [isFocused, setIsFocused] = useState<boolean>(false);
+  const filter = params.get("history") || "new";
+
+  useEffect(() => {
+    function handler(e: MessageEvent<any>) {
+      const data = JSON.parse(e.data);
+
+      if (data.Type === "LIST_CONVERSATIONS")
+        dispatch(setConversations(data.Data.Conversations));
+
+      return e;
+    }
+
+    socket?.addEventListener("message", handler);
+
+    if (filter === "active-convos" && socket) getAssignedConversations(socket);
+
+    if (filter === "new" && socket) getUserConversations(socket);
+
+    return () => {
+      socket?.removeEventListener("message", handler);
+    };
+  }, [filter, socket, dispatch]);
 
   // useEffect(() => {
   //   if (!socket) return;
@@ -158,39 +189,6 @@ const UserChat: React.FC<{ showConversation?: boolean }> = ({
       return event;
     };
 
-    //   {
-    //     "testttt": {
-    //         "Id": "66cdd6560c03049723c7004a",
-    //         "ConversationId": "66cc7f98f31745b6616357c2",
-    //         "Message": "hllo lekan",
-    //         "Type": "",
-    //         "Sender": {
-    //             "Id": "474109c4-41dc-4a35-a7e9-bd6504fdc84c",
-    //             "Firstname": "Femi",
-    //             "Lastname": "Majek",
-    //             "Imageurl": "",
-    //             "Role": "ADMIN"
-    //         },
-    //         "Recipient": {
-    //             "Id": "dc4e41ef-4ff1-4e5e-94f2-55086c40ecbf",
-    //             "Firstname": "Adiro",
-    //             "Lastname": "Olalekan",
-    //             "Imageurl": "https://image.cityhotelsandbookings.com/users/dc4e41ef-4ff1-4e5e-94f2-55086c40ecbf/profile/head.jpg",
-    //             "Role": "USER"
-    //         },
-    //         "Status": 0,
-    //         "CreatedAt": {
-    //             "seconds": 1724765782,
-    //             "nanos": 918616243
-    //         },
-    //         "UpdatedAt": {
-    //             "seconds": 1724765782,
-    //             "nanos": 918617877
-    //         },
-    //         "TicketEntry": {}
-    //     }
-    // }
-
     socket.addEventListener("message", handler);
 
     return () => {
@@ -233,6 +231,7 @@ const UserChat: React.FC<{ showConversation?: boolean }> = ({
               }`}
             >
               <ChatHistory
+                filter={filter}
                 onClickConversation={setConversation}
                 conversations={conversations || []}
                 activeConversation={conversation?.Id || ""}
@@ -283,6 +282,7 @@ const UserChat: React.FC<{ showConversation?: boolean }> = ({
               <div className="grid grid-cols-1  gap-3 md:grid-cols-[2fr_1fr]">
                 <div className="relative w-full border-r">
                   <ChatMain
+                    isFocused={isFocused}
                     conversation={conversation}
                     isTyping={isTyping}
                     onSend_receive_message={setMessages}
@@ -291,6 +291,12 @@ const UserChat: React.FC<{ showConversation?: boolean }> = ({
                   {conversation && (
                     <div className="w-full bg-white">
                       <TypeChat
+                        isTyping={isTyping}
+                        conversation={conversation}
+                        setIsTyping={setIsTyping}
+                        onSend_receive_message={setMessages}
+                      />
+                      {/* <TypeChat
                         conversation={conversation}
                         setIsTyping={setIsTyping}
                         isTyping={isTyping}
@@ -298,7 +304,7 @@ const UserChat: React.FC<{ showConversation?: boolean }> = ({
 
                         // message={message}
                         // setMessage={setMessage}
-                      />
+                      /> */}
                     </div>
                   )}
                 </div>

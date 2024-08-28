@@ -25,6 +25,12 @@
   @apply flex flex-row justify-end mt-1 mr-10 items-center gap-1 ml-auto px-3;
 }
 
+.hideScrollBar {
+  &::-webkit-scrollbar {
+    display: none;
+  }
+}
+
 .scrollBars {
   &:hover {
     &::-webkit-scrollbar {

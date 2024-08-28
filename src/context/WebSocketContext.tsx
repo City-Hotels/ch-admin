@@ -12,6 +12,7 @@ import {
   setConversations
 } from "@/store/slice/support/chat.slice";
 import { initiateChatConnection } from "@/utils/api/ws";
+import { useSearchParams } from "next/navigation";
 import type { ReactNode } from "react";
 import React, {
   createContext,
@@ -37,6 +38,8 @@ export const WebSocketProvider: React.FC<WebSocketProviderProps> = ({
   const wsRef = useRef<WebSocket | null>(null);
   const dispatch = useDispatch<AppDispatch>();
   const user = useSelector(selectCurrentUser);
+  const searchParams = useSearchParams();
+  const filter = searchParams.get("history") || "new";
 
   const reconnect = (): WebSocket | null => {
     const websocket = initiateChatConnection();
@@ -53,7 +56,7 @@ export const WebSocketProvider: React.FC<WebSocketProviderProps> = ({
 
     websocket.onmessage = (event: MessageEvent<any>) => {
       const msg = JSON.parse(event.data) as IChatSocketMessageEventData;
-      if (msg.Type === "CONVERSATIONS") {
+      if (msg.Type === "CONVERSATIONS" && filter === "new") {
         const data = msg.Data as IListConversationResponse;
         dispatch(setConversations(data.Conversations as IConversation[]));
       }

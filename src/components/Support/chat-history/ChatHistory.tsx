@@ -26,6 +26,7 @@ import { IConversation, MessageStatus } from "@/services/support/payload";
 import Avatar from "@/components/Avatar/Avatar";
 import Popup from "../Popup";
 import { convertGrpcDate } from "@/utils/helpers";
+import { usePathname, useRouter } from "next/navigation";
 
 const ChatItem: React.FC<{
   conversation: IConversation;
@@ -33,7 +34,8 @@ const ChatItem: React.FC<{
   isActive: boolean;
   isStarred: boolean;
   toggleStar: () => void;
-}> = ({ conversation, isActive, isStarred, toggleStar }) => {
+  filter: string;
+}> = ({ conversation, isActive, isStarred, toggleStar, filter }) => {
   const user = useSelector(selectCurrentUser);
 
   const date =
@@ -56,7 +58,7 @@ const ChatItem: React.FC<{
       className={`flex w-full cursor-pointer flex-row items-center border-b px-3  py-2 hover:bg-white100 ${
         isActive && "bg-white100"
       }`}
-      href={`/support/${conversation.Id}`}
+      href={`/support/${conversation.Id}?${filter ? `history=${filter}` : ""}`}
     >
       <div>
         <Avatar
@@ -117,11 +119,15 @@ const ChatHistory: React.FC<{
   conversations: IConversation[];
   title?: string;
   activeConversation: string;
+  filter: string;
+  // filteredConversation: IConversation[];
 }> = ({
   onClickConversation,
   conversations,
   activeConversation,
-  title = "All Messages"
+  title = "All Messages",
+  filter
+  // filteredConversation
 }) => {
   const [starredConversations, setStarredConversations] = useState<string[]>(
     []
@@ -157,6 +163,12 @@ const ChatHistory: React.FC<{
     return 0;
   });
 
+  // const finalConversations =
+  //   filteredConversation.length > 0
+  //     ? filteredConversation
+  //     : sortedConversations;
+
+  // console.log({ filteredConversation });
   useEffect(() => {
     const items = localStorage
       ? localStorage.getItem("CH-STARREDCONVERSATIONS")
@@ -167,14 +179,29 @@ const ChatHistory: React.FC<{
     return () => {};
   }, []);
 
+  const router = useRouter();
+  const pathname = usePathname();
+
   return (
     <div className="">
       <div className="sticky top-0 z-20 bg-white dark:bg-slate-900 p-3">
         <div className="flex flex-row items-center gap-3 relative">
           <Popup>
             <Popup.Window name="history-popup">
-              <Popup.Btn>New</Popup.Btn>
-              <Popup.Btn>Active</Popup.Btn>
+              <Popup.Btn
+                onClick={() => {
+                  router.push(`${pathname}?history=new`);
+                }}
+              >
+                New
+              </Popup.Btn>
+              <Popup.Btn
+                onClick={() => {
+                  router.push(`${pathname}?history=active-convos`);
+                }}
+              >
+                Active
+              </Popup.Btn>
               <Popup.Btn>Re-assigned</Popup.Btn>
             </Popup.Window>
             <Popup.Open opens="history-popup">
@@ -195,8 +222,9 @@ const ChatHistory: React.FC<{
         </div>
       </div>
       <div className="flex flex-col">
-        {sortedConversations.map((convo: IConversation) => (
+        {conversations.map((convo: IConversation) => (
           <ChatItem
+            filter={filter}
             isStarred={!!starredConversations.find((item) => item === convo.Id)}
             conversation={convo}
             key={convo.Id}
