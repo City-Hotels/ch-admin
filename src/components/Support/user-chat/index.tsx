@@ -10,8 +10,9 @@ import { useParams, useSearchParams } from "next/navigation";
 import type { IUser } from "@/services/user/payload";
 import { useWebSocket } from "@/context/WebSocketContext";
 import {
+  getAssignedUserConversations,
   getChatConversations,
-  setConversations
+  setAssignedConversations
 } from "@/store/slice/support/chat.slice";
 import { useRouter } from "next/navigation";
 import ChatRecipient from "../chat-main/ChatRecipient";
@@ -53,6 +54,7 @@ const UserChat: React.FC<{ showConversation?: boolean }> = ({
   const [conversation, setConversation] = useState<IConversation>();
 
   const chatConversations = useSelector(getChatConversations);
+  const assignedConversations = useSelector(getAssignedUserConversations);
   const conversations = useMemo(
     () => chatConversations || [],
     [chatConversations]
@@ -77,30 +79,33 @@ const UserChat: React.FC<{ showConversation?: boolean }> = ({
   const [createTicketOpen, setCreateTicketOpen] = useState(false);
 
   const [messages, setMessages] = useState<IMessage[]>([]);
-  const params = useSearchParams();
   const [isFocused, setIsFocused] = useState<boolean>(false);
-  const filter = params.get("history") || "new";
+  const serachParams = useSearchParams();
+  const filter = serachParams.get("history") || "new";
+  // const [filter, setFilter] = useState<"new" | "active">("new");
 
   useEffect(() => {
+    if (!socket) return;
+
     function handler(e: MessageEvent<any>) {
       const data = JSON.parse(e.data);
 
       if (data.Type === "LIST_CONVERSATIONS")
-        dispatch(setConversations(data.Data.Conversations));
+        dispatch(
+          setAssignedConversations(data.Data.Conversations as IConversation[])
+        );
 
       return e;
     }
 
-    socket?.addEventListener("message", handler);
+    socket.addEventListener("message", handler);
 
-    if (filter === "active-convos" && socket) getAssignedConversations(socket);
-
-    if (filter === "new" && socket) getUserConversations(socket);
+    getAssignedConversations(socket);
 
     return () => {
-      socket?.removeEventListener("message", handler);
+      socket.removeEventListener("message", handler);
     };
-  }, [filter, socket, dispatch]);
+  }, [socket, dispatch]);
 
   // useEffect(() => {
   //   if (!socket) return;
@@ -203,20 +208,23 @@ const UserChat: React.FC<{ showConversation?: boolean }> = ({
 
   //   return () => {};
   // }, [conversations, conversation]);
+  const finalConversationList = useMemo(
+    () => (filter === "new" ? conversations : assignedConversations),
+    [filter, conversations, assignedConversations]
+  );
 
   useEffect(() => {
-    if (conversations && idOrSlug?.toString()) {
-      const convo = conversations.find(
+    if (finalConversationList && idOrSlug?.toString()) {
+      const convo = finalConversationList.find(
         (item) => item.Id === idOrSlug?.toString()
       );
       setConversation(convo);
     }
 
     return () => {};
-  }, [conversations, idOrSlug]);
+  }, [finalConversationList, idOrSlug]);
+  // }, [conversations, idOrSlug]);
 
-  // console.log({ conversation, socket });
-  console.log(messages);
   console.log("plllllllll");
   return (
     <>
@@ -233,7 +241,7 @@ const UserChat: React.FC<{ showConversation?: boolean }> = ({
               <ChatHistory
                 filter={filter}
                 onClickConversation={setConversation}
-                conversations={conversations || []}
+                conversations={finalConversationList || []}
                 activeConversation={conversation?.Id || ""}
               />
             </div>

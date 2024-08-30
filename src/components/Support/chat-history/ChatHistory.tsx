@@ -58,7 +58,7 @@ const ChatItem: React.FC<{
       className={`flex w-full cursor-pointer flex-row items-center border-b px-3  py-2 hover:bg-white100 ${
         isActive && "bg-white100"
       }`}
-      href={`/support/${conversation.Id}?${filter ? `history=${filter}` : ""}`}
+      href={`/support/${conversation.Id}${filter ? `?history=${filter}` : ""}`}
     >
       <div>
         <Avatar
@@ -120,18 +120,19 @@ const ChatHistory: React.FC<{
   title?: string;
   activeConversation: string;
   filter: string;
-  // filteredConversation: IConversation[];
 }> = ({
   onClickConversation,
   conversations,
   activeConversation,
   title = "All Messages",
   filter
-  // filteredConversation
 }) => {
   const [starredConversations, setStarredConversations] = useState<string[]>(
     []
   );
+
+  const router = useRouter();
+  const pathname = usePathname();
 
   const toggleStarredConversation = useCallback(
     (conversationId: string) => {
@@ -179,26 +180,17 @@ const ChatHistory: React.FC<{
     return () => {};
   }, []);
 
-  const router = useRouter();
-  const pathname = usePathname();
-
   return (
     <div className="">
       <div className="sticky top-0 z-20 bg-white dark:bg-slate-900 p-3">
         <div className="flex flex-row items-center gap-3 relative">
           <Popup>
             <Popup.Window name="history-popup">
-              <Popup.Btn
-                onClick={() => {
-                  router.push(`${pathname}?history=new`);
-                }}
-              >
+              <Popup.Btn onClick={() => router.push(`${pathname}?history=new`)}>
                 New
               </Popup.Btn>
               <Popup.Btn
-                onClick={() => {
-                  router.push(`${pathname}?history=active-convos`);
-                }}
+                onClick={() => router.push(`${pathname}?history=active`)}
               >
                 Active
               </Popup.Btn>

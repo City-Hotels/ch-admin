@@ -1,4 +1,5 @@
-import { NewTicket } from "./payload";
+import { NewTicket, TimeStamp } from "./payload";
+import { putRequest } from "@/utils/api/calls";
 
 export const getUserConversations = (socket: WebSocket) => {
   const msg = {
@@ -161,7 +162,8 @@ export const sendChatMessage = (
   socket: WebSocket,
   message: string,
   conversationId: string,
-  RecipientId?: string
+  RecipientId?: string,
+  createdAt?: TimeStamp
 ) => {
   console.log({ message, RecipientId });
 
@@ -170,13 +172,39 @@ export const sendChatMessage = (
       // ConversationId: "",
       ConversationId: conversationId,
       Message: message,
-      Recipient: { Id: RecipientId }
+      Recipient: { Id: RecipientId },
+      ...(createdAt && { CreatedAt: createdAt })
     },
     Type: "POST_MESSAGE"
   };
   // console.log({ msg });
   socket.send(JSON.stringify(msg));
 };
+
+const chatImageUploadBaseUrl = process.env.NEXT_SUPPORT_FILE_UPLOAD_URL;
+
+export async function uploadSupportChatImages(
+  images: File[],
+  messageId: string
+) {
+  const imageFiles = images.map((img) => {
+    const newFile = new FormData();
+    newFile.append("file", img);
+
+    return newFile;
+  });
+
+  const res = await Promise.all(
+    imageFiles.map((imgFileData) =>
+      putRequest<FormData, { Path: string }>({
+        url: `${chatImageUploadBaseUrl}/${messageId}`,
+        data: imgFileData
+      })
+    )
+  );
+
+  return res;
+}
 
 // {
 //   "Data": {

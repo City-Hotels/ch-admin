@@ -1,4 +1,5 @@
 import type { Meta } from "@/utils/api/calls";
+import { IMedia } from "../hotel/payload";
 
 export enum MessageStatus {
   Unread,
@@ -84,6 +85,8 @@ export interface IMessage {
   Status: MessageStatus;
   CreatedAt: TimeStamp;
   UpdatedAt: TimeStamp;
+  Media?: IMedia;
+  PendingUploads?: File[];
 }
 export interface IChatSocketMessageEventData {
   Type: string;

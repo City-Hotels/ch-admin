@@ -7,6 +7,7 @@ import { IConversation, TicketEntry } from "@/services/support/payload";
 
 type ChatStoreState = {
   conversations?: IConversation[];
+  assignedConversations: IConversation[];
   tickets?: TicketEntry[];
   isConnecting?: boolean;
   isConnected?: boolean;
@@ -14,6 +15,7 @@ type ChatStoreState = {
 
 const initialState: ChatStoreState = {
   conversations: undefined,
+  assignedConversations: [],
   tickets: []
 };
 
@@ -35,9 +37,12 @@ const chat = createSlice({
 
     setTickets: (state, action: PayloadAction<TicketEntry[]>) => {
       state.tickets = action.payload;
-      console.log("callllllllled", { tick: action.payload });
+    },
+    setAssignedConversations: (state, action) => {
+      state.assignedConversations = action.payload;
     }
   }
+
   // extraReducers: {
   //   // [HYDRATE]: (state, action) => {
   //    (state, action) => {
@@ -49,12 +54,19 @@ const chat = createSlice({
   // }
 });
 
-export const { setConversations, setConnecting, setConnected, setTickets } =
-  chat.actions;
+export const {
+  setConversations,
+  setAssignedConversations,
+  setConnecting,
+  setConnected,
+  setTickets
+} = chat.actions;
 export default chat.reducer;
 
 export const getChatConversations = (state: RootState) =>
   state.chat.conversations;
+export const getAssignedUserConversations = (state: RootState) =>
+  state.chat.assignedConversations;
 export const getTickets = (state: RootState) => state.chat.tickets;
 export const isChatConnected = (state: RootState) => state.chat.isConnected;
 export const isChatConnecting = (state: RootState) => state.chat.isConnecting;

@@ -1,10 +1,11 @@
-// import { P2, P3 } from "@/components/shared/headings/Headings";
 import TickedMessage from "@/assets/icons/tick.svg";
 import { MessageStatus, type IMessage } from "@/services/support/payload";
 import dayjs from "dayjs";
 import styles from "./ChatMain.module.scss";
 import { P2, P3 } from "@/components/Headings/Headings";
 import { convertGrpcDate } from "@/utils/helpers";
+import { useEffect } from "react";
+import ChatMedia from "./ChatMedia";
 
 const SentChat: React.FC<{ chat: IMessage; showStatus: boolean }> = ({
   chat,
@@ -28,6 +29,9 @@ const SentChat: React.FC<{ chat: IMessage; showStatus: boolean }> = ({
 
   return (
     <div className={`${showStatus ? "mb-6" : "mb-1"} *:gap-2`}>
+      <div className="mr-8 mb-2">
+        <ChatMedia images={chat.PendingUploads} />
+      </div>
       <div className={styles.container2}>
         <div
           className={`${styles.header2} ${
@@ -42,6 +46,7 @@ const SentChat: React.FC<{ chat: IMessage; showStatus: boolean }> = ({
           )}
         </div>
       </div>
+
       {showStatus && (
         <div className={styles.bottom}>
           <P3>

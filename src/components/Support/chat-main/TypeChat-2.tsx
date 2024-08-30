@@ -17,21 +17,9 @@ import { useWebSocket } from "@/context/WebSocketContext";
 import { useSelector } from "react-redux";
 import { selectCurrentUser } from "@/store/slice/auth/auth.slice";
 import { IConversation, IMessage } from "@/services/support/payload";
-import { sendChatMessage } from "@/services/support";
-
-function dateToTimestamp(date: Date): { seconds: number; nanos: number } {
-  // Ensure the input is a valid Date object
-  if (!(date instanceof Date)) {
-    throw new Error("Invalid date object");
-  }
-  // Get the timestamp in milliseconds
-  const millis = date.getTime();
-  // Convert milliseconds to seconds (integer part)
-  const seconds = Math.floor(millis / 1000);
-  // Calculate the nanoseconds (remaining milliseconds converted to nanoseconds)
-  const nanos = (millis % 1000) * 1e6;
-  return { seconds, nanos };
-}
+import { sendChatMessage, uploadSupportChatImages } from "@/services/support";
+import { dateToTimestamp } from "@/utils/helpers";
+import { Meta } from "@/utils/api/calls";
 
 const TypeChat = ({
   isTyping,
@@ -49,7 +37,8 @@ const TypeChat = ({
   const fileInputRef = useRef<HTMLInputElement | null>(null);
   const [placeHolder, setPlaceHolder] = useState<string>("Type Message...");
   const socket = useWebSocket();
-  const curUser = useSelector(selectCurrentUser); //getCurrent()
+  const curUser = useSelector(selectCurrentUser);
+  const imagesToUpload = useRef<File[] | []>([]);
 
   const temporaryImageUrls = images.map((img) => URL.createObjectURL(img));
   const stableDate = useMemo(() => dateToTimestamp(new Date(Date.now())), []);
@@ -89,12 +78,15 @@ const TypeChat = ({
       Status: 0,
       CreatedAt: stableDate,
       UpdatedAt: stableDate,
+      PendingUploads: images,
       TicketEntry: {}
     } as IMessage;
 
     if (socket && messageStr) {
       console.log({ latestMessage });
-      sendChatMessage(socket, messageStr, Id, User.Id);
+      images.length > 0
+        ? sendChatMessage(socket, messageStr, Id, User.Id, stableDate)
+        : sendChatMessage(socket, messageStr, Id, User.Id);
       onSend_receive_message((prevMsgs) => [...prevMsgs, latestMessage]);
     }
 
@@ -102,6 +94,7 @@ const TypeChat = ({
 
     if (textAreaRef.current?.firstChild)
       textAreaRef.current.firstChild.textContent = "";
+    imagesToUpload.current = images;
     setImages([]);
     setPlaceHolder("Type Message...");
     setIsTyping(false);
@@ -113,8 +106,46 @@ const TypeChat = ({
     curUser,
     stableDate,
     socket,
-    setIsTyping
+    setIsTyping,
+    images
   ]);
+
+  useEffect(() => {
+    if (!socket) return;
+
+    async function handler(e: MessageEvent<any>) {
+      const msg = JSON.parse(e.data) as {
+        Data: IMessage | { Messages: IMessage[]; Meta: Meta };
+        Type: string;
+      };
+
+      if (msg.Type === "INCOMING_MESSAGE") {
+        const data = msg.Data as IMessage;
+
+        if (
+          Id === data.ConversationId &&
+          stableDate.nanos === data.CreatedAt.nanos &&
+          stableDate.seconds === data.CreatedAt.seconds &&
+          imagesToUpload.current.length > 0
+        ) {
+          console.log("uploading...", { testing: imagesToUpload.current });
+          const imageUrls = await uploadSupportChatImages(
+            imagesToUpload.current,
+            data.Id
+          );
+
+          console.log({ imageUrls });
+        }
+      }
+      return e;
+    }
+
+    socket.addEventListener("message", handler);
+
+    return () => {
+      socket.removeEventListener("message", handler);
+    };
+  }, [socket, Id, stableDate]);
 
   return (
     <div className="relative flex flex-row gap-2 bg-white px-2">
@@ -186,9 +217,10 @@ const TypeChat = ({
               />
               <button
                 type="button"
-                onClick={() =>
-                  setImages((s) => s.filter((_, index) => index !== i))
-                }
+                onClick={() => {
+                  URL.revokeObjectURL(temporaryImageUrls[i]);
+                  setImages((s) => s.filter((_, index) => index !== i));
+                }}
                 className="absolute top-0 right-0 rounded-full bg-white p-1 shadow-md"
               >
                 <CancelIcon />

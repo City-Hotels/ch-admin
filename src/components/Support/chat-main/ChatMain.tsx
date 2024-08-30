@@ -59,7 +59,7 @@ const ChatMain: React.FC<{
   const user = useSelector(selectCurrentUser);
   // const [messages, setMessages] = useState<IMessage[]>([]);
   const [isFetchingMsgs, setIsFetchingMsgs] = useState(true);
-  const [pageNum, setPageNum] = useState(1);
+  const [pageNum, setPageNum] = useState(0);
   const socket = useWebSocket();
 
   const chatContainerRef = useRef<HTMLDivElement>(null);
@@ -102,21 +102,16 @@ const ChatMain: React.FC<{
         if (msg.Type === "CONVERSATION_MESSAGES") {
           setIsFetchingMsgs(false);
           const Data = msg.Data as { Messages: IMessage[]; Meta: Meta };
-          console.log(Data.Messages);
-          // setMessages((Data.Messages as IMessage[]) || []);
-          onSend_receive_message((Data.Messages as IMessage[]) || []);
-          // onSend_receive_message((msg) =>
-          //   Data.Messages.reduce((acc, cur, i) => {
-          //     const isPresent = msg.find((curMsg) => curMsg.Id === cur.Id);
-          //     if (isPresent) acc.push(isPresent);
-          //     else acc.push(msg);
-          //     return acc;
-          //   }, [])
-          // );
+          // console.log(Data.Messages, 123);
+          if (Data.Meta.CurrentPage !== pageNum) {
+            // setMessages((Data.Messages as IMessage[]) || []);
+            onSend_receive_message((s) => [
+              ...(Data.Messages as IMessage[]),
+              ...s
+            ]);
+            setPageNum(Data.Meta.PageNumber);
+          }
 
-          // onSend_receive_message(
-          //   (msg) => [...msg, ...(Data.Messages as IMessage[])] || []
-          // );
           setPageNum(Data.Meta.CurrentPage);
           setTimeout(scrollToBottom, 100);
         } else if (msg.Type === "INCOMING_MESSAGE") {
@@ -137,7 +132,7 @@ const ChatMain: React.FC<{
     return () => {
       socket?.removeEventListener("message", list);
     };
-  }, [socket, onSend_receive_message, conversation, scrollToBottom]);
+  }, [socket, onSend_receive_message, conversation, scrollToBottom, pageNum]);
 
   return (
     <div
@@ -175,7 +170,6 @@ const ChatMain: React.FC<{
         )
       )}
       {isFetchingMsgs && conversation?.Id && <SkeletonLoader />}
-      {/* <ChatMain2 /> */}
     </div>
   );
 };
