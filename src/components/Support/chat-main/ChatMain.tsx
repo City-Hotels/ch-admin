@@ -48,13 +48,11 @@ const ChatMain: React.FC<{
   isTyping?: boolean;
   onSend_receive_message: React.Dispatch<SetStateAction<IMessage[]>>;
   sent_received_messages: IMessage[];
-  isFocused: boolean;
 }> = ({
   conversation,
   isTyping,
   sent_received_messages,
-  onSend_receive_message,
-  isFocused
+  onSend_receive_message
 }) => {
   const user = useSelector(selectCurrentUser);
   // const [messages, setMessages] = useState<IMessage[]>([]);
@@ -71,7 +69,7 @@ const ChatMain: React.FC<{
   }, [chatContainerRef.current]);
 
   const noPreviousMessages = useMemo(
-    () => sent_received_messages.length < 1 && pageNum === 1,
+    () => sent_received_messages.length < 1 && pageNum === 0,
     [sent_received_messages, pageNum]
   );
 
@@ -91,48 +89,120 @@ const ChatMain: React.FC<{
   //   return () => {};
   // }, [conversation?.Id]);
 
+  // useEffect(() => {
+  //   let list: any;
+  //   if (socket && conversation?.Id) {
+  //     list =
+  //     socket.addEventListener("message", (event: MessageEvent<any>) => {
+  //       const msg = JSON.parse(event.data) as {
+  //         Data: IMessage | { Messages: IMessage[]; Meta: Meta };
+  //         Type: string;
+  //       };
+  //       if (msg.Type === "CONVERSATION_MESSAGES") {
+  //         setIsFetchingMsgs(false);
+  //         const Data = msg.Data as { Messages: IMessage[]; Meta: Meta };
+  //         // console.log(Data.Messages, 123);
+  //         // if (Data.Meta.CurrentPage !== pageNum) {
+  //         // setMessages((Data.Messages as IMessage[]) || []);
+  //         // onSend_receive_message((s) => [
+  //         //   ...(Data.Messages as IMessage[]),
+  //         //   ...s
+  //         // ]);
+  //         // setPageNum(Data.Meta.PageNumber);
+
+  //         onSend_receive_message((s) => {
+  //           return Data.Messages.map((newData) => {
+  //             const existingUIEl = s.find(
+  //               (el) =>
+  //                 el.Id === "" && el.CreatedAt.nanos === newData.CreatedAt.nanos
+  //             );
+  //             if (existingUIEl) return existingUIEl;
+  //             else return newData;
+  //           });
+  //         });
+  //         // }
+
+  //         setPageNum(Data.Meta.CurrentPage);
+  //         setTimeout(scrollToBottom, 100);
+  //       } else if (msg.Type === "INCOMING_MESSAGE") {
+  //         getUserConversations(socket);
+  //         const data = msg.Data as IMessage;
+  //         if (data.ConversationId === conversation?.Id) {
+  //           // getConversationMessages(socket, conversation.Id);
+  //           // setMessages([...messages, data]);
+  //           // onSend_receive_message((msgs) => [...msgs, data]);
+  //           onSend_receive_message((msgs) =>
+  //             msgs.map((msg) =>
+  //               msg.CreatedAt.nanos === data.CreatedAt.nanos ? msg : msg
+  //             )
+  //           );
+  //           setTimeout(scrollToBottom, 100);
+  //         }
+  //       }
+
+  //       return event;
+  //     });
+  //   }
+
+  //   return () => {
+  //     socket?.removeEventListener("message", list);
+  //   };
+  // }, [socket, onSend_receive_message, conversation?.Id, scrollToBottom]);
+
   useEffect(() => {
-    let list: any;
-    if (socket) {
-      list = socket.addEventListener("message", (event: MessageEvent<any>) => {
-        const msg = JSON.parse(event.data) as {
-          Data: IMessage | { Messages: IMessage[]; Meta: Meta };
-          Type: string;
-        };
-        if (msg.Type === "CONVERSATION_MESSAGES") {
-          setIsFetchingMsgs(false);
-          const Data = msg.Data as { Messages: IMessage[]; Meta: Meta };
-          // console.log(Data.Messages, 123);
-          if (Data.Meta.CurrentPage !== pageNum) {
-            // setMessages((Data.Messages as IMessage[]) || []);
-            onSend_receive_message((s) => [
-              ...(Data.Messages as IMessage[]),
-              ...s
-            ]);
-            setPageNum(Data.Meta.PageNumber);
-          }
+    if (!socket || !conversation?.Id) return;
 
-          setPageNum(Data.Meta.CurrentPage);
+    console.log("works"); // this line only executes when one of the dependencies change or on component first mount.
+
+    const handler = (event: MessageEvent<any>) => {
+      const msg = JSON.parse(event.data) as {
+        Data: IMessage | { Messages: IMessage[]; Meta: Meta };
+        Type: string;
+      };
+      if (msg.Type === "CONVERSATION_MESSAGES") {
+        console.log("convo called all the time"); // this particular line executes every 10seconds.
+
+        setIsFetchingMsgs(false);
+        const Data = msg.Data as { Messages: IMessage[]; Meta: Meta };
+
+        // because this setter function comes from the parent component, it causes the parent component to also rerender.
+        onSend_receive_message((s) => {
+          return Data.Messages.map((newData) => {
+            const existingUIEl = s.find(
+              (el) =>
+                el.Id === "" && el.CreatedAt.nanos === newData.CreatedAt.nanos
+            );
+            if (existingUIEl) return existingUIEl;
+            else return newData;
+          });
+        });
+
+        setPageNum(Data.Meta.CurrentPage);
+        setTimeout(scrollToBottom, 100);
+      } else if (msg.Type === "INCOMING_MESSAGE") {
+        console.log("convo called all the time---2"); // this line only executes when a new message is sent
+
+        getUserConversations(socket);
+        const data = msg.Data as IMessage;
+        if (data.ConversationId === conversation?.Id) {
+          getConversationMessages(socket, conversation.Id);
+          onSend_receive_message((msgs) =>
+            msgs.map((msg) =>
+              msg.CreatedAt.nanos === data.CreatedAt.nanos ? msg : msg
+            )
+          );
           setTimeout(scrollToBottom, 100);
-        } else if (msg.Type === "INCOMING_MESSAGE") {
-          getUserConversations(socket);
-          const data = msg.Data as IMessage;
-          if (data.ConversationId === conversation?.Id) {
-            getConversationMessages(socket, conversation.Id);
-            // setMessages([...messages, data]);
-            onSend_receive_message((msgs) => [...msgs, data]);
-            setTimeout(scrollToBottom, 100);
-          }
         }
+      }
 
-        return event;
-      });
-    }
+      return event;
+    };
+    socket.addEventListener("message", handler);
 
     return () => {
-      socket?.removeEventListener("message", list);
+      socket?.removeEventListener("message", handler);
     };
-  }, [socket, onSend_receive_message, conversation, scrollToBottom, pageNum]);
+  }, [socket, onSend_receive_message, conversation?.Id, scrollToBottom]);
 
   return (
     <div

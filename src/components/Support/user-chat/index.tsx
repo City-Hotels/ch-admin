@@ -79,7 +79,7 @@ const UserChat: React.FC<{ showConversation?: boolean }> = ({
   const [createTicketOpen, setCreateTicketOpen] = useState(false);
 
   const [messages, setMessages] = useState<IMessage[]>([]);
-  const [isFocused, setIsFocused] = useState<boolean>(false);
+  // const [isFocused, setIsFocused] = useState<boolean>(false);
   const serachParams = useSearchParams();
   const filter = serachParams.get("history") || "new";
   // const [filter, setFilter] = useState<"new" | "active">("new");
@@ -290,7 +290,7 @@ const UserChat: React.FC<{ showConversation?: boolean }> = ({
               <div className="grid grid-cols-1  gap-3 md:grid-cols-[2fr_1fr]">
                 <div className="relative w-full border-r">
                   <ChatMain
-                    isFocused={isFocused}
+                    // isFocused={isFocused}
                     conversation={conversation}
                     isTyping={isTyping}
                     onSend_receive_message={setMessages}
