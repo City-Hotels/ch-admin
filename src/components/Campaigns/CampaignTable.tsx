@@ -22,21 +22,16 @@ const CampaignsTable: React.FC<{
   hidePagination?: boolean;
   Filter: PromotionFilter;
 }> = ({ Limit, Filter, hidePagination }) => {
-  // const [tableFilter, setTableFilter] = useState<BookingStatus | undefined>();
-
+  const [tableFilter, setTableFilter] = useState({...Filter});
   const [Page, setPage] = useState(1);
-  // const [filterValues, setFilterValues] = useState<{ Limit: number;  Page: number}>({ Limit: 10, })
+
   const { isLoading, refetch, data } = useQuery(
-    [queryKeys.getCampaigns, Limit, Page],
-    () => getCampaigns({ Limit, ...Filter, Page })
+    [queryKeys.getCampaigns, Limit, Page, tableFilter],
+    () => getCampaigns({ Limit, Page, ...tableFilter })
   );
   const campaigns = (data?.data.Promotions as IPromotion[]) || [];
   const meta = (data?.data.Meta as Meta) || [];
 
-  // const updateTableFilter = (filter: number) => {
-  //   // TODO: Update table request fetch update list
-  //   setTableFilter(filter as BookingStatus);
-  // };
 
   const { currentPage, perPage, handlePageChange } = usePagination({
     defaultCurrentPage: 1,
@@ -63,27 +58,24 @@ const CampaignsTable: React.FC<{
               <div className="flex items-center justify-end gap-3">
                 <div className="page-button-container">
                   <span className="page-button-wrapper flex gap-2">
+                  <div
+                      className={`rounded-full border w-17 px-2  py-2 text-center text-[12.54px]  hover:bg-white100. hover:text-primary400 hover:border-primary400 cursor-pointer   ${tableFilter.Type === undefined ? 'text-primary400 border-primary400 ' : 'text-white800 border-white700'}`}
+                      onClick={() => {
+                        setTableFilter({ ...tableFilter, Type: undefined })
+                      }}
+                    >All ({meta.TotalCount})</div>
                     {Object.values(PromotionType)
                       .filter((value) => typeof value === "string")
-                      .filter(
-                        (value) =>
-                          typeof value === "string" &&
-                          !["REGULAR", "SPECIAL"].includes(value)
-                      )
+                     
                       .map((promotionType) => (
                         <div
-                          // onClick={() =>
-                          //   // updateTableFilter(BookingStatus[bookingStatus])
-                          // ${
-                          //   1 === 2
-                          //     ? "border-orange-500 bg-orange-50 text-orange-500"
-                          //     : "text-grey-500 border-grey600 bg-white "
-                          //   }
-                          // }
+                        onClick={() => {
+                          setTableFilter({ ...tableFilter, Type: PromotionType [promotionType as keyof typeof PromotionType] })
+                        }}
                           key={promotionType}
-                          className={`rounded-full border  px-4 
+                          className={`rounded-full border  px-2 
                        
-                         py-2 text-center text-[12.54px]`}
+                            py-2 text-center text-[12.54px]  hover:bg-white100. hover:text-primary400 hover:border-primary400 cursor-pointer  ${tableFilter.Type === PromotionType[promotionType as keyof typeof PromotionType] ? 'text-primary400 border-primary400 ' : 'text-white800 border-white700 '}`}
                         >
                           {promotionType}
                           {`(${campaigns.length})`}
@@ -111,6 +103,8 @@ const CampaignsTable: React.FC<{
                     type="search"
                     placeholder="Search"
                     className=" m-0 w-full border border-[#EAEAEA] outline-none placeholder:text-[#666666] "
+                    value={tableFilter.Id}
+                    onChange={(ev) => setTableFilter({...tableFilter, Id: ev.currentTarget.value})}
                   />
                 </div>
               </div>

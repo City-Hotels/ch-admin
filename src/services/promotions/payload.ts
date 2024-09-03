@@ -24,6 +24,7 @@ export interface PromotionFilter {
   Page?: number;
   Id?: string;
   Title?: string;
+  Type?: PromotionType;
 }
 
 export type IMedia = {
