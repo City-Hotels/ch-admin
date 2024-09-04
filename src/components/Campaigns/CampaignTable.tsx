@@ -16,6 +16,7 @@ import { getCampaigns } from "@/services/promotions";
 import {
   IPromotion,
   PromotionFilter,
+  PromotionStatus,
   PromotionType
 } from "@/services/promotions/payload";
 import Modal from "../Modal/Modal";
@@ -133,22 +134,6 @@ const CampaignsTable: React.FC<{
             }
           },
           {
-            key: "Description",
-            title: "DESCRIPTION",
-            width: "10%",
-            headerClass:
-              "font-matter  whitespace-nowrap text-[12px] font-normal leading-[150%] text-white",
-            render(_column, item) {
-              return (
-                <div
-                  className={`text-[var(--grey-grey-600, #5D6679);] text-[14px] leading-[150%]`}
-                >
-                  {item.Description}
-                </div>
-              );
-            }
-          },
-          {
             key: "Id",
             title: "ID",
             width: "10%",
@@ -165,8 +150,24 @@ const CampaignsTable: React.FC<{
             }
           },
           {
+            key: "ShortDescription",
+            title: "SHORT DESCRIPTION",
+            width: "15%",
+            headerClass:
+              "font-matter  whitespace-nowrap text-[12px] font-normal leading-[150%] text-white",
+            render(_column, item) {
+              return (
+                <div
+                  className={`text-[var(--grey-grey-600, #5D6679);] text-[14px] leading-[150%]`}
+                >
+                  {item.ShortDescription}
+                </div>
+              );
+            }
+          },
+          {
             key: "Created_at",
-            title: "DATE OF CREATION",
+            title: "CREATED AT",
             width: "10%",
             headerClass:
               "font-matter py-2 whitespace-nowrap text-[12px] font-normal leading-[150%] text-white",
@@ -203,7 +204,26 @@ const CampaignsTable: React.FC<{
 
           {
             key: "Type",
-            title: "Promotion TYPE",
+            title: "PROMOTION TYPE",
+            headerClass:
+              "font-matter py-2 whitespace-nowrap text-[12px] font-normal leading-[150%] text-white",
+            width: "10%",
+            render(_column, item) {
+              return (
+                <div
+                  className={`text-[var(--grey-grey-600, #5D6679);] text-[14px] leading-[150%]`}
+                >
+                  <div className="text-[14px]">
+                    {item?.Type === PromotionType.REGULAR && "Regular"}
+                    {item?.Type === PromotionType.SPECIAL && "Special"}
+                  </div>
+                </div>
+              );
+            }
+          },
+           {
+            key: "Status",
+            title: "PROMOTION STATUS",
             headerClass:
               "font-matter py-2 whitespace-nowrap text-[12px] font-normal leading-[150%] text-white",
             width: "10%",
@@ -211,10 +231,12 @@ const CampaignsTable: React.FC<{
               return (
                 <div
                   className={` ${
-                    (item.Type === PromotionType.REGULAR &&
+                    (item.Status === PromotionStatus.PENDING &&
                       "bg-warning50 text-warning400") ||
-                    (item.Type === PromotionType.SPECIAL &&
-                      "bg-success50 text-success400")
+                    (item.Status === PromotionStatus.ACCEPTED &&
+                      "bg-success50 text-success400") || 
+                      (item.Status ===PromotionStatus.DECLINED &&
+                      "bg-danger50 text-danger400")
                   }    inline-block rounded-full px-4 py-1`}
                 >
                   <div className="text-center text-[12px]">
@@ -243,7 +265,6 @@ const CampaignsTable: React.FC<{
         variant="plain"
       >
         <FilterComponent filter={tableFilter} onClose={() => setShowFilterModal(false)} setFilter={(filter) => {
-          //console.log({ filter })
           setTableFilter(filter);
         }} />
       </Modal>

@@ -19,11 +19,11 @@ const Filter: FC<FilterProps> = ({ className, onClose, setFilter, filter }) => {
   const [filters, updateFilter] = useState<PromotionFilter>(filter)
 
   const handleFilterClick = (e: { stopPropagation: () => void }) => {
-    e.stopPropagation(); // Prevent event from propagating to parent elements
+    e.stopPropagation(); 
   };
   const handleCloseClick = () => {
     if (onClose) {
-      onClose(); // Close the filter when the close icon is clicked
+      onClose(); 
     }
   };
 
@@ -110,55 +110,6 @@ const Filter: FC<FilterProps> = ({ className, onClose, setFilter, filter }) => {
                     className="my-4"
                   />))}
               </div>
-            </div>
-
-            <div className={`${styles.labelContainer}`}>
-              <P2 className=" font-bold leading-[150%] text-black">
-                Customer Review
-              </P2>
-              <div className={`${styles.checkBoxConatainer}`}>
-                <CheckboxTwo
-                  label="All"
-                  name="Rating"
-                  value={undefined}
-                  // checked={filter.Status === undefined}
-                  // onChange={(e) => setFilter({ ...filter, Status: undefined })}
-                  className="my-4"
-                />
-                <CheckboxTwo
-                  label="Excellent (8+)"
-                  name="Rating"
-                  value={8}
-                  // checked={filter.Status === undefined}
-                  // onChange={(e) => setFilter({ ...filter, Status: undefined })}
-                  className="my-4"
-                />
-                <CheckboxTwo
-                  label="Good (6+)"
-                  name="Rating"
-                  value={6}
-                  // checked={filter.Status === undefined}
-                  // onChange={(e) => setFilter({ ...filter, Status: undefined })}
-                  className="my-4"
-                />
-                <CheckboxTwo
-                  label="Average (4+)"
-                  name="Rating"
-                  value={4}
-                  // checked={filter.Status === undefined}
-                  // onChange={(e) => setFilter({ ...filter, Status: undefined })}
-                  className="my-4"
-                />
-                <CheckboxTwo
-                  label="Poor (< 4)"
-                  name="Rating"
-                  value={1}
-                  // checked={filter.Status === undefined}
-                  // onChange={(e) => setFilter({ ...filter, Status: undefined })}
-                  className="my-4"
-                />
-              </div>
-
             </div>
 
             <div className={`${styles.labelContainer}`}>
