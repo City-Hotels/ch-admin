@@ -111,36 +111,6 @@ const Filter: FC<FilterProps> = ({ className, onClose, setFilter, filter }) => {
                   />))}
               </div>
             </div>
-
-            <div className={`${styles.labelContainer}`}>
-              <P2 className=" font-bold leading-[150%] text-black">
-                Promotion Type
-              </P2>
-              <div className={`${styles.checkBoxConatainer}`}>
-                <CheckboxTwo
-                  label="All"
-                  name="ReviewStatus"
-                  value={'All'}
-                  checked={filter.Status === undefined}
-                  onChange={(e) => setFilter({ ...filter, Status: undefined })}
-                  className="my-4"
-                />
-                {Object.values(PromotionType)
-                  .filter((value) => typeof value === "string")
-                  .map((promotionType) => (<CheckboxTwo
-                    name="ReviewStatus"
-                    key={promotionType}
-                    label={promotionType as string}
-                    value={promotionType}
-                    checked={filters.Type === PromotionType[promotionType as keyof typeof PromotionType]}
-                    onClick={() => {
-                      setFilter({ ...filters, Type: PromotionType[promotionType as keyof typeof PromotionType] })
-                    }}
-                    className="my-4"
-                  />))}
-              </div>
-
-            </div>
           </div>
 
           {/* <div className={`${styles.clearFilterContainer}`}>

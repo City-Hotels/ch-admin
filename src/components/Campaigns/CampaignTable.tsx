@@ -27,7 +27,7 @@ const CampaignsTable: React.FC<{
   hidePagination?: boolean;
   Filter: PromotionFilter;
 }> = ({ Limit, Filter, hidePagination }) => {
-  const [tableFilter, setTableFilter] = useState({...Filter});
+  const [tableFilter, setTableFilter] = useState({ ...Filter });
   const [showFilterModal, setShowFilterModal] = useState(false);
   const [Page, setPage] = useState(1);
 
@@ -37,7 +37,6 @@ const CampaignsTable: React.FC<{
   );
   const campaigns = (data?.data.Promotions as IPromotion[]) || [];
   const meta = (data?.data.Meta as Meta) || [];
-
 
   const { currentPage, perPage, handlePageChange } = usePagination({
     defaultCurrentPage: 1,
@@ -64,40 +63,55 @@ const CampaignsTable: React.FC<{
               <div className="flex items-center justify-end gap-3">
                 <div className="page-button-container">
                   <span className="page-button-wrapper flex gap-2">
-                  <div
-                      className={`rounded-full border w-17 px-2  py-2 text-center text-[12.54px]  hover:bg-white100. hover:text-primary400 hover:border-primary400 cursor-pointer   ${tableFilter.Type === undefined ? 'text-primary400 border-primary400 ' : 'text-white800 border-white700'}`}
+                    <div
+                      className={`rounded-full border w-17 px-2  py-2 text-center text-[12.54px]  hover:bg-white100. hover:text-primary400 hover:border-primary400 cursor-pointer   ${tableFilter.Status === undefined ? "text-primary400 border-primary400 " : "text-white800 border-white700"}`}
                       onClick={() => {
-                        setTableFilter({ ...tableFilter, Type: undefined })
+                        setTableFilter({ ...tableFilter, Status: undefined });
                       }}
-                    >All ({meta.TotalCount})</div>
-                    {Object.values(PromotionType)
+                    >
+                      All ({meta.TotalCount})
+                    </div>
+                    {Object.values(PromotionStatus)
                       .filter((value) => typeof value === "string")
-                     
-                      .map((promotionType) => (
+
+                      .map((promotionStatus) => (
                         <div
-                        onClick={() => {
-                          setTableFilter({ ...tableFilter, Type: PromotionType [promotionType as keyof typeof PromotionType] })
-                        }}
-                          key={promotionType}
+                          onClick={() => {
+                            setTableFilter({
+                              ...tableFilter,
+                              Status:
+                                PromotionStatus[
+                                  promotionStatus as keyof typeof PromotionStatus
+                                ]
+                            });
+                          }}
+                          key={promotionStatus}
                           className={`rounded-full border  px-2 
                        
-                            py-2 text-center text-[12.54px]  hover:bg-white100. hover:text-primary400 hover:border-primary400 cursor-pointer  ${tableFilter.Type === PromotionType[promotionType as keyof typeof PromotionType] ? 'text-primary400 border-primary400 ' : 'text-white800 border-white700 '}`}
+                            py-2 text-center text-[12.54px]  hover:bg-white100. hover:text-primary400 hover:border-primary400 cursor-pointer  ${tableFilter.Status === PromotionStatus[promotionStatus as keyof typeof PromotionStatus] ? "text-primary400 border-primary400 " : "text-white800 border-white700 "}`}
                         >
-                          {promotionType}
+                          {promotionStatus}
                           {`(${campaigns.length})`}
 
-                          {promotionType === PromotionType.REGULAR &&
+                          {promotionStatus === PromotionStatus.ACCEPTED &&
                             `(${
                               campaigns.filter(
                                 (item: IPromotion) =>
-                                  item.Type === PromotionType.REGULAR
+                                  item.Status === PromotionStatus.ACCEPTED
                               ).length
                             })`}
-                          {promotionType === PromotionType.SPECIAL &&
+                          {promotionStatus === PromotionStatus.DECLINED &&
                             `(${
                               campaigns.filter(
                                 (item: IPromotion) =>
-                                  item.Type === PromotionType.SPECIAL
+                                  item.Status === PromotionStatus.DECLINED
+                              ).length
+                            })`}
+                          {promotionStatus === PromotionStatus.PENDING &&
+                            `(${
+                              campaigns.filter(
+                                (item: IPromotion) =>
+                                  item.Status === PromotionStatus.PENDING
                               ).length
                             })`}
                         </div>
@@ -110,14 +124,24 @@ const CampaignsTable: React.FC<{
                     placeholder="Search"
                     className=" m-0 w-full border border-[#EAEAEA] outline-none placeholder:text-[#666666] "
                     value={tableFilter.Id}
-                    onChange={(ev) => setTableFilter({...tableFilter, Id: ev.currentTarget.value})}
+                    onChange={(ev) =>
+                      setTableFilter({
+                        ...tableFilter,
+                        Id: ev.currentTarget.value
+                      })
+                    }
                   />
                 </div>
-                <Button size="sm" color="outline-dark" variant="outline" onClick={() => setShowFilterModal(true)}>
-                <span className="flex gap-2 px-3">
-                  <FilterIcon /> Filter
-                </span>
-              </Button>
+                <Button
+                  size="sm"
+                  color="outline-dark"
+                  variant="outline"
+                  onClick={() => setShowFilterModal(true)}
+                >
+                  <span className="flex gap-2 px-3">
+                    <FilterIcon /> Filter
+                  </span>
+                </Button>
               </div>
             </div>
           </div>
@@ -221,7 +245,7 @@ const CampaignsTable: React.FC<{
               );
             }
           },
-           {
+          {
             key: "Status",
             title: "PROMOTION STATUS",
             headerClass:
@@ -234,14 +258,15 @@ const CampaignsTable: React.FC<{
                     (item.Status === PromotionStatus.PENDING &&
                       "bg-warning50 text-warning400") ||
                     (item.Status === PromotionStatus.ACCEPTED &&
-                      "bg-success50 text-success400") || 
-                      (item.Status ===PromotionStatus.DECLINED &&
+                      "bg-success50 text-success400") ||
+                    (item.Status === PromotionStatus.DECLINED &&
                       "bg-danger50 text-danger400")
                   }    inline-block rounded-full px-4 py-1`}
                 >
                   <div className="text-center text-[12px]">
-                    {item?.Type === PromotionType.REGULAR && "Booking"}
-                    {item?.Type === PromotionType.SPECIAL && "Wallent fund"}
+                    {item?.Status === PromotionStatus.ACCEPTED && "Accepted"}
+                    {item?.Status === PromotionStatus.PENDING && "Pending"}
+                    {item?.Status === PromotionStatus.DECLINED && "Declined"}
                   </div>
                 </div>
               );
@@ -259,14 +284,18 @@ const CampaignsTable: React.FC<{
         data={campaigns}
         isLoading={isLoading}
       />
-        <Modal
+      <Modal
         openModal={showFilterModal}
         setOpenModal={setShowFilterModal}
         variant="plain"
       >
-        <FilterComponent filter={tableFilter} onClose={() => setShowFilterModal(false)} setFilter={(filter) => {
-          setTableFilter(filter);
-        }} />
+        <FilterComponent
+          filter={tableFilter}
+          onClose={() => setShowFilterModal(false)}
+          setFilter={(filter) => {
+            setTableFilter(filter);
+          }}
+        />
       </Modal>
     </div>
   );
