@@ -3,8 +3,9 @@
 }
 
 .header {
-  @apply bg-[#F9FAFB] py-2 px-3 rounded-[8px]  w-full inline-block;
+  @apply bg-[#F9FAFB] py-2 px-3 rounded-[8px] w-full inline-block;
 }
+
 .img {
   @apply w-[40px] h-[40px];
 }
@@ -14,15 +15,15 @@
 }
 
 .header2 {
-  @apply bg-[#1671D9]  w-full px-3 py-2 rounded-t-lg rounded-bl-lg text-[#fff] inline-block;
+  @apply bg-[#1671D9] w-full px-3 py-2 rounded-t-lg rounded-bl-lg text-[#fff] inline-block;
 }
 
 .headerSkeleton2 {
-  @apply bg-[#1671D9]  w-full rounded-[8px] text-[#fff] inline-block animate-pulse;
+  @apply bg-[#1671D9] w-full rounded-[8px] text-[#fff] inline-block animate-pulse;
 }
 
 .bottom {
-  @apply flex flex-row justify-end mt-1 mr-10 items-center gap-1 ml-auto px-3;
+  @apply flex flex-row justify-end mt-1 items-center gap-1 ml-auto px-3;
 }
 
 .hideScrollBar {
