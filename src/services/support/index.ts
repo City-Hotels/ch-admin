@@ -1,3 +1,4 @@
+import { supportFileUploadBaseURL } from "@/utils/constants";
 import { NewTicket, TimeStamp } from "./payload";
 import { putRequest } from "@/utils/api/calls";
 
@@ -181,8 +182,6 @@ export const sendChatMessage = (
   socket.send(JSON.stringify(msg));
 };
 
-const chatImageUploadBaseUrl = process.env.NEXT_SUPPORT_FILE_UPLOAD_URL;
-
 export async function uploadSupportChatImages(
   images: File[],
   messageId: string
@@ -197,8 +196,10 @@ export async function uploadSupportChatImages(
   const res = await Promise.all(
     imageFiles.map((imgFileData) =>
       putRequest<FormData, { Path: string }>({
-        url: `${chatImageUploadBaseUrl}/${messageId}`,
-        data: imgFileData
+        url: `${messageId}`,
+        data: imgFileData,
+        baseURL: supportFileUploadBaseURL
+
       })
     )
   );
@@ -206,16 +207,27 @@ export async function uploadSupportChatImages(
   return res;
 }
 
-// {
-//   "Data": {
-//       "ConversationId": "",
-//       "Message": "ticket test",
-//       "Recipient": {
-//           "Id": "d73bc724-9656-4f74-a174-9a538381ce57"
-//       }
-//   },
-//   "Type": "POST_MESSAGE"
-// }
+export async function uploadSupportChatImage(
+  image: File,
+  messageId: string,
+  setProgress: Function
+) {
+  const newFile = new FormData();
+  newFile.append("file", image);
+
+  return putRequest<FormData, { Path: string }>({
+    url: `${messageId}`,
+    data: newFile,
+    config: {
+      onUploadProgress: (ProgressEvent) => {
+        if (ProgressEvent.total)
+          setProgress((ProgressEvent.loaded / ProgressEvent.total) * 100);
+      }
+    },
+    baseURL: supportFileUploadBaseURL
+
+  })
+}
 
 export const getRecipientStatus = (
   socket: WebSocket,
