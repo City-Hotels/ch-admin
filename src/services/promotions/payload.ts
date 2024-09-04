@@ -22,9 +22,15 @@ export interface IPromotion {
 export interface PromotionFilter {
   Limit?: number;
   Page?: number;
+  Name?: string;
   Id?: string;
+  MaxParticipant?: Number;
+  ShortDescription?: string;
+  Status?: PromotionStatus;
   Title?: string;
   Type?: PromotionType;
+  StartDate?: IGRPCDate;
+  EndDate?: IGRPCDate;
 }
 
 export type IMedia = {

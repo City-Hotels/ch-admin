@@ -4,18 +4,22 @@ import queryKeys from "@/utils/api/queryKeys";
 import React, { useState } from "react";
 import { useQuery } from "react-query";
 import Dots from "@/assets/icons/dots-vertical.svg";
+import FilterIcon from "@/assets/icons/filter2.svg";
 import dayjs from "dayjs";
 import type { Meta } from "@/utils/api/calls";
 import { usePagination } from "../Tables/Table/Pagination";
 import { Table } from "../Tables/Table/Table";
 import { convertGrpcDate } from "@/utils/helpers";
 import Input from "../Inputs/Input/Input";
+import FilterComponent from "./Filter/Filter";
 import { getCampaigns } from "@/services/promotions";
 import {
   IPromotion,
   PromotionFilter,
   PromotionType
 } from "@/services/promotions/payload";
+import Modal from "../Modal/Modal";
+import Button from "../Button/Button";
 
 const CampaignsTable: React.FC<{
   Limit: number;
@@ -23,6 +27,7 @@ const CampaignsTable: React.FC<{
   Filter: PromotionFilter;
 }> = ({ Limit, Filter, hidePagination }) => {
   const [tableFilter, setTableFilter] = useState({...Filter});
+  const [showFilterModal, setShowFilterModal] = useState(false);
   const [Page, setPage] = useState(1);
 
   const { isLoading, refetch, data } = useQuery(
@@ -107,6 +112,11 @@ const CampaignsTable: React.FC<{
                     onChange={(ev) => setTableFilter({...tableFilter, Id: ev.currentTarget.value})}
                   />
                 </div>
+                <Button size="sm" color="outline-dark" variant="outline" onClick={() => setShowFilterModal(true)}>
+                <span className="flex gap-2 px-3">
+                  <FilterIcon /> Filter
+                </span>
+              </Button>
               </div>
             </div>
           </div>
@@ -227,6 +237,16 @@ const CampaignsTable: React.FC<{
         data={campaigns}
         isLoading={isLoading}
       />
+        <Modal
+        openModal={showFilterModal}
+        setOpenModal={setShowFilterModal}
+        variant="plain"
+      >
+        <FilterComponent filter={tableFilter} onClose={() => setShowFilterModal(false)} setFilter={(filter) => {
+          //console.log({ filter })
+          setTableFilter(filter);
+        }} />
+      </Modal>
     </div>
   );
 };
