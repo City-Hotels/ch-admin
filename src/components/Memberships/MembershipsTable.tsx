@@ -4,6 +4,7 @@ import queryKeys from "@/utils/api/queryKeys";
 import React, { useState } from "react";
 import { useQuery } from "react-query";
 import Dots from "@/assets/icons/dots-vertical.svg";
+import FilterIcon from "@/assets/icons/filter2.svg";
 import dayjs from "dayjs";
 import type { Meta } from "@/utils/api/calls";
 import { usePagination } from "../Tables/Table/Pagination";
@@ -14,8 +15,12 @@ import { getMemberships } from "@/services/promotions/index";
 import {
   IPromotion,
   PromotionFilter,
+  PromotionStatus,
   PromotionType
 } from "@/services/promotions/payload";
+import FilterComponent from "./Filter/Filter";
+import Modal from "../Modal/Modal";
+import Button from "../Button/Button";
 
 const MembershipTable: React.FC<{
   Limit: number;
@@ -24,17 +29,15 @@ const MembershipTable: React.FC<{
 }> = ({ Limit, Filter, hidePagination }) => {
 
   const [Page, setPage] = useState(1);
+  const [tableFilter, setTableFilter] = useState({...Filter})
+  const [showFilterModal, setShowFilterModal] = useState(false);
+
   const { isLoading, refetch, data } = useQuery(
-    [queryKeys.getPromotions, Limit, Page],
-    () => getMemberships({ Limit, ...Filter, Page })
+    [queryKeys.getPromotions, Limit, Page, tableFilter],
+    () => getMemberships({ Limit, ...tableFilter, Page })
   );
   const memberships = (data?.data.Promotions as IPromotion[]) || [];
   const meta = (data?.data.Meta as Meta) || [];
-
-  // const updateTableFilter = (filter: number) => {
-  //   // TODO: Update table request fetch update list
-  //   setTableFilter(filter as BookingStatus);
-  // };
 
   const { currentPage, perPage, handlePageChange } = usePagination({
     defaultCurrentPage: Page,
@@ -45,7 +48,7 @@ const MembershipTable: React.FC<{
   });
 
   return (
-    <div className="bg-white rounded-md">
+    <div className="bg-white p-2 rounded-md">
       <Table
         withPagination={!hidePagination}
         perPage={perPage}
@@ -61,27 +64,24 @@ const MembershipTable: React.FC<{
               <div className="flex items-center justify-end gap-3">
                 <div className="page-button-container">
                   <span className="page-button-wrapper flex gap-2">
+                  <div
+                      className={`rounded-full border w-17 px-2  py-2 text-center text-[12.54px]  hover:bg-white100. hover:text-primary400 hover:border-primary400 cursor-pointer   ${tableFilter.Type === undefined ? 'text-primary400 border-primary400 ' : 'text-white800 border-white700'}`}
+                      onClick={() => {
+                        setTableFilter({ ...tableFilter, Type: undefined })
+                      }}
+                    >All ({meta.TotalCount})</div>
                     {Object.values(PromotionType)
                       .filter((value) => typeof value === "string")
-                      .filter(
-                        (value) =>
-                          typeof value === "string" &&
-                          !["REGULAR", "SPECIAL"].includes(value)
-                      )
+                     
                       .map((promotionType) => (
                         <div
-                          // onClick={() =>
-                          //   // updateTableFilter(BookingStatus[bookingStatus])
-                          // ${
-                          //   1 === 2
-                          //     ? "border-orange-500 bg-orange-50 text-orange-500"
-                          //     : "text-grey-500 border-grey600 bg-white "
-                          //   }
-                          // }
+                        onClick={() => {
+                          setTableFilter({ ...tableFilter, Type: PromotionType [promotionType as keyof typeof PromotionType] })
+                        }}
                           key={promotionType}
-                          className={`rounded-full border  px-4 
+                          className={`rounded-full border  px-2 
                        
-                         py-2 text-center text-[12.54px]`}
+                            py-2 text-center text-[12.54px]  hover:bg-white100. hover:text-primary400 hover:border-primary400 cursor-pointer  ${tableFilter.Type === PromotionType[promotionType as keyof typeof PromotionType] ? 'text-primary400 border-primary400 ' : 'text-white800 border-white700 '}`}
                         >
                           {promotionType}
                           {`(${memberships.length})`}
@@ -94,10 +94,11 @@ const MembershipTable: React.FC<{
                               ).length
                             })`}
                           {promotionType === PromotionType.SPECIAL &&
-                            `(${memberships.filter(
-                              (item: IPromotion) =>
-                                item.Type === PromotionType.SPECIAL
-                            ).length
+                            `(${
+                              memberships.filter(
+                                (item: IPromotion) =>
+                                  item.Type === PromotionType.SPECIAL
+                              ).length
                             })`}
                         </div>
                       ))}
@@ -108,8 +109,15 @@ const MembershipTable: React.FC<{
                     type="search"
                     placeholder="Search"
                     className=" m-0 w-full border border-[#EAEAEA] outline-none placeholder:text-[#666666] "
+                    value={tableFilter.Id}
+                    onChange={(ev) => setTableFilter({...tableFilter, Id: ev.currentTarget.value})}
                   />
                 </div>
+                <Button size="sm" color="outline-dark" variant="outline" onClick={() => setShowFilterModal(true)}>
+                <span className="flex gap-2 px-3">
+                  <FilterIcon /> Filter
+                </span>
+              </Button>
               </div>
             </div>
           </div>
@@ -123,22 +131,6 @@ const MembershipTable: React.FC<{
               "font-matter py-2 px-3 whitespace-nowrap text-[12px] font-normal leading-[150%] text-white",
             render(_column, item) {
               return <div className="px-4">{item.Name}</div>;
-            }
-          },
-          {
-            key: "Description",
-            title: "DESCRIPTION",
-            width: "20%",
-            headerClass:
-              "font-matter  whitespace-nowrap text-[12px] font-normal leading-[150%] text-white",
-            render(_column, item) {
-              return (
-                <div
-                  className={`text-[var(--grey-grey-600, #5D6679);] text-[14px] leading-[150%]`}
-                >
-                  {item.Description}
-                </div>
-              );
             }
           },
           {
@@ -158,8 +150,24 @@ const MembershipTable: React.FC<{
             }
           },
           {
+            key: "ShortDescription",
+            title: "SHORT DESCRIPTION",
+            width: "15%",
+            headerClass:
+              "font-matter  whitespace-nowrap text-[12px] font-normal leading-[150%] text-white",
+            render(_column, item) {
+              return (
+                <div
+                  className={`text-[var(--grey-grey-600, #5D6679);] text-[14px] leading-[150%]`}
+                >
+                  {item.ShortDescription}
+                </div>
+              );
+            }
+          },
+          {
             key: "Created_at",
-            title: "DATE",
+            title: "CREATED AT",
             width: "10%",
             headerClass:
               "font-matter py-2 whitespace-nowrap text-[12px] font-normal leading-[150%] text-white",
@@ -196,18 +204,40 @@ const MembershipTable: React.FC<{
 
           {
             key: "Type",
-            title: "Promotion TYPE",
+            title: "PROMOTION TYPE",
             headerClass:
               "font-matter py-2 whitespace-nowrap text-[12px] font-normal leading-[150%] text-white",
             width: "10%",
             render(_column, item) {
               return (
                 <div
-                  className={` ${(item.Type === PromotionType.REGULAR &&
-                    "bg-warning50 text-warning400") ||
-                    (item.Type === PromotionType.SPECIAL &&
-                      "bg-success50 text-success400")
-                      }    inline-block rounded-full px-4 py-1`}
+                  className={`text-[var(--grey-grey-600, #5D6679);] text-[14px] leading-[150%]`}
+                >
+                  <div className="text-[14px]">
+                    {item?.Type === PromotionType.REGULAR && "Regular"}
+                    {item?.Type === PromotionType.SPECIAL && "Special"}
+                  </div>
+                </div>
+              );
+            }
+          },
+           {
+            key: "Status",
+            title: "PROMOTION STATUS",
+            headerClass:
+              "font-matter py-2 whitespace-nowrap text-[12px] font-normal leading-[150%] text-white",
+            width: "10%",
+            render(_column, item) {
+              return (
+                <div
+                  className={` ${
+                    (item.Status === PromotionStatus.PENDING &&
+                      "bg-warning50 text-warning400") ||
+                    (item.Status === PromotionStatus.ACCEPTED &&
+                      "bg-success50 text-success400") || 
+                      (item.Status ===PromotionStatus.DECLINED &&
+                      "bg-danger50 text-danger400")
+                  }    inline-block rounded-full px-4 py-1`}
                 >
                   <div className="text-center text-[12px]">
                     {item?.Type === PromotionType.REGULAR && "Booking"}
@@ -229,6 +259,15 @@ const MembershipTable: React.FC<{
         data={memberships}
         isLoading={isLoading}
       />
+        <Modal
+        openModal={showFilterModal}
+        setOpenModal={setShowFilterModal}
+        variant="plain"
+      >
+        <FilterComponent filter={tableFilter} onClose={() => setShowFilterModal(false)} setFilter={(filter) => {
+          setTableFilter(filter);
+        }} />
+      </Modal>
     </div>
   );
 };
