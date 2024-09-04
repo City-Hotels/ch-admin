@@ -65,39 +65,46 @@ const MembershipTable: React.FC<{
                 <div className="page-button-container">
                   <span className="page-button-wrapper flex gap-2">
                   <div
-                      className={`rounded-full border w-17 px-2  py-2 text-center text-[12.54px]  hover:bg-white100. hover:text-primary400 hover:border-primary400 cursor-pointer   ${tableFilter.Type === undefined ? 'text-primary400 border-primary400 ' : 'text-white800 border-white700'}`}
+                      className={`rounded-full border w-17 px-2  py-2 text-center text-[12.54px]  hover:bg-white100. hover:text-primary400 hover:border-primary400 cursor-pointer   ${tableFilter.Status === undefined ? 'text-primary400 border-primary400 ' : 'text-white800 border-white700'}`}
                       onClick={() => {
-                        setTableFilter({ ...tableFilter, Type: undefined })
+                        setTableFilter({ ...tableFilter, Status: undefined })
                       }}
                     >All ({meta.TotalCount})</div>
-                    {Object.values(PromotionType)
+                    {Object.values(PromotionStatus)
                       .filter((value) => typeof value === "string")
                      
-                      .map((promotionType) => (
+                      .map((promotionStatus) => (
                         <div
                         onClick={() => {
-                          setTableFilter({ ...tableFilter, Type: PromotionType [promotionType as keyof typeof PromotionType] })
+                          setTableFilter({ ...tableFilter, Status: PromotionStatus [promotionStatus as keyof typeof PromotionStatus] })
                         }}
-                          key={promotionType}
+                          key={promotionStatus}
                           className={`rounded-full border  px-2 
                        
-                            py-2 text-center text-[12.54px]  hover:bg-white100. hover:text-primary400 hover:border-primary400 cursor-pointer  ${tableFilter.Type === PromotionType[promotionType as keyof typeof PromotionType] ? 'text-primary400 border-primary400 ' : 'text-white800 border-white700 '}`}
+                            py-2 text-center text-[12.54px]  hover:bg-white100. hover:text-primary400 hover:border-primary400 cursor-pointer  ${tableFilter.Status === PromotionStatus[promotionStatus as keyof typeof PromotionStatus] ? 'text-primary400 border-primary400 ' : 'text-white800 border-white700 '}`}
                         >
-                          {promotionType}
+                          {promotionStatus}
                           {`(${memberships.length})`}
 
-                          {promotionType === PromotionType.REGULAR &&
+                          {promotionStatus === PromotionStatus.ACCEPTED &&
                             `(${
                               memberships.filter(
                                 (item: IPromotion) =>
-                                  item.Type === PromotionType.REGULAR
+                                  item.Status === PromotionStatus.ACCEPTED
                               ).length
                             })`}
-                          {promotionType === PromotionType.SPECIAL &&
+                          {promotionStatus === PromotionStatus.PENDING &&
                             `(${
                               memberships.filter(
                                 (item: IPromotion) =>
-                                  item.Type === PromotionType.SPECIAL
+                                  item.Status === PromotionStatus.PENDING
+                              ).length
+                            })`}
+                          {promotionStatus === PromotionStatus.DECLINED &&
+                            `(${
+                              memberships.filter(
+                                (item: IPromotion) =>
+                                  item.Status === PromotionStatus.DECLINED
                               ).length
                             })`}
                         </div>
@@ -152,7 +159,7 @@ const MembershipTable: React.FC<{
           {
             key: "ShortDescription",
             title: "SHORT DESCRIPTION",
-            width: "15%",
+            width: "10%",
             headerClass:
               "font-matter  whitespace-nowrap text-[12px] font-normal leading-[150%] text-white",
             render(_column, item) {
@@ -201,26 +208,6 @@ const MembershipTable: React.FC<{
               );
             }
           },
-
-          {
-            key: "Type",
-            title: "PROMOTION TYPE",
-            headerClass:
-              "font-matter py-2 whitespace-nowrap text-[12px] font-normal leading-[150%] text-white",
-            width: "10%",
-            render(_column, item) {
-              return (
-                <div
-                  className={`text-[var(--grey-grey-600, #5D6679);] text-[14px] leading-[150%]`}
-                >
-                  <div className="text-[14px]">
-                    {item?.Type === PromotionType.REGULAR && "Regular"}
-                    {item?.Type === PromotionType.SPECIAL && "Special"}
-                  </div>
-                </div>
-              );
-            }
-          },
            {
             key: "Status",
             title: "PROMOTION STATUS",
@@ -240,8 +227,9 @@ const MembershipTable: React.FC<{
                   }    inline-block rounded-full px-4 py-1`}
                 >
                   <div className="text-center text-[12px]">
-                    {item?.Type === PromotionType.REGULAR && "Booking"}
-                    {item?.Type === PromotionType.SPECIAL && "Wallent fund"}
+                    {item?.Status === PromotionStatus.PENDING && "Pending"}
+                    {item?.Status === PromotionStatus.ACCEPTED && "Accepted"}
+                    {item?.Status === PromotionStatus.DECLINED && "Declined"}
                   </div>
                 </div>
               );

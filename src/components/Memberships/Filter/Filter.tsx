@@ -56,7 +56,7 @@ const Filter: FC<FilterProps> = ({ className, onClose, setFilter, filter }) => {
               <div className={`${styles.input}`}>
                 <Search className="text-black" />
                 <input
-                  placeholder="Service Host"
+                  placeholder="e.g: Explore our Featured Hotels"
                   className={`${styles.innerInput}`}
                   value={filters.Title}
                   onChange={(ev) => setFilter({ ...filters, Title: ev.currentTarget.value })}
@@ -71,7 +71,7 @@ const Filter: FC<FilterProps> = ({ className, onClose, setFilter, filter }) => {
               <div className={`${styles.input}`}>
                 <Search className="text-black" />
                 <input
-                  placeholder="Search Guest"
+                  placeholder="e.g: Luxury Apartment"
                   className={`${styles.innerInput}`}
                   value={filters.Name}
                   onChange={(ev) => setFilter({ ...filters, Name: ev.currentTarget.value })}
@@ -109,47 +109,7 @@ const Filter: FC<FilterProps> = ({ className, onClose, setFilter, filter }) => {
                   />))}
               </div>
             </div>
-
-            <div className={`${styles.labelContainer}`}>
-              <P2 className=" font-bold leading-[150%] text-black">
-                Promotion Type
-              </P2>
-              <div className={`${styles.checkBoxConatainer}`}>
-                <CheckboxTwo
-                  label="All"
-                  name="ReviewStatus"
-                  value={'All'}
-                  checked={filter.Status === undefined}
-                  onChange={(e) => setFilter({ ...filter, Status: undefined })}
-                  className="my-4"
-                />
-                {Object.values(PromotionType)
-                  .filter((value) => typeof value === "string")
-                  .map((promotionType) => (<CheckboxTwo
-                    name="ReviewStatus"
-                    key={promotionType}
-                    label={promotionType as string}
-                    value={promotionType}
-                    checked={filters.Type === PromotionType[promotionType as keyof typeof PromotionType]}
-                    onClick={() => {
-                      setFilter({ ...filters, Type: PromotionType[promotionType as keyof typeof PromotionType] })
-                    }}
-                    className="my-4"
-                  />))}
-              </div>
-
-            </div>
           </div>
-
-          {/* <div className={`${styles.clearFilterContainer}`}>
-            <div className="cursor-pointer font-matter-bold underline">
-              Clear Filter
-            </div>
-
-            <Button color="primary" size="lg">
-              Show 800+ Hotels
-            </Button>
-          </div> */}
         </div>
       </div>
     </div>
