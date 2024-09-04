@@ -3,9 +3,9 @@
 import DefaultLayout from "@/components/Layouts/DefaultLayout";
 import React, { useState } from "react";
 import { useRouter } from "next/navigation";
-import AccountInfoForm from "@/components/Tab Component/AccountInfo";
-import RequirementsForm from "@/components/Tab Component/Requirements";
-import PriceForm from "@/components/Tab Component/Price";
+import AccountInfoForm from "@/components/TabComponent/AccountInfo";
+import RequirementsForm from "@/components/TabComponent/Requirements";
+import PriceForm from "@/components/TabComponent/Price";
 import { submitCampaign } from "@/services/promotions";
 import { useMutation } from "react-query";
 import { IPromotion } from "@/services/promotions/payload";
