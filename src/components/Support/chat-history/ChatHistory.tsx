@@ -289,11 +289,7 @@ const ChatHistory: React.FC<{
       </div>
       {conversations?.length > 0 &&
         meta.current.CurrentPage !== meta.current.TotalPages &&
-        meta.current.TotalPages !== 0 && (
-          <div className="h-20" ref={ref}>
-            hahahahaha
-          </div>
-        )}
+        meta.current.TotalPages !== 0 && <div className="h-20" ref={ref}></div>}
     </div>
   );
 };
