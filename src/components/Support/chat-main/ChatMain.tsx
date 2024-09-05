@@ -164,8 +164,10 @@ const ChatMain: React.FC<{
 
         setIsFetchingMsgs(false);
         const Data = msg.Data as { Messages: IMessage[]; Meta: Meta };
+        console.log(Data.Messages);
 
         // because this setter function comes from the parent component, it causes the parent component to also rerender.
+
         onSend_receive_message((s) => {
           return Data.Messages.map((newData) => {
             const existingUIEl = s.find(

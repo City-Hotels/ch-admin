@@ -1,5 +1,5 @@
 import type { IConversation, IMessage } from "@/services/support/payload";
-import { useEffect, useMemo, useState } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 import {
   getAssignedConversations,
   getUserConversations
@@ -29,19 +29,19 @@ import Popup from "../Popup";
 import ChevronDown from "@/assets/icons/chevron-down.svg";
 import TypeChat from "../chat-main/TypeChat-2";
 
-function dateToTimestamp(date: Date): { seconds: number; nanos: number } {
-  // Ensure the input is a valid Date object
-  if (!(date instanceof Date)) {
-    throw new Error("Invalid date object");
-  }
-  // Get the timestamp in milliseconds
-  const millis = date.getTime();
-  // Convert milliseconds to seconds (integer part)
-  const seconds = Math.floor(millis / 1000);
-  // Calculate the nanoseconds (remaining milliseconds converted to nanoseconds)
-  const nanos = (millis % 1000) * 1e6;
-  return { seconds, nanos };
-}
+// function dateToTimestamp(date: Date): { seconds: number; nanos: number } {
+//   // Ensure the input is a valid Date object
+//   if (!(date instanceof Date)) {
+//     throw new Error("Invalid date object");
+//   }
+//   // Get the timestamp in milliseconds
+//   const millis = date.getTime();
+//   // Convert milliseconds to seconds (integer part)
+//   const seconds = Math.floor(millis / 1000);
+//   // Calculate the nanoseconds (remaining milliseconds converted to nanoseconds)
+//   const nanos = (millis % 1000) * 1e6;
+//   return { seconds, nanos };
+// }
 // Example usage:
 // const date = new Date();
 // const timestamp = dateToTimestamp(date);
@@ -80,32 +80,73 @@ const UserChat: React.FC<{ showConversation?: boolean }> = ({
 
   const [messages, setMessages] = useState<IMessage[]>([]);
   // const [isFocused, setIsFocused] = useState<boolean>(false);
-  const serachParams = useSearchParams();
-  const filter = serachParams.get("history") || "new";
-  // const [filter, setFilter] = useState<"new" | "active">("new");
+  const searchParams = useSearchParams();
+  const filter = searchParams.get("history") || "new";
+  const meta = useRef<{ CurrentPage: number; TotalPages: number }>({
+    CurrentPage: 1,
+    TotalPages: 0
+  });
+  const stableConversations = useRef<IConversation[]>([]);
+
+  console.log({ meta });
 
   useEffect(() => {
     if (!socket) return;
-
     function handler(e: MessageEvent<any>) {
-      const data = JSON.parse(e.data);
+      const data = JSON.parse(e.data) as {
+        Data: {
+          Meta: {
+            CurrentPage: number;
+            TotalPages: number;
+          };
+          Conversations: IConversation[];
+        };
+        Type: string;
+      };
 
-      if (data.Type === "LIST_CONVERSATIONS")
-        dispatch(
-          setAssignedConversations(data.Data.Conversations as IConversation[])
-        );
+      if (data.Type === "LIST_CONVERSATIONS") {
+        if (meta.current.CurrentPage === 1 && meta.current) {
+          meta.current = data.Data.Meta;
+          console.log(
+            "chaiiiiii",
+            data.Data.Meta,
+            meta.current.CurrentPage === 1,
+            stableConversations.current,
+            meta.current.CurrentPage
+          );
 
-      return e;
+          dispatch(
+            setAssignedConversations(data.Data.Conversations as IConversation[])
+          );
+          stableConversations.current = data.Data
+            .Conversations as IConversation[];
+        } else if (meta.current.TotalPages !== 0) {
+          console.log({ ...stableConversations.current }, "-------");
+          dispatch(
+            setAssignedConversations([
+              // ...stableConversations.current,
+              ...assignedConversations,
+              ...data.Data.Conversations
+            ] as IConversation[])
+          );
+          // meta.current = {
+          //   ...meta.current,
+          //   CurrentPage: meta.current.CurrentPage + 1
+          // };
+        }
+
+        return e;
+      }
     }
-
     socket.addEventListener("message", handler);
 
-    getAssignedConversations(socket);
+    if (meta.current.CurrentPage === 1 && !assignedConversations?.length)
+      getAssignedConversations(socket);
 
     return () => {
       socket.removeEventListener("message", handler);
     };
-  }, [socket, dispatch]);
+  }, [socket, dispatch, assignedConversations]);
 
   // useEffect(() => {
   //   if (!socket) return;
@@ -239,6 +280,7 @@ const UserChat: React.FC<{ showConversation?: boolean }> = ({
               }`}
             >
               <ChatHistory
+                meta={meta}
                 filter={filter}
                 onClickConversation={setConversation}
                 conversations={finalConversationList || []}

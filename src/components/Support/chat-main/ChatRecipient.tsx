@@ -16,6 +16,35 @@ const ChatRecipient: React.FC<{ conversation?: IConversation }> = ({
   const socket = useWebSocket();
   const recipient = useMemo(() => conversation?.User, [conversation?.User]);
 
+  useEffect(() => {
+    if (!socket || !conversation?.Id) return;
+
+    setTimeout(() => {
+      getRecipientStatus(socket, conversation.Id);
+    }, 3000);
+  }, [conversation?.Id, socket]);
+
+  useEffect(() => {
+    if (!socket) return;
+
+    function handler(e: MessageEvent<any>) {
+      const msg = JSON.parse(e.data) as {
+        Data: {
+          active: boolean;
+        };
+        Type: string;
+      };
+
+      if (msg.Type === "RECIPIENT_STATUS") setIsOnline(msg.Data.active);
+    }
+
+    socket.addEventListener("message", handler);
+
+    return () => {
+      socket.removeEventListener("message", handler);
+    };
+  }, [socket]);
+
   // console.log({ socket }, "socket");
 
   // useEffect(() => {

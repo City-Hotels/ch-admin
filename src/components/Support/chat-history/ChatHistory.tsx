@@ -12,6 +12,7 @@ import dayjs from "dayjs";
 import { useSelector } from "react-redux";
 // import { getChatConnection } from "@/store/slice/socket/socket.slice";
 import React, {
+  MutableRefObject,
   useCallback,
   useEffect,
   useMemo,
@@ -26,7 +27,9 @@ import { IConversation, MessageStatus } from "@/services/support/payload";
 import Avatar from "@/components/Avatar/Avatar";
 import Popup from "../Popup";
 import { convertGrpcDate } from "@/utils/helpers";
-import { usePathname, useRouter } from "next/navigation";
+import { usePathname, useRouter, useSearchParams } from "next/navigation";
+import { getAssignedConversations } from "@/services/support";
+import { useWebSocket } from "@/context/WebSocketContext";
 
 const ChatItem: React.FC<{
   conversation: IConversation;
@@ -35,7 +38,15 @@ const ChatItem: React.FC<{
   isStarred: boolean;
   toggleStar: () => void;
   filter: string;
-}> = ({ conversation, isActive, isStarred, toggleStar, filter }) => {
+  currentPage: number;
+}> = ({
+  conversation,
+  isActive,
+  isStarred,
+  toggleStar,
+  filter,
+  currentPage
+}) => {
   const user = useSelector(selectCurrentUser);
 
   const date =
@@ -58,7 +69,7 @@ const ChatItem: React.FC<{
       className={`flex w-full cursor-pointer flex-row items-center border-b px-3  py-2 hover:bg-white100 ${
         isActive && "bg-white100"
       }`}
-      href={`/support/${conversation.Id}${filter ? `?history=${filter}` : ""}`}
+      href={`/support/${conversation.Id}${filter ? `?history=${filter}${currentPage > 1 ? `&page=${currentPage}` : ""}` : ""}`}
     >
       <div>
         <Avatar
@@ -120,19 +131,27 @@ const ChatHistory: React.FC<{
   title?: string;
   activeConversation: string;
   filter: string;
+  meta: MutableRefObject<{
+    CurrentPage: number;
+    TotalPages: number;
+  }>;
 }> = ({
   onClickConversation,
   conversations,
   activeConversation,
   title = "All Messages",
-  filter
+  filter,
+  meta
 }) => {
   const [starredConversations, setStarredConversations] = useState<string[]>(
     []
   );
+  const socket = useWebSocket();
 
   const router = useRouter();
   const pathname = usePathname();
+  const searchParams = useSearchParams();
+  const pageNum = searchParams.get("page") || 1;
 
   const toggleStarredConversation = useCallback(
     (conversationId: string) => {
@@ -180,6 +199,47 @@ const ChatHistory: React.FC<{
     return () => {};
   }, []);
 
+  const ref = useRef<HTMLDivElement | null>(null);
+
+  useEffect(() => {
+    const divEl = ref.current;
+
+    const observer = new IntersectionObserver(
+      (entries: IntersectionObserverEntry[]) => {
+        const [entry] = entries;
+
+        console.log({
+          cur: meta.current.CurrentPage,
+          lim: meta.current.TotalPages
+        });
+
+        if (
+          entry.isIntersecting &&
+          meta.current.CurrentPage !== meta.current.TotalPages &&
+          meta.current.TotalPages !== 0
+        ) {
+          console.log("works-------------", entry);
+          if (filter === "active" && socket)
+            getAssignedConversations(socket, meta.current.CurrentPage + 1);
+          meta.current = {
+            ...meta.current,
+            CurrentPage: meta.current.CurrentPage + 1
+          };
+        }
+      },
+      {
+        root: null,
+        threshold: 0.1
+      }
+    );
+
+    if (divEl) observer.observe(divEl);
+
+    return () => {
+      if (divEl) observer.unobserve(divEl);
+    };
+  }, [filter, meta, socket, router, pathname]);
+
   return (
     <div className="">
       <div className="sticky top-0 z-20 bg-white dark:bg-slate-900 p-3">
@@ -216,6 +276,7 @@ const ChatHistory: React.FC<{
       <div className="flex flex-col">
         {conversations.map((convo: IConversation) => (
           <ChatItem
+            currentPage={+pageNum || meta.current.CurrentPage}
             filter={filter}
             isStarred={!!starredConversations.find((item) => item === convo.Id)}
             conversation={convo}
@@ -226,6 +287,13 @@ const ChatHistory: React.FC<{
           />
         ))}
       </div>
+      {conversations?.length > 0 &&
+        meta.current.CurrentPage !== meta.current.TotalPages &&
+        meta.current.TotalPages !== 0 && (
+          <div className="h-20" ref={ref}>
+            hahahahaha
+          </div>
+        )}
     </div>
   );
 };

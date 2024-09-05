@@ -8,14 +8,30 @@ export const getUserConversations = (socket: WebSocket) => {
   socket.send(JSON.stringify(msg));
 };
 
-export const getAssignedConversations = (socket: WebSocket) => {
+export const getAssignedConversations = (
+  socket: WebSocket,
+  CurrentPage?: number
+) => {
   const msg = {
-    Data: {},
+    Data: {
+      Meta: {
+        CurrentPage
+      }
+    },
     Type: "LIST_ASSIGNED_CONVERSATIONS"
   };
 
   socket.send(JSON.stringify(msg));
 };
+
+// {
+//   "Data": {
+//     "Meta":{
+//       "CurrentPage":2
+//     }
+//   },
+//   "Type": "LIST_ASSIGNED_CONVERSATIONS"
+// }
 
 export const getTicketsList = (socket: WebSocket) => {
   const msg = {
@@ -141,9 +157,12 @@ export const updateConversationStatus = (
   socket: WebSocket,
   ConversationId: string
 ) => {
+  console.log("works-------hahahaha");
+
   const msg = {
     Data: {
-      ConversationId
+      ConversationId,
+      Status: 1
     },
     Type: "MESSAGE_READ"
   };
@@ -152,7 +171,8 @@ export const updateConversationStatus = (
 
 // {
 //   "Data": {
-//     "conversationId":"66b042800ba5b8ca81393a3e"
+//     "conversationId":"66cc67b32dd4fcbdef309e05",
+//     "Status":1
 //   },
 
 //   "Type": "MESSAGE_READ"
@@ -206,24 +226,16 @@ export async function uploadSupportChatImages(
   return res;
 }
 
-// {
-//   "Data": {
-//       "ConversationId": "",
-//       "Message": "ticket test",
-//       "Recipient": {
-//           "Id": "d73bc724-9656-4f74-a174-9a538381ce57"
-//       }
-//   },
-//   "Type": "POST_MESSAGE"
-// }
-
 export const getRecipientStatus = (
   socket: WebSocket,
   ConversationId: string
 ) => {
   const msg = {
-    ConversationId,
+    Data: {
+      ConversationId
+    },
     Type: "RECIPIENT_STATUS"
   };
+
   socket.send(JSON.stringify(msg));
 };
