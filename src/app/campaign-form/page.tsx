@@ -58,10 +58,12 @@ const FormLayout = () => {
 
 
   const { mutate, isLoading: loading } = useMutation(submitCampaign);
+  
   const handleSubmit = (values: typeof formData) => {
     mutate(values, {
-      onSuccess(data) {
-        router.push("");
+      onSuccess(res) {
+        router.push(`/campaigns/${res.data.Id}`);
+        console.log("data" + res.data.Id)
       }
     });
   };

@@ -11,6 +11,7 @@ export interface IPromotion {
   ShortDescription?: string;
   StartDate?: IGRPCDate;
   Status?: PromotionStatus;
+  Slug?: string;
   SubTitle?: string;
   Title?: string;
   Type?: PromotionType;

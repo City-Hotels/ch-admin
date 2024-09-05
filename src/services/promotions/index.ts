@@ -43,6 +43,12 @@ const getCampaigns = (
   });
 };
 
+const getPromotion = (promotionId: string) => {
+  return getRequest<IPromotion>({
+    url: `/promotions/${promotionId}`
+  });
+};
+
 const submitCampaign = (data: IPromotion) => {
   return postRequest<IPromotion, { Id: string }>({
     url: "/promotions/campaigns",
@@ -50,4 +56,4 @@ const submitCampaign = (data: IPromotion) => {
   });
 };
 
-export { getMemberships, getCampaigns, submitCampaign };
+export { getMemberships, getCampaigns, submitCampaign, getPromotion };
