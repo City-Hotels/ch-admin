@@ -225,26 +225,6 @@ const CampaignsTable: React.FC<{
               );
             }
           },
-
-          {
-            key: "Type",
-            title: "PROMOTION TYPE",
-            headerClass:
-              "font-matter py-2 whitespace-nowrap text-[12px] font-normal leading-[150%] text-white",
-            width: "10%",
-            render(_column, item) {
-              return (
-                <div
-                  className={`text-[var(--grey-grey-600, #5D6679);] text-[14px] leading-[150%]`}
-                >
-                  <div className="text-[14px]">
-                    {item?.Type === PromotionType.REGULAR && "Regular"}
-                    {item?.Type === PromotionType.SPECIAL && "Special"}
-                  </div>
-                </div>
-              );
-            }
-          },
           {
             key: "Status",
             title: "PROMOTION STATUS",
