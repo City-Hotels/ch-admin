@@ -43,7 +43,6 @@ const Price: React.FC<FormProps> = ({ onSubmit }) => {
         validationSchema={priceSchema}
       >
         {({ handleSubmit, errors, setFieldValue }) => {
-          console.log({ errors });
           return (
             <form onSubmit={handleSubmit}>
               <div>

@@ -65,7 +65,7 @@ const Requirements: React.FC<FormProps> = ({ onSubmit }) => {
         onSubmit={handleSubmit}
         validationSchema={requirementSchema}
       >
-        {({ handleSubmit, errors, setFieldValue  }) => {
+        {({ handleSubmit, errors, setFieldValue }) => {
           return (
             <form onSubmit={handleSubmit}>
               <div className="px-6.5">
@@ -129,18 +129,20 @@ const Requirements: React.FC<FormProps> = ({ onSubmit }) => {
                     </div>
                   </div>
 
-                  <Dropdown
-                    options={maxMembershipBookings}
+                  <Input
+                    label="Max number of Bookings"
+                    title="Max number of Bookings"
+                    required
                     name={"Max number of Bookings"}
-                    label=" Max Number of Bookings"
-                    className="mb-9 w-full"
+                    className="w-[4%]"
                   />
 
-                  <Dropdown
-                    options={minMembershipBookings}
+                  <Input
+                    label="Min number of Bookings"
+                    title="Min number of Bookings"
+                    required
                     name={"Min number of Bookings"}
-                    label=" Min Number of Bookings"
-                    className="mb-9 w-full"
+                    className="w-[4%]"
                   />
 
                   <Input
@@ -164,7 +166,10 @@ const Requirements: React.FC<FormProps> = ({ onSubmit }) => {
                         id="all"
                         name="accountType"
                         value="All"
-                        onChange={(ev) => ev.currentTarget.checked && setFieldValue("accountType", "All")}
+                        onChange={(ev) =>
+                          ev.currentTarget.checked &&
+                          setFieldValue("accountType", "All")
+                        }
                       />
                     </div>
 
@@ -175,7 +180,10 @@ const Requirements: React.FC<FormProps> = ({ onSubmit }) => {
                         id="business"
                         name="accountType"
                         value="Business"
-                        onChange={(ev) => ev.currentTarget.checked && setFieldValue("accountType", "Business")}
+                        onChange={(ev) =>
+                          ev.currentTarget.checked &&
+                          setFieldValue("accountType", "Business")
+                        }
                       />
                     </div>
 
@@ -186,7 +194,10 @@ const Requirements: React.FC<FormProps> = ({ onSubmit }) => {
                         id="apartment"
                         name="accountType"
                         value="Apartment"
-                        onChange={(ev) => ev.currentTarget.checked && setFieldValue("accountType", "Apartment")}
+                        onChange={(ev) =>
+                          ev.currentTarget.checked &&
+                          setFieldValue("accountType", "Apartment")
+                        }
                       />
                     </div>
                   </div>

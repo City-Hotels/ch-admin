@@ -13,7 +13,7 @@ import { useRouter } from "next/navigation";
 import queryKeys from "@/utils/api/queryKeys";
 import FormProps from "./Accoout.props";
 
-const AccountInfoForm: React.FC<FormProps> = ({ onSubmit }) =>  {
+const AccountInfoForm: React.FC<FormProps> = ({ onSubmit }) => {
   const initialValues: IPromotion = {
     Name: "",
     Title: "",
@@ -40,11 +40,8 @@ const AccountInfoForm: React.FC<FormProps> = ({ onSubmit }) =>  {
   const memberships = (data?.data.Promotions as IPromotion[]) || [];
 
   const MaxParticipant = memberships.flatMap((item) => ({
-    label: String(item.MaxParticipant),
-    value: String(item.Id)
+    value: String(item.MaxParticipant),
   }));
-
-  const router = useRouter();
 
   const { mutate, isLoading: loading } = useMutation(submitCampaign);
 
@@ -57,7 +54,7 @@ const AccountInfoForm: React.FC<FormProps> = ({ onSubmit }) =>  {
       >
         {({ handleSubmit }) => (
           <form onSubmit={handleSubmit}>
-            <div  className="px-6.5 pt-6">
+            <div className="px-6.5 pt-6">
               <div className="mb-4.5 flex flex-col gap-6 xl:flex-row">
                 <div className="w-full xl:w-1/2">
                   <Input label="Name" name="Name" />
@@ -96,11 +93,13 @@ const AccountInfoForm: React.FC<FormProps> = ({ onSubmit }) =>  {
                 />
               </div>
 
-              <Dropdown
-                options={MaxParticipant}
+              <Input
+                label="MaxParticipant"
+                title="MaxParticipant"
+                type="number"
+                required
                 name={"MaxParticipant"}
-                label=" Max Number of Participant"
-                className="mb-9 w-full"
+                className="w-[4%]"
               />
             </div>
 
