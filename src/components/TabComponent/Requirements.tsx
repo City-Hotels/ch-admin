@@ -41,15 +41,6 @@ const Requirements: React.FC<FormProps> = ({ onSubmit }) => {
   );
   const memberships = (data?.data.Promotions as IPromotion[]) || [];
 
-  const maxMembershipBookings = memberships.flatMap((item) => ({
-    label: String(item.Requirement?.MaximumBooking),
-    value: String(item.Id)
-  }));
-
-  const minMembershipBookings = memberships.map((item) => ({
-    label: String(item.Requirement?.MinimumBooking ?? "no value"),
-    value: String(item.Id)
-  }));
 
   const router = useRouter();
   const { mutate, isLoading: loading } = useMutation(submitCampaign);

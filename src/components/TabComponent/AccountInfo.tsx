@@ -9,11 +9,11 @@ import TextArea from "../formik/textarea/TextArea";
 import Dropdown from "../formik/input/dropdown/Dropdowns";
 import { useMutation, useQuery } from "react-query";
 import { getMemberships, submitCampaign } from "@/services/promotions";
-import { useRouter } from "next/navigation";
 import queryKeys from "@/utils/api/queryKeys";
 import FormProps from "./Accoout.props";
 
 const AccountInfoForm: React.FC<FormProps> = ({ onSubmit }) => {
+  const [isSubmitting, setSubmitting] = React.useState(false);
   const initialValues: IPromotion = {
     Name: "",
     Title: "",
@@ -32,6 +32,7 @@ const AccountInfoForm: React.FC<FormProps> = ({ onSubmit }) => {
 
   const handleSubmit = (values: IPromotion) => {
     onSubmit(values);
+    setSubmitting(true)
   };
 
   const { isLoading, refetch, data } = useQuery([queryKeys.getPromotions], () =>
@@ -39,9 +40,6 @@ const AccountInfoForm: React.FC<FormProps> = ({ onSubmit }) => {
   );
   const memberships = (data?.data.Promotions as IPromotion[]) || [];
 
-  const MaxParticipant = memberships.flatMap((item) => ({
-    value: String(item.MaxParticipant),
-  }));
 
   const { mutate, isLoading: loading } = useMutation(submitCampaign);
 
@@ -99,7 +97,7 @@ const AccountInfoForm: React.FC<FormProps> = ({ onSubmit }) => {
                 type="number"
                 required
                 name={"MaxParticipant"}
-                className="w-[4%]"
+                className="w-[6%]"
               />
             </div>
 
@@ -108,7 +106,7 @@ const AccountInfoForm: React.FC<FormProps> = ({ onSubmit }) => {
               size="lg"
               className="flex w-full justify-center rounded bg-primary400 p-3 font-medium text-gray hover:bg-opacity-90"
               type="submit"
-              isLoading={loading}
+              isLoading={isSubmitting}
             >
               Next
             </Button>

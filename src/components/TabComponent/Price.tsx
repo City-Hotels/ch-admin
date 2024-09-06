@@ -10,6 +10,7 @@ import { useRouter } from "next/navigation";
 import FormProps from "./Accoout.props";
 
 const Price: React.FC<FormProps> = ({ onSubmit }) => {
+  const [isSubmitting, setSubmitting] = React.useState(false);
   const initialValues: IPromotion = {
     Pricing: {
       BookingDiscount: 0,
@@ -32,6 +33,7 @@ const Price: React.FC<FormProps> = ({ onSubmit }) => {
 
   const handleSubmit = (values: IPromotion) => {
     onSubmit(values);
+    setSubmitting(true)
     console.log({ values });
   };
 
@@ -112,7 +114,7 @@ const Price: React.FC<FormProps> = ({ onSubmit }) => {
                 size="lg"
                 className="flex w-full justify-center rounded bg-primary400 p-3 font-medium text-gray hover:bg-opacity-90"
                 type="submit"
-                isLoading={loading}
+                isLoading={isSubmitting}
               >
                 Next
               </Button>
