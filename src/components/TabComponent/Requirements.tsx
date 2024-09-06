@@ -41,7 +41,6 @@ const Requirements: React.FC<FormProps> = ({ onSubmit }) => {
   );
   const memberships = (data?.data.Promotions as IPromotion[]) || [];
 
-
   const router = useRouter();
   const { mutate, isLoading: loading } = useMutation(submitCampaign);
 
@@ -75,6 +74,7 @@ const Requirements: React.FC<FormProps> = ({ onSubmit }) => {
                             typeof="text"
                             required
                             name={"City"}
+                            className="text-sm"
                           />
                         </div>
                         <div className="w-full xl:w-1/2">
@@ -84,6 +84,7 @@ const Requirements: React.FC<FormProps> = ({ onSubmit }) => {
                             typeof="text"
                             required
                             name={"Country"}
+                            className="text-sm"
                           />
                         </div>
                       </div>
@@ -96,6 +97,7 @@ const Requirements: React.FC<FormProps> = ({ onSubmit }) => {
                             typeof="text"
                             required
                             name={"PostalCode"}
+                            className="text-sm"
                           />
                         </div>
                         <div className="w-full xl:w-1/2">
@@ -105,6 +107,7 @@ const Requirements: React.FC<FormProps> = ({ onSubmit }) => {
                             typeof="text"
                             required
                             name={"State"}
+                            className="text-sm"
                           />
                         </div>
                       </div>
@@ -115,6 +118,7 @@ const Requirements: React.FC<FormProps> = ({ onSubmit }) => {
                           typeof="text"
                           required
                           name={"Street"}
+                          className="text-sm"
                         />
                       </div>
                     </div>
@@ -193,17 +197,17 @@ const Requirements: React.FC<FormProps> = ({ onSubmit }) => {
                     </div>
                   </div>
                 </div>
-              </div>
 
-              <Button
-                color="primary"
-                size="lg"
-                className="flex w-full justify-center rounded bg-primary400 p-3 font-medium text-gray hover:bg-opacity-90"
-                type="submit"
-                isLoading={loading}
-              >
-                Next
-              </Button>
+                <Button
+                  color="primary"
+                  size="lg"
+                  className="flex w-full justify-center rounded bg-primary400 p-3 font-medium text-gray hover:bg-opacity-90 mb-6"
+                  type="submit"
+                  isLoading={loading}
+                >
+                  Next
+                </Button>
+              </div>
             </form>
           );
         }}

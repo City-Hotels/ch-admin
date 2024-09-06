@@ -33,7 +33,7 @@ const Price: React.FC<FormProps> = ({ onSubmit }) => {
 
   const handleSubmit = (values: IPromotion) => {
     onSubmit(values);
-    setSubmitting(true)
+    setSubmitting(true);
     console.log({ values });
   };
 
@@ -60,6 +60,7 @@ const Price: React.FC<FormProps> = ({ onSubmit }) => {
                       typeof="number"
                       required
                       name={"BookingDiscount"}
+                      className="text-sm"
                     />
                   </div>
                   <div className="mb-4.5">
@@ -69,6 +70,7 @@ const Price: React.FC<FormProps> = ({ onSubmit }) => {
                       typeof="number"
                       required
                       name={"Rate"}
+                      className="text-sm"
                     />
                   </div>
                   <div className="mb-4.5">
@@ -77,6 +79,7 @@ const Price: React.FC<FormProps> = ({ onSubmit }) => {
                       title="Unit"
                       typeof="text"
                       name="Unit"
+                      className="text-sm"
                     />
                   </div>
 
@@ -91,7 +94,10 @@ const Price: React.FC<FormProps> = ({ onSubmit }) => {
                           type="radio"
                           name="PricingType"
                           value={"Subscriptions"}
-                          onChange={(ev) => ev.currentTarget.checked && setFieldValue("PricingType", "Subscriptions")}
+                          onChange={(ev) =>
+                            ev.currentTarget.checked &&
+                            setFieldValue("PricingType", "Subscriptions")
+                          }
                         />
                       </div>
 
@@ -101,23 +107,26 @@ const Price: React.FC<FormProps> = ({ onSubmit }) => {
                           type="radio"
                           name="PricingType"
                           value={"Commision"}
-                          onChange={(ev) => ev.currentTarget.checked && setFieldValue("PricingType", "Commision")}
+                          onChange={(ev) =>
+                            ev.currentTarget.checked &&
+                            setFieldValue("PricingType", "Commision")
+                          }
                         />
                       </div>
                     </div>
                   </div>
                 </div>
-              </div>
 
-              <Button
-                color="primary"
-                size="lg"
-                className="flex w-full justify-center rounded bg-primary400 p-3 font-medium text-gray hover:bg-opacity-90"
-                type="submit"
-                isLoading={isSubmitting}
-              >
-                Next
-              </Button>
+                <Button
+                  color="primary"
+                  size="lg"
+                  className="flex w-full justify-center rounded bg-primary400 p-3 font-medium text-gray hover:bg-opacity-90 mb-6"
+                  type="submit"
+                  isLoading={isSubmitting}
+                >
+                  Next
+                </Button>
+              </div>
             </form>
           );
         }}
