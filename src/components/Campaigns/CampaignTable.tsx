@@ -232,7 +232,8 @@ const CampaignsTable: React.FC<{
               "font-matter py-2 whitespace-nowrap text-[12px] font-normal leading-[150%] text-white",
             width: "10%",
             render(_column, item) {
-              return (
+              if (!item.Status) item.Status = PromotionStatus.PENDING
+              return (             
                 <div
                   className={` ${
                     (item.Status === PromotionStatus.PENDING &&
