@@ -24,9 +24,11 @@ export interface PromotionFilter {
   Page?: number;
   Name?: string;
   Id?: string;
-  MaxParticipant?: Number;
+  MaxParticipant?: number;
+  Requirements?: IRequirement;
+  Price?: string;
   ShortDescription?: string;
-  Status?: PromotionStatus;
+  Status?: PromotionFilterStatus;
   Title?: string;
   Type?: PromotionType;
   StartDate?: IGRPCDate;
@@ -76,9 +78,14 @@ export enum AccountType {
 }
 
 export enum PromotionStatus {
-  ACCEPTED = 0,
-  PENDING = 1,
-  DECLINED = 2
+  INACTIVE = 0,
+  ACTIVE = 1,
+  EXPIRED = 2
+}
+export enum PromotionFilterStatus {
+  ACTIVE = "ACTIVE",
+  INACTIVE = "INACTIVE",
+  EXPIRED = "EXPIRED"
 }
 
 export enum PromotionType {
