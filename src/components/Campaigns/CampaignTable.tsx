@@ -11,7 +11,7 @@ import { usePagination } from "../Tables/Table/Pagination";
 import { Table } from "../Tables/Table/Table";
 import { convertGrpcDate } from "@/utils/helpers";
 import Input from "../Inputs/Input/Input";
-import { getMemberships } from "@/services/promotions/index";
+import { getCampaigns } from "@/services/promotions/index";
 import {
   IPromotion,
   PromotionFilter,
@@ -33,9 +33,9 @@ const MembershipTable: React.FC<{
 
   const { isLoading, refetch, data } = useQuery(
     [queryKeys.getPromotions, Limit, Page, tableFilter],
-    () => getMemberships({ Limit, ...tableFilter, Page })
+    () => getCampaigns({ Limit, ...tableFilter, Page })
   );
-  const memberships = (data?.data.Promotions as IPromotion[]) || [];
+  const campaigns = (data?.data.Promotions as IPromotion[]) || [];
   const meta = (data?.data.Meta as Meta) || [];
 
   const { currentPage, perPage, handlePageChange } = usePagination({
@@ -49,7 +49,7 @@ const MembershipTable: React.FC<{
   return (
     <div className="bg-white p-2 rounded-md">
       <H4 className="p-2 text-black">
-        Memberships {meta.TotalCount && <span>({meta.TotalCount})</span>}
+        Campaigns {meta.TotalCount && <span>({meta.TotalCount})</span>}
       </H4>
       <Table
         withPagination={!hidePagination}
@@ -107,25 +107,25 @@ const MembershipTable: React.FC<{
                           }}
                         >
                           {promotionStatus}
-                          {`(${memberships.length})`}
+                          {`(${campaigns.length})`}
 
                           {promotionStatus === PromotionStatus.ACTIVE &&
                             `(${
-                              memberships.filter(
+                              campaigns.filter(
                                 (item: IPromotion) =>
                                   item.Status === PromotionStatus.ACTIVE
                               ).length
                             })`}
                           {promotionStatus === PromotionStatus.INACTIVE &&
                             `(${
-                              memberships.filter(
+                              campaigns.filter(
                                 (item: IPromotion) =>
                                   item.Status === PromotionStatus.INACTIVE
                               ).length
                             })`}
                           {promotionStatus === PromotionStatus.EXPIRED &&
                             `(${
-                              memberships.filter(
+                              campaigns.filter(
                                 (item: IPromotion) =>
                                   item.Status === PromotionStatus.EXPIRED
                               ).length
@@ -263,7 +263,7 @@ const MembershipTable: React.FC<{
             }
           }
         ]}
-        data={memberships}
+        data={campaigns}
         isLoading={isLoading}
       />
       <Modal

@@ -1,40 +1,32 @@
-import type { FC, ChangeEvent } from "react";
+import type { FC } from "react";
 import React, { useEffect, useState } from "react";
-import StarIcon from "@/assets/icons/star.svg";
 import styles from "./Filter.module.scss";
 import type FilterProps from "./Filter.props";
 import Close from "../../../assets/icons/close.svg";
 import Search from "../../../assets/icons/search.svg";
 import { H4, P2 } from "@/components/Headings/Headings";
-import Checkbox from "@/components/Inputs/checkbox/Checkbox";
-import Button from "@/components/Button/Button";
-import { BookingFilter, BookingFilterStatus, BookingFilterTypes, BookingReviewFilterStatus, BookingReviewStatus } from "@/services/booking/payload";
-import Radio from "@/components/Inputs/radio/Radio";
 import CheckboxTwo from "@/components/Checkboxes/CheckboxTwo";
-import dayjs from "dayjs";
-import { PromotionFilter, PromotionStatus, PromotionType } from "@/services/promotions/payload";
+import {
+  PromotionFilter,
+  PromotionFilterStatus} from "@/services/promotions/payload";
 
 const Filter: FC<FilterProps> = ({ className, onClose, setFilter, filter }) => {
-
-  const [filters, updateFilter] = useState<PromotionFilter>(filter)
+  const [filters, updateFilter] = useState<PromotionFilter>(filter);
 
   const handleFilterClick = (e: { stopPropagation: () => void }) => {
-    e.stopPropagation(); 
+    e.stopPropagation();
   };
   const handleCloseClick = () => {
     if (onClose) {
-      onClose(); 
+      onClose();
     }
   };
 
   useEffect(() => {
-    updateFilter(filter)
+    updateFilter(filter);
 
-    return () => {
-
-    }
-  }, [filter])
-
+    return () => {};
+  }, [filter]);
 
   return (
     <div className={styles.filter_nav_container}>
@@ -51,36 +43,85 @@ const Filter: FC<FilterProps> = ({ className, onClose, setFilter, filter }) => {
           </div>
           <div className={styles.filterForm}>
             <div className={`${styles.labelContainer}`}>
-              <P2 className="font-bold leading-[150%] text-black">
-                Title
-              </P2>
+              <P2 className="font-bold leading-[150%] text-black">Title</P2>
 
               <div className={`${styles.input}`}>
                 <Search className="text-black" />
                 <input
-                  placeholder="Service Host"
+                  placeholder="e.g: Kaiser Royale"
                   className={`${styles.innerInput}`}
                   value={filters.Title}
-                  onChange={(ev) => setFilter({ ...filters, Title: ev.currentTarget.value })}
+                  onChange={(ev) =>
+                    setFilter({ ...filters, Title: ev.currentTarget.value })
+                  }
                 />
               </div>
             </div>
+
             <div className={`${styles.labelContainer}`}>
               <P2 className="font-bold leading-[150%] text-black">
-                Name
+                Short Description
               </P2>
 
               <div className={`${styles.input}`}>
                 <Search className="text-black" />
                 <input
-                  placeholder="Search Guest"
+                  placeholder="e.g: Elegance and Prestigue"
                   className={`${styles.innerInput}`}
-                  value={filters.Name}
-                  onChange={(ev) => setFilter({ ...filters, Name: ev.currentTarget.value })}
+                  value={filters.ShortDescription}
+                  onChange={(ev) =>
+                    setFilter({
+                      ...filters,
+                      ShortDescription: ev.currentTarget.value
+                    })
+                  }
                 />
               </div>
             </div>
 
+            <div className={`${styles.labelContainer}`}>
+              <P2 className="font-bold leading-[150%] text-black">Price</P2>
+
+              <div className={`${styles.input}`}>
+                <Search className="text-black" />
+                <input
+                  placeholder="Price"
+                  className={`${styles.innerInput}`}
+                  value={filters.Price}
+                  onChange={(ev) =>
+                    setFilter({
+                      ...filters,
+                      Price: ev.currentTarget.value
+                    })
+                  }
+                />
+              </div>
+            </div>
+
+            <div className={`${styles.labelContainer}`}>
+              <P2 className="font-bold leading-[150%] text-black">
+                Max Participants
+              </P2>
+
+              <div className={`${styles.input2}`}>
+                <input
+                  className={`${styles.innerInput}`}
+                  value={filters.MaxParticipant}
+                  onChange={(ev) => {
+                    const value = ev.currentTarget.value;
+                    // Check if the input is empty
+                    if (value === "") {
+                      setFilter({ ...filters, MaxParticipant: 0 }); // Set to null or undefined for an empty input
+                    } else if (!isNaN(parseInt(value, 10))) {
+                      setFilter({
+                        ...filters,
+                        MaxParticipant: parseInt(value, 10)
+                      });
+                    }
+                  }}
+                />
+              </div>
+            </div>
 
             <div className={`${styles.labelContainer}`}>
               <P2 className=" font-bold leading-[150%] text-black">
@@ -91,37 +132,40 @@ const Filter: FC<FilterProps> = ({ className, onClose, setFilter, filter }) => {
                 <CheckboxTwo
                   label="All"
                   name="Status"
-                  value={'All'}
+                  value={"All"}
                   checked={filter.Status === undefined}
                   onChange={(e) => setFilter({ ...filter, Status: undefined })}
                   className="my-4"
                 />
-                {Object.values(PromotionStatus)
+                {Object.values(PromotionFilterStatus)
                   .filter((value) => typeof value === "string")
-                  .map((promotionStatus) => (<CheckboxTwo
-                    name="Status"
-                    key={promotionStatus}
-                    label={promotionStatus as string}
-                    value={promotionStatus}
-                    checked={filters.Status === PromotionStatus[promotionStatus as keyof typeof PromotionStatus]}
-                    onClick={() => {
-                      setFilter({ ...filters, Status: PromotionStatus[promotionStatus as keyof typeof PromotionStatus]})
-                    }}
-                    className="my-4"
-                  />))}
+                  .map((promotionStatus) => (
+                    <CheckboxTwo
+                      name="Status"
+                      key={promotionStatus}
+                      label={promotionStatus as string}
+                      value={promotionStatus}
+                      checked={
+                        filters.Status ===
+                        PromotionFilterStatus[
+                          promotionStatus as keyof typeof PromotionFilterStatus
+                        ]
+                      }
+                      onClick={() => {
+                        setFilter({
+                          ...filters,
+                          Status:
+                            PromotionFilterStatus[
+                              promotionStatus as keyof typeof PromotionFilterStatus
+                            ]
+                        });
+                      }}
+                      className="my-4"
+                    />
+                  ))}
               </div>
             </div>
           </div>
-
-          {/* <div className={`${styles.clearFilterContainer}`}>
-            <div className="cursor-pointer font-matter-bold underline">
-              Clear Filter
-            </div>
-
-            <Button color="primary" size="lg">
-              Show 800+ Hotels
-            </Button>
-          </div> */}
         </div>
       </div>
     </div>

@@ -17,6 +17,9 @@
   .input {
     @apply py-3 px-3 pb-2 border mt-2 border-grey30 rounded-md flex items-center gap-4;
   }
+  .input2 {
+    @apply py-3 px-3 pb-2 border mt-2 border-grey30 rounded-md flex items-center gap-4 w-[15%];
+  }
   
   .innerInput {
     @apply h-[20px] outline-none w-[100%] text-white800;
