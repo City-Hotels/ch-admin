@@ -94,11 +94,11 @@ const Filter: FC<FilterProps> = ({ className, onClose, setFilter, filter }) => {
                 <input
                   placeholder="Price"
                   className={`${styles.innerInput}`}
-                  value={filters.ShortDescription}
+                  value={filters.Price}
                   onChange={(ev) =>
                     setFilter({
                       ...filters,
-                      ShortDescription: ev.currentTarget.value
+                      Price: ev.currentTarget.value
                     })
                   }
                 />
