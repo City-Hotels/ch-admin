@@ -39,13 +39,12 @@ const MembershipTable: React.FC<{
   const meta = (data?.data.Meta as Meta) || [];
 
   const { currentPage, perPage, handlePageChange } = usePagination({
-    defaultCurrentPage: Page,
+    defaultCurrentPage: 1,
     defaultPerPage: Limit,
     refetch: (page: number) => {
       setPage(page);
     }
   });
-
   return (
     <div className="bg-white p-2 rounded-md">
       <H4 className="p-2 text-black">
@@ -66,7 +65,7 @@ const MembershipTable: React.FC<{
                 <div className="md:min-w-[200px]">
                   <Input
                     type="search"
-                    placeholder="Membership Id"
+                    placeholder="Campaign Id"
                     className="w-full border border-[#EAEAEA] outline-none placeholder:text-[#666666] max-[425px]:w-[153px]"
                     value={tableFilter.Id}
                     onChange={(ev) =>
