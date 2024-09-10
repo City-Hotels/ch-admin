@@ -49,22 +49,22 @@ export type IPrice = {
 };
 
 export type IRequirement = {
-  Account: AccountType;
-  Location: IAddress;
-  MaximumBooking: Number;
-  MinimumBooking: Number;
-  ServiceType: String;
-  Promotions: IPromotion;
+  Account?: AccountType;
+  Location?: IAddress;
+  MaximumBooking?: number;
+  MinimumBooking?: number;
+  ServiceType?: String;
+  Promotions?: IPromotion;
 };
 
 export type IAddress = {
-  City: string;
-  Country: string;
-  Latitude: string;
-  Longitude: string;
-  PostalCode: string;
-  State: string;
-  Street: string;
+  City?: string;
+  Country?: string;
+  Latitude?: string;
+  Longitude?: string;
+  PostalCode?: string;
+  State?: string;
+  Street?: string;
 };
 
 export enum PricingType {
