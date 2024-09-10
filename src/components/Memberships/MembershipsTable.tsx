@@ -40,7 +40,7 @@ const MembershipTable: React.FC<{
   const meta = (data?.data.Meta as Meta) || [];
 
   const { currentPage, perPage, handlePageChange } = usePagination({
-    defaultCurrentPage: Page,
+    defaultCurrentPage: 1,
     defaultPerPage: Limit,
     refetch: (page: number) => {
       setPage(page);

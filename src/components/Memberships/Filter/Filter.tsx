@@ -1,20 +1,14 @@
-import type { FC, ChangeEvent } from "react";
+import type { FC } from "react";
 import React, { useEffect, useState } from "react";
-import StarIcon from "@/assets/icons/star.svg";
 import styles from "./Filter.module.scss";
 import type FilterProps from "./Filter.props";
 import Close from "../../../assets/icons/close.svg";
 import Search from "../../../assets/icons/search.svg";
-import { H4, P2 } from "@/components/Headings/Headings";
-import Checkbox from "@/components/Inputs/checkbox/Checkbox";
-import Button from "@/components/Button/Button";
-import Radio from "@/components/Inputs/radio/Radio";
+import { H2, H4, P2 } from "@/components/Headings/Headings";
 import CheckboxTwo from "@/components/Checkboxes/CheckboxTwo";
 import {
   PromotionFilter,
-  PromotionFilterStatus,
-  PromotionStatus,
-  PromotionType
+  PromotionFilterStatus
 } from "@/services/promotions/payload";
 
 const Filter: FC<FilterProps> = ({ className, onClose, setFilter, filter }) => {
@@ -41,14 +35,31 @@ const Filter: FC<FilterProps> = ({ className, onClose, setFilter, filter }) => {
         className={`${styles.filterOverlay} ${className}`}
         onClick={handleFilterClick}
       >
-        <div className={`${styles.filterContainer}`}>
+        <div className={`${styles.filterContainer} `}>
           <div className={`${styles.filter}`}>
             <div className={`${styles.filterTitle}`}>
               <Close className="cursor-pointer" onClick={handleCloseClick} />
               <H4 className="font-semibold">Filter by</H4>
             </div>
           </div>
+
           <div className={styles.filterForm}>
+            <div className={`${styles.labelContainer}`}>
+              <P2 className="font-bold leading-[150%] text-black">Name</P2>
+
+              <div className={`${styles.input}`}>
+                <Search className="text-black" />
+                <input
+                  placeholder="e.g: Kaiser Royale"
+                  className={`${styles.innerInput}`}
+                  value={filters.Name}
+                  onChange={(ev) =>
+                    setFilter({ ...filters, Name: ev.currentTarget.value })
+                  }
+                />
+              </div>
+            </div>
+
             <div className={`${styles.labelContainer}`}>
               <P2 className="font-bold leading-[150%] text-black">Title</P2>
 
@@ -67,19 +78,91 @@ const Filter: FC<FilterProps> = ({ className, onClose, setFilter, filter }) => {
 
             <div className={`${styles.labelContainer}`}>
               <P2 className="font-bold leading-[150%] text-black">
-                Short Description
+                Maximum Bookings
               </P2>
+
+              <div className={`${styles.input2}`}>
+                <input
+                  id="maximumBooking"
+                  className="w-full outline-none"
+                  value={filters.Requirements?.MaximumBooking || 0} // Default to 0 if undefined
+                  onChange={(ev) => {
+                    const value = ev.currentTarget.value;
+                    if (value == "") {
+                      setFilter({
+                        ...filters,
+                        Requirements: {
+                          ...filters.Requirements,
+                          MaximumBooking: 0 // Parse to number
+                        }
+                      });
+                    } else if (!isNaN(parseInt(value, 10))) {
+                      setFilter({
+                        ...filters,
+                        Requirements: {
+                          ...filters.Requirements,
+                          MaximumBooking: parseInt(ev.target.value, 10) // Parse to number
+                        }
+                      });
+                    }
+                  }}
+                />
+              </div>
+            </div>
+
+            <div className={`${styles.labelContainer}`}>
+              <P2 className="font-bold leading-[150%] text-black">
+                Minimum Bookings
+              </P2>
+
+              <div className={`${styles.input2}`}>
+                <input
+                  id="minimumBooking"
+                  className="w-full outline-none"
+                  value={filters.Requirements?.MinimumBooking || 0} // Default to 0 if undefined
+                  onChange={(ev) => {
+                    const value = ev.currentTarget.value;
+                    if (value == "") {
+                      setFilter({
+                        ...filters,
+                        Requirements: {
+                          ...filters.Requirements,
+                          MinimumBooking: 0 // Parse to number
+                        }
+                      });
+                    } else if (!isNaN(parseInt(value, 10))) {
+                      setFilter({
+                        ...filters,
+                        Requirements: {
+                          ...filters.Requirements,
+                          MinimumBooking: parseInt(ev.target.value, 10) // Parse to number
+                        }
+                      });
+                    }
+                  }}
+                />
+              </div>
+            </div>
+
+            <div className={`${styles.labelContainer}`}>
+              <P2 className="font-bold leading-[150%] text-black">Country</P2>
 
               <div className={`${styles.input}`}>
                 <Search className="text-black" />
                 <input
-                  placeholder="e.g: Elegance and Prestigue"
+                  placeholder="e.g: Nigeria"
                   className={`${styles.innerInput}`}
-                  value={filters.ShortDescription}
+                  value={filters.Price}
                   onChange={(ev) =>
                     setFilter({
                       ...filters,
-                      ShortDescription: ev.currentTarget.value
+                      Requirements: {
+                        ...filters.Requirements,
+                        Location: {
+                          ...filters.Requirements?.Location,
+                          Country: ev.currentTarget.value
+                        }
+                      }
                     })
                   }
                 />
