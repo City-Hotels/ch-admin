@@ -9,14 +9,14 @@ import dayjs from "dayjs";
 import type { Meta } from "@/utils/api/calls";
 import { usePagination } from "../Tables/Table/Pagination";
 import { Table } from "../Tables/Table/Table";
-import { convertGrpcDate, } from "@/utils/helpers";
+import { convertGrpcDate } from "@/utils/helpers";
 import Input from "../Inputs/Input/Input";
 import { getMemberships } from "@/services/promotions/index";
 import {
   IPromotion,
   PromotionFilter,
   PromotionFilterStatus,
-  PromotionStatus,
+  PromotionStatus
 } from "@/services/promotions/payload";
 import FilterComponent from "./Filter/Filter";
 import Modal from "../Modal/Modal";
@@ -27,9 +27,8 @@ const MembershipTable: React.FC<{
   hidePagination?: boolean;
   Filter: PromotionFilter;
 }> = ({ Limit, Filter, hidePagination }) => {
-
   const [Page, setPage] = useState(1);
-  const [tableFilter, setTableFilter] = useState({...Filter})
+  const [tableFilter, setTableFilter] = useState({ ...Filter });
   const [showFilterModal, setShowFilterModal] = useState(false);
 
   const { isLoading, refetch, data } = useQuery(
@@ -49,7 +48,9 @@ const MembershipTable: React.FC<{
 
   return (
     <div className="bg-white p-2 rounded-md">
-        <H4 className="p-2 text-black">Memberships {meta.TotalCount && <span>({meta.TotalCount})</span>}</H4>
+      <H4 className="p-2 text-black">
+        Memberships {meta.TotalCount && <span>({meta.TotalCount})</span>}
+      </H4>
       <Table
         withPagination={!hidePagination}
         perPage={perPage}
@@ -60,72 +61,91 @@ const MembershipTable: React.FC<{
         errorMessage="You have not gotten any bookings"
         headerComponent={
           <div className="p-3 overflow-x-scroll">
-          <div className="items-between flex w-full items-center justify-between gap-3">
-            <div className="flex items-center justify-end gap-3">
-              <div className="md:min-w-[200px]">
-                <Input
-                  type="search"
-                  placeholder="Membership Id"
-                  className="w-full border border-[#EAEAEA] outline-none placeholder:text-[#666666] max-[425px]:w-[153px]"
-                  value={tableFilter.Id}
-                  onChange={(ev) => setTableFilter({ ...tableFilter, Id: ev.currentTarget.value })}
-                />
-              </div>
+            <div className="items-between flex w-full items-center justify-between gap-3">
+              <div className="flex items-center justify-end gap-3">
+                <div className="md:min-w-[200px]">
+                  <Input
+                    type="search"
+                    placeholder="Membership Id"
+                    className="w-full border border-[#EAEAEA] outline-none placeholder:text-[#666666] max-[425px]:w-[153px]"
+                    value={tableFilter.Id}
+                    onChange={(ev) =>
+                      setTableFilter({
+                        ...tableFilter,
+                        Id: ev.currentTarget.value
+                      })
+                    }
+                  />
+                </div>
 
-              <div className="page-button-container">
-                <span className="page-button-wrapper flex gap-2">
-                  <div
-                    className={`rounded-full border w-17 px-2  py-2 text-center text-[12.54px]  hover:bg-white100. hover:text-primary400 hover:border-primary400 cursor-pointer   ${tableFilter.Status === undefined ? 'text-primary400 border-primary400 ' : 'text-white800 border-white700'}`}
-                    onClick={() => {
-                      setTableFilter({ ...tableFilter, Status: undefined })
-                    }}
-                  >All ({meta.TotalCount})</div>
-                  {Object.values(PromotionStatus)
-                    .filter((value) => typeof value === "string" )
-                    .map((promotionStatus) => (
-                      <div
-                        key={promotionStatus}
-                        className={`rounded-full border  px-2 
+                <div className="page-button-container">
+                  <span className="page-button-wrapper flex gap-2">
+                    <div
+                      className={`rounded-full border w-17 px-2  py-2 text-center text-[12.54px]  hover:bg-white100. hover:text-primary400 hover:border-primary400 cursor-pointer   ${tableFilter.Status === undefined ? "text-primary400 border-primary400 " : "text-white800 border-white700"}`}
+                      onClick={() => {
+                        setTableFilter({ ...tableFilter, Status: undefined });
+                      }}
+                    >
+                      All
+                    </div>
+                    {Object.values(PromotionStatus)
+                      .filter((value) => typeof value === "string")
+                      .map((promotionStatus) => (
+                        <div
+                          key={promotionStatus}
+                          className={`rounded-full border  px-2 
                      
-                       py-2 text-center text-[12.54px]  hover:bg-white100. hover:text-primary400 hover:border-primary400 cursor-pointer  ${tableFilter.Status === PromotionFilterStatus[promotionStatus as keyof typeof PromotionFilterStatus] ? 'text-primary400 border-primary400 ' : 'text-white800 border-white700 '}`}
-                        onClick={() => {
-                          setTableFilter({ ...tableFilter, Status: PromotionFilterStatus[promotionStatus as keyof typeof PromotionFilterStatus] })
-                        }}
-                      >
-                        {promotionStatus}
-                        {`(${memberships.length})`}
+                       py-2 text-center text-[12.54px]  hover:bg-white100. hover:text-primary400 hover:border-primary400 cursor-pointer  ${tableFilter.Status === PromotionFilterStatus[promotionStatus as keyof typeof PromotionFilterStatus] ? "text-primary400 border-primary400 " : "text-white800 border-white700 "}`}
+                          onClick={() => {
+                            setTableFilter({
+                              ...tableFilter,
+                              Status:
+                                PromotionFilterStatus[
+                                  promotionStatus as keyof typeof PromotionFilterStatus
+                                ]
+                            });
+                          }}
+                        >
+                          {promotionStatus}
 
-                        {promotionStatus === PromotionStatus.ACTIVE &&
-                          `(${memberships.filter(
-                            (item: IPromotion) =>
-                              item.Status === PromotionStatus.ACTIVE
-                          ).length
-                          })`}
-                        {promotionStatus === PromotionStatus.INACTIVE &&
-                          `(${memberships.filter(
-                            (item: IPromotion) =>
-                              item.Status === PromotionStatus.INACTIVE
-                          ).length
-                          })`}
-                        {promotionStatus === PromotionStatus.EXPIRED &&
-                          `(${memberships.filter(
-                            (item: IPromotion) =>
-                              item.Status === PromotionStatus.EXPIRED
-                          ).length
-                          })`}              
-                      </div>
-                    ))}
-                </span>
+                          {promotionStatus === PromotionStatus.ACTIVE &&
+                            `(${
+                              memberships.filter(
+                                (item: IPromotion) =>
+                                  item.Status === PromotionStatus.ACTIVE
+                              ).length
+                            })`}
+                          {promotionStatus === PromotionStatus.INACTIVE &&
+                            `(${
+                              memberships.filter(
+                                (item: IPromotion) =>
+                                  item.Status === PromotionStatus.INACTIVE
+                              ).length
+                            })`}
+                          {promotionStatus === PromotionStatus.EXPIRED &&
+                            `(${
+                              memberships.filter(
+                                (item: IPromotion) =>
+                                  item.Status === PromotionStatus.EXPIRED
+                              ).length
+                            })`}
+                        </div>
+                      ))}
+                  </span>
+                </div>
               </div>
-
+              <Button
+                size="sm"
+                color="outline-dark"
+                variant="outline"
+                onClick={() => setShowFilterModal(true)}
+              >
+                <span className="flex gap-2 px-3">
+                  <FilterIcon /> Filter
+                </span>
+              </Button>
             </div>
-            <Button size="sm" color="outline-dark" variant="outline" onClick={() => setShowFilterModal(true)}>
-              <span className="flex gap-2 px-3">
-                <FilterIcon /> Filter
-              </span>
-            </Button>
           </div>
-        </div>
         }
         header={[
           {
@@ -206,7 +226,7 @@ const MembershipTable: React.FC<{
               );
             }
           },
-           {
+          {
             key: "Status",
             title: "PROMOTION STATUS",
             headerClass:
@@ -216,19 +236,20 @@ const MembershipTable: React.FC<{
               if (!item.Status) item.Status = PromotionStatus.INACTIVE;
               return (
                 <div
-                className={` ${(item.Status === PromotionStatus.INACTIVE &&
-                  "bg-warning50 text-warning400") ||
-                  (item.Status === PromotionStatus.ACTIVE &&
-                    "bg-success50 text-success400") ||
-                  "bg-danger50  text-danger400"
+                  className={` ${
+                    (item.Status === PromotionStatus.INACTIVE &&
+                      "bg-warning50 text-warning400") ||
+                    (item.Status === PromotionStatus.ACTIVE &&
+                      "bg-success50 text-success400") ||
+                    "bg-danger50  text-danger400"
                   }    inline-block rounded-full px-4 py-1`}
-              >
-                <div className="text-center text-[12px]">
-                {item?.Status === PromotionStatus.INACTIVE && "Inactive"}
-                  {item?.Status === PromotionStatus.ACTIVE && "Active"}
-                  {item?.Status === PromotionStatus.EXPIRED && "Expired"}
+                >
+                  <div className="text-center text-[12px]">
+                    {item?.Status === PromotionStatus.INACTIVE && "Inactive"}
+                    {item?.Status === PromotionStatus.ACTIVE && "Active"}
+                    {item?.Status === PromotionStatus.EXPIRED && "Expired"}
+                  </div>
                 </div>
-              </div>
               );
             }
           },
@@ -244,14 +265,18 @@ const MembershipTable: React.FC<{
         data={memberships}
         isLoading={isLoading}
       />
-        <Modal
+      <Modal
         openModal={showFilterModal}
         setOpenModal={setShowFilterModal}
         variant="plain"
       >
-        <FilterComponent filter={tableFilter} onClose={() => setShowFilterModal(false)} setFilter={(filter) => {
-          setTableFilter(filter);
-        }} />
+        <FilterComponent
+          filter={tableFilter}
+          onClose={() => setShowFilterModal(false)}
+          setFilter={(filter) => {
+            setTableFilter(filter);
+          }}
+        />
       </Modal>
     </div>
   );
