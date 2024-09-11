@@ -96,7 +96,7 @@ const UserChat: React.FC<{ showConversation?: boolean }> = ({
         const data = msg.Data as IListConversationResponse;
         if (
           conversationsMeta.TotalPages !== 0 &&
-          conversationsMeta.CurrentPage !== conversationsMeta.TotalPages &&
+          // conversationsMeta.CurrentPage !== conversationsMeta.TotalPages &&
           data.Meta.CurrentPage !== 1
         ) {
           setIsFetching(false);

@@ -159,6 +159,8 @@ const ChatHistory: React.FC<{
   );
   const socket = useWebSocket();
 
+  console.log({ metaData });
+
   const router = useRouter();
   const pathname = usePathname();
   const searchParams = useSearchParams();
@@ -310,7 +312,8 @@ const ChatHistory: React.FC<{
           />
         ))}
       </div>
-      {!isFetching && conversations?.length > 0 &&
+      {!isFetching &&
+        conversations?.length > 0 &&
         metaData.CurrentPage !== metaData.TotalPages &&
         metaData.TotalPages !== 0 && (
           <div className="h-20" ref={ref}>
