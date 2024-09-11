@@ -73,6 +73,11 @@ export interface IConversation {
   UpdatedAt?: TimeStamp;
 }
 
+export interface IConvoMeta {
+  CurrentPage: number;
+  TotalPages: number;
+}
+
 export interface IMessage {
   Id: string;
   ConversationId: string;

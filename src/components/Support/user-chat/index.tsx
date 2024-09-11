@@ -1,8 +1,13 @@
-import type { IConversation, IMessage } from "@/services/support/payload";
+import type {
+  IConversation,
+  IListConversationResponse,
+  IMessage
+} from "@/services/support/payload";
 import { useEffect, useMemo, useRef, useState } from "react";
 import {
   getAssignedConversations,
-  getUserConversations
+  getUserConversations,
+  updateStatus
 } from "@/services/support";
 import { useDispatch, useSelector } from "react-redux";
 import { selectCurrentUser } from "@/store/slice/auth/auth.slice";
@@ -10,9 +15,13 @@ import { useParams, useSearchParams } from "next/navigation";
 import type { IUser } from "@/services/user/payload";
 import { useWebSocket } from "@/context/WebSocketContext";
 import {
+  getAssignedConversationsMeta,
   getAssignedUserConversations,
   getChatConversations,
-  setAssignedConversations
+  getConversationsMeta,
+  setAssignedConversations,
+  setAssignedConversationsMeta,
+  setConversations
 } from "@/store/slice/support/chat.slice";
 import { useRouter } from "next/navigation";
 import ChatRecipient from "../chat-main/ChatRecipient";
@@ -29,24 +38,11 @@ import Popup from "../Popup";
 import ChevronDown from "@/assets/icons/chevron-down.svg";
 import TypeChat from "../chat-main/TypeChat-2";
 
-// function dateToTimestamp(date: Date): { seconds: number; nanos: number } {
-//   // Ensure the input is a valid Date object
-//   if (!(date instanceof Date)) {
-//     throw new Error("Invalid date object");
-//   }
-//   // Get the timestamp in milliseconds
-//   const millis = date.getTime();
-//   // Convert milliseconds to seconds (integer part)
-//   const seconds = Math.floor(millis / 1000);
-//   // Calculate the nanoseconds (remaining milliseconds converted to nanoseconds)
-//   const nanos = (millis % 1000) * 1e6;
-//   return { seconds, nanos };
-// }
-// Example usage:
-// const date = new Date();
-// const timestamp = dateToTimestamp(date);
-// console.log("Seconds:", timestamp.seconds);
-// console.log("Nanoseconds:", timestamp.nanos);
+const ConvoStatus = [
+  { name: "New", value: 10 },
+  { name: "On-hold", value: 0 },
+  { name: "Resolved", value: 1 }
+];
 
 const UserChat: React.FC<{ showConversation?: boolean }> = ({
   showConversation
@@ -59,6 +55,8 @@ const UserChat: React.FC<{ showConversation?: boolean }> = ({
     () => chatConversations || [],
     [chatConversations]
   );
+
+  console.log({ assignedConversations });
 
   const selectedUser = useSelector(selectCurrentUser) || {};
   const user = useMemo(() => selectedUser || {}, [selectedUser]);
@@ -82,13 +80,51 @@ const UserChat: React.FC<{ showConversation?: boolean }> = ({
   // const [isFocused, setIsFocused] = useState<boolean>(false);
   const searchParams = useSearchParams();
   const filter = searchParams.get("history") || "new";
-  const meta = useRef<{ CurrentPage: number; TotalPages: number }>({
-    CurrentPage: 1,
-    TotalPages: 0
-  });
+  const activeConvoMeta = useSelector(getAssignedConversationsMeta);
+  const conversationsMeta = useSelector(getConversationsMeta);
+  // const meta = useRef<{ CurrentPage: number; TotalPages: number }>(activeConvoMeta);
   const stableConversations = useRef<IConversation[]>([]);
+  const [isFetching, setIsFetching] = useState(false);
 
-  console.log({ meta });
+  useEffect(() => {
+    if (!socket) return;
+
+    function handler(e: MessageEvent<any>) {
+      const msg = JSON.parse(e.data);
+
+      if (msg.Type === "CONVERSATIONS") {
+        const data = msg.Data as IListConversationResponse;
+        if (
+          conversationsMeta.TotalPages !== 0 &&
+          conversationsMeta.CurrentPage !== conversationsMeta.TotalPages &&
+          data.Meta.CurrentPage !== 1
+        ) {
+          setIsFetching(false);
+
+          dispatch(
+            setConversations([
+              ...conversations,
+              ...data.Conversations
+            ] as IConversation[])
+          );
+        }
+      }
+
+      return e;
+    }
+
+    socket.addEventListener("message", handler);
+
+    return () => {
+      socket.removeEventListener("message", handler);
+    };
+  }, [
+    socket,
+    conversations,
+    dispatch,
+    conversations.length,
+    conversationsMeta
+  ]);
 
   useEffect(() => {
     if (!socket) return;
@@ -105,14 +141,14 @@ const UserChat: React.FC<{ showConversation?: boolean }> = ({
       };
 
       if (data.Type === "LIST_CONVERSATIONS") {
-        if (meta.current.CurrentPage === 1 && meta.current) {
-          meta.current = data.Data.Meta;
+        if (activeConvoMeta.CurrentPage === 1) {
+          dispatch(setAssignedConversationsMeta(data.Data.Meta));
           console.log(
             "chaiiiiii",
             data.Data.Meta,
-            meta.current.CurrentPage === 1,
+            activeConvoMeta.CurrentPage === 1,
             stableConversations.current,
-            meta.current.CurrentPage
+            activeConvoMeta.CurrentPage
           );
 
           dispatch(
@@ -120,19 +156,19 @@ const UserChat: React.FC<{ showConversation?: boolean }> = ({
           );
           stableConversations.current = data.Data
             .Conversations as IConversation[];
-        } else if (meta.current.TotalPages !== 0) {
-          console.log({ ...stableConversations.current }, "-------");
+        } else if (activeConvoMeta.TotalPages !== 0) {
+          console.log(
+            { ...stableConversations.current },
+            "-------testing",
+            data.Data.Conversations
+          );
+          setIsFetching(false);
           dispatch(
             setAssignedConversations([
-              // ...stableConversations.current,
               ...assignedConversations,
               ...data.Data.Conversations
             ] as IConversation[])
           );
-          // meta.current = {
-          //   ...meta.current,
-          //   CurrentPage: meta.current.CurrentPage + 1
-          // };
         }
 
         return e;
@@ -140,13 +176,19 @@ const UserChat: React.FC<{ showConversation?: boolean }> = ({
     }
     socket.addEventListener("message", handler);
 
-    if (meta.current.CurrentPage === 1 && !assignedConversations?.length)
+    if (
+      activeConvoMeta.CurrentPage === 1 &&
+      activeConvoMeta.TotalPages === 0 &&
+      !assignedConversations?.length
+    ) {
       getAssignedConversations(socket);
+      console.log("does this work?");
+    }
 
     return () => {
       socket.removeEventListener("message", handler);
     };
-  }, [socket, dispatch, assignedConversations]);
+  }, [socket, dispatch, assignedConversations, activeConvoMeta]);
 
   // useEffect(() => {
   //   if (!socket) return;
@@ -251,7 +293,16 @@ const UserChat: React.FC<{ showConversation?: boolean }> = ({
   // }, [conversations, conversation]);
   const finalConversationList = useMemo(
     () => (filter === "new" ? conversations : assignedConversations),
+
     [filter, conversations, assignedConversations]
+  );
+
+  console.log({ finalConversationList });
+
+  const finalConvoMeta = useMemo(
+    () => (filter === "new" ? conversationsMeta : activeConvoMeta),
+
+    [filter, conversationsMeta, activeConvoMeta]
   );
 
   useEffect(() => {
@@ -264,7 +315,18 @@ const UserChat: React.FC<{ showConversation?: boolean }> = ({
 
     return () => {};
   }, [finalConversationList, idOrSlug]);
-  // }, [conversations, idOrSlug]);
+
+  function handleUpdateStatus(status: number) {
+    if (!socket || !idOrSlug) return;
+
+    const data = {
+      socket,
+      Status: status,
+      ConversationId: idOrSlug
+    };
+
+    updateStatus(data);
+  }
 
   console.log("plllllllll");
   return (
@@ -280,7 +342,9 @@ const UserChat: React.FC<{ showConversation?: boolean }> = ({
               }`}
             >
               <ChatHistory
-                meta={meta}
+                isFetching={isFetching}
+                setIsFetching={setIsFetching}
+                metaData={finalConvoMeta}
                 filter={filter}
                 onClickConversation={setConversation}
                 conversations={finalConversationList || []}
@@ -304,9 +368,16 @@ const UserChat: React.FC<{ showConversation?: boolean }> = ({
                           name="ticket-status"
                           className="top-[100%] left-[80%]"
                         >
-                          <Popup.Btn>New</Popup.Btn>
-                          <Popup.Btn>On-hold</Popup.Btn>
-                          <Popup.Btn>Resolved</Popup.Btn>
+                          <>
+                            {ConvoStatus.map((data, i) => (
+                              <Popup.Btn
+                                key={i}
+                                onClick={() => handleUpdateStatus(data.value)}
+                              >
+                                {data.name}
+                              </Popup.Btn>
+                            ))}
+                          </>
                         </Popup.Window>
                         <Popup.Open opens="ticket-status">
                           <button className="bg-white size-full px-3 py-1 border border-white500 text-start rounded-md flex justify-between items-center">

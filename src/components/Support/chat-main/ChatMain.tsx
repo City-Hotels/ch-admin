@@ -168,16 +168,17 @@ const ChatMain: React.FC<{
 
         // because this setter function comes from the parent component, it causes the parent component to also rerender.
 
-        onSend_receive_message((s) => {
-          return Data.Messages.map((newData) => {
-            const existingUIEl = s.find(
-              (el) =>
-                el.Id === "" && el.CreatedAt.nanos === newData.CreatedAt.nanos
-            );
-            if (existingUIEl) return existingUIEl;
-            else return newData;
+        if (Data.Messages)
+          onSend_receive_message((s) => {
+            return Data.Messages.map((newData) => {
+              const existingUIEl = s.find(
+                (el) =>
+                  el.Id === "" && el.CreatedAt.nanos === newData.CreatedAt.nanos
+              );
+              if (existingUIEl) return existingUIEl;
+              else return newData;
+            });
           });
-        });
 
         setPageNum(Data.Meta.CurrentPage);
         setTimeout(scrollToBottom, 100);

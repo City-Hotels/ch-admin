@@ -9,7 +9,7 @@ import TickedMessage from "@/assets/icons/tick.svg";
 // import { MessageStatus, type IConversation } from "@/services/chat/payload";
 import { selectCurrentUser } from "@/store/slice/auth/auth.slice";
 import dayjs from "dayjs";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 // import { getChatConnection } from "@/store/slice/socket/socket.slice";
 import React, {
   MutableRefObject,
@@ -28,8 +28,15 @@ import Avatar from "@/components/Avatar/Avatar";
 import Popup from "../Popup";
 import { convertGrpcDate } from "@/utils/helpers";
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
-import { getAssignedConversations } from "@/services/support";
+import {
+  getAssignedConversations,
+  getUserConversations
+} from "@/services/support";
 import { useWebSocket } from "@/context/WebSocketContext";
+import {
+  setAssignedConversationsMeta,
+  setConversationsMeta
+} from "@/store/slice/support/chat.slice";
 
 const ChatItem: React.FC<{
   conversation: IConversation;
@@ -131,17 +138,21 @@ const ChatHistory: React.FC<{
   title?: string;
   activeConversation: string;
   filter: string;
-  meta: MutableRefObject<{
+  metaData: {
     CurrentPage: number;
     TotalPages: number;
-  }>;
+  };
+  isFetching: boolean;
+  setIsFetching: React.Dispatch<React.SetStateAction<boolean>>;
 }> = ({
   onClickConversation,
   conversations,
   activeConversation,
   title = "All Messages",
   filter,
-  meta
+  metaData,
+  isFetching,
+  setIsFetching
 }) => {
   const [starredConversations, setStarredConversations] = useState<string[]>(
     []
@@ -152,6 +163,7 @@ const ChatHistory: React.FC<{
   const pathname = usePathname();
   const searchParams = useSearchParams();
   const pageNum = searchParams.get("page") || 1;
+  const dispatch = useDispatch();
 
   const toggleStarredConversation = useCallback(
     (conversationId: string) => {
@@ -208,23 +220,32 @@ const ChatHistory: React.FC<{
       (entries: IntersectionObserverEntry[]) => {
         const [entry] = entries;
 
-        console.log({
-          cur: meta.current.CurrentPage,
-          lim: meta.current.TotalPages
-        });
-
         if (
           entry.isIntersecting &&
-          meta.current.CurrentPage !== meta.current.TotalPages &&
-          meta.current.TotalPages !== 0
+          metaData.CurrentPage !== metaData.TotalPages &&
+          metaData.TotalPages !== 0
         ) {
-          console.log("works-------------", entry);
-          if (filter === "active" && socket)
-            getAssignedConversations(socket, meta.current.CurrentPage + 1);
-          meta.current = {
-            ...meta.current,
-            CurrentPage: meta.current.CurrentPage + 1
-          };
+          if (filter === "active" && socket) {
+            getAssignedConversations(socket, metaData.CurrentPage + 1);
+            dispatch(
+              setAssignedConversationsMeta({
+                ...metaData,
+                CurrentPage: metaData.CurrentPage + 1
+              })
+            );
+          } else if (socket && filter === "new") {
+            getUserConversations(socket, metaData.CurrentPage + 1);
+            dispatch(
+              setConversationsMeta({
+                ...metaData,
+                CurrentPage: metaData.CurrentPage + 1
+              })
+            );
+          }
+          // meta.current = {
+          //   ...meta.current,
+          //   CurrentPage: meta.current.CurrentPage + 1
+          // };
         }
       },
       {
@@ -238,7 +259,9 @@ const ChatHistory: React.FC<{
     return () => {
       if (divEl) observer.unobserve(divEl);
     };
-  }, [filter, meta, socket, router, pathname]);
+  }, [filter, socket, metaData, dispatch, isFetching, setIsFetching]);
+
+  console.log({ metaData });
 
   return (
     <div className="">
@@ -276,7 +299,7 @@ const ChatHistory: React.FC<{
       <div className="flex flex-col">
         {conversations.map((convo: IConversation) => (
           <ChatItem
-            currentPage={+pageNum || meta.current.CurrentPage}
+            currentPage={+pageNum || metaData.CurrentPage}
             filter={filter}
             isStarred={!!starredConversations.find((item) => item === convo.Id)}
             conversation={convo}
@@ -287,9 +310,9 @@ const ChatHistory: React.FC<{
           />
         ))}
       </div>
-      {conversations?.length > 0 &&
-        meta.current.CurrentPage !== meta.current.TotalPages &&
-        meta.current.TotalPages !== 0 && (
+      {!isFetching && conversations?.length > 0 &&
+        metaData.CurrentPage !== metaData.TotalPages &&
+        metaData.TotalPages !== 0 && (
           <div className="h-20" ref={ref}>
             hahahahaha
           </div>

@@ -9,7 +9,8 @@ import { selectCurrentUser } from "@/store/slice/auth/auth.slice";
 import {
   setConnected,
   setConnecting,
-  setConversations
+  setConversations,
+  setConversationsMeta
 } from "@/store/slice/support/chat.slice";
 import { initiateChatConnection } from "@/utils/api/ws";
 import type { ReactNode } from "react";
@@ -55,7 +56,10 @@ export const WebSocketProvider: React.FC<WebSocketProviderProps> = ({
       const msg = JSON.parse(event.data) as IChatSocketMessageEventData;
       if (msg.Type === "CONVERSATIONS") {
         const data = msg.Data as IListConversationResponse;
-        dispatch(setConversations(data.Conversations as IConversation[]));
+        if (data.Meta.CurrentPage === 1) {
+          dispatch(setConversationsMeta(data.Meta));
+          dispatch(setConversations(data.Conversations as IConversation[]));
+        }
       }
       return event;
     };

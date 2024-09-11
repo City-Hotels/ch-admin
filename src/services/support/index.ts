@@ -1,8 +1,16 @@
 import { NewTicket, TimeStamp } from "./payload";
 import { putRequest } from "@/utils/api/calls";
 
-export const getUserConversations = (socket: WebSocket) => {
+export const getUserConversations = (
+  socket: WebSocket,
+  CurrentPage?: number
+) => {
   const msg = {
+    Data: {
+      Meta: {
+        CurrentPage
+      }
+    },
     Type: "PENDING_REQUESTS"
   };
   socket.send(JSON.stringify(msg));
@@ -33,10 +41,16 @@ export const getAssignedConversations = (
 //   "Type": "LIST_ASSIGNED_CONVERSATIONS"
 // }
 
-export const getTicketsList = (socket: WebSocket) => {
+export const getTicketsList = (socket: WebSocket, CurrentPage?: number) => {
+  console.log({ CurrentPage });
+
   const msg = {
     Data: {
-      TicketId: ""
+      TicketId: "",
+      Meta: {
+        // Limit: 20,
+        CurrentPage
+      }
     },
     Type: "LIST_TICKETS"
   };
@@ -125,7 +139,7 @@ export const updateStatus = ({
   socket
 }: {
   ConversationId: string;
-  Status: string;
+  Status: number;
   socket: WebSocket;
 }) => {
   const msg = {

@@ -17,7 +17,9 @@ import { useWebSocket } from "@/context/WebSocketContext";
 import {
   getChatConversations,
   getTickets,
-  setTickets
+  getTicketsMeta,
+  setTickets,
+  setTicketsMeta
 } from "@/store/slice/support/chat.slice";
 import { useRouter } from "next/navigation";
 import ChatRecipient from "../chat-main/ChatRecipient";
@@ -33,6 +35,7 @@ import { P } from "@/components/Headings/Headings";
 import Popup from "../Popup";
 import ChevronDown from "@/assets/icons/chevron-down.svg";
 import TicketSummary from "../TicketSummary";
+import { Meta } from "@/utils/api/calls";
 
 const ticketStatus = [
   { name: "Pending", value: 0 },
@@ -58,6 +61,8 @@ const UserChat: React.FC<{ showConversation?: boolean }> = ({
   const [reassignTicket, setReassignTicket] = useState(false);
 
   const stableSocket = useMemo(() => socket, [socket]);
+  const metaData = useSelector(getTicketsMeta) as Meta;
+  const [isFetching, setIsfetching] = useState(false);
 
   // useEffect(() => {
   //   const base64String = search.get("h");
@@ -93,25 +98,44 @@ const UserChat: React.FC<{ showConversation?: boolean }> = ({
   //   else setConversation(convo);
   // }, [search, user, conversations]);
 
-  console.log({ tickets });
+  console.log({ tickets, metaData });
   // const [status, setStatus] = useState<null | number>(null);
   const dispatch = useDispatch();
 
-  console.log(status);
+  // console.log(status);
 
   useEffect(() => {
     if (!socket) {
       return () => {};
     }
 
-    getTicketsList(socket);
+    if (metaData.TotalPages === 0 && !tickets?.length) {
+      getTicketsList(socket);
+      console.log("chaiiiiiiiiiiiiii");
+    }
 
     function handler(event: MessageEvent<any>) {
       const msg = JSON.parse(event.data);
       if (msg.Type === "TICKET_LIST") {
         const data = msg?.Data?.Tickets as TicketEntry[];
-        console.log({ data_1: data });
-        dispatch(setTickets(data));
+        console.log("does it run");
+
+        if (msg.Data.Meta.CurrentPage === 1) {
+          console.log({ data_1: data });
+          dispatch(setTickets(data));
+          dispatch(setTicketsMeta(msg.Data.Meta as Meta));
+        } else if (
+          msg.Data.Meta.TotalPages !== 0 &&
+          tickets?.length &&
+          metaData.CurrentPage !== metaData.TotalPages
+        ) {
+          console.log("works????????????", { obj: msg?.Data?.Tickets });
+
+          dispatch(
+            setTickets([...tickets, ...(msg?.Data?.Tickets as TicketEntry[])])
+          );
+          setIsfetching(false);
+        }
         // setIsLoading((s) => !s);
         // if (
         //   conversation?.Id === "" &&
@@ -156,7 +180,7 @@ const UserChat: React.FC<{ showConversation?: boolean }> = ({
       socket.removeEventListener("message", handler);
       // if (list) socket?.removeEventListener("message", list);
     };
-  }, [user.Id, tickets?.length, socket, dispatch]);
+  }, [user.Id, socket, dispatch, tickets, metaData]);
 
   // useEffect(() => {
   //   if (!conversation && conversations.length > 0)
@@ -209,6 +233,9 @@ const UserChat: React.FC<{ showConversation?: boolean }> = ({
               }`}
             >
               <ChatHistory
+                isFetching={isFetching}
+                setIsFetching={setIsfetching}
+                metaData={metaData}
                 onClickConversation={setTicket}
                 tickets={tickets || []}
                 activeConversation={ticket?.Id || ""}

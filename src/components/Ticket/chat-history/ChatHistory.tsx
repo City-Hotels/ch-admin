@@ -9,7 +9,7 @@ import TickedMessage from "@/assets/icons/tick.svg";
 // import { MessageStatus, type IConversation } from "@/services/chat/payload";
 import { selectCurrentUser } from "@/store/slice/auth/auth.slice";
 import dayjs from "dayjs";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 // import { getChatConnection } from "@/store/slice/socket/socket.slice";
 import React, {
   useCallback,
@@ -29,6 +29,10 @@ import {
 } from "@/services/support/payload";
 import Avatar from "@/components/Avatar/Avatar";
 import Popup from "../Popup";
+import { Meta } from "@/utils/api/calls";
+import { getTicketsList } from "@/services/support";
+import { useWebSocket } from "@/context/WebSocketContext";
+import { setTicketsMeta } from "@/store/slice/support/chat.slice";
 
 const ChatItem: React.FC<{
   ticketData: TicketEntry;
@@ -63,15 +67,15 @@ const ChatItem: React.FC<{
     >
       <div>
         <Avatar
-          Firstname={sender.Firstname}
-          Lastname={sender.Lastname}
-          Imageurl={sender.Imageurl}
+          Firstname={sender?.Firstname || ""}
+          Lastname={sender?.Lastname || ""}
+          Imageurl={sender?.Imageurl || ""}
           className="size-[64px] bg-primary400"
         />
       </div>
       <div className="ml-4 ">
         <P3 className="text-white800 text-xs">
-          {sender.Firstname} {sender.Lastname}
+          {sender?.Firstname || ""} {sender?.Lastname || ""}
         </P3>
         <P className="font-medium">Ticket#: {ticketData.Id.slice(-6)}</P>
         <P2 className={styles.conversationMessage}>{ticketData.Title}</P2>
@@ -119,15 +123,24 @@ const ChatHistory: React.FC<{
   title?: string;
   activeConversation: string;
   tickets: TicketEntry[];
+  metaData: Meta;
+  isFetching: boolean;
+  setIsFetching: React.Dispatch<React.SetStateAction<boolean>>;
 }> = ({
   onClickConversation,
   tickets,
   activeConversation,
-  title = "All Tickets"
+  title = "All Tickets",
+  metaData,
+  isFetching,
+  setIsFetching
 }) => {
   const [starredConversations, setStarredConversations] = useState<string[]>(
     []
   );
+
+  const socket = useWebSocket();
+  const dispatch = useDispatch();
 
   const toggleStarredConversation = useCallback(
     (conversationId: string) => {
@@ -168,6 +181,53 @@ const ChatHistory: React.FC<{
 
     return () => {};
   }, []);
+
+  const ref = useRef<HTMLDivElement | null>(null);
+
+  useEffect(() => {
+    const divEl = ref.current;
+    if (!socket) return;
+
+    const observer = new IntersectionObserver(
+      (entries: IntersectionObserverEntry[]) => {
+        const [entry] = entries;
+
+        if (entry.isIntersecting) {
+          if (
+            metaData.CurrentPage !== metaData.TotalPages &&
+            metaData.TotalPages !== 0
+          ) {
+            setIsFetching(true);
+            dispatch(
+              setTicketsMeta({
+                ...metaData,
+                CurrentPage: metaData.CurrentPage + 1
+              })
+            );
+            getTicketsList(socket, metaData.CurrentPage + 1);
+          }
+        }
+      },
+      {
+        root: null,
+        threshold: 0.1
+      }
+    );
+
+    if (divEl) observer.observe(divEl);
+
+    return () => {
+      if (divEl) observer.unobserve(divEl);
+    };
+  }, [
+    metaData,
+    metaData.CurrentPage,
+    metaData.TotalPages,
+    socket,
+    dispatch,
+    setIsFetching,
+    isFetching
+  ]);
 
   return (
     <div className="">
@@ -210,6 +270,13 @@ const ChatHistory: React.FC<{
           />
         ))}
       </div>
+      {isFetching ? (
+        <div></div>
+      ) : (
+        tickets.length > 0 &&
+        metaData.CurrentPage !== metaData.TotalPages &&
+        metaData.TotalPages !== 0 && <div className="h-20" ref={ref}></div>
+      )}
     </div>
   );
 };
