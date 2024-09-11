@@ -85,7 +85,7 @@ const MembershipTable: React.FC<{
                         setTableFilter({ ...tableFilter, Status: undefined });
                       }}
                     >
-                      All ({meta.TotalCount})
+                      All 
                     </div>
                     {Object.values(PromotionStatus)
                       .filter((value) => typeof value === "string")
@@ -106,7 +106,7 @@ const MembershipTable: React.FC<{
                           }}
                         >
                           {promotionStatus}
-                          {`(${campaigns.length})`}
+
 
                           {promotionStatus === PromotionStatus.ACTIVE &&
                             `(${
