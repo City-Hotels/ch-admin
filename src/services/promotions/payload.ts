@@ -27,7 +27,7 @@ export interface PromotionFilter {
   MaxParticipant?: number;
   MaximumBooking?: number;
   MinimumBooking?: number;
-  BookingDiscount: number;
+  BookingDiscount?: number;
   Rate?: number;
   Unit?: string;
   Status?: PromotionFilterStatus;
