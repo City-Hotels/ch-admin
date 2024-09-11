@@ -81,28 +81,24 @@ const Filter: FC<FilterProps> = ({ className, onClose, setFilter, filter }) => {
                 Maximum Bookings
               </P2>
 
-              <div className={`${styles.input2}`}>
+              <div className={`${styles.input}`}>
+                <Search className="text-black" />
                 <input
                   id="maximumBooking"
+                  placeholder="e.g: 500"
                   className="w-full outline-none"
-                  value={filters.Requirements?.MaximumBooking || 0} // Default to 0 if undefined
+                  value={filter.MaximumBooking}
                   onChange={(ev) => {
                     const value = ev.currentTarget.value;
                     if (value == "") {
                       setFilter({
                         ...filters,
-                        Requirements: {
-                          ...filters.Requirements,
-                          MaximumBooking: 0 // Parse to number
-                        }
+                        MaximumBooking: 0
                       });
                     } else if (!isNaN(parseInt(value, 10))) {
                       setFilter({
                         ...filters,
-                        Requirements: {
-                          ...filters.Requirements,
-                          MaximumBooking: parseInt(ev.target.value, 10) // Parse to number
-                        }
+                        MaximumBooking: parseInt(value, 10)
                       });
                     }
                   }}
@@ -115,50 +111,27 @@ const Filter: FC<FilterProps> = ({ className, onClose, setFilter, filter }) => {
                 Minimum Bookings
               </P2>
 
-              <div className={`${styles.input2}`}>
+              <div className={`${styles.input}`}>
+                <Search className="text-black" />
                 <input
                   id="minimumBooking"
+                  placeholder="e.g: 50"
                   className="w-full outline-none"
-                  value={filters.Requirements?.MinimumBooking || 0} // Default to 0 if undefined
+                  value={filters.MinimumBooking}
                   onChange={(ev) => {
                     const value = ev.currentTarget.value;
                     if (value == "") {
                       setFilter({
                         ...filters,
-                        Requirements: {
-                          ...filters.Requirements,
-                          MinimumBooking: 0 // Parse to number
-                        }
+                        MinimumBooking: 0
                       });
                     } else if (!isNaN(parseInt(value, 10))) {
                       setFilter({
                         ...filters,
-                        Requirements: {
-                          ...filters.Requirements,
-                          MinimumBooking: parseInt(ev.target.value, 10) // Parse to number
-                        }
+                        MinimumBooking: parseInt(value, 10)
                       });
                     }
                   }}
-                />
-              </div>
-            </div>
-            
-            <div className={`${styles.labelContainer}`}>
-              <P2 className="font-bold leading-[150%] text-black">Price</P2>
-
-              <div className={`${styles.input}`}>
-                <Search className="text-black" />
-                <input
-                  placeholder="Price"
-                  className={`${styles.innerInput}`}
-                  value={filters.Price}
-                  onChange={(ev) =>
-                    setFilter({
-                      ...filters,
-                      Price: ev.currentTarget.value
-                    })
-                  }
                 />
               </div>
             </div>
@@ -168,19 +141,48 @@ const Filter: FC<FilterProps> = ({ className, onClose, setFilter, filter }) => {
                 Max Participants
               </P2>
 
-              <div className={`${styles.input2}`}>
+              <div className={`${styles.input}`}>
+                <Search className="text-black" />
                 <input
+                  placeholder="e.g: 100"
                   className={`${styles.innerInput}`}
                   value={filters.MaxParticipant}
                   onChange={(ev) => {
                     const value = ev.currentTarget.value;
-                    // Check if the input is empty
+
                     if (value === "") {
-                      setFilter({ ...filters, MaxParticipant: 0 }); // Set to null or undefined for an empty input
+                      setFilter({ ...filters, MaxParticipant: 0 });
                     } else if (!isNaN(parseInt(value, 10))) {
                       setFilter({
                         ...filters,
                         MaxParticipant: parseInt(value, 10)
+                      });
+                    }
+                  }}
+                />
+              </div>
+            </div>
+
+            <div className={`${styles.labelContainer}`}>
+              <P2 className="font-bold leading-[150%] text-black">
+                Booking Discount
+              </P2>
+
+              <div className={`${styles.input}`}>
+                <Search className="text-black" />
+                <input
+                  placeholder="e.g: 10"
+                  className={`${styles.innerInput}`}
+                  value={filters.BookingDiscount}
+                  onChange={(ev) => {
+                    const value = ev.currentTarget.value;
+
+                    if (value === "") {
+                      setFilter({ ...filters, BookingDiscount: 0 });
+                    } else if (!isNaN(parseInt(value, 10))) {
+                      setFilter({
+                        ...filters,
+                        BookingDiscount: parseInt(value, 10)
                       });
                     }
                   }}

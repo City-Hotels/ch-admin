@@ -25,9 +25,11 @@ export interface PromotionFilter {
   Name?: string;
   Id?: string;
   MaxParticipant?: number;
-  Requirements?: IRequirement;
-  Price?: string;
-  ShortDescription?: string;
+  MaximumBooking?: number;
+  MinimumBooking?: number;
+  BookingDiscount: number;
+  Rate?: number;
+  Unit?: string;
   Status?: PromotionFilterStatus;
   Title?: string;
   Type?: PromotionType;
