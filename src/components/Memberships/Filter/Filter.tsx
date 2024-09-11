@@ -143,32 +143,7 @@ const Filter: FC<FilterProps> = ({ className, onClose, setFilter, filter }) => {
                 />
               </div>
             </div>
-
-            <div className={`${styles.labelContainer}`}>
-              <P2 className="font-bold leading-[150%] text-black">Country</P2>
-
-              <div className={`${styles.input}`}>
-                <Search className="text-black" />
-                <input
-                  placeholder="e.g: Nigeria"
-                  className={`${styles.innerInput}`}
-                  value={filters.Price}
-                  onChange={(ev) =>
-                    setFilter({
-                      ...filters,
-                      Requirements: {
-                        ...filters.Requirements,
-                        Location: {
-                          ...filters.Requirements?.Location,
-                          Country: ev.currentTarget.value
-                        }
-                      }
-                    })
-                  }
-                />
-              </div>
-            </div>
-
+            
             <div className={`${styles.labelContainer}`}>
               <P2 className="font-bold leading-[150%] text-black">Price</P2>
 
