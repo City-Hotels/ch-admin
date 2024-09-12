@@ -40,7 +40,7 @@
 
 .input_wrapper {
   width:100%;
-  @apply border flex items-center px-3 py-4  border-grey30 rounded-l-md focus:outline-0 focus:border-primary400 disabled:text-white900 read-only:text-white900;
+  @apply border flex items-center px-3 py-4  border-grey30 rounded-md focus:outline-0 focus:border-primary400 disabled:text-white900 read-only:text-white900;
 }
 
 .input_prepend {

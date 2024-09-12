@@ -1,4 +1,4 @@
-import { ApiResponse, Meta, getRequest } from "@/utils/api/calls";
+import { ApiResponse, Meta, getRequest, postRequest } from "@/utils/api/calls";
 import type { IPromotion, PromotionFilter } from "./payload";
 
 const getMemberships = (
@@ -43,4 +43,17 @@ const getCampaigns = (
   });
 };
 
-export { getMemberships, getCampaigns };
+const getPromotion = (promotionId: string) => {
+  return getRequest<IPromotion>({
+    url: `/promotions/${promotionId}`
+  });
+};
+
+const submitCampaign = (data: IPromotion) => {
+  return postRequest<IPromotion, { Id: string }>({
+    url: "/promotions/campaigns",
+    data
+  });
+};
+
+export { getMemberships, getCampaigns, submitCampaign, getPromotion };

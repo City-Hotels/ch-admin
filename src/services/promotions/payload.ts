@@ -1,22 +1,23 @@
 import { IGRPCDate } from "@/utils/api/calls";
 
 export interface IPromotion {
-  Name: string;
+  Name?: string;
   Description?: string;
   Id?: string;
-  MaxParticipant: Number;
-  Medias: IMedia[];
-  Pricing: IPrice;
-  Requirement: IRequirement;
-  ShortDescription: string;
-  StartDate: IGRPCDate;
-  Status: PromotionStatus;
-  SubTitle: string;
-  Title: string;
-  Type: PromotionType;
+  MaxParticipant?: Number;
+  Medias?: IMedia[];
+  Pricing?: IPrice;
+  Requirement?: IRequirement;
+  ShortDescription?: string;
+  StartDate?: IGRPCDate;
+  Status?: PromotionStatus;
+  Slug?: string;
+  SubTitle?: string;
+  Title?: string;
+  Type?: PromotionType;
   Created_at: IGRPCDate;
   Updated_at: IGRPCDate;
-  EndDate: IGRPCDate;
+  EndDate?: IGRPCDate;
 }
 
 export interface PromotionFilter {
@@ -51,22 +52,22 @@ export type IPrice = {
 };
 
 export type IRequirement = {
-  Account?: AccountType;
-  Location?: IAddress;
-  MaximumBooking?: number;
-  MinimumBooking?: number;
-  ServiceType?: String;
+  Account: AccountType;
+  Location: IAddress;
+  MaximumBooking: Number;
+  MinimumBooking: Number;
+  ServiceType: String;
   Promotions?: IPromotion;
 };
 
 export type IAddress = {
-  City?: string;
-  Country?: string;
+  City: string;
+  Country: string;
   Latitude?: string;
   Longitude?: string;
-  PostalCode?: string;
-  State?: string;
-  Street?: string;
+  PostalCode: string;
+  State: string;
+  Street: string;
 };
 
 export enum PricingType {
