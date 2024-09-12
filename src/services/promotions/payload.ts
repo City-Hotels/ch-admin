@@ -23,8 +23,19 @@ export interface IPromotion {
 export interface PromotionFilter {
   Limit?: number;
   Page?: number;
+  Name?: string;
   Id?: string;
+  MaxParticipant?: number;
+  MaximumBooking?: number;
+  MinimumBooking?: number;
+  BookingDiscount?: number;
+  Rate?: number;
+  Unit?: string;
+  Status?: PromotionFilterStatus;
   Title?: string;
+  Type?: PromotionType;
+  StartDate?: IGRPCDate;
+  EndDate?: IGRPCDate;
 }
 
 export type IMedia = {
@@ -70,9 +81,14 @@ export enum AccountType {
 }
 
 export enum PromotionStatus {
-  ACCEPTED = 0,
-  PENDING = 1,
-  DECLINED = 2
+  INACTIVE = 0,
+  ACTIVE = 1,
+  EXPIRED = 2
+}
+export enum PromotionFilterStatus {
+  ACTIVE = "ACTIVE",
+  INACTIVE = "INACTIVE",
+  EXPIRED = "EXPIRED"
 }
 
 export enum PromotionType {

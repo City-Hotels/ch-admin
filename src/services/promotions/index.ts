@@ -43,6 +43,27 @@ const getCampaigns = (
   });
 };
 
+const getPromotionSubcriptions = (
+  filter: PromotionFilter
+): Promise<
+  ApiResponse<{
+    Meta: Meta;
+    Promotions: IPromotion[];
+  }>
+> => {
+  const args = Object.keys(filter)
+    .map(
+      (item) =>
+        `${encodeURIComponent(item)}=${encodeURIComponent(
+          (filter as any)[item]
+        )}`
+    )
+    .join("&");
+  return getRequest<{ Meta: Meta; Promotions: IPromotion[] }>({
+    url: `/promotions/subscriptions?${args}`
+  });
+};
+
 const getPromotion = (promotionId: string) => {
   return getRequest<IPromotion>({
     url: `/promotions/${promotionId}`
@@ -56,4 +77,10 @@ const submitCampaign = (data: IPromotion) => {
   });
 };
 
-export { getMemberships, getCampaigns, submitCampaign, getPromotion };
+export {
+  getMemberships,
+  getCampaigns,
+  submitCampaign,
+  getPromotion,
+  getPromotionSubcriptions
+};
