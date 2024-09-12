@@ -32,6 +32,7 @@ const queryKeys = {
   getUsers: "getUsers",
   getUserPaymentDetails: "getUserPaymentDetails",
   getPromotions: "getPromotions",
+  getPromotionByID: "getPromotionByID",
   getCampaigns: "getCampaigns",
   getBanks: "getBanks",
   verifyPaymentDetails: "verifyPaymentDetails",

@@ -1,3 +1,4 @@
+"use client"
 import { useState } from "react";
 import EyeOpenIcon from "@/assets/icons/eye-open.svg";
 import EyeOffIcon from "@/assets/icons/eye-off.svg";
@@ -13,6 +14,7 @@ const Input: React.FC<InputProps> = ({
   type,
   className,
   rightComponent,
+  title,
   ...rest
 }) => {
   const [mode, setMode] = useState("password");
@@ -67,6 +69,7 @@ const Input: React.FC<InputProps> = ({
             id={name}
             name={name}
             placeholder={placeholder}
+            title={title}
             {...rest}
           />
           {rightComponent && rightComponent}

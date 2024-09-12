@@ -98,6 +98,32 @@ export const addRoomSchema = Yup.object({
   MaxBedRoom: Yup.number().required("Dimension is required")
   // Facilities: Yup.string().required("Facilities is required")
 });
+
+export const accountInfoSchema = Yup.object({
+  Name: Yup.string().required("Name is required"),
+  Title: Yup.string().required("Title is required"),
+  Description: Yup.string().required("Decription is required"),
+  ShortDescription: Yup.string().required("Short Description is required"),
+  MaxParticipant: Yup.number().required("Maximum number Participant is required")
+});
+export const requirementSchema = Yup.object({
+  City: Yup.string(),
+  Country: Yup.string(),
+  PostalCode: Yup.string(),
+  State: Yup.string(),
+  Street: Yup.string(),
+  ServiceType: Yup.string(),
+  MaximumBooking: Yup.number(),
+  MinimumBooking: Yup.number()
+});
+
+export const priceSchema = Yup.object({
+  BookingDiscount: Yup.number().required("BookingDiscount is required"),
+  Rate: Yup.number().required("Rate is required"),
+  PricingType: Yup.string().required("PricingType is required"),
+  Unit: Yup.string().required("Unit is required"),
+});
+
 export const addRoomByTypeSchema = Yup.object({
   Name: Yup.string().required("Room name is required"),
   TypeId: Yup.string().required("Please select room type")
