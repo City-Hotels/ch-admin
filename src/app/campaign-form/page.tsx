@@ -62,7 +62,7 @@ const FormLayout = () => {
   const handleSubmit = (values: typeof formData) => {
     mutate(values, {
       onSuccess(res) {
-        router.push(`/campaigns/${res.data.Id}`);
+        router.push(`/promotions/${res.data.Id}`);
         console.log("data" + res.data.Id)
       }
     });
