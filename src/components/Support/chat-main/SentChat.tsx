@@ -28,32 +28,31 @@ const SentChat: React.FC<{ chat: IMessage; showStatus: boolean }> = ({
   } else lastChatTime = dayjs(date).format("DD MMM hh:mm A");
 
   return (
-    <div className={`${showStatus ? "mb-6" : "mb-1"} *:gap-2`}>
-      <div className="mr-8 mb-2">
-        <ChatMedia images={chat.PendingUploads} />
-      </div>
-      <div className={styles.container2}>
+    <div className="flex">
+      <div className={`${showStatus ? "mb-6" : "mb-1"} flex flex-col gap-1`}>
         <div
-          className={`${styles.header2} ${
-            showStatus ? "rounded-br-none" : "rounded-br-lg"
-          }`}
+          className={`${styles.header2} ${showStatus ? "rounded-br-none" : "rounded-br-lg"
+            }`}
         >
           <P2>{chat.Message}</P2>
         </div>
-        <div className="flex h-8 w-10 items-center justify-center">
-          {chat.Status === MessageStatus.Read && showStatus && (
-            <TickedMessage />
-          )}
+        <div>
+          <ChatMedia medias={chat.PendingUploads} uploadedFiles={chat.Media} messageId={chat.Id} />
         </div>
+        {showStatus && (
+          <div className={styles.bottom}>
+            <P3>
+              You <span>•</span> {lastChatTime}
+            </P3>
+          </div>
+        )}
+      </div>
+      <div className="flex h-8 w-10 items-center justify-center">
+        {chat.Status === MessageStatus.Read && showStatus && (
+          <TickedMessage />
+        )}
       </div>
 
-      {showStatus && (
-        <div className={styles.bottom}>
-          <P3>
-            You <span>•</span> {lastChatTime}
-          </P3>
-        </div>
-      )}
     </div>
   );
 };

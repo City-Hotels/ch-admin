@@ -17,30 +17,30 @@ const RecievedChat: React.FC<{ chat: IMessage; showStatus: boolean }> = ({
   chat,
   showStatus
 }) => {
-  const socket = useWebSocket();
-  const [ref, isIntersecting] = useIntersectionObserver({
-    root: null, // Use the viewport as the root
-    rootMargin: "0px",
-    threshold: 0.1, // Adjust the threshold as needed
-    freezeOnceVisible: true // Optional: freeze observer once component is visible
-  });
+  // const socket = useWebSocket();
+  // const [ref] = useIntersectionObserver({
+  //   root: null, // Use the viewport as the root
+  //   rootMargin: "0px",
+  //   threshold: 0.1, // Adjust the threshold as needed
+  //   freezeOnceVisible: true // Optional: freeze observer once component is visible
+  // });
 
   // console.log(chat);
 
-  useEffect(() => {
-    if (isIntersecting && chat.Status === MessageStatus.Unread && socket) {
-      updateConversationStatus(socket, chat.ConversationId);
-      const timeout = setTimeout(
-        () => getConversationMessages(socket, chat.ConversationId),
-        10000
-      );
+  // useEffect(() => {
+  //   if (isIntersecting && chat.Status === MessageStatus.Unread && socket) {
+  //     updateConversationStatus(socket, chat.ConversationId);
+  //     const timeout = setTimeout(
+  //       () => getConversationMessages(socket, chat.ConversationId),
+  //       10000
+  //     );
 
-      return () => {
-        clearTimeout(timeout);
-      };
-    }
-    return () => {};
-  }, [isIntersecting, chat, socket]);
+  //     return () => {
+  //       clearTimeout(timeout);
+  //     };
+  //   }
+  //   return () => {};
+  // }, [isIntersecting, chat, socket]);
 
   const date = convertGrpcDate(chat.CreatedAt);
 
@@ -60,7 +60,7 @@ const RecievedChat: React.FC<{ chat: IMessage; showStatus: boolean }> = ({
   } else lastChatTime = dayjs(date).format("DD MMM hh:mm A");
 
   return (
-    <div className={styles.container} ref={ref}>
+    <div className={styles.container}>
       <Avatar
         Imageurl={chat.Sender.Imageurl}
         Firstname={chat.Sender.Firstname}

@@ -87,6 +87,7 @@ const UserChat: React.FC<{ showConversation?: boolean }> = ({
   const [isFetching, setIsFetching] = useState(false);
 
   useEffect(() => {
+    console.log("fourth")
     if (!socket) return;
 
     function handler(e: MessageEvent<any>) {
@@ -219,6 +220,7 @@ const UserChat: React.FC<{ showConversation?: boolean }> = ({
   // }, [socket, conversation, user.Id, conversations?.length]);
 
   useEffect(() => {
+    console.log("third")
     const base64String = search.get("h");
     if (!base64String) return;
     const decodedString = Buffer.from(base64String, "base64").toString("utf-8");
@@ -253,8 +255,9 @@ const UserChat: React.FC<{ showConversation?: boolean }> = ({
   }, [search, user, conversations]);
 
   useEffect(() => {
+    console.log("second")
     if (!socket) {
-      return () => {};
+      return () => { };
     }
     if (socket && conversations?.length < 1) getUserConversations(socket);
 
@@ -306,6 +309,7 @@ const UserChat: React.FC<{ showConversation?: boolean }> = ({
   );
 
   useEffect(() => {
+    console.log("first")
     if (finalConversationList && idOrSlug?.toString()) {
       const convo = finalConversationList.find(
         (item) => item.Id === idOrSlug?.toString()
@@ -313,7 +317,7 @@ const UserChat: React.FC<{ showConversation?: boolean }> = ({
       setConversation(convo);
     }
 
-    return () => {};
+    return () => { };
   }, [finalConversationList, idOrSlug]);
 
   function handleUpdateStatus(status: number) {
@@ -335,11 +339,9 @@ const UserChat: React.FC<{ showConversation?: boolean }> = ({
         <div className="relative flex h-full flex-col">
           <div className="flex size-full">
             <div
-              className={`${
-                showConversation ? "hidden lg:block" : "lg:block"
-              } w-full overflow-y-auto overflow-x-hidden border-r md:w-[350px]  ${
-                styles.scrollBars
-              }`}
+              className={`${showConversation ? "hidden lg:block" : "lg:block"
+                } w-full overflow-y-auto overflow-x-hidden border-r md:w-[350px]  ${styles.scrollBars
+                }`}
             >
               <ChatHistory
                 isFetching={isFetching}
@@ -352,11 +354,10 @@ const UserChat: React.FC<{ showConversation?: boolean }> = ({
               />
             </div>
             <div
-              className={`${
-                showConversation
-                  ? "flex-col lg:flex"
-                  : "hidden flex-col lg:flex"
-              }  size-full flex-col lg:flex lg:w-[calc(100%-350px)]`}
+              className={`${showConversation
+                ? "flex-col lg:flex"
+                : "hidden flex-col lg:flex"
+                }  size-full flex-col lg:flex lg:w-[calc(100%-350px)]`}
             >
               <div className="flex w-full flex-row items-center justify-between border-b px-3 py-1 shadow-sm">
                 <ChatRecipient conversation={conversation} />
