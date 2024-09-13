@@ -4,15 +4,11 @@ import SearchIcon from "@/assets/icons/search2.svg";
 import Star from "@/assets/icons/starred-mail.svg";
 import UnreadMail from "@/assets/icons/unread-mail.svg";
 import Unstar from "@/assets/icons/unstarred-mail.svg";
-// import { H3, P, P2 } from "@/components/shared/headings/Headings";
 import TickedMessage from "@/assets/icons/tick.svg";
-// import { MessageStatus, type IConversation } from "@/services/chat/payload";
 import { selectCurrentUser } from "@/store/slice/auth/auth.slice";
 import dayjs from "dayjs";
 import { useDispatch, useSelector } from "react-redux";
-// import { getChatConnection } from "@/store/slice/socket/socket.slice";
 import React, {
-  MutableRefObject,
   useCallback,
   useEffect,
   useMemo,
@@ -20,7 +16,6 @@ import React, {
   useState
 } from "react";
 import Link from "next/link";
-// import Avatar from "../../../user/avatar/Avatar";
 import styles from "./ChatHistory.module.scss";
 import { H3, P, P2 } from "@/components/Headings/Headings";
 import { IConversation, MessageStatus } from "@/services/support/payload";
@@ -59,8 +54,6 @@ const ChatItem: React.FC<{
   const date =
     conversation.LastMessage?.CreatedAt &&
     convertGrpcDate(conversation.LastMessage?.CreatedAt);
-
-  // console.log({ date, lll: conversation.LastMessage?.CreatedAt });
 
   const sender = useMemo(() => conversation?.User, [conversation?.User]);
   let lastChatTime = "";
@@ -159,8 +152,6 @@ const ChatHistory: React.FC<{
   );
   const socket = useWebSocket();
 
-  console.log({ metaData });
-
   const router = useRouter();
   const pathname = usePathname();
   const searchParams = useSearchParams();
@@ -197,12 +188,6 @@ const ChatHistory: React.FC<{
     return 0;
   });
 
-  // const finalConversations =
-  //   filteredConversation.length > 0
-  //     ? filteredConversation
-  //     : sortedConversations;
-
-  // console.log({ filteredConversation });
   useEffect(() => {
     const items = localStorage
       ? localStorage.getItem("CH-STARREDCONVERSATIONS")
@@ -244,10 +229,6 @@ const ChatHistory: React.FC<{
               })
             );
           }
-          // meta.current = {
-          //   ...meta.current,
-          //   CurrentPage: meta.current.CurrentPage + 1
-          // };
         }
       },
       {
@@ -262,8 +243,6 @@ const ChatHistory: React.FC<{
       if (divEl) observer.unobserve(divEl);
     };
   }, [filter, socket, metaData, dispatch, isFetching, setIsFetching]);
-
-  console.log({ metaData });
 
   return (
     <div className="">

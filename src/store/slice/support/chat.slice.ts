@@ -48,7 +48,6 @@ const chat = createSlice({
       state.tickets = action.payload;
     },
     setTicketsMeta: (state, action) => {
-      console.log({ reduxxxxxxxxx: action.payload });
       state.ticketsMeta = action.payload;
     },
     setAssignedConversations: (state, action) => {

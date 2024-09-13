@@ -25,13 +25,12 @@ const RecievedChat: React.FC<{ chat: IMessage; showStatus: boolean }> = ({
     freezeOnceVisible: true // Optional: freeze observer once component is visible
   });
 
-  // console.log(chat);
-
   useEffect(() => {
     if (isIntersecting && chat.Status === MessageStatus.Unread && socket) {
       updateConversationStatus(socket, chat.ConversationId);
       const timeout = setTimeout(
-        () => getConversationMessages(socket, chat.ConversationId),
+        () => {},
+        // getConversationMessages(socket, chat.ConversationId),
         10000
       );
 

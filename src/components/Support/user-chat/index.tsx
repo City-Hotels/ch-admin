@@ -56,18 +56,11 @@ const UserChat: React.FC<{ showConversation?: boolean }> = ({
     [chatConversations]
   );
 
-  console.log({ assignedConversations });
-
   const selectedUser = useSelector(selectCurrentUser) || {};
   const user = useMemo(() => selectedUser || {}, [selectedUser]);
 
-  // const conversations = useSelector(getChatConversations) || [];
   const router = useRouter();
   const { idOrSlug } = useParams<{ idOrSlug: string }>();
-
-  // const { slug } = router.query;
-
-  // console.log({ conversations });
 
   const socket = useWebSocket();
   const dispatch = useDispatch();
@@ -143,13 +136,6 @@ const UserChat: React.FC<{ showConversation?: boolean }> = ({
       if (data.Type === "LIST_CONVERSATIONS") {
         if (activeConvoMeta.CurrentPage === 1) {
           dispatch(setAssignedConversationsMeta(data.Data.Meta));
-          console.log(
-            "chaiiiiii",
-            data.Data.Meta,
-            activeConvoMeta.CurrentPage === 1,
-            stableConversations.current,
-            activeConvoMeta.CurrentPage
-          );
 
           dispatch(
             setAssignedConversations(data.Data.Conversations as IConversation[])
@@ -157,11 +143,6 @@ const UserChat: React.FC<{ showConversation?: boolean }> = ({
           stableConversations.current = data.Data
             .Conversations as IConversation[];
         } else if (activeConvoMeta.TotalPages !== 0) {
-          console.log(
-            { ...stableConversations.current },
-            "-------testing",
-            data.Data.Conversations
-          );
           setIsFetching(false);
           dispatch(
             setAssignedConversations([
@@ -182,7 +163,6 @@ const UserChat: React.FC<{ showConversation?: boolean }> = ({
       !assignedConversations?.length
     ) {
       getAssignedConversations(socket);
-      console.log("does this work?");
     }
 
     return () => {
@@ -262,7 +242,6 @@ const UserChat: React.FC<{ showConversation?: boolean }> = ({
       const msg = JSON.parse(event.data);
       if (msg.Type === "INCOMING_MESSAGE") {
         const data = msg.Data as IMessage;
-        // console.log({ testttt: data });
         if (
           conversation?.Id === "" &&
           ((data.Recipient.Id === conversation.SupportAgent.Id &&
@@ -297,8 +276,6 @@ const UserChat: React.FC<{ showConversation?: boolean }> = ({
     [filter, conversations, assignedConversations]
   );
 
-  console.log({ finalConversationList });
-
   const finalConvoMeta = useMemo(
     () => (filter === "new" ? conversationsMeta : activeConvoMeta),
 
@@ -328,7 +305,6 @@ const UserChat: React.FC<{ showConversation?: boolean }> = ({
     updateStatus(data);
   }
 
-  console.log("plllllllll");
   return (
     <>
       <div className="h-full rounded-md border border-[#ddd] lg:min-w-[90vw]">

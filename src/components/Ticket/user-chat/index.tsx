@@ -47,62 +47,19 @@ const UserChat: React.FC<{ showConversation?: boolean }> = ({
   showConversation
 }) => {
   const [ticket, setTicket] = useState<TicketEntry>();
-  // const conversations = useSelector(getChatConversations) || [];
   const tickets = useSelector(getTickets);
   const router = useRouter();
   const { idOrSlug } = useParams<{ idOrSlug: string }>();
 
-  // const { slug } = router.query;
-
   const socket = useWebSocket();
   const user = useSelector(selectCurrentUser) || {};
-  // const [isTyping, setIsTyping] = useState(false);
-  // const search = useSearchParams();
   const [reassignTicket, setReassignTicket] = useState(false);
 
   const stableSocket = useMemo(() => socket, [socket]);
   const metaData = useSelector(getTicketsMeta) as Meta;
   const [isFetching, setIsfetching] = useState(false);
 
-  // useEffect(() => {
-  //   const base64String = search.get("h");
-  //   if (!base64String) return;
-  //   const decodedString = Buffer.from(base64String, "base64").toString("utf-8");
-  //   const json = JSON.parse(decodedString) as IUser;
-  //   const existingConvo = conversations.find(
-  //     (conv) => conv.SupportAgent.Id === json.Id || conv.User.Id === json.Id
-  //   );
-
-  //   const convo: IConversation = {
-  //     User: {
-  //       Id: json.Id || "",
-  //       Firstname: json.Firstname,
-  //       Lastname: json.Lastname,
-  //       Imageurl: json.ImageUrl
-  //     },
-  //     SupportAgent: {
-  //       Id: user.Id || "",
-  //       Firstname: user.Firstname,
-  //       Lastname: user.Lastname,
-  //       Imageurl: user.ImageUrl
-  //     },
-  //     Id: "",
-  //     Ticket: "",
-  //     Status: 0,
-  //     Feedback: "",
-  //     UnReadCount: 0
-  //   };
-
-  //   if (existingConvo) setConversation(existingConvo);
-  //   // if (!conversation && conversations.length > 0) setConversation(conversations[0]);
-  //   else setConversation(convo);
-  // }, [search, user, conversations]);
-
-  console.log({ tickets, metaData });
-  // const [status, setStatus] = useState<null | number>(null);
   const dispatch = useDispatch();
-
-  // console.log(status);
 
   useEffect(() => {
     if (!socket) {
@@ -111,17 +68,14 @@ const UserChat: React.FC<{ showConversation?: boolean }> = ({
 
     if (metaData.TotalPages === 0 && !tickets?.length) {
       getTicketsList(socket);
-      console.log("chaiiiiiiiiiiiiii");
     }
 
     function handler(event: MessageEvent<any>) {
       const msg = JSON.parse(event.data);
       if (msg.Type === "TICKET_LIST") {
         const data = msg?.Data?.Tickets as TicketEntry[];
-        console.log("does it run");
 
         if (msg.Data.Meta.CurrentPage === 1) {
-          console.log({ data_1: data });
           dispatch(setTickets(data));
           dispatch(setTicketsMeta(msg.Data.Meta as Meta));
         } else if (
@@ -129,83 +83,30 @@ const UserChat: React.FC<{ showConversation?: boolean }> = ({
           tickets?.length &&
           metaData.CurrentPage !== metaData.TotalPages
         ) {
-          console.log("works????????????", { obj: msg?.Data?.Tickets });
-
           dispatch(
             setTickets([...tickets, ...(msg?.Data?.Tickets as TicketEntry[])])
           );
           setIsfetching(false);
         }
-        // setIsLoading((s) => !s);
-        // if (
-        //   conversation?.Id === "" &&
-        //   ((data.Recipient.Id === conversation.SupportAgent.Id &&
-        //     data.Sender.Id === user.Id) ||
-        //     (data.Recipient.Id === user.Id &&
-        //       data.Sender.Id === conversation.SupportAgent.Id))
-        // ) {
-        //   setConversation({ ...conversation, Id: data.ConversationId });
-        //   getUserConversations(socket);
-        // }
       }
       return event;
     }
 
-    socket.addEventListener(
-      "message",
-      handler
-      // (event: MessageEvent<any>) => {
-      // const msg = JSON.parse(event.data);
-      // if (msg.Type === "TICKET_LIST") {
-      //   const data = msg?.Data?.Tickets as TicketEntry[];
-      //   console.log({ data_1: data });
-      //   dispatch(setTickets(data));
-      //   // setIsLoading((s) => !s);
-      //   // if (
-      //   //   conversation?.Id === "" &&
-      //   //   ((data.Recipient.Id === conversation.SupportAgent.Id &&
-      //   //     data.Sender.Id === user.Id) ||
-      //   //     (data.Recipient.Id === user.Id &&
-      //   //       data.Sender.Id === conversation.SupportAgent.Id))
-      //   // ) {
-      //   //   setConversation({ ...conversation, Id: data.ConversationId });
-      //   //   getUserConversations(socket);
-      //   // }
-      // }
-      // return event;
-      // }
-    );
+    socket.addEventListener("message", handler);
 
     return () => {
       socket.removeEventListener("message", handler);
-      // if (list) socket?.removeEventListener("message", list);
     };
   }, [user.Id, socket, dispatch, tickets, metaData]);
-
-  // useEffect(() => {
-  //   if (!conversation && conversations.length > 0)
-
-  //     setConversation(conversations[0]);
-
-  //   return () => {};
-  // }, [conversations, conversation]);
 
   useEffect(() => {
     if (idOrSlug?.toString()) {
       const openTicket = tickets?.find((item) => item.Id === String(idOrSlug));
-      console.log({ openTicket });
       setTicket(openTicket);
     }
 
     return () => {};
   }, [tickets, tickets?.length, idOrSlug]);
-
-  // console.log({
-  //   tickets,
-  //   socket,
-  //   ticket,
-  //   i: tickets?.find((item) => item.Id === idOrSlug?.toString())
-  // });
 
   function handleUpdateStatus(status: number) {
     if (!socket || !idOrSlug) return;
@@ -216,7 +117,6 @@ const UserChat: React.FC<{ showConversation?: boolean }> = ({
       ticketId: idOrSlug
     };
 
-    console.log({ data });
     updateTicketStatus(data);
   }
 
@@ -266,9 +166,6 @@ const UserChat: React.FC<{ showConversation?: boolean }> = ({
                               {status.name}
                             </Popup.Btn>
                           ))}
-                          {/* <Popup.Btn>Pending</Popup.Btn>
-                      <Popup.Btn>Resolved</Popup.Btn>
-                      <Popup.Btn>Closed</Popup.Btn> */}
                         </Popup.Window>
                         <Popup.Open opens="ticket-status">
                           <button className="bg-white size-full px-3 py-1 border border-white500 text-start rounded-md flex justify-between items-center">
@@ -276,9 +173,6 @@ const UserChat: React.FC<{ showConversation?: boolean }> = ({
                             <ChevronDown />
                           </button>
                         </Popup.Open>
-                        {/* <select className="border border-white400 p-2 rounded-md outline-none">
-                      <option>New</option>
-                    </select> */}
                       </span>
                     </Popup>
                     <P
@@ -294,25 +188,13 @@ const UserChat: React.FC<{ showConversation?: boolean }> = ({
               <div className="grid grid-cols-1  gap-3 md:grid-cols-[2fr_1fr]">
                 <div className="relative w-full border-r">
                   {ticket && <TicketSummary ticket={ticket} />}
-                  {/* <ChatMain conversation={conversation} isTyping={isTyping} />
-                  {conversation && (
-                    <div className="w-full bg-white">
-                      <TypeChat
-                        conversation={conversation}
-                        setIsTyping={setIsTyping}
-                        isTyping={isTyping}
-                      />
-                    </div>
-                  )} */}
                 </div>
                 <div
                   className={`hidden w-full flex-col gap-5 overflow-y-auto xl:flex ${styles.scrollBars} py-5 md:h-[calc(100vh-197px)]`}
                 >
-                  {/* <SupportBookingSummary /> */}
                   {ticket && (
                     <Information>
                       <Information.User userId={ticket?.Assignee?.Id} />
-                      {/* <Information.Ticket /> */}
                     </Information>
                   )}
                 </div>

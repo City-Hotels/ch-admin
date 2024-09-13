@@ -64,7 +64,7 @@ function CreateTicket({
     function handler(e: MessageEvent<any>) {
       const msg = JSON.parse(e.data);
       if (msg.Type === "TICKET") setIsOpen(false);
-      if (msg.Type === "TICKET") console.log("true");
+      // if (msg.Type === "TICKET") console.log("true");
     }
     if (socket) socket.addEventListener("message", handler);
 
@@ -168,8 +168,6 @@ function TicketForm({
                       adminId: admin.Id || "",
                       adminName: `${admin.Firstname} ${admin.Lastname}`
                     });
-
-                    console.log(admin);
                   }}
                 >
                   {`${admin.Firstname} ${admin.Lastname}`}

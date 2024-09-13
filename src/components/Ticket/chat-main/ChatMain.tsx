@@ -54,10 +54,8 @@ const ChatMain: React.FC<{
   }, [chatContainerRef.current]);
 
   useEffect(() => {
-    console.log("runs", 1, socket);
     if (!socket || !conversation?.Id) return () => {};
     getConversationMessages(socket, conversation.Id);
-    console.log("runs", 2, socket);
     if (messages.length < 1 && pageNum === 1) setIsFetchingMsgs(true);
 
     return () => {};

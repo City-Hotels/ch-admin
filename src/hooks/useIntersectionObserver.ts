@@ -14,7 +14,6 @@ const useIntersectionObserver = (
   useEffect(() => {
     const observer = new IntersectionObserver(([entry]) => {
       setIsIntersecting(!!entry?.isIntersecting);
-      console.log("is it okay", entry.isIntersecting);
       if (!!entry?.isIntersecting && options.freezeOnceVisible) {
         observer.disconnect();
       }

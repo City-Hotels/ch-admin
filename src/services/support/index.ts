@@ -32,15 +32,6 @@ export const getAssignedConversations = (
   socket.send(JSON.stringify(msg));
 };
 
-// {
-//   "Data": {
-//     "Meta":{
-//       "CurrentPage":2
-//     }
-//   },
-//   "Type": "LIST_ASSIGNED_CONVERSATIONS"
-// }
-
 export const getTicketsList = (socket: WebSocket, CurrentPage?: number) => {
   console.log({ CurrentPage });
 
@@ -48,7 +39,6 @@ export const getTicketsList = (socket: WebSocket, CurrentPage?: number) => {
     Data: {
       TicketId: "",
       Meta: {
-        // Limit: 20,
         CurrentPage
       }
     },
@@ -83,8 +73,6 @@ export const createTicket = ({
 
   socket.send(JSON.stringify(msg));
   console.log("works", msg);
-  // const res = socket.send(JSON.stringify(msg));
-  // console.log({ res }, "called");
 };
 
 export const reassignTicket = ({
@@ -122,8 +110,8 @@ export const updateTicketStatus = ({
 }) => {
   const msg = {
     Data: {
-      TicketId: ticketId, //"66b2ab79f2f5646940874b9e",
-      Status: status //1
+      TicketId: ticketId,
+      Status: status
     },
     Type: "UPDATE_TICKET_STATUS"
   };
@@ -155,12 +143,15 @@ export const updateStatus = ({
 
 export const getConversationMessages = (
   socket: WebSocket,
-  ConversationId: string
+  ConversationId: string,
+  CurrentPage?: number
 ) => {
   const msg = {
-    // ConversationId,
     Data: {
-      conversationId: ConversationId
+      conversationId: ConversationId,
+      Meta: {
+        CurrentPage
+      }
     },
     Type: "CONVERSATION_MESSAGES"
   };
@@ -183,15 +174,6 @@ export const updateConversationStatus = (
   socket.send(JSON.stringify(msg));
 };
 
-// {
-//   "Data": {
-//     "conversationId":"66cc67b32dd4fcbdef309e05",
-//     "Status":1
-//   },
-
-//   "Type": "MESSAGE_READ"
-// }
-
 export const sendChatMessage = (
   socket: WebSocket,
   message: string,
@@ -203,7 +185,6 @@ export const sendChatMessage = (
 
   const msg = {
     Data: {
-      // ConversationId: "",
       ConversationId: conversationId,
       Message: message,
       Recipient: { Id: RecipientId },
@@ -211,7 +192,6 @@ export const sendChatMessage = (
     },
     Type: "POST_MESSAGE"
   };
-  // console.log({ msg });
   socket.send(JSON.stringify(msg));
 };
 

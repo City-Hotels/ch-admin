@@ -83,7 +83,6 @@ const TypeChat = ({
     } as IMessage;
 
     if (socket && messageStr) {
-      console.log({ latestMessage });
       images.length > 0
         ? sendChatMessage(socket, messageStr, Id, User.Id, stableDate)
         : sendChatMessage(socket, messageStr, Id, User.Id);
@@ -128,13 +127,11 @@ const TypeChat = ({
           stableDate.seconds === data.CreatedAt.seconds &&
           imagesToUpload.current.length > 0
         ) {
-          console.log("uploading...", { testing: imagesToUpload.current });
           const imageUrls = await uploadSupportChatImages(
             imagesToUpload.current,
             data.Id
           );
 
-          console.log({ imageUrls });
         }
       }
       return e;

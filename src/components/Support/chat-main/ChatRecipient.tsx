@@ -45,24 +45,6 @@ const ChatRecipient: React.FC<{ conversation?: IConversation }> = ({
     };
   }, [socket]);
 
-  // console.log({ socket }, "socket");
-
-  // useEffect(() => {
-  //   let list: any;
-  //   if (socket && conversation && conversation.Id) {
-  //     getRecipientStatus(socket, conversation.Id);
-  //     list = socket.addEventListener("message", (event: MessageEvent<any>) => {
-  //       const msg = JSON.parse(event.data);
-  //       if (msg.Type === "RECIPIENT_STATUS") {
-  //         setIsOnline(msg.Data.active);
-  //       }
-  //     });
-  //   }
-  //   return () => {
-  //     socket?.removeEventListener("message", list);
-  //   };
-  // }, [socket, conversation]);
-
   return (
     <div className="flex gap-4 items-center">
       <Avatar

@@ -37,8 +37,6 @@ function ReAssignModal({
       AssigneeId: adminId
     };
 
-    console.log(data);
-
     reassignTicket(data);
   }
 

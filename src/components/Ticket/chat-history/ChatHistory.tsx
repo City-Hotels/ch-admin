@@ -85,33 +85,7 @@ const ChatItem: React.FC<{
           <P2 className="text-nowrap text-white700">{lastChatTime}</P2>
           <span onClick={toggleStar}>{isStarred ? <Star /> : <Unstar />}</span>
         </div>
-        <div className="ml-auto mt-2 flex flex-row items-center gap-2">
-          {/* {conversation.LastMessage?.Sender.Id !== user.Id &&
-          conversation.UnReadCount ? (
-            <P2 className="size-[21px] rounded-[10px] bg-primary400 text-center text-white">
-              {conversation.UnReadCount}
-            </P2>
-          ) : (
-            <></>
-          )} */}
-          {/* {conversation.LastMessage?.Status === MessageStatus.Read ? (
-            <>
-              {conversation.LastMessage?.Sender.Id !== user.Id && (
-                <UnreadMail />
-              )}
-              {conversation.LastMessage?.Sender.Id === user.Id && (
-                <TickedMessage />
-              )}
-            </>
-          ) : ( */}
-          {/* <> */}
-          {/* {conversation.LastMessage?.Sender.Id !== user.Id && <ReadMail />} */}
-          {/* {conversation.LastMessage?.Sender.Id === user.Id && (
-                <TickedMessage />
-              )} */}
-          {/* </> */}
-          {/* )} */}
-        </div>
+        <div className="ml-auto mt-2 flex flex-row items-center gap-2"></div>
       </div>
     </Link>
   );

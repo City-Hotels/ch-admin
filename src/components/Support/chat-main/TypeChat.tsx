@@ -74,8 +74,6 @@ const TypeChat: React.FC<{
     } as IMessage;
 
     if (socket && message) {
-      console.log({ latestMessage });
-      // sendChatMessage(socket, message, Id, User.Id);
       onSend_receive_message((prevMsgs) => [...prevMsgs, latestMessage]);
       setMessage("");
     }
