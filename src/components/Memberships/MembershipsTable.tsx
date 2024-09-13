@@ -12,6 +12,7 @@ import { Table } from "../Tables/Table/Table";
 import { convertGrpcDate } from "@/utils/helpers";
 import Input from "../Inputs/Input/Input";
 import { getMemberships } from "@/services/promotions/index";
+import { useRouter } from "next/navigation";
 import {
   IPromotion,
   PromotionFilter,
@@ -46,6 +47,8 @@ const MembershipTable: React.FC<{
     }
   });
 
+  const router = useRouter();
+
   return (
     <div className="bg-white p-2 rounded-md">
       <H4 className="p-2 text-black">
@@ -59,6 +62,9 @@ const MembershipTable: React.FC<{
         onPageChange={handlePageChange}
         headerColor="primary"
         errorMessage="You have not gotten any bookings"
+        onRowClick={(subscriptionDetails) =>
+          router.push(`/promotions/${subscriptionDetails.Id}/subscription`)
+        }
         headerComponent={
           <div className="p-3 overflow-x-scroll">
             <div className="items-between flex w-full items-center justify-between gap-3">
