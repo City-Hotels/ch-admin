@@ -28,15 +28,6 @@ const RecievedChat: React.FC<{ chat: IMessage; showStatus: boolean }> = ({
   useEffect(() => {
     if (isIntersecting && chat.Status === MessageStatus.Unread && socket) {
       updateConversationStatus(socket, chat.ConversationId);
-      const timeout = setTimeout(
-        () => {},
-        // getConversationMessages(socket, chat.ConversationId),
-        10000
-      );
-
-      return () => {
-        clearTimeout(timeout);
-      };
     }
     return () => {};
   }, [isIntersecting, chat, socket]);
@@ -59,7 +50,7 @@ const RecievedChat: React.FC<{ chat: IMessage; showStatus: boolean }> = ({
   } else lastChatTime = dayjs(date).format("DD MMM hh:mm A");
 
   return (
-    <div className={styles.container} ref={ref}>
+    <div className={styles.container}>
       <Avatar
         Imageurl={chat.Sender.Imageurl}
         Firstname={chat.Sender.Firstname}

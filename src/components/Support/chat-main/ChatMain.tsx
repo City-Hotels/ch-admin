@@ -69,7 +69,10 @@ const ChatMain: React.FC<{
   }, [chatContainerRef.current]);
 
   const noPreviousMessages = useMemo(
-    () => sent_received_messages.length < 1 && pageNum === 0,
+    () =>
+      !!sent_received_messages &&
+      sent_received_messages.length < 1 &&
+      pageNum === 0,
     [sent_received_messages, pageNum]
   );
 
@@ -120,10 +123,12 @@ const ChatMain: React.FC<{
         getUserConversations(socket);
         const data = msg.Data as IMessage;
         if (data.ConversationId === conversation?.Id) {
-          getConversationMessages(socket, conversation.Id);
+          // getConversationMessages(socket, conversation.Id); // Removed this line so that image can uplaod successfully
           onSend_receive_message((msgs) =>
             msgs.map((msg) =>
-              msg.CreatedAt.nanos === data.CreatedAt.nanos ? msg : msg
+              msg.CreatedAt.nanos === data.CreatedAt.nanos
+                ? { ...msg, Id: data.Id }
+                : msg
             )
           );
           scrollToBottom();

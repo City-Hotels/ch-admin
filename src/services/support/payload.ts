@@ -90,7 +90,7 @@ export interface IMessage {
   Status: MessageStatus;
   CreatedAt: TimeStamp;
   UpdatedAt: TimeStamp;
-  Media?: IMedia;
+  Media?: IMedia[];
   PendingUploads?: File[];
 }
 export interface IChatSocketMessageEventData {
