@@ -20,6 +20,39 @@ export interface IPromotion {
   EndDate?: IGRPCDate;
 }
 
+export interface ISubscribers {
+  Created_at: IGRPCDate;
+  Id?: string;
+  Promotion: IPromotion;
+  Service?: IService;
+  Updated_at: IGRPCDate;
+}
+
+export interface IService {
+  Id?: string;
+  Imageurl: string;
+  Name: string;
+  ServiceType: string; 
+}
+
+export interface SubscriptionFilter {
+  Limit?: number;
+  Page?: number;
+  Name?: string;
+  Id?: string;
+  MaxParticipant?: number;
+  MaximumBooking?: number;
+  MinimumBooking?: number;
+  BookingDiscount?: number;
+  Rate?: number;
+  Unit?: string;
+  Status?: PromotionFilterStatus;
+  Title?: string;
+  Type?: PromotionType;
+  StartDate?: IGRPCDate;
+  EndDate?: IGRPCDate;
+}
+
 export interface PromotionFilter {
   Limit?: number;
   Page?: number;
@@ -85,6 +118,7 @@ export enum PromotionStatus {
   ACTIVE = 1,
   EXPIRED = 2
 }
+
 export enum PromotionFilterStatus {
   ACTIVE = "ACTIVE",
   INACTIVE = "INACTIVE",

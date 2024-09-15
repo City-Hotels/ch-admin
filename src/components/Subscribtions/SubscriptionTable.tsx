@@ -13,8 +13,8 @@ import { convertGrpcDate } from "@/utils/helpers";
 import Input from "../Inputs/Input/Input";
 import { getPromotionSubcriptions } from "@/services/promotions/index";
 import {
-  IPromotion,
-  PromotionFilter,
+  ISubscribers,
+  SubscriptionFilter,
   PromotionFilterStatus,
   PromotionStatus
 } from "@/services/promotions/payload";
@@ -25,19 +25,19 @@ import Button from "../Button/Button";
 const SubscribtionsTable: React.FC<{
   Limit: number;
   hidePagination?: boolean;
-  Filter: PromotionFilter;
+  Filter: SubscriptionFilter;
 }> = ({ Limit, Filter, hidePagination }) => {
   const [Page, setPage] = useState(1);
   const [tableFilter, setTableFilter] = useState({ ...Filter });
   const [showFilterModal, setShowFilterModal] = useState(false);
 
   const { isLoading, refetch, data } = useQuery(
-    [queryKeys.getPromotions, Limit, Page, tableFilter],
+    [queryKeys.getPromotionsSubscriptions, Limit, Page, tableFilter],
     () => getPromotionSubcriptions({ Limit, ...tableFilter, Page })
   );
-  const subcriptions = (data?.data.Promotions as IPromotion[]) || [];
+  const subcriptions = (data?.data.Subscribers as ISubscribers[]) || [];
   const meta = (data?.data.Meta as Meta) || [];
-  console.log("subscrptions" + subcriptions)
+
 
   const { currentPage, perPage, handlePageChange } = usePagination({
     defaultCurrentPage: 1,
@@ -59,7 +59,7 @@ const SubscribtionsTable: React.FC<{
         total={meta.TotalCount}
         onPageChange={handlePageChange}
         headerColor="primary"
-        errorMessage="You have not gotten any bookings"
+        errorMessage="You have not gotten any subscriptions"
         headerComponent={
           <div className="p-3 overflow-x-scroll">
             <div className="items-between flex w-full items-center justify-between gap-3">
@@ -112,22 +112,25 @@ const SubscribtionsTable: React.FC<{
                           {promotionStatus === PromotionStatus.ACTIVE &&
                             `(${
                               subcriptions.filter(
-                                (item: IPromotion) =>
-                                  item.Status === PromotionStatus.ACTIVE
+                                (item: ISubscribers) =>
+                                  item.Promotion.Status ===
+                                  PromotionStatus.ACTIVE
                               ).length
                             })`}
                           {promotionStatus === PromotionStatus.INACTIVE &&
                             `(${
                               subcriptions.filter(
-                                (item: IPromotion) =>
-                                  item.Status === PromotionStatus.INACTIVE
+                                (item: ISubscribers) =>
+                                  item.Promotion.Status ===
+                                  PromotionStatus.INACTIVE
                               ).length
                             })`}
                           {promotionStatus === PromotionStatus.EXPIRED &&
                             `(${
                               subcriptions.filter(
-                                (item: IPromotion) =>
-                                  item.Status === PromotionStatus.EXPIRED
+                                (item: ISubscribers) =>
+                                  item.Promotion.Status ===
+                                  PromotionStatus.EXPIRED
                               ).length
                             })`}
                         </div>
@@ -163,7 +166,7 @@ const SubscribtionsTable: React.FC<{
             headerClass:
               "font-matter py-2 px-3 whitespace-nowrap text-[12px] font-normal leading-[150%] text-white",
             render(_column, item) {
-              return <div className="px-4">{item.Name}</div>;
+              return <div className="px-4">{item.Promotion.Name}</div>;
             }
           },
           {
@@ -177,7 +180,7 @@ const SubscribtionsTable: React.FC<{
                 <div
                   className={`text-[var(--grey-grey-600, #5D6679);] text-[14px] leading-[150%]`}
                 >
-                  {item.ShortDescription}
+                  {item.Promotion.ShortDescription}
                 </div>
               );
             }
@@ -211,7 +214,9 @@ const SubscribtionsTable: React.FC<{
                 <div
                   className={`text-[var(--grey-grey-600, #5D6679);] text-[14px] leading-[150%]`}
                 >
-                  {dayjs(convertGrpcDate(item.Created_at)).format("DD/MM/YYYY")}
+                  {dayjs(convertGrpcDate(item?.Created_at)).format(
+                    "DD/MM/YYYY"
+                  )}
                 </div>
               );
             }
@@ -241,21 +246,24 @@ const SubscribtionsTable: React.FC<{
               "font-matter py-2 whitespace-nowrap text-[12px] font-normal leading-[150%] text-white",
             width: "5%",
             render(_column, item) {
-              if (!item.Status) item.Status = PromotionStatus.INACTIVE;
+              if (!item.Promotion.Status) item.Promotion.Status = PromotionStatus.INACTIVE;
               return (
                 <div
                   className={` ${
-                    (item.Status === PromotionStatus.INACTIVE &&
+                    (item.Promotion.Status === PromotionStatus.INACTIVE &&
                       "bg-warning50 text-warning400") ||
-                    (item.Status === PromotionStatus.ACTIVE &&
+                    (item.Promotion.Status === PromotionStatus.ACTIVE &&
                       "bg-success50 text-success400") ||
                     "bg-danger50  text-danger400"
                   }    inline-block rounded-full px-4 py-1`}
                 >
                   <div className="text-center text-[12px]">
-                    {item?.Status === PromotionStatus.INACTIVE && "Inactive"}
-                    {item?.Status === PromotionStatus.ACTIVE && "Active"}
-                    {item?.Status === PromotionStatus.EXPIRED && "Expired"}
+                    {item.Promotion.Status === PromotionStatus.INACTIVE &&
+                      "Inactive"}
+                    {item.Promotion.Status === PromotionStatus.ACTIVE &&
+                      "Active"}
+                    {item.Promotion.Status === PromotionStatus.EXPIRED &&
+                      "Expired"}
                   </div>
                 </div>
               );

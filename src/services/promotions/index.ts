@@ -1,5 +1,5 @@
 import { ApiResponse, Meta, getRequest, postRequest } from "@/utils/api/calls";
-import type { IPromotion, PromotionFilter } from "./payload";
+import type { IPromotion, ISubscribers, PromotionFilter, SubscriptionFilter } from "./payload";
 
 const getMemberships = (
   filter: PromotionFilter
@@ -44,11 +44,11 @@ const getCampaigns = (
 };
 
 const getPromotionSubcriptions = (
-  filter: PromotionFilter
+  filter: SubscriptionFilter
 ): Promise<
   ApiResponse<{
     Meta: Meta;
-    Promotions: IPromotion[];
+    Subscribers: ISubscribers[];
   }>
 > => {
   const args = Object.keys(filter)
@@ -59,7 +59,7 @@ const getPromotionSubcriptions = (
         )}`
     )
     .join("&");
-  return getRequest<{ Meta: Meta; Promotions: IPromotion[] }>({
+  return getRequest<{ Meta: Meta; Subscribers: ISubscribers[] }>({
     url: `/promotions/subscriptions?${args}`
   });
 };

@@ -4,15 +4,15 @@ import styles from "./Filter.module.scss";
 import type FilterProps from "./Filter.props";
 import Close from "../../../assets/icons/close.svg";
 import Search from "../../../assets/icons/search.svg";
-import { H2, H4, P2 } from "@/components/Headings/Headings";
+import { H4, P2 } from "@/components/Headings/Headings";
 import CheckboxTwo from "@/components/Checkboxes/CheckboxTwo";
 import {
-  PromotionFilter,
+  SubscriptionFilter,
   PromotionFilterStatus
 } from "@/services/promotions/payload";
 
 const Filter: FC<FilterProps> = ({ className, onClose, setFilter, filter }) => {
-  const [filters, updateFilter] = useState<PromotionFilter>(filter);
+  const [filters, updateFilter] = useState<SubscriptionFilter>(filter);
 
   const handleFilterClick = (e: { stopPropagation: () => void }) => {
     e.stopPropagation();
