@@ -1,0 +1,12 @@
+.promotionGridContainer {
+  @apply w-full bg-white p-1 rounded grid grid-cols-1 md:grid-flow-row md:grid-cols-3 pb-4 mb-5;
+}
+
+.promotionLabel {
+  @apply mb-1 text-sm;
+}
+
+.promotionValue {
+  @apply font-medium text-black;
+}
+
