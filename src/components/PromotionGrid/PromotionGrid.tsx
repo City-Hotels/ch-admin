@@ -106,7 +106,7 @@ const PromotionGrid: React.FC<PromotionGridProps> = ({promotion}) => {
                 {promotion?.Requirement?.Account === AccountType.PLATINUM &&
                   "Platinum"}
                 {promotion?.Requirement?.Account === AccountType.PREMEIUM &&
-                  "Premeium"}
+                  "Premium"}
                 {promotion?.Requirement?.Account === AccountType.STANDARD &&
                   "Standard"}
               </P2>
