@@ -40,7 +40,7 @@ const CampaignPage = () => {
         <PromotionTable
           Limit={5}
           Filter={{}}
-          Promotion={promotion && promotion.Requirement?.Promotions}
+          Promotion={promotion}
         />
       </div>
 

@@ -32,13 +32,6 @@ const PromotionTable: React.FC<{
   const [tableFilter, setTableFilter] = useState({ ...Filter });
   const [showFilterModal, setShowFilterModal] = useState(false);
 
-  const { isLoading, refetch, data } = useQuery(
-    [queryKeys.getPromotions, Limit, Page, tableFilter],
-    () => getCampaigns({ Limit, ...tableFilter, Page })
-  );
-  const campaigns = (data?.data.Promotions as IPromotion[]) || [];
-  const meta = (data?.data.Meta as Meta) || [];
-
   const { currentPage, perPage, handlePageChange } = usePagination({
     defaultCurrentPage: 1,
     defaultPerPage: Limit,
@@ -52,19 +45,21 @@ const PromotionTable: React.FC<{
   return (
     <div className="bg-white p-2 rounded-md">
       <H4 className="p-2 text-black">
-        Campaigns {meta.TotalCount && <span>({meta.TotalCount})</span>}
+        {/* Promotion
+         {meta.TotalCount && <span>({meta.TotalCount})</span>} */}
+        Promotion
       </H4>
       <Table
         withPagination={!hidePagination}
         perPage={perPage}
         currentPage={currentPage}
-        total={meta.TotalCount}
+        //total={meta.TotalCount}
         onPageChange={handlePageChange}
         headerColor="primary"
         onRowClick={(subscriptionDetails) =>
           router.push(`/promotions/${subscriptionDetails.Id}/subscription`)
         }
-        errorMessage="You have not gotten any bookings"
+        errorMessage="You have not gotten any Promotions"
         headerComponent={
           <div className="p-3 overflow-x-scroll">
             <div className="items-between flex w-full items-center justify-between gap-3">
@@ -72,7 +67,7 @@ const PromotionTable: React.FC<{
                 <div className="md:min-w-[200px]">
                   <Input
                     type="search"
-                    placeholder="Campaign Id"
+                    placeholder="Promotion Id"
                     className="w-full border border-[#EAEAEA] outline-none placeholder:text-[#666666] max-[425px]:w-[153px]"
                     value={tableFilter.Id}
                     onChange={(ev) =>
@@ -92,7 +87,7 @@ const PromotionTable: React.FC<{
                         setTableFilter({ ...tableFilter, SearchStatus: false });
                       }}
                     >
-                      All 
+                      All
                     </div>
                     {Object.values(PromotionStatus)
                       .filter((value) => typeof value === "string")
@@ -107,7 +102,7 @@ const PromotionTable: React.FC<{
                               ...tableFilter,
                               SearchStatus: true,
                               Status:
-                              PromotionStatus[
+                                PromotionStatus[
                                   promotionStatus as keyof typeof PromotionStatus
                                 ]
                             });
@@ -115,24 +110,23 @@ const PromotionTable: React.FC<{
                         >
                           {promotionStatus}
 
-
                           {promotionStatus === PromotionStatus.ACTIVE &&
                             `(${
-                              campaigns.filter(
+                              Promotion?.Requirement?.Promotions?.filter(
                                 (item: IPromotion) =>
                                   item.Status === PromotionStatus.ACTIVE
                               ).length
                             })`}
                           {promotionStatus === PromotionStatus.INACTIVE &&
                             `(${
-                              campaigns.filter(
+                              Promotion?.Requirement?.Promotions?.filter(
                                 (item: IPromotion) =>
                                   item.Status === PromotionStatus.INACTIVE
                               ).length
                             })`}
                           {promotionStatus === PromotionStatus.EXPIRED &&
                             `(${
-                              campaigns.filter(
+                              Promotion?.Requirement?.Promotions?.filter(
                                 (item: IPromotion) =>
                                   item.Status === PromotionStatus.EXPIRED
                               ).length
@@ -163,7 +157,7 @@ const PromotionTable: React.FC<{
             headerClass:
               "font-matter py-2 px-3 whitespace-nowrap text-[12px] font-normal leading-[150%] text-white",
             render(_column, item) {
-              return <div className="px-4">{item.Name}</div>;
+              return <div className="px-4">{item?.Name}</div>;
             }
           },
           {
@@ -177,7 +171,7 @@ const PromotionTable: React.FC<{
                 <div
                   className={`text-[var(--grey-grey-600, #5D6679);] text-[14px] leading-[150%]`}
                 >
-                  {item.ShortDescription}
+                  {item?.ShortDescription}
                 </div>
               );
             }
@@ -193,7 +187,7 @@ const PromotionTable: React.FC<{
                 <div
                   className={`text-[var(--grey-grey-600, #5D6679);] text-[14px] leading-[150%]`}
                 >
-                  {item.Id && item?.Id.slice(0, 10)}
+                  {item?.Id && item?.Id.slice(0, 10)}
                 </div>
               );
             }
@@ -211,7 +205,9 @@ const PromotionTable: React.FC<{
                 <div
                   className={`text-[var(--grey-grey-600, #5D6679);] text-[14px] leading-[150%]`}
                 >
-                  {dayjs(convertGrpcDate(item.Created_at)).format("DD/MM/YYYY")}
+                  {dayjs(convertGrpcDate(item?.Created_at)).format(
+                    "DD/MM/YYYY"
+                  )}
                 </div>
               );
             }
@@ -229,7 +225,9 @@ const PromotionTable: React.FC<{
                 <div
                   className={`text-[var(--grey-grey-600, #5D6679);] text-[14px] leading-[150%]`}
                 >
-                  {dayjs(convertGrpcDate(item.Updated_at)).format("DD/MM/YYYY")}
+                  {dayjs(convertGrpcDate(item?.Updated_at)).format(
+                    "DD/MM/YYYY"
+                  )}
                 </div>
               );
             }
@@ -241,13 +239,13 @@ const PromotionTable: React.FC<{
               "font-matter py-2 whitespace-nowrap text-[12px] font-normal leading-[150%] text-white",
             width: "5%",
             render(_column, item) {
-              if (!item.Status) item.Status = PromotionStatus.INACTIVE;
+              if (!item?.Status) item.Status = PromotionStatus.INACTIVE;
               return (
                 <div
                   className={` ${
-                    (item.Status === PromotionStatus.INACTIVE &&
+                    (item?.Status === PromotionStatus.INACTIVE &&
                       "bg-warning50 text-warning400") ||
-                    (item.Status === PromotionStatus.ACTIVE &&
+                    (item?.Status === PromotionStatus.ACTIVE &&
                       "bg-success50 text-success400") ||
                     "bg-danger50  text-danger400"
                   }    inline-block rounded-full px-4 py-1`}
@@ -270,8 +268,7 @@ const PromotionTable: React.FC<{
             }
           }
         ]}
-        data={campaigns}
-        isLoading={isLoading}
+        data={Promotion?.Requirement?.Promotions || []}
       />
       <Modal
         openModal={showFilterModal}
