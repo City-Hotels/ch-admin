@@ -32,6 +32,14 @@ const PromotionTable: React.FC<{
   const [tableFilter, setTableFilter] = useState({ ...Filter });
   const [showFilterModal, setShowFilterModal] = useState(false);
 
+  const { isLoading, refetch, data } = useQuery(
+    [queryKeys.getPromotions, Limit, Page, tableFilter],
+    () => getCampaigns({ Limit, Page, ...tableFilter })
+  );
+
+  const meta = (data?.data.Meta as Meta) || [];
+  const promotion = (data?.data.Promotions as IPromotion[]) || [];
+
   const { currentPage, perPage, handlePageChange } = usePagination({
     defaultCurrentPage: 1,
     defaultPerPage: Limit,
@@ -40,26 +48,26 @@ const PromotionTable: React.FC<{
     }
   });
 
+  console.log(Promotion && Promotion?.Requirement?.Promotions?.length)
+
   const router = useRouter();
 
   return (
     <div className="bg-white p-2 rounded-md">
       <H4 className="p-2 text-black">
-        {/* Promotion
-         {meta.TotalCount && <span>({meta.TotalCount})</span>} */}
-        Promotion
+        Promotion {<span>({Promotion?.Requirement?.Promotions?.length})</span>}
       </H4>
       <Table
         withPagination={!hidePagination}
         perPage={perPage}
         currentPage={currentPage}
-        //total={meta.TotalCount}
+        total={Promotion?.Requirement?.Promotions?.length}
         onPageChange={handlePageChange}
         headerColor="primary"
         onRowClick={(subscriptionDetails) =>
           router.push(`/promotions/${subscriptionDetails.Id}/subscription`)
         }
-        errorMessage="You have not gotten any Promotions"
+        errorMessage="You have not gotten any bookings"
         headerComponent={
           <div className="p-3 overflow-x-scroll">
             <div className="items-between flex w-full items-center justify-between gap-3">

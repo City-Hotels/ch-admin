@@ -47,7 +47,7 @@ export interface SubscriptionFilter {
   BookingDiscount?: number;
   Rate?: number;
   Unit?: string;
-  Status?: PromotionFilterStatus;
+  Status?: PromotionStatus;
   ServiceType?: ServiceFilterType,
   SearchStatus?: boolean,
   Title?: string;

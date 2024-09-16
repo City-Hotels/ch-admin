@@ -15,7 +15,7 @@ const PromotionGrid: React.FC<PromotionGridProps> = ({ promotion }) => {
     <div>
       <div className={`${styles.promotionGridContainer}`}>
         <div>
-          <H3 className="mb-3 md:mb-6">Promotions</H3>
+          <H3 className="mb-3 md:mb-6">Promotion</H3>
 
           <div className="px-2 flex flex-col gap-3">
             <div>
