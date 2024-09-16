@@ -15,6 +15,7 @@ export interface IPromotion {
   SubTitle?: string;
   Title?: string;
   Type?: PromotionType;
+  SearchStatus?: boolean,
   Created_at: IGRPCDate;
   Updated_at: IGRPCDate;
   EndDate?: IGRPCDate;
@@ -48,6 +49,7 @@ export interface SubscriptionFilter {
   Unit?: string;
   Status?: PromotionFilterStatus;
   ServiceType?: ServiceFilterType,
+  SearchStatus?: boolean,
   Title?: string;
   Type?: PromotionType;
   StartDate?: IGRPCDate;
@@ -65,10 +67,12 @@ export interface PromotionFilter {
   BookingDiscount?: number;
   Rate?: number;
   Unit?: string;
-  Status?: PromotionFilterStatus;
+  Status?: PromotionStatus;
+  SearchStatus?: boolean,
   Title?: string;
   Type?: PromotionType;
   StartDate?: IGRPCDate;
+  Promotion?: IPromotion;
   EndDate?: IGRPCDate;
 }
 

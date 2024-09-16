@@ -8,7 +8,7 @@ import { H2, H4, P2 } from "@/components/Headings/Headings";
 import CheckboxTwo from "@/components/Checkboxes/CheckboxTwo";
 import {
   PromotionFilter,
-  PromotionFilterStatus
+  PromotionStatus
 } from "@/services/promotions/payload";
 
 const Filter: FC<FilterProps> = ({ className, onClose, setFilter, filter }) => {
@@ -204,7 +204,7 @@ const Filter: FC<FilterProps> = ({ className, onClose, setFilter, filter }) => {
                   onChange={(e) => setFilter({ ...filter, Status: undefined })}
                   className="my-4"
                 />
-                {Object.values(PromotionFilterStatus)
+                {Object.values(PromotionStatus)
                   .filter((value) => typeof value === "string")
                   .map((promotionStatus) => (
                     <CheckboxTwo
@@ -214,16 +214,17 @@ const Filter: FC<FilterProps> = ({ className, onClose, setFilter, filter }) => {
                       value={promotionStatus}
                       checked={
                         filters.Status ===
-                        PromotionFilterStatus[
-                          promotionStatus as keyof typeof PromotionFilterStatus
+                        PromotionStatus[
+                          promotionStatus as keyof typeof PromotionStatus
                         ]
                       }
                       onClick={() => {
                         setFilter({
                           ...filters,
+                          SearchStatus: true,
                           Status:
-                            PromotionFilterStatus[
-                              promotionStatus as keyof typeof PromotionFilterStatus
+                          PromotionStatus[
+                              promotionStatus as keyof typeof PromotionStatus
                             ]
                         });
                       }}

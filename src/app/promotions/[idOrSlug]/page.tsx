@@ -13,10 +13,9 @@ import React from "react";
 import { useQuery } from "react-query";
 import SubscriptionTable from "@/components/Subscribtions/SubscriptionTable";
 import DefaultLayout from "@/components/Layouts/DefaultLayout";
-import Img from "@/components/Image/Image";
-import dayjs from "dayjs";
-import { convertGrpcDate } from "@/utils/helpers";
 import PromotionGrid from "@/components/PromotionGrid/PromotionGrid";
+import CampaignTable from "@/components/Campaigns/CampaignTable";
+import PromotionTable from "@/components/Promotion/Promotion";
 
 const CampaignPage = () => {
   const { idOrSlug } = useParams<{ idOrSlug: string }>();
@@ -33,10 +32,18 @@ const CampaignPage = () => {
 
   return (
     <DefaultLayout>
-
       {isLoading && <P2 className="mb-2">Loading..</P2>}
       {isError && "Failed to load Promotions"}
       {promotion && <PromotionGrid promotion={promotion} />}
+
+      <div className="mb-6">
+        <PromotionTable
+          Limit={5}
+          Filter={{}}
+          Promotion={promotion && promotion.Requirement?.Promotions}
+        />
+      </div>
+
       <SubscriptionTable Limit={5} Filter={{}} />
     </DefaultLayout>
   );
