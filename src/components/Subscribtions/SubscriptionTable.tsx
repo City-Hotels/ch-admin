@@ -38,7 +38,6 @@ const SubscribtionsTable: React.FC<{
   const subcriptions = (data?.data.Subscribers as ISubscribers[]) || [];
   const meta = (data?.data.Meta as Meta) || [];
 
-
   const { currentPage, perPage, handlePageChange } = usePagination({
     defaultCurrentPage: 1,
     defaultPerPage: Limit,
@@ -67,7 +66,7 @@ const SubscribtionsTable: React.FC<{
                 <div className="md:min-w-[200px]">
                   <Input
                     type="search"
-                    placeholder="Subscription Id"
+                    placeholder="Service Id"
                     className="w-full border border-[#EAEAEA] outline-none placeholder:text-[#666666] max-[425px]:w-[153px]"
                     value={tableFilter.Id}
                     onChange={(ev) =>
@@ -166,7 +165,7 @@ const SubscribtionsTable: React.FC<{
             headerClass:
               "font-matter py-2 px-3 whitespace-nowrap text-[12px] font-normal leading-[150%] text-white",
             render(_column, item) {
-              return <div className="px-4">{item.Promotion.Name}</div>;
+              return <div className="px-4">{item.Service?.Name}</div>;
             }
           },
           {
@@ -187,7 +186,7 @@ const SubscribtionsTable: React.FC<{
           },
           {
             key: "Id",
-            title: "ID",
+            title: "Service ID",
             width: "5%",
             headerClass:
               "font-matter  whitespace-nowrap text-[12px] font-normal leading-[150%] text-white",
@@ -196,7 +195,7 @@ const SubscribtionsTable: React.FC<{
                 <div
                   className={`text-[var(--grey-grey-600, #5D6679);] text-[14px] leading-[150%]`}
                 >
-                  {item.Id && item?.Id.slice(0, 10)}
+                  {item.Service?.Id && item.Service.Id.slice(0, 10)}
                 </div>
               );
             }
@@ -246,7 +245,8 @@ const SubscribtionsTable: React.FC<{
               "font-matter py-2 whitespace-nowrap text-[12px] font-normal leading-[150%] text-white",
             width: "5%",
             render(_column, item) {
-              if (!item.Promotion.Status) item.Promotion.Status = PromotionStatus.INACTIVE;
+              if (!item.Promotion.Status)
+                item.Promotion.Status = PromotionStatus.INACTIVE;
               return (
                 <div
                   className={` ${

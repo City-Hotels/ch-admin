@@ -8,7 +8,7 @@ import { H4, P2 } from "@/components/Headings/Headings";
 import CheckboxTwo from "@/components/Checkboxes/CheckboxTwo";
 import {
   SubscriptionFilter,
-  PromotionFilterStatus
+  ServiceFilterType
 } from "@/services/promotions/payload";
 
 const Filter: FC<FilterProps> = ({ className, onClose, setFilter, filter }) => {
@@ -55,6 +55,24 @@ const Filter: FC<FilterProps> = ({ className, onClose, setFilter, filter }) => {
                   value={filters.Name}
                   onChange={(ev) =>
                     setFilter({ ...filters, Name: ev.currentTarget.value })
+                  }
+                />
+              </div>
+            </div>
+
+            <div className={`${styles.labelContainer}`}>
+              <P2 className="font-bold leading-[150%] text-black">
+                Service Id
+              </P2>
+
+              <div className={`${styles.input}`}>
+                <Search className="text-black" />
+                <input
+                  placeholder="e.g: Service Id"
+                  className={`${styles.innerInput}`}
+                  value={filters.Id}
+                  onChange={(ev) =>
+                    setFilter({ ...filters, Id: ev.currentTarget.value })
                   }
                 />
               </div>
@@ -192,7 +210,7 @@ const Filter: FC<FilterProps> = ({ className, onClose, setFilter, filter }) => {
 
             <div className={`${styles.labelContainer}`}>
               <P2 className=" font-bold leading-[150%] text-black">
-                Promotion Status
+                Service Type
               </P2>
 
               <div className={`${styles.checkBoxConatainer}`}>
@@ -200,30 +218,32 @@ const Filter: FC<FilterProps> = ({ className, onClose, setFilter, filter }) => {
                   label="All"
                   name="Status"
                   value={"All"}
-                  checked={filter.Status === undefined}
-                  onChange={(e) => setFilter({ ...filter, Status: undefined })}
+                  checked={filter.ServiceType === undefined}
+                  onChange={(e) =>
+                    setFilter({ ...filter, ServiceType: undefined })
+                  }
                   className="my-4"
                 />
-                {Object.values(PromotionFilterStatus)
+                {Object.values(ServiceFilterType)
                   .filter((value) => typeof value === "string")
-                  .map((promotionStatus) => (
+                  .map((serviceType) => (
                     <CheckboxTwo
                       name="Status"
-                      key={promotionStatus}
-                      label={promotionStatus as string}
-                      value={promotionStatus}
+                      key={serviceType}
+                      label={serviceType as string}
+                      value={serviceType}
                       checked={
-                        filters.Status ===
-                        PromotionFilterStatus[
-                          promotionStatus as keyof typeof PromotionFilterStatus
+                        filters.ServiceType ===
+                        ServiceFilterType[
+                          serviceType as keyof typeof ServiceFilterType
                         ]
                       }
                       onClick={() => {
                         setFilter({
                           ...filters,
-                          Status:
-                            PromotionFilterStatus[
-                              promotionStatus as keyof typeof PromotionFilterStatus
+                          ServiceType:
+                            ServiceFilterType[
+                              serviceType as keyof typeof ServiceFilterType
                             ]
                         });
                       }}

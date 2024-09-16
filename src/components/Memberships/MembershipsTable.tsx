@@ -63,7 +63,7 @@ const MembershipTable: React.FC<{
         headerColor="primary"
         errorMessage="You have not gotten any bookings"
         onRowClick={(subscriptionDetails) =>
-          router.push(`/promotions/${subscriptionDetails.Id}/subscription`)
+          router.push(`/promotions/${subscriptionDetails.Id}/`)
         }
         headerComponent={
           <div className="p-3 overflow-x-scroll">

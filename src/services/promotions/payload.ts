@@ -32,7 +32,7 @@ export interface IService {
   Id?: string;
   Imageurl: string;
   Name: string;
-  ServiceType: string; 
+  ServiceType: ServiceType; 
 }
 
 export interface SubscriptionFilter {
@@ -47,6 +47,7 @@ export interface SubscriptionFilter {
   Rate?: number;
   Unit?: string;
   Status?: PromotionFilterStatus;
+  ServiceType?: ServiceFilterType,
   Title?: string;
   Type?: PromotionType;
   StartDate?: IGRPCDate;
@@ -123,6 +124,18 @@ export enum PromotionFilterStatus {
   ACTIVE = "ACTIVE",
   INACTIVE = "INACTIVE",
   EXPIRED = "EXPIRED"
+}
+
+
+
+export enum ServiceType {
+  HOTEL = "0",
+  APARTMENT = "1",
+}
+
+export enum ServiceFilterType {
+  HOTEL = "HOTEL",
+  APARTMENT = "APARTMENT",
 }
 
 export enum PromotionType {
