@@ -18,7 +18,7 @@ const PromotionGrid: React.FC<PromotionGridProps> = ({ promotion }) => {
           <H3 className="mb-3 md:mb-6">Promotion</H3>
 
           <div className="md:px-2 flex flex-col gap-3">
-            <div className="grid grid-cols-1 md:grid-cols-3 md:grid-flow-row gap-2">
+            <div className={`${styles.promotionInnerGrid}`}>
               <div className="flex flex-col gap-3">
                 <div>
                   <Label className={`${styles.promotionLabel}`}>Name</Label>
@@ -44,7 +44,7 @@ const PromotionGrid: React.FC<PromotionGridProps> = ({ promotion }) => {
                 </div>
               </div>
 
-              <div className="md:border-x md:border-solid md:border-x-slate-300 md:px-2 flex flex-col gap-3">
+              <div className="md:px-2 flex flex-col gap-3">
                 <div>
                   <Label className={`${styles.promotionLabel}`}>Id</Label>
                   <P2 className={`${styles.promotionValue}`}>
@@ -109,7 +109,7 @@ const PromotionGrid: React.FC<PromotionGridProps> = ({ promotion }) => {
           <H3 className="mb-3 md:mb-6">Requirements</H3>
 
           <div className="md:px-2 flex flex-col gap-3">
-            <div className="grid grid-cols-1 md:grid-cols-3 md:grid-flow-row gap-2">
+            <div className={`${styles.promotionInnerGrid}`}>
               <div className="flex flex-col gap-3">
                 <div>
                   <Label className={`${styles.promotionLabel}`}>Location</Label>
@@ -133,7 +133,7 @@ const PromotionGrid: React.FC<PromotionGridProps> = ({ promotion }) => {
                 </div>
               </div>
 
-              <div className="md:border-x md:border-solid md:border-x-slate-300 md:px-2 flex flex-col gap-3">
+              <div className="md:px-2 flex flex-col gap-3">
                 <div>
                   <Label className={`${styles.promotionLabel}`}>
                     Minimum Bookings
@@ -169,7 +169,7 @@ const PromotionGrid: React.FC<PromotionGridProps> = ({ promotion }) => {
           <H3 className="mb-3 md:mb-6">Price</H3>
 
           <div className="md:px-2 flex flex-col gap-3">
-            <div className="grid grid-cols-1 md:grid-cols-3 md:grid-flow-row gap-2">
+            <div className={`${styles.promotionInnerGrid}`}>
               <div className="flex flex-col gap-3">
                 <div>
                   <Label className={`${styles.promotionLabel}`}>
@@ -193,7 +193,7 @@ const PromotionGrid: React.FC<PromotionGridProps> = ({ promotion }) => {
                 </div>
               </div>
 
-              <div className="md:border-x md:border-solid md:border-x-slate-300 md:px-2 flex flex-col gap-3">
+              <div className="md:px-2 flex flex-col gap-3">
                 <div>
                   <Label className={`${styles.promotionLabel}`}>Rate</Label>
                   <P2 className={`${styles.promotionValue}`}>

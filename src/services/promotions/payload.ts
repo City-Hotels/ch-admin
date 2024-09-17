@@ -15,7 +15,7 @@ export interface IPromotion {
   SubTitle?: string;
   Title?: string;
   Type?: PromotionType;
-  SearchStatus?: boolean,
+  SearchStatus?: boolean;
   Created_at: IGRPCDate;
   Updated_at: IGRPCDate;
   EndDate?: IGRPCDate;
@@ -26,6 +26,7 @@ export interface ISubscribers {
   Id?: string;
   Promotion: IPromotion;
   Service?: IService;
+  Status?: SubscriptionStatus;
   Updated_at: IGRPCDate;
 }
 
@@ -33,7 +34,7 @@ export interface IService {
   Id?: string;
   Imageurl: string;
   Name: string;
-  ServiceType: ServiceType; 
+  ServiceType: ServiceType;
 }
 
 export interface SubscriptionFilter {
@@ -47,9 +48,9 @@ export interface SubscriptionFilter {
   BookingDiscount?: number;
   Rate?: number;
   Unit?: string;
-  Status?: PromotionStatus;
-  ServiceType?: ServiceFilterType,
-  SearchStatus?: boolean,
+  Status?: SubscriptionStatus;
+  ServiceType?: ServiceFilterType;
+  SearchStatus?: boolean;
   Title?: string;
   Type?: PromotionType;
   StartDate?: IGRPCDate;
@@ -68,7 +69,7 @@ export interface PromotionFilter {
   Rate?: number;
   Unit?: string;
   Status?: PromotionStatus;
-  SearchStatus?: boolean,
+  SearchStatus?: boolean;
   Title?: string;
   Type?: PromotionType;
   StartDate?: IGRPCDate;
@@ -124,22 +125,26 @@ export enum PromotionStatus {
   EXPIRED = 2
 }
 
+export enum SubscriptionStatus {
+  INACTIVE = 0,
+  ACTIVE = 1,
+  EXPIRED = 2
+}
+
 export enum PromotionFilterStatus {
   ACTIVE = "ACTIVE",
   INACTIVE = "INACTIVE",
   EXPIRED = "EXPIRED"
 }
 
-
-
 export enum ServiceType {
-  HOTEL = "0",
-  APARTMENT = "1",
+  HOTEL = 0,
+  APARTMENT = 1
 }
 
 export enum ServiceFilterType {
   HOTEL = "HOTEL",
-  APARTMENT = "APARTMENT",
+  APARTMENT = "APARTMENT"
 }
 
 export enum PromotionType {

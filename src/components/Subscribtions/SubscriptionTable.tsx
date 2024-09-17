@@ -15,8 +15,7 @@ import { getPromotionSubcriptions } from "@/services/promotions/index";
 import {
   ISubscribers,
   SubscriptionFilter,
-  PromotionFilterStatus,
-  PromotionStatus
+  SubscriptionStatus
 } from "@/services/promotions/payload";
 import FilterComponent from "./Filter/Filter";
 import Modal from "../Modal/Modal";
@@ -88,49 +87,49 @@ const SubscribtionsTable: React.FC<{
                     >
                       All
                     </div>
-                    {Object.values(PromotionStatus)
+                    {Object.values(SubscriptionStatus)
                       .filter((value) => typeof value === "string")
-                      .map((promotionStatus) => (
+                      .map((subscriptionStatus) => (
                         <div
-                          key={promotionStatus}
+                          key={subscriptionStatus}
                           className={`rounded-full border  px-2 
                      
-                       py-2 text-center text-[12.54px]  hover:bg-white100. hover:text-primary400 hover:border-primary400 cursor-pointer  ${tableFilter?.Status === PromotionStatus[promotionStatus as keyof typeof PromotionStatus] && tableFilter.SearchStatus === true ? "text-primary400 border-primary400 " : "text-white800 border-white700 "}`}
+                       py-2 text-center text-[12.54px]  hover:bg-white100. hover:text-primary400 hover:border-primary400 cursor-pointer  ${tableFilter?.Status === SubscriptionStatus[subscriptionStatus as keyof typeof SubscriptionStatus] && tableFilter.SearchStatus === true ? "text-primary400 border-primary400 " : "text-white800 border-white700 "}`}
                           onClick={() => {
                             setTableFilter({
                               ...tableFilter,
                               SearchStatus: true,
                               Status:
-                              PromotionStatus[
-                                  promotionStatus as keyof typeof PromotionStatus
+                              SubscriptionStatus[
+                                subscriptionStatus as keyof typeof SubscriptionStatus
                                 ]
                             });
                           }}
                         >
-                          {promotionStatus}
+                          {subscriptionStatus}
 
-                          {promotionStatus === PromotionStatus.ACTIVE &&
+                          {subscriptionStatus === SubscriptionStatus.ACTIVE &&
                             `(${
                               subcriptions.filter(
                                 (item: ISubscribers) =>
-                                  item.Promotion.Status ===
-                                  PromotionStatus.ACTIVE
+                                  item.Status ===
+                                SubscriptionStatus.ACTIVE
                               ).length
                             })`}
-                          {promotionStatus === PromotionStatus.INACTIVE &&
+                          {subscriptionStatus === SubscriptionStatus.INACTIVE &&
                             `(${
                               subcriptions.filter(
                                 (item: ISubscribers) =>
-                                  item.Promotion.Status ===
-                                  PromotionStatus.INACTIVE
+                                  item.Status ===
+                                SubscriptionStatus.INACTIVE
                               ).length
                             })`}
-                          {promotionStatus === PromotionStatus.EXPIRED &&
+                          {subscriptionStatus === SubscriptionStatus.EXPIRED &&
                             `(${
                               subcriptions.filter(
                                 (item: ISubscribers) =>
-                                  item.Promotion.Status ===
-                                  PromotionStatus.EXPIRED
+                                  item.Status ===
+                                SubscriptionStatus.EXPIRED
                               ).length
                             })`}
                         </div>
@@ -246,24 +245,24 @@ const SubscribtionsTable: React.FC<{
               "font-matter py-2 whitespace-nowrap text-[12px] font-normal leading-[150%] text-white",
             width: "5%",
             render(_column, item) {
-              if (!item.Promotion.Status)
-                item.Promotion.Status = PromotionStatus.INACTIVE;
+              if (!item.Status)
+                item.Status = SubscriptionStatus.INACTIVE;
               return (
                 <div
                   className={` ${
-                    (item.Promotion.Status === PromotionStatus.INACTIVE &&
+                    (item.Status === SubscriptionStatus.INACTIVE &&
                       "bg-warning50 text-warning400") ||
-                    (item.Promotion.Status === PromotionStatus.ACTIVE &&
+                    (item.Status === SubscriptionStatus.ACTIVE &&
                       "bg-success50 text-success400") ||
                     "bg-danger50  text-danger400"
                   }    inline-block rounded-full px-4 py-1`}
                 >
                   <div className="text-center text-[12px]">
-                    {item.Promotion.Status === PromotionStatus.INACTIVE &&
+                    {item.Status === SubscriptionStatus.INACTIVE &&
                       "Inactive"}
-                    {item.Promotion.Status === PromotionStatus.ACTIVE &&
+                    {item.Status === SubscriptionStatus.ACTIVE &&
                       "Active"}
-                    {item.Promotion.Status === PromotionStatus.EXPIRED &&
+                    {item.Status === SubscriptionStatus.EXPIRED &&
                       "Expired"}
                   </div>
                 </div>
