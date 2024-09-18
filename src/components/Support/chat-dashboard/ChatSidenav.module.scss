@@ -1,0 +1,59 @@
+.container{
+  @apply sticky mt-2 top-20 flex w-[72px] flex-col items-center justify-center  gap-1 rounded-[10px] bg-black py-5 shadow-md;
+}
+
+.navItem{
+@apply flex h-[56px] w-[56px] items-center justify-center rounded-full hover:bg-primary400 hover:text-white mx-auto;
+
+}
+
+.icon{
+  &__stroke {
+    path{
+        stroke: #ccc
+    }
+  }
+  
+  &__fill {
+    path{
+        fill: #ccc;
+    }
+  }
+}
+
+.icon{
+  &__stroke:hover {
+    path{
+        stroke: #fff
+    }
+  }
+  
+  &__fill:hover {
+    path{
+        fill: #fff;
+    }
+  }
+}
+.icon{
+  &__stroke:focus {
+    path{
+        stroke: #fff !important;
+    }
+  }
+  
+  &__fill:focus {
+    path{
+        fill: #fff;
+        stroke: #fff;
+      }
+    }
+  }
+  
+  .active {
+    @apply bg-primary400 text-white;
+    
+    path{
+      fill: #fff;
+      stroke: #fff;
+  }
+}

@@ -1,0 +1,10 @@
+.truncate-ellipsis {
+  display: block; 
+  white-space: nowrap; 
+  overflow: hidden; 
+  text-overflow: ellipsis;
+}
+
+.conversationMessage {
+  @apply  h-5 w-44 text-ellipsis  text-white900 truncate-ellipsis
+}

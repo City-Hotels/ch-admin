@@ -61,8 +61,9 @@ const Sidebar = ({ sidebarOpen, setSidebarOpen }: SidebarProps) => {
   return (
     <aside
       ref={sidebar}
-      className={`absolute left-0 top-0 z-9999 flex h-screen w-72.5 flex-col overflow-y-hidden bg-orange100 duration-300 ease-linear dark:bg-boxdark lg:static lg:translate-x-0 ${sidebarOpen ? "translate-x-0" : "-translate-x-full"
-        }`}
+      className={`absolute left-0 top-0 z-9999 flex h-screen w-72.5 flex-col overflow-y-hidden bg-orange100 duration-300 ease-linear dark:bg-boxdark lg:static lg:translate-x-0 ${
+        sidebarOpen ? "translate-x-0" : "-translate-x-full"
+      }`}
     >
       {/* <!-- SIDEBAR HEADER --> */}
       <div className="flex items-center justify-between gap-2 px-6 py-5.5 lg:py-6.5">
@@ -113,9 +114,9 @@ const Sidebar = ({ sidebarOpen, setSidebarOpen }: SidebarProps) => {
               <li>
                 <Link
                   href="/"
-                  className={`group relative flex items-center gap-2.5 rounded-sm px-4 py-2 font-medium text-black dark:text-white100 duration-300 ease-in-out hover:bg-orange50 dark:hover:bg-meta-4 ${pathname === "/" &&
-                    "bg-graydark dark:bg-meta-4"
-                    }`}
+                  className={`group relative flex items-center gap-2.5 rounded-sm px-4 py-2 font-medium text-black dark:text-white100 duration-300 ease-in-out hover:bg-orange50 dark:hover:bg-meta-4 ${
+                    pathname === "/" && "bg-graydark dark:bg-meta-4"
+                  }`}
                 >
                   <svg
                     className="fill-current"
@@ -148,19 +149,15 @@ const Sidebar = ({ sidebarOpen, setSidebarOpen }: SidebarProps) => {
               {/* <!-- Menu Item Dashboard --> */}
 
               {/* <!- Menu Item Dashboard --> */}
-              <SidebarLinkGroup
-                activeCondition={
-                  pathname === "/hotels"
-                }
-              >
+              <SidebarLinkGroup activeCondition={pathname === "/hotels"}>
                 {(handleClick, open) => {
                   return (
                     <React.Fragment>
                       <Link
                         href="#"
-                        className={`group relative flex items-center gap-2.5 rounded-sm px-4 py-2 font-medium text-black dark:text-white100 duration-300 ease-in-out hover:bg-orange50 dark:hover:bg-meta-4 ${(pathname === "/hotels") &&
-                          "bg-graydark dark:bg-meta-4"
-                          }`}
+                        className={`group relative flex items-center gap-2.5 rounded-sm px-4 py-2 font-medium text-black dark:text-white100 duration-300 ease-in-out hover:bg-orange50 dark:hover:bg-meta-4 ${
+                          pathname === "/hotels" && "bg-graydark dark:bg-meta-4"
+                        }`}
                         onClick={(e) => {
                           e.preventDefault();
                           sidebarExpanded
@@ -195,8 +192,9 @@ const Sidebar = ({ sidebarOpen, setSidebarOpen }: SidebarProps) => {
                         </svg>
                         Listings
                         <svg
-                          className={`absolute right-4 top-1/2 -translate-y-1/2 fill-current ${open && "rotate-180"
-                            }`}
+                          className={`absolute right-4 top-1/2 -translate-y-1/2 fill-current ${
+                            open && "rotate-180"
+                          }`}
                           width="20"
                           height="20"
                           viewBox="0 0 20 20"
@@ -213,15 +211,17 @@ const Sidebar = ({ sidebarOpen, setSidebarOpen }: SidebarProps) => {
                       </Link>
                       {/* <!-- Dropdown Menu Start --> */}
                       <div
-                        className={`translate transform overflow-hidden ${!open && "hidden"
-                          }`}
+                        className={`translate transform overflow-hidden ${
+                          !open && "hidden"
+                        }`}
                       >
                         <ul className="mb-5.5 mt-4 flex flex-col gap-2.5 pl-6">
                           <li>
                             <Link
                               href="/hotels"
-                              className={`group relative flex items-center gap-2.5 rounded-md px-4 font-medium text-white900 dark:text-white100 duration-300 ease-in-out hover:text-white ${pathname === "/" && "text-white"
-                                }`}
+                              className={`group relative flex items-center gap-2.5 rounded-md px-4 font-medium text-white900 dark:text-white100 duration-300 ease-in-out hover:text-white ${
+                                pathname === "/" && "text-white"
+                              }`}
                             >
                               <svg
                                 className="fill-current"
@@ -258,9 +258,10 @@ const Sidebar = ({ sidebarOpen, setSidebarOpen }: SidebarProps) => {
                           <li>
                             <Link
                               href="/apartment"
-                              className={`group relative flex items-center gap-2.5 rounded-sm px-4 py-2 font-medium text-black dark:text-white100 duration-300 ease-in-out hover:bg-orange50 dark:hover:bg-meta-4 ${pathname.includes("settings") &&
+                              className={`group relative flex items-center gap-2.5 rounded-sm px-4 py-2 font-medium text-black dark:text-white100 duration-300 ease-in-out hover:bg-orange50 dark:hover:bg-meta-4 ${
+                                pathname.includes("settings") &&
                                 "bg-graydark dark:bg-meta-4"
-                                }`}
+                              }`}
                             >
                               <svg
                                 className="fill-current"
@@ -311,13 +312,13 @@ const Sidebar = ({ sidebarOpen, setSidebarOpen }: SidebarProps) => {
                 }}
               </SidebarLinkGroup>
 
-
               <li>
                 <Link
                   href="/bookings"
-                  className={`group relative flex items-center gap-2.5 rounded-sm px-4 py-2 font-medium text-black dark:text-white100 duration-300 ease-in-out hover:bg-orange50 dark:hover:bg-meta-4 ${pathname.includes("calendar") &&
+                  className={`group relative flex items-center gap-2.5 rounded-sm px-4 py-2 font-medium text-black dark:text-white100 duration-300 ease-in-out hover:bg-orange50 dark:hover:bg-meta-4 ${
+                    pathname.includes("calendar") &&
                     "bg-graydark dark:bg-meta-4"
-                    }`}
+                  }`}
                 >
                   <svg
                     className="fill-current"
@@ -338,9 +339,10 @@ const Sidebar = ({ sidebarOpen, setSidebarOpen }: SidebarProps) => {
               <li>
                 <Link
                   href="/transactions"
-                  className={`group relative flex items-center gap-2.5 rounded-sm px-4 py-2 font-medium text-black dark:text-white100 duration-300 ease-in-out hover:bg-orange50 dark:hover:bg-meta-4 ${pathname.includes("calendar") &&
+                  className={`group relative flex items-center gap-2.5 rounded-sm px-4 py-2 font-medium text-black dark:text-white100 duration-300 ease-in-out hover:bg-orange50 dark:hover:bg-meta-4 ${
+                    pathname.includes("calendar") &&
                     "bg-graydark dark:bg-meta-4"
-                    }`}
+                  }`}
                 >
                   <svg
                     className="fill-current"
@@ -359,18 +361,17 @@ const Sidebar = ({ sidebarOpen, setSidebarOpen }: SidebarProps) => {
                 </Link>
               </li>
               <SidebarLinkGroup
-                activeCondition={
-                  pathname === "/users" || pathname === "/admin"
-                }
+                activeCondition={pathname === "/users" || pathname === "/admin"}
               >
                 {(handleClick, open) => {
                   return (
                     <React.Fragment>
                       <Link
                         href="#"
-                        className={`group relative flex items-center gap-2.5 rounded-sm px-4 py-2 font-medium text-black dark:text-white100 duration-300 ease-in-out hover:bg-orange50 dark:hover:bg-meta-4 ${(pathname === "/users" || pathname === "/admin") &&
+                        className={`group relative flex items-center gap-2.5 rounded-sm px-4 py-2 font-medium text-black dark:text-white100 duration-300 ease-in-out hover:bg-orange50 dark:hover:bg-meta-4 ${
+                          (pathname === "/users" || pathname === "/admin") &&
                           "bg-graydark dark:bg-meta-4"
-                          }`}
+                        }`}
                         onClick={(e) => {
                           e.preventDefault();
                           sidebarExpanded
@@ -401,8 +402,9 @@ const Sidebar = ({ sidebarOpen, setSidebarOpen }: SidebarProps) => {
                         </svg>
                         Users
                         <svg
-                          className={`absolute right-4 top-1/2 -translate-y-1/2 fill-current ${open && "rotate-180"
-                            }`}
+                          className={`absolute right-4 top-1/2 -translate-y-1/2 fill-current ${
+                            open && "rotate-180"
+                          }`}
                           width="20"
                           height="20"
                           viewBox="0 0 20 20"
@@ -419,15 +421,17 @@ const Sidebar = ({ sidebarOpen, setSidebarOpen }: SidebarProps) => {
                       </Link>
                       {/* <!-- Dropdown Menu Start --> */}
                       <div
-                        className={`translate transform overflow-hidden ${!open && "hidden"
-                          }`}
+                        className={`translate transform overflow-hidden ${
+                          !open && "hidden"
+                        }`}
                       >
                         <ul className="mb-5.5 mt-4 flex flex-col gap-2.5 pl-6">
                           <li>
                             <Link
                               href="/users"
-                              className={`group relative flex items-center gap-2.5 rounded-md px-4 font-medium text-white900 dark:text-white100 duration-300 ease-in-out hover:text-white ${pathname === "/users" && "text-white"
-                                }`}
+                              className={`group relative flex items-center gap-2.5 rounded-md px-4 font-medium text-white900 dark:text-white100 duration-300 ease-in-out hover:text-white ${
+                                pathname === "/users" && "text-white"
+                              }`}
                             >
                               CHB Users
                             </Link>
@@ -435,8 +439,9 @@ const Sidebar = ({ sidebarOpen, setSidebarOpen }: SidebarProps) => {
                           <li>
                             <Link
                               href="/admin"
-                              className={`group relative flex items-center gap-2.5 rounded-md px-4 font-medium text-white900 dark:text-white100 duration-300 ease-in-out hover:text-white ${pathname === "/admin" && "text-white"
-                                }`}
+                              className={`group relative flex items-center gap-2.5 rounded-md px-4 font-medium text-white900 dark:text-white100 duration-300 ease-in-out hover:text-white ${
+                                pathname === "/admin" && "text-white"
+                              }`}
                             >
                               Administrators
                             </Link>
@@ -448,7 +453,6 @@ const Sidebar = ({ sidebarOpen, setSidebarOpen }: SidebarProps) => {
                   );
                 }}
               </SidebarLinkGroup>
-
             </ul>
           </div>
 
@@ -461,10 +465,11 @@ const Sidebar = ({ sidebarOpen, setSidebarOpen }: SidebarProps) => {
             <ul className="mb-6 flex flex-col gap-1.5">
               <li>
                 <Link
-                  href="/transactions"
-                  className={`group relative flex items-center gap-2.5 rounded-sm px-4 py-2 font-medium text-black dark:text-white100 duration-300 ease-in-out hover:bg-orange50 dark:hover:bg-meta-4 ${pathname.includes("calendar") &&
+                  href="/support"
+                  className={`group relative flex items-center gap-2.5 rounded-sm px-4 py-2 font-medium text-black dark:text-white100 duration-300 ease-in-out hover:bg-orange50 dark:hover:bg-meta-4 ${
+                    pathname.includes("calendar") &&
                     "bg-graydark dark:bg-meta-4"
-                    }`}
+                  }`}
                 >
                   <svg
                     className="fill-current"
@@ -485,9 +490,10 @@ const Sidebar = ({ sidebarOpen, setSidebarOpen }: SidebarProps) => {
               <li>
                 <Link
                   href="/transactions"
-                  className={`group relative flex items-center gap-2.5 rounded-sm px-4 py-2 font-medium text-black dark:text-white100 duration-300 ease-in-out hover:bg-orange50 dark:hover:bg-meta-4 ${pathname.includes("calendar") &&
+                  className={`group relative flex items-center gap-2.5 rounded-sm px-4 py-2 font-medium text-black dark:text-white100 duration-300 ease-in-out hover:bg-orange50 dark:hover:bg-meta-4 ${
+                    pathname.includes("calendar") &&
                     "bg-graydark dark:bg-meta-4"
-                    }`}
+                  }`}
                 >
                   <svg
                     className="fill-current duration-300 ease-in-out"
@@ -528,9 +534,10 @@ const Sidebar = ({ sidebarOpen, setSidebarOpen }: SidebarProps) => {
               <li>
                 <Link
                   href="/memberships"
-                  className={`group relative flex items-center gap-2.5 rounded-sm px-4 py-2 font-medium text-black dark:text-white100 duration-300 ease-in-out hover:bg-orange50 dark:hover:bg-meta-4 ${pathname.includes("calendar") &&
+                  className={`group relative flex items-center gap-2.5 rounded-sm px-4 py-2 font-medium text-black dark:text-white100 duration-300 ease-in-out hover:bg-orange50 dark:hover:bg-meta-4 ${
+                    pathname.includes("calendar") &&
                     "bg-graydark dark:bg-meta-4"
-                    }`}
+                  }`}
                 >
                   <svg
                     className="fill-current"
@@ -551,9 +558,10 @@ const Sidebar = ({ sidebarOpen, setSidebarOpen }: SidebarProps) => {
               <li>
                 <Link
                   href="/campaigns"
-                  className={`group relative flex items-center gap-2.5 rounded-sm px-4 py-2 font-medium text-black dark:text-white100 duration-300 ease-in-out hover:bg-orange50 dark:hover:bg-meta-4 ${pathname.includes("calendar") &&
+                  className={`group relative flex items-center gap-2.5 rounded-sm px-4 py-2 font-medium text-black dark:text-white100 duration-300 ease-in-out hover:bg-orange50 dark:hover:bg-meta-4 ${
+                    pathname.includes("calendar") &&
                     "bg-graydark dark:bg-meta-4"
-                    }`}
+                  }`}
                 >
                   <svg
                     className="fill-current"

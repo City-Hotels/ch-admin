@@ -1,0 +1,11 @@
+.container{
+  @apply md:flex md:flex-col md:mr-auto justify-center h-full relative;
+}
+
+.collapsed {
+  // @apply 
+}
+
+.navExpanded {
+  @apply xl:max-w-[calc(100vw-420px)]
+}
