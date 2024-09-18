@@ -9,6 +9,7 @@ import React from "react";
 import { Label, P2, H3 } from "../Headings/Headings";
 import PromotionGridProps from "./PromotionGrid.props";
 import styles from "./PromotionGrid.module.scss";
+import PromotionTable from "../Promotion/Promotion";
 
 const PromotionGrid: React.FC<PromotionGridProps> = ({ promotion }) => {
   return (
@@ -162,6 +163,10 @@ const PromotionGrid: React.FC<PromotionGridProps> = ({ promotion }) => {
                 </div>
               </div>
             </div>
+          </div>
+
+          <div className="mb-6">
+            <PromotionTable Limit={5} Filter={{}} Promotion={promotion} />
           </div>
         </div>
 

@@ -66,7 +66,7 @@ const SubscribtionsTable: React.FC<{
                   <Input
                     type="search"
                     placeholder="Service Id"
-                    className="w-full border border-[#EAEAEA] outline-none placeholder:text-[#666666] max-[425px]:w-[153px]"
+                    className="md:w-full border border-[#EAEAEA] outline-none placeholder:text-[#666666] w-[153px]"
                     value={tableFilter.Id}
                     onChange={(ev) =>
                       setTableFilter({
@@ -139,7 +139,7 @@ const SubscribtionsTable: React.FC<{
               </div>
 
               <div className="flex items-center gap-2">
-                <Button size="md" color="primary">
+                <Button size="sm" color="primary" className="flex-wrap">  
                   Add Subscription
                 </Button>
 

@@ -61,7 +61,7 @@ const CampaignTable: React.FC<{
         onPageChange={handlePageChange}
         headerColor="primary"
         onRowClick={(subscriptionDetails) =>
-          router.push(`/promotions/${subscriptionDetails.Id}/subscription`)
+          router.push(`/promotions/${subscriptionDetails.Id}/`)
         }
         errorMessage="You have not gotten any bookings"
         headerComponent={

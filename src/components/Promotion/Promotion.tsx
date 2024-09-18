@@ -1,10 +1,9 @@
 "use client";
-import { H4 } from "@/components/Headings/Headings";
+import { H6 } from "@/components/Headings/Headings";
 import queryKeys from "@/utils/api/queryKeys";
 import React, { useState } from "react";
 import { useQuery } from "react-query";
 import Dots from "@/assets/icons/dots-vertical.svg";
-import FilterIcon from "@/assets/icons/filter2.svg";
 import dayjs from "dayjs";
 import type { Meta } from "@/utils/api/calls";
 import { usePagination } from "../Tables/Table/Pagination";
@@ -20,7 +19,6 @@ import {
 } from "@/services/promotions/payload";
 import FilterComponent from "./Filter/Filter";
 import Modal from "../Modal/Modal";
-import Button from "../Button/Button";
 
 const PromotionTable: React.FC<{
   Limit: number;
@@ -48,15 +46,15 @@ const PromotionTable: React.FC<{
     }
   });
 
-  console.log(Promotion && Promotion?.Requirement?.Promotions?.length)
+  console.log(Promotion && Promotion?.Requirement?.Promotions?.length);
 
   const router = useRouter();
 
   return (
-    <div className="bg-white p-2 rounded-md">
-      <H4 className="p-2 text-black">
+    <div className="bg-white py-2 rounded-md">
+      <H6 className="p-2 text-black">
         Promotion {<span>({Promotion?.Requirement?.Promotions?.length})</span>}
-      </H4>
+      </H6>
       <Table
         withPagination={!hidePagination}
         perPage={perPage}
@@ -76,7 +74,7 @@ const PromotionTable: React.FC<{
                   <Input
                     type="search"
                     placeholder="Promotion Id"
-                    className="w-full border border-[#EAEAEA] outline-none placeholder:text-[#666666] max-[425px]:w-[153px]"
+                    className="md:w-full border border-[#EAEAEA] outline-none placeholder:text-[#666666] w-[153px]"
                     value={tableFilter.Id}
                     onChange={(ev) =>
                       setTableFilter({
@@ -144,16 +142,6 @@ const PromotionTable: React.FC<{
                   </span>
                 </div>
               </div>
-              <Button
-                size="sm"
-                color="outline-dark"
-                variant="outline"
-                onClick={() => setShowFilterModal(true)}
-              >
-                <span className="flex gap-2 px-3">
-                  <FilterIcon /> Filter
-                </span>
-              </Button>
             </div>
           </div>
         }

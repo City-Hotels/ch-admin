@@ -1,12 +1,7 @@
 "use client";
-import { H2, H3, H4, H5, Label, P2 } from "@/components/Headings/Headings";
+import { P2 } from "@/components/Headings/Headings";
 import { getPromotion } from "@/services/promotions";
-import {
-  AccountType,
-  IPromotion,
-  PricingType,
-  PromotionStatus
-} from "@/services/promotions/payload";
+import { IPromotion } from "@/services/promotions/payload";
 import queryKeys from "@/utils/api/queryKeys";
 import { useParams } from "next/navigation";
 import React from "react";
@@ -14,7 +9,6 @@ import { useQuery } from "react-query";
 import SubscriptionTable from "@/components/Subscribtions/SubscriptionTable";
 import DefaultLayout from "@/components/Layouts/DefaultLayout";
 import PromotionGrid from "@/components/PromotionGrid/PromotionGrid";
-import CampaignTable from "@/components/Campaigns/CampaignTable";
 import PromotionTable from "@/components/Promotion/Promotion";
 
 const CampaignPage = () => {
@@ -36,15 +30,9 @@ const CampaignPage = () => {
       {isError && "Failed to load Promotions"}
       {promotion && <PromotionGrid promotion={promotion} />}
 
-      <div className="mb-6">
-        <PromotionTable
-          Limit={5}
-          Filter={{}}
-          Promotion={promotion}
-        />
-      </div>
-
-      <SubscriptionTable Limit={5} Filter={{}} />
+      {promotion && (
+        <SubscriptionTable Limit={5} Filter={{ Id: promotion.Id }} />
+      )}
     </DefaultLayout>
   );
 };
