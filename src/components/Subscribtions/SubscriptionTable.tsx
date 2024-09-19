@@ -67,11 +67,11 @@ const SubscribtionsTable: React.FC<{
                     type="search"
                     placeholder="Service Id"
                     className="md:w-full border border-[#EAEAEA] outline-none placeholder:text-[#666666] w-[153px]"
-                    value={tableFilter.Id}
+                    value={tableFilter.PromotionId}
                     onChange={(ev) =>
                       setTableFilter({
                         ...tableFilter,
-                        Id: ev.currentTarget.value
+                        PromotionId: ev.currentTarget.value
                       })
                     }
                   />
