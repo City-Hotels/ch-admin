@@ -7,6 +7,7 @@ import Search from "../../../assets/icons/search.svg";
 import { H2, H4, P2 } from "@/components/Headings/Headings";
 import CheckboxTwo from "@/components/Checkboxes/CheckboxTwo";
 import {
+  PricingType,
   PromotionFilter,
   PromotionStatus
 } from "@/services/promotions/payload";
@@ -187,6 +188,50 @@ const Filter: FC<FilterProps> = ({ className, onClose, setFilter, filter }) => {
                     }
                   }}
                 />
+              </div>
+            </div>
+
+            <div className={`${styles.labelContainer}`}>
+              <P2 className=" font-bold leading-[150%] text-black">
+                Pricing Type
+              </P2>
+
+              <div className={`${styles.checkBoxConatainer}`}>
+                <CheckboxTwo
+                  label="All"
+                  name="Status"
+                  value={"All"}
+                  checked={filter.SearchStatus === false}
+                  onChange={(e) => setFilter({ ...filter, SearchStatus: false })}
+                  className="my-4"
+                />
+                {Object.values(PricingType)
+                  .filter((value) => typeof value === "string")
+                  .map((pricingType) => (
+                    <CheckboxTwo
+                      name="Status"
+                      key={pricingType}
+                      label={pricingType as string}
+                      value={pricingType}
+                      checked={
+                        filters.PricingType ===
+                        PricingType[
+                          pricingType as keyof typeof PricingType
+                        ]
+                      }
+                      onClick={() => {
+                        setFilter({
+                          ...filters,
+                          SearchStatus: true,
+                          PricingType:
+                          PricingType[
+                            pricingType as keyof typeof PricingType
+                          ]
+                        });
+                      }}
+                      className="my-4"
+                    />
+                  ))}
               </div>
             </div>
 

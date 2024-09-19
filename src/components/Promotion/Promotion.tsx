@@ -65,7 +65,7 @@ const PromotionTable: React.FC<{
         onRowClick={(subscriptionDetails) =>
           router.push(`/promotions/${subscriptionDetails.Id}/subscription`)
         }
-        errorMessage="You have not gotten any bookings"
+        errorMessage="You have not gotten any promotions"
         headerComponent={
           <div className="p-3 overflow-x-scroll">
             <div className="items-between flex w-full items-center justify-between gap-3">
@@ -146,6 +146,22 @@ const PromotionTable: React.FC<{
           </div>
         }
         header={[
+         {
+            key: "Id",
+            title: "ID",
+            width: "5%",
+            headerClass:
+              "font-matter  whitespace-nowrap text-[12px] font-normal leading-[150%] text-white",
+            render(_column, item) {
+              return (
+                <div
+                  className={`text-[var(--grey-grey-600, #5D6679);] text-[14px] leading-[150%]`}
+                >
+                  {item?.Id && item?.Id.slice(0, 10)}
+                </div>
+              );
+            }
+          },
           {
             key: "Name",
             title: "Name",
@@ -168,22 +184,6 @@ const PromotionTable: React.FC<{
                   className={`text-[var(--grey-grey-600, #5D6679);] text-[14px] leading-[150%]`}
                 >
                   {item?.ShortDescription}
-                </div>
-              );
-            }
-          },
-          {
-            key: "Id",
-            title: "ID",
-            width: "5%",
-            headerClass:
-              "font-matter  whitespace-nowrap text-[12px] font-normal leading-[150%] text-white",
-            render(_column, item) {
-              return (
-                <div
-                  className={`text-[var(--grey-grey-600, #5D6679);] text-[14px] leading-[150%]`}
-                >
-                  {item?.Id && item?.Id.slice(0, 10)}
                 </div>
               );
             }
@@ -230,7 +230,7 @@ const PromotionTable: React.FC<{
           },
           {
             key: "Status",
-            title: "PROMOTION STATUS",
+            title: "STATUS",
             headerClass:
               "font-matter py-2 whitespace-nowrap text-[12px] font-normal leading-[150%] text-white",
             width: "5%",

@@ -6,7 +6,7 @@ import {
 import { convertGrpcDate } from "@/utils/helpers";
 import dayjs from "dayjs";
 import React from "react";
-import { Label, P2, H3 } from "../Headings/Headings";
+import { Label, P2, H3, H5 } from "../Headings/Headings";
 import PromotionGridProps from "./PromotionGrid.props";
 import styles from "./PromotionGrid.module.scss";
 import PromotionTable from "../Promotion/Promotion";
@@ -24,7 +24,7 @@ const PromotionGrid: React.FC<PromotionGridProps> = ({ promotion }) => {
                 <div>
                   <Label className={`${styles.promotionLabel}`}>Name</Label>
                   <P2 className={`${styles.promotionValue}`}>
-                    {promotion?.Name}
+                    {promotion?.Name ? promotion?.Name : "No Name"}
                   </P2>
                 </div>
 
@@ -33,7 +33,9 @@ const PromotionGrid: React.FC<PromotionGridProps> = ({ promotion }) => {
                     Description
                   </Label>
                   <P2 className={`${styles.promotionValue}`}>
-                    {promotion?.Description}
+                    {promotion?.Description
+                      ? promotion?.Description
+                      : "No Description"}
                   </P2>
                 </div>
 
@@ -95,8 +97,8 @@ const PromotionGrid: React.FC<PromotionGridProps> = ({ promotion }) => {
                     Promotion Status
                   </Label>
                   <P2 className={`${styles.promotionValue}`}>
-                    {promotion?.Status === PromotionStatus.INACTIVE &&
-                      "Inactive"}
+                    {promotion?.Status === PromotionStatus.INACTIVE ||
+                      (!promotion?.Status && "Inactive")}
                     {promotion?.Status === PromotionStatus.ACTIVE && "Active"}
                     {promotion?.Status === PromotionStatus.EXPIRED && "Expired"}
                   </P2>
@@ -129,7 +131,7 @@ const PromotionGrid: React.FC<PromotionGridProps> = ({ promotion }) => {
                   <P2 className={`${styles.promotionValue}`}>
                     {promotion?.Requirement?.MaximumBooking
                       ? `${promotion?.Requirement?.MaximumBooking}`
-                      : "0"}
+                      : 0}
                   </P2>
                 </div>
               </div>
@@ -142,7 +144,7 @@ const PromotionGrid: React.FC<PromotionGridProps> = ({ promotion }) => {
                   <P2 className={`${styles.promotionValue}`}>
                     {promotion?.Requirement?.MaximumBooking
                       ? `${promotion?.Requirement?.MaximumBooking}`
-                      : "0"}
+                      : 0}
                   </P2>
                 </div>
               </div>
@@ -153,21 +155,29 @@ const PromotionGrid: React.FC<PromotionGridProps> = ({ promotion }) => {
                     Account Type
                   </Label>
                   <P2 className={`${styles.promotionValue}`}>
-                    {promotion?.Requirement?.Account === AccountType.PLATINUM &&
-                      "Platinum"}
+                    {promotion?.Requirement?.Account === AccountType.STANDARD ||
+                      (!promotion?.Requirement?.Account && "Standard")}
                     {promotion?.Requirement?.Account === AccountType.PREMEIUM &&
                       "Premium"}
-                    {promotion?.Requirement?.Account === AccountType.STANDARD &&
-                      "Standard"}
+                    {promotion?.Requirement?.Account === AccountType.PLATINUM &&
+                      "Platinum"}
                   </P2>
                 </div>
               </div>
             </div>
           </div>
 
-          <div className="mb-6">
-            <PromotionTable Limit={5} Filter={{}} Promotion={promotion} />
-          </div>
+          {promotion &&
+          promotion.Requirement &&
+          promotion.Requirement.Promotions?.length > 0 ? (
+            <div className="mb-6">
+              <PromotionTable Limit={5} Filter={{}} Promotion={promotion} />
+            </div>
+          ) : (
+            <div className="my-5">
+              <H5>No Promotions</H5>
+            </div>
+          )}
         </div>
 
         <div className=" mt-7 md:mt-0 md:px-2">
@@ -181,19 +191,21 @@ const PromotionGrid: React.FC<PromotionGridProps> = ({ promotion }) => {
                     Booking Discount
                   </Label>
                   <P2 className={`${styles.promotionValue}`}>
-                    {promotion?.Pricing?.BookingDiscount}
+                    {promotion?.Pricing?.BookingDiscount
+                      ? promotion.Pricing?.BookingDiscount
+                      : 0}
                   </P2>
                 </div>
 
                 <div>
                   <Label className={`${styles.promotionLabel}`}>
-                    Account Type
+                    Pricing Type
                   </Label>
                   <P2 className={`${styles.promotionValue}`}>
-                    {promotion?.Pricing?.PricingType === PricingType.BASIC &&
-                      "Basic"}
-                    {promotion?.Pricing?.PricingType === PricingType.LUXURY &&
-                      "Luxury"}
+                    {promotion?.Pricing?.PricingType ===
+                      PricingType.COMMISION && "Commision"}
+                    {promotion?.Pricing?.PricingType ===
+                      PricingType.SUBSCRIPTION && "Subscription"}
                   </P2>
                 </div>
               </div>
@@ -202,7 +214,7 @@ const PromotionGrid: React.FC<PromotionGridProps> = ({ promotion }) => {
                 <div>
                   <Label className={`${styles.promotionLabel}`}>Rate</Label>
                   <P2 className={`${styles.promotionValue}`}>
-                    {promotion?.Pricing?.Rate}
+                    {promotion?.Pricing?.Rate ? promotion?.Pricing?.Rate : 0}
                   </P2>
                 </div>
               </div>
@@ -211,7 +223,9 @@ const PromotionGrid: React.FC<PromotionGridProps> = ({ promotion }) => {
                 <div>
                   <Label className={`${styles.promotionLabel}`}>Unit</Label>
                   <P2 className={`${styles.promotionValue}`}>
-                    {promotion?.Pricing?.Unit}
+                    {promotion?.Pricing?.Unit
+                      ? promotion?.Pricing?.Unit
+                      : "No unit"}
                   </P2>
                 </div>
               </div>

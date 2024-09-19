@@ -100,8 +100,8 @@ const SubscribtionsTable: React.FC<{
                               ...tableFilter,
                               SearchStatus: true,
                               Status:
-                              SubscriptionStatus[
-                                subscriptionStatus as keyof typeof SubscriptionStatus
+                                SubscriptionStatus[
+                                  subscriptionStatus as keyof typeof SubscriptionStatus
                                 ]
                             });
                           }}
@@ -112,24 +112,21 @@ const SubscribtionsTable: React.FC<{
                             `(${
                               subcriptions.filter(
                                 (item: ISubscribers) =>
-                                  item.Status ===
-                                SubscriptionStatus.ACTIVE
+                                  item.Status === SubscriptionStatus.ACTIVE
                               ).length
                             })`}
                           {subscriptionStatus === SubscriptionStatus.INACTIVE &&
                             `(${
                               subcriptions.filter(
                                 (item: ISubscribers) =>
-                                  item.Status ===
-                                SubscriptionStatus.INACTIVE
+                                  item.Status === SubscriptionStatus.INACTIVE
                               ).length
                             })`}
                           {subscriptionStatus === SubscriptionStatus.EXPIRED &&
                             `(${
                               subcriptions.filter(
                                 (item: ISubscribers) =>
-                                  item.Status ===
-                                SubscriptionStatus.EXPIRED
+                                  item.Status === SubscriptionStatus.EXPIRED
                               ).length
                             })`}
                         </div>
@@ -139,7 +136,7 @@ const SubscribtionsTable: React.FC<{
               </div>
 
               <div className="flex items-center gap-2">
-                <Button size="sm" color="primary" className="flex-wrap">  
+                <Button size="sm" color="primary" className="flex-wrap">
                   Add Subscription
                 </Button>
 
@@ -159,32 +156,6 @@ const SubscribtionsTable: React.FC<{
         }
         header={[
           {
-            key: "Name",
-            title: "Name",
-            width: "20%",
-            headerClass:
-              "font-matter py-2 px-3 whitespace-nowrap text-[12px] font-normal leading-[150%] text-white",
-            render(_column, item) {
-              return <div className="px-4">{item.Service?.Name}</div>;
-            }
-          },
-          {
-            key: "ShortDescription",
-            title: "SHORT DESCRIPTION",
-            width: "30",
-            headerClass:
-              "font-matter  whitespace-nowrap text-[12px] font-normal leading-[150%] text-white",
-            render(_column, item) {
-              return (
-                <div
-                  className={`text-[var(--grey-grey-600, #5D6679);] text-[14px] leading-[150%]`}
-                >
-                  {item.Promotion.ShortDescription}
-                </div>
-              );
-            }
-          },
-          {
             key: "Id",
             title: "Service ID",
             width: "5%",
@@ -198,6 +169,16 @@ const SubscribtionsTable: React.FC<{
                   {item.Service?.Id && item.Service.Id.slice(0, 10)}
                 </div>
               );
+            }
+          },
+          {
+            key: "Name",
+            title: "Name",
+            width: "5%",
+            headerClass:
+              "font-matter py-2 px-3 whitespace-nowrap text-[12px] font-normal leading-[150%] text-white",
+            render(_column, item) {
+              return <div className="px-4">{item.Service?.Name}</div>;
             }
           },
           {
@@ -240,13 +221,12 @@ const SubscribtionsTable: React.FC<{
           },
           {
             key: "Status",
-            title: "PROMOTION STATUS",
+            title: "STATUS",
             headerClass:
               "font-matter py-2 whitespace-nowrap text-[12px] font-normal leading-[150%] text-white",
             width: "5%",
             render(_column, item) {
-              if (!item.Status)
-                item.Status = SubscriptionStatus.INACTIVE;
+              if (!item.Status) item.Status = SubscriptionStatus.INACTIVE;
               return (
                 <div
                   className={` ${
@@ -258,12 +238,9 @@ const SubscribtionsTable: React.FC<{
                   }    inline-block rounded-full px-4 py-1`}
                 >
                   <div className="text-center text-[12px]">
-                    {item.Status === SubscriptionStatus.INACTIVE &&
-                      "Inactive"}
-                    {item.Status === SubscriptionStatus.ACTIVE &&
-                      "Active"}
-                    {item.Status === SubscriptionStatus.EXPIRED &&
-                      "Expired"}
+                    {item.Status === SubscriptionStatus.INACTIVE && "Inactive"}
+                    {item.Status === SubscriptionStatus.ACTIVE && "Active"}
+                    {item.Status === SubscriptionStatus.EXPIRED && "Expired"}
                   </div>
                 </div>
               );

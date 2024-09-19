@@ -69,6 +69,7 @@ export interface PromotionFilter {
   Rate?: number;
   Unit?: string;
   Status?: PromotionStatus;
+  PricingType?: PricingType;
   SearchStatus?: boolean;
   Title?: string;
   Type?: PromotionType;
@@ -93,10 +94,10 @@ export type IPrice = {
 export type IRequirement = {
   Account: AccountType;
   Location: IAddress;
-  MaximumBooking: Number;
-  MinimumBooking: Number;
+  MaximumBooking: number;
+  MinimumBooking: number;
   ServiceType: String;
-  Promotions?: IPromotion[];
+  Promotions: IPromotion[];
 };
 
 export type IAddress = {
@@ -110,8 +111,8 @@ export type IAddress = {
 };
 
 export enum PricingType {
-  BASIC = 0,
-  LUXURY = 1
+  SUBSCRIPTION = 0,
+  COMMISION = 1
 }
 export enum AccountType {
   STANDARD = 0,
