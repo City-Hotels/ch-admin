@@ -70,9 +70,9 @@ const Filter: FC<FilterProps> = ({ className, onClose, setFilter, filter }) => {
                 <input
                   placeholder="e.g: Service Id"
                   className={`${styles.innerInput}`}
-                  value={filters.PromotionId}
+                  value={filters.Id}
                   onChange={(ev) =>
-                    setFilter({ ...filters, PromotionId: ev.currentTarget.value })
+                    setFilter({ ...filters, Id: ev.currentTarget.value })
                   }
                 />
               </div>
