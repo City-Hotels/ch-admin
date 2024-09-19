@@ -42,6 +42,7 @@ export interface SubscriptionFilter {
   Page?: number;
   Name?: string;
   Id?: string;
+  PromotionId?: string;
   MaxParticipant?: number;
   MaximumBooking?: number;
   MinimumBooking?: number;

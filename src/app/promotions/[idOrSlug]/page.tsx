@@ -31,7 +31,7 @@ const CampaignPage = () => {
       {promotion && <PromotionGrid promotion={promotion} />}
 
       {promotion && (
-        <SubscriptionTable Limit={5} Filter={{ Id: promotion.Id }} />
+        <SubscriptionTable Limit={5} Filter={{ PromotionId: promotion?.Id }} />
       )}
     </DefaultLayout>
   );
