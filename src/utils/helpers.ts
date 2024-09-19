@@ -23,6 +23,20 @@ export const convertGrpcDate = (grpcDate: {
   return new Date(milliseconds);
 };
 
+export function dateToTimestamp(date: Date): { seconds: number; nanos: number } {
+  // Ensure the input is a valid Date object
+  if (!(date instanceof Date)) {
+    throw new Error("Invalid date object");
+  }
+  // Get the timestamp in milliseconds
+  const millis = date.getTime();
+  // Convert milliseconds to seconds (integer part)
+  const seconds = Math.floor(millis / 1000);
+  // Calculate the nanoseconds (remaining milliseconds converted to nanoseconds)
+  const nanos = (millis % 1000) * 1e6;
+  return { seconds, nanos };
+}
+
 // Assuming fileList is your FileList object
 export const fileListToArray = (fileList: FileList): File[] => {
   const array: File[] = [];
