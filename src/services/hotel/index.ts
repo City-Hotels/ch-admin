@@ -137,9 +137,9 @@ const updateHotelManagementInformation = (
   });
 };
 
-const uploadHotelMedia = (file: FormData, setProgress: Function) => {
+const uploadHotelMedia = (file: FormData, setProgress: Function, hotelid: string) => {
   return putRequest<FormData, { Path: string }>({
-    url: `hotels/media`,
+    url: `hotels/${hotelid}/media`,
     data: file,
     config: {
       onUploadProgress: (ProgressEvent) => {
@@ -150,9 +150,9 @@ const uploadHotelMedia = (file: FormData, setProgress: Function) => {
   });
 };
 
-const deleteHotelMedia = (path: string) => {
+const deleteHotelMedia = (path: string, hotelid: string) => {
   return deleteRequest<{ FilePath: string }, null>({
-    url: `hotels/media?FilePath=${path}`
+    url: `hotels/${hotelid}/media?FilePath=${path}`
   });
 };
 
