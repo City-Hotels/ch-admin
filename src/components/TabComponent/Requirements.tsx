@@ -24,7 +24,8 @@ const Requirements: React.FC<FormProps> = ({ onSubmit }) => {
       MaximumBooking: 0,
       MinimumBooking: 0,
       ServiceType: "",
-      Account: 0
+      Account: 0,
+      Promotions: [],
     },
     Created_at: {
       seconds: 0,

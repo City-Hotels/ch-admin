@@ -39,12 +39,13 @@ const FormLayout = () => {
         Country: "",
         PostalCode: "",
         State: "",
-        Street: ""
+        Street: "",
       },
       MaximumBooking: 0,
       MinimumBooking: 0,
       ServiceType: "",
-      Account: 0
+      Account: 0,
+      Promotions: [],
     },
   });
 
@@ -62,7 +63,7 @@ const FormLayout = () => {
   const handleSubmit = (values: typeof formData) => {
     mutate(values, {
       onSuccess(res) {
-        router.push(`/campaigns/${res.data.Id}`);
+        router.push(`/promotions/${res.data.Id}`);
         console.log("data" + res.data.Id)
       }
     });

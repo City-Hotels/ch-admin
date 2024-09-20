@@ -1,10 +1,9 @@
 "use client";
-import { H4 } from "@/components/Headings/Headings";
+import { H6 } from "@/components/Headings/Headings";
 import queryKeys from "@/utils/api/queryKeys";
 import React, { useState } from "react";
 import { useQuery } from "react-query";
 import Dots from "@/assets/icons/dots-vertical.svg";
-import FilterIcon from "@/assets/icons/filter2.svg";
 import dayjs from "dayjs";
 import type { Meta } from "@/utils/api/calls";
 import { usePagination } from "../Tables/Table/Pagination";
@@ -20,23 +19,24 @@ import {
 } from "@/services/promotions/payload";
 import FilterComponent from "./Filter/Filter";
 import Modal from "../Modal/Modal";
-import Button from "../Button/Button";
 
-const CampaignTable: React.FC<{
+const PromotionTable: React.FC<{
   Limit: number;
   hidePagination?: boolean;
   Filter: PromotionFilter;
-}> = ({ Limit, Filter, hidePagination }) => {
+  Promotion?: IPromotion;
+}> = ({ Limit, Filter, hidePagination, Promotion }) => {
   const [Page, setPage] = useState(1);
   const [tableFilter, setTableFilter] = useState({ ...Filter });
   const [showFilterModal, setShowFilterModal] = useState(false);
 
   const { isLoading, refetch, data } = useQuery(
     [queryKeys.getPromotions, Limit, Page, tableFilter],
-    () => getCampaigns({ Limit, ...tableFilter, Page })
+    () => getCampaigns({ Limit, Page, ...tableFilter })
   );
-  const campaigns = (data?.data.Promotions as IPromotion[]) || [];
+
   const meta = (data?.data.Meta as Meta) || [];
+  const promotion = (data?.data.Promotions as IPromotion[]) || [];
 
   const { currentPage, perPage, handlePageChange } = usePagination({
     defaultCurrentPage: 1,
@@ -46,24 +46,26 @@ const CampaignTable: React.FC<{
     }
   });
 
+  console.log(Promotion && Promotion?.Requirement?.Promotions?.length);
+
   const router = useRouter();
 
   return (
-    <div className="bg-white p-2 rounded-md">
-      <H4 className="p-2 text-black">
-        Campaigns {meta.TotalCount && <span>({meta.TotalCount})</span>}
-      </H4>
+    <div className="bg-white py-2 rounded-md">
+      <H6 className="p-2 text-black">
+        Promotion {<span>({Promotion?.Requirement?.Promotions?.length})</span>}
+      </H6>
       <Table
         withPagination={!hidePagination}
         perPage={perPage}
         currentPage={currentPage}
-        total={meta.TotalCount}
+        total={Promotion?.Requirement?.Promotions?.length}
         onPageChange={handlePageChange}
         headerColor="primary"
         onRowClick={(subscriptionDetails) =>
-          router.push(`/promotions/${subscriptionDetails.Id}/`)
+          router.push(`/promotions/${subscriptionDetails.Id}/subscription`)
         }
-        errorMessage="You have not gotten any bookings"
+        errorMessage="You have not gotten any promotions"
         headerComponent={
           <div className="p-3 overflow-x-scroll">
             <div className="items-between flex w-full items-center justify-between gap-3">
@@ -71,8 +73,8 @@ const CampaignTable: React.FC<{
                 <div className="md:min-w-[200px]">
                   <Input
                     type="search"
-                    placeholder="Campaign Id"
-                    className="w-full border border-[#EAEAEA] outline-none placeholder:text-[#666666] max-[425px]:w-[153px]"
+                    placeholder="Promotion Id"
+                    className="md:w-full border border-[#EAEAEA] outline-none placeholder:text-[#666666] w-[153px]"
                     value={tableFilter.Id}
                     onChange={(ev) =>
                       setTableFilter({
@@ -91,7 +93,7 @@ const CampaignTable: React.FC<{
                         setTableFilter({ ...tableFilter, SearchStatus: false });
                       }}
                     >
-                      All 
+                      All
                     </div>
                     {Object.values(PromotionStatus)
                       .filter((value) => typeof value === "string")
@@ -106,7 +108,7 @@ const CampaignTable: React.FC<{
                               ...tableFilter,
                               SearchStatus: true,
                               Status:
-                              PromotionStatus[
+                                PromotionStatus[
                                   promotionStatus as keyof typeof PromotionStatus
                                 ]
                             });
@@ -114,24 +116,23 @@ const CampaignTable: React.FC<{
                         >
                           {promotionStatus}
 
-
                           {promotionStatus === PromotionStatus.ACTIVE &&
                             `(${
-                              campaigns.filter(
+                              Promotion?.Requirement?.Promotions?.filter(
                                 (item: IPromotion) =>
                                   item.Status === PromotionStatus.ACTIVE
                               ).length
                             })`}
                           {promotionStatus === PromotionStatus.INACTIVE &&
                             `(${
-                              campaigns.filter(
+                              Promotion?.Requirement?.Promotions?.filter(
                                 (item: IPromotion) =>
                                   item.Status === PromotionStatus.INACTIVE
                               ).length
                             })`}
                           {promotionStatus === PromotionStatus.EXPIRED &&
                             `(${
-                              campaigns.filter(
+                              Promotion?.Requirement?.Promotions?.filter(
                                 (item: IPromotion) =>
                                   item.Status === PromotionStatus.EXPIRED
                               ).length
@@ -141,20 +142,26 @@ const CampaignTable: React.FC<{
                   </span>
                 </div>
               </div>
-              <Button
-                size="sm"
-                color="outline-dark"
-                variant="outline"
-                onClick={() => setShowFilterModal(true)}
-              >
-                <span className="flex gap-2 px-3">
-                  <FilterIcon /> Filter
-                </span>
-              </Button>
             </div>
           </div>
         }
         header={[
+         {
+            key: "Id",
+            title: "ID",
+            width: "5%",
+            headerClass:
+              "font-matter  whitespace-nowrap text-[12px] font-normal leading-[150%] text-white",
+            render(_column, item) {
+              return (
+                <div
+                  className={`text-[var(--grey-grey-600, #5D6679);] text-[14px] leading-[150%]`}
+                >
+                  {item?.Id && item?.Id.slice(0, 10)}
+                </div>
+              );
+            }
+          },
           {
             key: "Name",
             title: "Name",
@@ -162,7 +169,7 @@ const CampaignTable: React.FC<{
             headerClass:
               "font-matter py-2 px-3 whitespace-nowrap text-[12px] font-normal leading-[150%] text-white",
             render(_column, item) {
-              return <div className="px-4">{item.Name}</div>;
+              return <div className="px-4">{item?.Name}</div>;
             }
           },
           {
@@ -176,23 +183,7 @@ const CampaignTable: React.FC<{
                 <div
                   className={`text-[var(--grey-grey-600, #5D6679);] text-[14px] leading-[150%]`}
                 >
-                  {item.ShortDescription}
-                </div>
-              );
-            }
-          },
-          {
-            key: "Id",
-            title: "ID",
-            width: "5%",
-            headerClass:
-              "font-matter  whitespace-nowrap text-[12px] font-normal leading-[150%] text-white",
-            render(_column, item) {
-              return (
-                <div
-                  className={`text-[var(--grey-grey-600, #5D6679);] text-[14px] leading-[150%]`}
-                >
-                  {item.Id && item?.Id.slice(0, 10)}
+                  {item?.ShortDescription}
                 </div>
               );
             }
@@ -210,7 +201,9 @@ const CampaignTable: React.FC<{
                 <div
                   className={`text-[var(--grey-grey-600, #5D6679);] text-[14px] leading-[150%]`}
                 >
-                  {dayjs(convertGrpcDate(item.Created_at)).format("DD/MM/YYYY")}
+                  {dayjs(convertGrpcDate(item?.Created_at)).format(
+                    "DD/MM/YYYY"
+                  )}
                 </div>
               );
             }
@@ -228,25 +221,27 @@ const CampaignTable: React.FC<{
                 <div
                   className={`text-[var(--grey-grey-600, #5D6679);] text-[14px] leading-[150%]`}
                 >
-                  {dayjs(convertGrpcDate(item.Updated_at)).format("DD/MM/YYYY")}
+                  {dayjs(convertGrpcDate(item?.Updated_at)).format(
+                    "DD/MM/YYYY"
+                  )}
                 </div>
               );
             }
           },
           {
             key: "Status",
-            title: "PROMOTION STATUS",
+            title: "STATUS",
             headerClass:
               "font-matter py-2 whitespace-nowrap text-[12px] font-normal leading-[150%] text-white",
             width: "5%",
             render(_column, item) {
-              if (!item.Status) item.Status = PromotionStatus.INACTIVE;
+              if (!item?.Status) item.Status = PromotionStatus.INACTIVE;
               return (
                 <div
                   className={` ${
-                    (item.Status === PromotionStatus.INACTIVE &&
+                    (item?.Status === PromotionStatus.INACTIVE &&
                       "bg-warning50 text-warning400") ||
-                    (item.Status === PromotionStatus.ACTIVE &&
+                    (item?.Status === PromotionStatus.ACTIVE &&
                       "bg-success50 text-success400") ||
                     "bg-danger50  text-danger400"
                   }    inline-block rounded-full px-4 py-1`}
@@ -269,8 +264,7 @@ const CampaignTable: React.FC<{
             }
           }
         ]}
-        data={campaigns}
-        isLoading={isLoading}
+        data={Promotion?.Requirement?.Promotions || []}
       />
       <Modal
         openModal={showFilterModal}
@@ -289,4 +283,4 @@ const CampaignTable: React.FC<{
   );
 };
 
-export default CampaignTable;
+export default PromotionTable;

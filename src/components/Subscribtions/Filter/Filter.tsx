@@ -7,13 +7,12 @@ import Search from "../../../assets/icons/search.svg";
 import { H4, P2 } from "@/components/Headings/Headings";
 import CheckboxTwo from "@/components/Checkboxes/CheckboxTwo";
 import {
-  PricingType,
-  PromotionFilter,
-  PromotionStatus
+  SubscriptionFilter,
+  ServiceFilterType
 } from "@/services/promotions/payload";
 
 const Filter: FC<FilterProps> = ({ className, onClose, setFilter, filter }) => {
-  const [filters, updateFilter] = useState<PromotionFilter>(filter);
+  const [filters, updateFilter] = useState<SubscriptionFilter>(filter);
 
   const handleFilterClick = (e: { stopPropagation: () => void }) => {
     e.stopPropagation();
@@ -56,6 +55,24 @@ const Filter: FC<FilterProps> = ({ className, onClose, setFilter, filter }) => {
                   value={filters.Name}
                   onChange={(ev) =>
                     setFilter({ ...filters, Name: ev.currentTarget.value })
+                  }
+                />
+              </div>
+            </div>
+
+            <div className={`${styles.labelContainer}`}>
+              <P2 className="font-bold leading-[150%] text-black">
+                Service Id
+              </P2>
+
+              <div className={`${styles.input}`}>
+                <Search className="text-black" />
+                <input
+                  placeholder="e.g: Service Id"
+                  className={`${styles.innerInput}`}
+                  value={filters.Id}
+                  onChange={(ev) =>
+                    setFilter({ ...filters, Id: ev.currentTarget.value })
                   }
                 />
               </div>
@@ -193,7 +210,7 @@ const Filter: FC<FilterProps> = ({ className, onClose, setFilter, filter }) => {
 
             <div className={`${styles.labelContainer}`}>
               <P2 className=" font-bold leading-[150%] text-black">
-                Pricing Type
+                Service Type
               </P2>
 
               <div className={`${styles.checkBoxConatainer}`}>
@@ -201,75 +218,32 @@ const Filter: FC<FilterProps> = ({ className, onClose, setFilter, filter }) => {
                   label="All"
                   name="Status"
                   value={"All"}
-                  checked={filter.SearchStatus === false}
-                  onChange={(e) => setFilter({ ...filter, SearchStatus: false })}
+                  checked={filter.ServiceType === undefined}
+                  onChange={(e) =>
+                    setFilter({ ...filter, ServiceType: undefined })
+                  }
                   className="my-4"
                 />
-                {Object.values(PricingType)
+                {Object.values(ServiceFilterType)
                   .filter((value) => typeof value === "string")
-                  .map((pricingType) => (
+                  .map((serviceType) => (
                     <CheckboxTwo
                       name="Status"
-                      key={pricingType}
-                      label={pricingType as string}
-                      value={pricingType}
+                      key={serviceType}
+                      label={serviceType as string}
+                      value={serviceType}
                       checked={
-                        filters.PricingType ===
-                        PricingType[
-                          pricingType as keyof typeof PricingType
+                        filters.ServiceType ===
+                        ServiceFilterType[
+                          serviceType as keyof typeof ServiceFilterType
                         ]
                       }
                       onClick={() => {
                         setFilter({
                           ...filters,
-                          SearchStatus: true,
-                          PricingType:
-                          PricingType[
-                            pricingType as keyof typeof PricingType
-                          ]
-                        });
-                      }}
-                      className="my-4"
-                    />
-                  ))}
-              </div>
-            </div>
-
-            <div className={`${styles.labelContainer}`}>
-              <P2 className=" font-bold leading-[150%] text-black">
-                Promotion Status
-              </P2>
-
-              <div className={`${styles.checkBoxConatainer}`}>
-                <CheckboxTwo
-                  label="All"
-                  name="Status"
-                  value={"All"}
-                  checked={filter.Status === undefined}
-                  onChange={(e) => setFilter({ ...filter, Status: undefined })}
-                  className="my-4"
-                />
-                {Object.values(PromotionStatus)
-                  .filter((value) => typeof value === "string")
-                  .map((promotionStatus) => (
-                    <CheckboxTwo
-                      name="Status"
-                      key={promotionStatus}
-                      label={promotionStatus as string}
-                      value={promotionStatus}
-                      checked={
-                        filters.Status ===
-                        PromotionStatus[
-                          promotionStatus as keyof typeof PromotionStatus
-                        ]
-                      }
-                      onClick={() => {
-                        setFilter({
-                          ...filters,
-                          SearchStatus: true,
-                          Status:
-                          PromotionStatus[
-                              promotionStatus as keyof typeof PromotionStatus
+                          ServiceType:
+                            ServiceFilterType[
+                              serviceType as keyof typeof ServiceFilterType
                             ]
                         });
                       }}
