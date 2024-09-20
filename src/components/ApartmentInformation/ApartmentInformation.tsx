@@ -1,10 +1,17 @@
-import { apartmentInformationSchema, hotelInformationSchema } from "@/utils/formSchema";
+import {
+  apartmentInformationSchema,
+  hotelInformationSchema
+} from "@/utils/formSchema";
 import Input from "@/components/formik/input/Input";
 import { Formik } from "formik";
 import type { AppDispatch } from "@/store";
 import { H4 } from "../Headings/Headings";
 import Button from "../Button/Button";
-import { IApartment, IApartmentInformationPayload } from "@/services/apartment/payload";
+import {
+  IApartment,
+  IApartmentInformationPayload
+} from "@/services/apartment/payload";
+import RichTextEditor from "../formik/RichTextEditor/RichTextEditor";
 
 export interface ApartmentInformationFormProps {
   onSubmit: (values: IApartmentInformationPayload) => void;
@@ -12,10 +19,14 @@ export interface ApartmentInformationFormProps {
   isSubmitting: boolean;
 }
 
-const AparmtentInformation: React.FC<ApartmentInformationFormProps> = ({ onSubmit, apartment, isSubmitting }) => {
+const AparmtentInformation: React.FC<ApartmentInformationFormProps> = ({
+  onSubmit,
+  apartment,
+  isSubmitting
+}) => {
   const initialValues: IApartmentInformationPayload = {
-      Name: apartment?.Name || "",
-      Description: apartment?.Description || ""
+    Name: apartment?.Name || "",
+    Description: apartment?.Description || ""
   };
 
   return (
@@ -33,7 +44,12 @@ const AparmtentInformation: React.FC<ApartmentInformationFormProps> = ({ onSubmi
               <div className="mt-10">
                 <div>
                   <Input label="Name" name="Name" />
-                  <Input label="Description" name="Description" />
+                  <RichTextEditor
+                    value={""}
+                    onChange={() => {}}
+                    name="Description"
+                    label="Description"
+                  />
                 </div>
               </div>
               <div className="text-center md:text-right">
