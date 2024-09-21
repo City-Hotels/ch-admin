@@ -30,6 +30,12 @@ export interface ISubscribers {
   Updated_at: IGRPCDate;
 }
 
+export interface SubscriptionPayload {
+  PaymentReference: string;
+  PromotionId: string;
+  ServiceId: string;
+}
+
 export interface IService {
   Id?: string;
   Imageurl: string;
