@@ -6,6 +6,7 @@ import { IApartment } from "@/services/apartment/payload";
 import queryKeys from "@/utils/api/queryKeys";
 import { postPromotion } from "@/services/promotions";
 
+
 const SubscriptionSearch: React.FC<SubscriptionSearchProps> = ({
   className,
   value,
@@ -14,15 +15,18 @@ const SubscriptionSearch: React.FC<SubscriptionSearchProps> = ({
   setOpenSubscription
 }) => {
   const [apartmentSearch, setApartmentSearch] = useState(value);
-
   const [showSuggestions, setShowSuggestions] = useState(false);
 
   const { isLoading, data } = useQuery(
     [queryKeys.getApartmentSearch, apartmentSearch],
     () => searchApartment({ ApartmentName: apartmentSearch })
   );
-  const { mutate } = useMutation(postPromotion);
   const apartments = (data?.data.Apartments as IApartment[]) || [];
+  const { mutate } = useMutation(postPromotion, {
+    onSuccess: () => {
+      onApartmentSelected();
+    }
+  });
 
   const handleApartmentSelect = (apartment: IApartment) => {
     setApartmentSearch(apartment.Name);
@@ -33,7 +37,6 @@ const SubscriptionSearch: React.FC<SubscriptionSearchProps> = ({
       PromotionId: promotionId || "",
       ServiceId: apartment.Id
     });
-    onApartmentSelected();
     setOpenSubscription(false);
   };
 
