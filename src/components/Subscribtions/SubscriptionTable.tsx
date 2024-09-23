@@ -161,7 +161,7 @@ const SubscribtionsTable: React.FC<{
                   <Button
                     size="sm"
                     color="primary"
-                    className="flex-wrap"
+                    className="w-[130px]"
                     onClick={() =>
                       setOpenSubscriptionModal(!openSubscriptionModal)
                     }
@@ -170,7 +170,7 @@ const SubscribtionsTable: React.FC<{
                   </Button>
 
                   {openSubscriptionModal && (
-                    <div className="absolute top-10 z-999">
+                    <div className="absolute top-10 right-1 z-999">
                       <SubscriptionSearch
                         className=""
                         onApartmentSelected={refetch}

@@ -5,7 +5,8 @@ import { searchApartment } from "@/services/apartment";
 import { IApartment } from "@/services/apartment/payload";
 import queryKeys from "@/utils/api/queryKeys";
 import { postPromotion } from "@/services/promotions";
-
+import styles from "./SubscriptionSearch.module.scss";
+import { P } from "../Headings/Headings";
 
 const SubscriptionSearch: React.FC<SubscriptionSearchProps> = ({
   className,
@@ -17,10 +18,14 @@ const SubscriptionSearch: React.FC<SubscriptionSearchProps> = ({
   const [apartmentSearch, setApartmentSearch] = useState(value);
   const [showSuggestions, setShowSuggestions] = useState(false);
 
-  const { isLoading, data } = useQuery(
+  const { isLoading, data, isError } = useQuery(
     [queryKeys.getApartmentSearch, apartmentSearch],
-    () => searchApartment({ ApartmentName: apartmentSearch })
+    () => searchApartment({ ApartmentName: apartmentSearch }),
+    {
+      enabled: !!apartmentSearch // Only fetch when there's input
+    }
   );
+
   const apartments = (data?.data.Apartments as IApartment[]) || [];
   const { mutate } = useMutation(postPromotion, {
     onSuccess: () => {
@@ -46,7 +51,7 @@ const SubscriptionSearch: React.FC<SubscriptionSearchProps> = ({
     >
       <input
         className="w-full outline-none"
-        placeholder="Search Subscription"
+        placeholder="Search Apartment"
         value={apartmentSearch}
         onChange={(e) => {
           setApartmentSearch(e.target.value);
@@ -56,7 +61,18 @@ const SubscriptionSearch: React.FC<SubscriptionSearchProps> = ({
         onBlur={() => setTimeout(() => setShowSuggestions(false), 200)}
       />
 
-      {showSuggestions && (
+      {isLoading && (
+        <ul className="flex flex-col items-center gap-2 mt-4">
+          <li className={styles.subcriptionsDropdownLoaderItem} />
+          <li className={styles.subcriptionsDropdownLoaderItem} />
+          <li className={styles.subcriptionsDropdownLoaderItem} />
+          <li className={styles.subcriptionsDropdownLoaderItem} />
+        </ul>
+      )}
+
+      {isError && <P>Failed to Load Apartments</P>}
+
+      {showSuggestions && !isLoading && !isError && (
         <ul className="mt-4 w-full max-h-48 overflow-y-auto">
           {apartments.map((apartment, index) => (
             <li
