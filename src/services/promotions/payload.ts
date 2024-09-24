@@ -133,7 +133,7 @@ export enum SubscriptionStatus {
   EXPIRED = 2
 }
 
-export enum PromotionFilterStatus {
+export enum SubscriptionFilterStatus {
   ACTIVE = "ACTIVE",
   INACTIVE = "INACTIVE",
   EXPIRED = "EXPIRED"
