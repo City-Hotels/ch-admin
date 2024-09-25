@@ -46,14 +46,14 @@ const OptionsModal: React.FC<OptionsModalProps> = ({
     value: item.toString()
   }));
 
-  const { mutate, isLoading } = useMutation(updateSubscriptionStatus, {
+  const { mutate, isLoading: isUpdateLoading } = useMutation(updateSubscriptionStatus, {
     onSuccess: () => {
       refetch(); // Refetches the data after successful update
       onClose(); // Closes the modal
     }
   });
 
-  const { mutate: deletesubcription } = useMutation(deleteSubscription, {
+  const { mutate: deletesubcription, isLoading: isDeleteLoading } = useMutation(deleteSubscription, {
     onSuccess: () => {
       refetch();
       onClose();
@@ -95,7 +95,8 @@ const OptionsModal: React.FC<OptionsModalProps> = ({
             color="primary"
             size="md"
             onClick={handleSubscriptionMutation}
-            disabled={isLoading || selectedStatus === subscriber?.Status}
+            isLoading={isUpdateLoading}
+            disabled={isUpdateLoading || selectedStatus === subscriber?.Status}
           >
             Update
           </Button>
@@ -104,6 +105,7 @@ const OptionsModal: React.FC<OptionsModalProps> = ({
         <Button
           color="danger"
           size="md"
+          isLoading={isDeleteLoading}
           onClick={() =>
             subscriber?.Id && handleSubscriptionDelete(subscriber.Id)
           }
