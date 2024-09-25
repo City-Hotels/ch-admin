@@ -1,5 +1,5 @@
 import { ApiResponse, Meta, deleteRequest, getRequest, patchRequest, postRequest } from "@/utils/api/calls";
-import type { IPromotion, ISubscribers, PromotionFilter, SubscriptionFilter } from "./payload";
+import type { IPromotion, ISubscribers, ISubscribersUpdate, PromotionFilter, SubscriptionFilter } from "./payload";
 
 const getMemberships = (
   filter: PromotionFilter
@@ -77,7 +77,7 @@ const submitCampaign = (data: IPromotion) => {
   });
 };
 
-const updateSubscriptionStatus = (data: ISubscribers) => {
+const updateSubscriptionStatus = (data: ISubscribersUpdate) => {
   return patchRequest({
     url: "/promotions/subscriptions/update-status",
     data
@@ -86,7 +86,7 @@ const updateSubscriptionStatus = (data: ISubscribers) => {
 
 const deleteSubscription = (subcriptionId: string) => {
   return deleteRequest({
-    url: `/subscriptions/${subcriptionId}`,
+    url: `/promotions/subscriptions/${subcriptionId}`,
   })
 }
 

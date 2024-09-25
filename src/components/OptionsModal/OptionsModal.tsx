@@ -1,10 +1,7 @@
 import React, { ChangeEvent, useState } from "react";
 import { H5 } from "../Headings/Headings";
-import Dropdown from "../Inputs/dropdown/Dropdown-2"; // Assuming Dropdown component is correctly imported
-import {
-  ISubscribers,
-  SubscriptionStatus
-} from "@/services/promotions/payload";
+import Dropdown from "../Inputs/dropdown/Dropdown-2";
+import { SubscriptionStatus } from "@/services/promotions/payload";
 import { useMutation } from "react-query";
 import {
   deleteSubscription,
@@ -53,7 +50,12 @@ const OptionsModal: React.FC<OptionsModalProps> = ({
     }
   });
 
-  const { mutate: deletesubcription } = useMutation(deleteSubscription);
+  const { mutate: deletesubcription } = useMutation(deleteSubscription, {
+    onSuccess: () => {
+      refetch();
+      onClose();
+    }
+  });
 
   const handleStatusChange = (e: ChangeEvent<HTMLSelectElement>) => {
     const selectedValue = parseInt(e.target.value, 10) as SubscriptionStatus;
@@ -63,14 +65,12 @@ const OptionsModal: React.FC<OptionsModalProps> = ({
 
   const handleSubscriptionMutation = () => {
     if (selectedStatus !== subscriber?.Status && subscriber) {
-      mutate({ ...subscriber, Status: selectedStatus });
+      mutate({ Status: selectedStatus, Id: subscriber.Id });
     }
   };
 
   const handleSubscriptionDelete = (subcriptionId: string) => {
-    if (selectedStatus !== subscriber?.Status && subscriber) {
-        deletesubcription(subcriptionId);
-      }
+    deletesubcription(subcriptionId);
   };
 
   return (
@@ -98,7 +98,6 @@ const OptionsModal: React.FC<OptionsModalProps> = ({
         <Button
           color="danger"
           size="md"
-          disabled={isLoading || selectedStatus === subscriber?.Status}
           onClick={() =>
             subscriber?.Id && handleSubscriptionDelete(subscriber.Id)
           }
