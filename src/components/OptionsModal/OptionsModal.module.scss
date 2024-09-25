@@ -1,0 +1,11 @@
+.optionsModalContainer {
+  @apply w-100 bg-white rounded-lg p-4 absolute md:left-35 lg:left-40 xl:left-59 m-auto;
+}
+
+.optionsModalHeader {
+  @apply flex items-start justify-between;
+}
+
+.optionsModalButtonContainer {
+  @apply mt-4 flex items-center justify-between;
+}

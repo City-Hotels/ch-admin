@@ -9,6 +9,9 @@ import {
 } from "@/services/promotions";
 import OptionsModalProps from "./OptionsModal.props";
 import Button from "../Button/Button";
+import Close from "../../assets/icons/close.svg";
+import styles from "./OptionsModal.module.scss"
+
 
 const OptionsModal: React.FC<OptionsModalProps> = ({
   subscriber,
@@ -60,7 +63,6 @@ const OptionsModal: React.FC<OptionsModalProps> = ({
   const handleStatusChange = (e: ChangeEvent<HTMLSelectElement>) => {
     const selectedValue = parseInt(e.target.value, 10) as SubscriptionStatus;
     setSelectedStatus(selectedValue);
-    console.log(selectedValue);
   };
 
   const handleSubscriptionMutation = () => {
@@ -74,8 +76,12 @@ const OptionsModal: React.FC<OptionsModalProps> = ({
   };
 
   return (
-    <div className="w-100 bg-white rounded-lg p-4 absolute right-0 top-0">
-      <H5 className="mb-4">Update Promotions</H5>
+    <div className={`${styles.optionsModalContainer}`}>
+      <div className={`${styles.optionsModalHeader}`}>
+        <H5 className="mb-4">Update Promotions</H5>
+
+        <Close className="cursor-pointer" onClick={() => onClose()} />
+      </div>
 
       <Dropdown
         options={displayOptions}
@@ -83,7 +89,7 @@ const OptionsModal: React.FC<OptionsModalProps> = ({
         onChange={handleStatusChange}
       />
 
-      <div className="mt-4 flex items-center justify-between">
+      <div className={`${styles.optionsModalButtonContainer}`}>
         {subscriber && (
           <Button
             color="primary"
