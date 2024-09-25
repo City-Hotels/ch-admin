@@ -30,6 +30,11 @@ export interface ISubscribers {
   Updated_at: IGRPCDate;
 }
 
+export interface ISubscribersUpdate {
+  Id?: string;
+  Status?: SubscriptionStatus;
+}
+
 export interface IService {
   Id?: string;
   Imageurl: string;
@@ -133,7 +138,7 @@ export enum SubscriptionStatus {
   EXPIRED = 2
 }
 
-export enum PromotionFilterStatus {
+export enum SubscriptionFilterStatus {
   ACTIVE = "ACTIVE",
   INACTIVE = "INACTIVE",
   EXPIRED = "EXPIRED"
