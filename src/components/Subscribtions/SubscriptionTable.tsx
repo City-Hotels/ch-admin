@@ -1,7 +1,7 @@
 "use client";
 import { H4 } from "@/components/Headings/Headings";
 import queryKeys from "@/utils/api/queryKeys";
-import React, { useState } from "react";
+import React, { useState, useRef, useEffect } from "react";
 import { useQuery } from "react-query";
 import Dots from "@/assets/icons/dots-vertical.svg";
 import FilterIcon from "@/assets/icons/filter2.svg";
@@ -20,6 +20,7 @@ import {
 import FilterComponent from "./Filter/Filter";
 import Modal from "../Modal/Modal";
 import Button from "../Button/Button";
+import SubscriptionSearch from "../SubscriptionSearchModal/SubscriptionSearch";
 
 const SubscribtionsTable: React.FC<{
   Limit: number;
@@ -29,11 +30,23 @@ const SubscribtionsTable: React.FC<{
   const [Page, setPage] = useState(1);
   const [tableFilter, setTableFilter] = useState({ ...Filter });
   const [showFilterModal, setShowFilterModal] = useState(false);
+  const [openSubscriptionModal, setOpenSubscriptionModal] = useState(false);
+  const promotionId = Filter.PromotionId;
+  console.log("Promotion Id:" + promotionId);
+
+  const tableRef = useRef<HTMLDivElement>(null);
 
   const { isLoading, refetch, data } = useQuery(
-    [queryKeys.getPromotionsSubscriptions, Limit, Page, tableFilter],
+    [
+      queryKeys.getPromotionsSubscriptions,
+      Limit,
+      Page,
+      tableFilter,
+      promotionId
+    ],
     () => getPromotionSubcriptions({ Limit, ...tableFilter, Page })
   );
+
   const subcriptions = (data?.data.Subscribers as ISubscribers[]) || [];
   const meta = (data?.data.Meta as Meta) || [];
 
@@ -45,8 +58,25 @@ const SubscribtionsTable: React.FC<{
     }
   });
 
+  useEffect(() => {
+    const handleClickOutside = (event: MouseEvent) => {
+      if (
+        openSubscriptionModal &&
+        tableRef.current &&
+        !tableRef.current.contains(event.target as Node)
+      ) {
+        setOpenSubscriptionModal(false);
+      }
+    };
+
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+    };
+  }, [openSubscriptionModal]);
+
   return (
-    <div className="bg-white p-2 rounded-md">
+    <div className="bg-white p-2 rounded-md relative z-10" ref={tableRef}>
       <H4 className="p-2 text-black">
         Subscriptions {meta.TotalCount && <span>({meta.TotalCount})</span>}
       </H4>
@@ -136,9 +166,29 @@ const SubscribtionsTable: React.FC<{
               </div>
 
               <div className="flex items-center gap-2">
-                <Button size="sm" color="primary" className="flex-wrap">
-                  Add Subscription
-                </Button>
+                <div className="">
+                  <Button
+                    size="sm"
+                    color="primary"
+                    className="w-[130px]"
+                    onClick={() =>
+                      setOpenSubscriptionModal(!openSubscriptionModal)
+                    }
+                  >
+                    Add Subscription
+                  </Button>
+
+                  {openSubscriptionModal && (
+                    <div className="absolute top-10 right-1 z-999">
+                      <SubscriptionSearch
+                        className=""
+                        onApartmentSelected={refetch}
+                        promotionId={promotionId}
+                        setOpenSubscription={setOpenSubscriptionModal}
+                      />
+                    </div>
+                  )}
+                </div>
 
                 <Button
                   size="sm"
