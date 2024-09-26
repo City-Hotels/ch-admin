@@ -14,7 +14,7 @@ const CampaignPage = () => {
   const { idOrSlug } = useParams<{ idOrSlug: string }>();
 
   const { isLoading, data, isError } = useQuery(
-    [queryKeys.getPromotionByID],
+    [queryKeys.getPromotionByID, idOrSlug],
     () => getPromotion(idOrSlug?.toString()),
     {
       enabled: !!idOrSlug // Would only make this request if slug is truthy

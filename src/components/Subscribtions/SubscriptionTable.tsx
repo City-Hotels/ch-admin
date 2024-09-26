@@ -31,14 +31,22 @@ const SubscribtionsTable: React.FC<{
   const [tableFilter, setTableFilter] = useState({ ...Filter });
   const [showFilterModal, setShowFilterModal] = useState(false);
   const [openSubscriptionModal, setOpenSubscriptionModal] = useState(false);
-  const promotionId = Filter.PromotionId
+  const promotionId = Filter.PromotionId;
+  console.log("Promotion Id:" + promotionId);
 
   const tableRef = useRef<HTMLDivElement>(null);
 
   const { isLoading, refetch, data } = useQuery(
-    [queryKeys.getPromotionsSubscriptions, Limit, Page, tableFilter],
+    [
+      queryKeys.getPromotionsSubscriptions,
+      Limit,
+      Page,
+      tableFilter,
+      promotionId
+    ],
     () => getPromotionSubcriptions({ Limit, ...tableFilter, Page })
   );
+
   const subcriptions = (data?.data.Subscribers as ISubscribers[]) || [];
   const meta = (data?.data.Meta as Meta) || [];
 
