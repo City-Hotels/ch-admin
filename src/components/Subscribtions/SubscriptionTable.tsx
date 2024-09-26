@@ -31,6 +31,7 @@ const SubscribtionsTable: React.FC<{
   const [tableFilter, setTableFilter] = useState({ ...Filter });
   const [showFilterModal, setShowFilterModal] = useState(false);
   const [openSubscriptionModal, setOpenSubscriptionModal] = useState(false);
+  const promotionId = Filter.PromotionId
 
   const tableRef = useRef<HTMLDivElement>(null);
 
@@ -174,7 +175,7 @@ const SubscribtionsTable: React.FC<{
                       <SubscriptionSearch
                         className=""
                         onApartmentSelected={refetch}
-                        promotionId={tableFilter.PromotionId}
+                        promotionId={promotionId}
                         setOpenSubscription={setOpenSubscriptionModal}
                       />
                     </div>

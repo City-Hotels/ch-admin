@@ -9,7 +9,6 @@ import { useQuery } from "react-query";
 import SubscriptionTable from "@/components/Subscribtions/SubscriptionTable";
 import DefaultLayout from "@/components/Layouts/DefaultLayout";
 import PromotionGrid from "@/components/PromotionGrid/PromotionGrid";
-import PromotionTable from "@/components/Promotion/Promotion";
 
 const CampaignPage = () => {
   const { idOrSlug } = useParams<{ idOrSlug: string }>();

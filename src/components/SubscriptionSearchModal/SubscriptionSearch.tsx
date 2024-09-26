@@ -22,7 +22,7 @@ const SubscriptionSearch: React.FC<SubscriptionSearchProps> = ({
     [queryKeys.getApartmentSearch, apartmentSearch],
     () => searchApartment({ ApartmentName: apartmentSearch }),
     {
-      enabled: !!apartmentSearch // Only fetch when there's input
+      enabled: !!apartmentSearch
     }
   );
 
