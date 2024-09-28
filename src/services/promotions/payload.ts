@@ -97,7 +97,7 @@ export type IRequirement = {
   MaximumBooking?: number;
   MinimumBooking?: number;
   ServiceType?: string;
-  Promotions?: IPromotion;
+  Promotions?: IPromotion[];
 };
 
 export type IAddress = {
