@@ -7,6 +7,7 @@ import { useRouter } from "next/navigation";
 import FormProps from "./Account.props";
 import { useMutation } from "react-query";
 import { submitCampaign } from "@/services/promotions";
+import { IPromotion } from "@/services/promotions/payload";
 
 const Price: React.FC<FormProps> = ({ onSubmit, formInput }) => {
   const [isSubmitting, setSubmitting] = React.useState(false);
@@ -16,8 +17,9 @@ const Price: React.FC<FormProps> = ({ onSubmit, formInput }) => {
   const { mutate, isLoading: loading } = useMutation(submitCampaign);
 
 
-  const handleSubmit = (values: typeof formInput) => {
+  const handleSubmit = (values: IPromotion) => {
     setSubmitting(true);
+    onSubmit(values);
     mutate(values, {
       onSuccess(res) {
         router.push(`/promotions/${res.data.Id}`);
@@ -47,7 +49,7 @@ const Price: React.FC<FormProps> = ({ onSubmit, formInput }) => {
                       title="Booking Discount"
                       type="number"
                       required
-                      name={"BookingDiscount"}
+                      name={"Pricing.BookingDiscount"}
                       className="text-sm"
                     />
                   </div>
@@ -57,7 +59,7 @@ const Price: React.FC<FormProps> = ({ onSubmit, formInput }) => {
                       title="Rate"
                       type="number"
                       required
-                      name={"Rate"}
+                      name={"Pricing.Rate"}
                       className="text-sm"
                     />
                   </div>
@@ -66,7 +68,7 @@ const Price: React.FC<FormProps> = ({ onSubmit, formInput }) => {
                       label="Unit"
                       title="Unit"
                       type="text"
-                      name={"Unit"}
+                      name={"Pricing.Unit"}
                       className="text-sm"
                     />
                   </div>

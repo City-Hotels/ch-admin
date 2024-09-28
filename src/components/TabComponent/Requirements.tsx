@@ -126,11 +126,11 @@ const Requirements: React.FC<FormProps> = ({ onSubmit, formInput }) => {
                       <input
                         type="radio"
                         id="all"
-                        name="Requirement.Account"
+                        name={"Requirement.Account"}
                         value="All"
                         onChange={(ev) =>
                           ev.currentTarget.checked &&
-                          setFieldValue("Account", 0)
+                          setFieldValue("Requirement.Account", 0)
                         }
                       />
                     </div>
@@ -140,11 +140,11 @@ const Requirements: React.FC<FormProps> = ({ onSubmit, formInput }) => {
                       <input
                         type="radio"
                         id="business"
-                        name="Requirement.Account"
+                        name={"Requirement.Account"}
                         value="Business"
                         onChange={(ev) =>
                           ev.currentTarget.checked &&
-                          setFieldValue("Account", 1)
+                          setFieldValue("Requirement.Account", 1)
                         }
                       />
                     </div>
@@ -154,11 +154,11 @@ const Requirements: React.FC<FormProps> = ({ onSubmit, formInput }) => {
                       <input
                         type="radio"
                         id="apartment"
-                        name="Requirement.Account"
+                        name={"Requirement.Account"}
                         value="Apartment"
                         onChange={(ev) =>
                           ev.currentTarget.checked &&
-                          setFieldValue("Account", 2)
+                          setFieldValue("Requirement.Account", 2)
                         }
                       />
                     </div>
