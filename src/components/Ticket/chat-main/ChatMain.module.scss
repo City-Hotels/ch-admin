@@ -1,0 +1,50 @@
+.container {
+  @apply w-full flex flex-row gap-4 mb-5;
+}
+
+.header {
+  @apply bg-[#F9FAFB] py-2 px-3 rounded-[8px]  w-full inline-block;
+}
+.img {
+  @apply w-[40px] h-[40px];
+}
+
+.container2 {
+  @apply w-auto max-w-[450px] flex items-end gap-[4px];
+}
+
+.header2 {
+  @apply bg-[#1671D9]  w-full px-3 py-2 rounded-t-lg rounded-bl-lg text-[#fff] inline-block;
+}
+
+.headerSkeleton2 {
+  @apply bg-[#1671D9]  w-full rounded-[8px] text-[#fff] inline-block animate-pulse;
+}
+
+.bottom {
+  @apply flex flex-row justify-end mt-1 mr-10 items-center gap-1 ml-auto px-3;
+}
+
+.scrollBars {
+  &:hover {
+    &::-webkit-scrollbar {
+      visibility: visible;
+    }
+
+    &::-webkit-scrollbar-thumb {
+      visibility: visible;
+    }
+  }
+
+  &::-webkit-scrollbar {
+    visibility: hidden;
+    width: 0.4rem;
+    background-color: #f4f4f4;
+  }
+
+  &::-webkit-scrollbar-thumb {
+    background-color: #d4d4d4;
+    visibility: hidden;
+    border-radius: 30px;
+  }
+}

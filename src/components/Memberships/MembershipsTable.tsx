@@ -12,10 +12,10 @@ import { Table } from "../Tables/Table/Table";
 import { convertGrpcDate } from "@/utils/helpers";
 import Input from "../Inputs/Input/Input";
 import { getMemberships } from "@/services/promotions/index";
+import { useRouter } from "next/navigation";
 import {
   IPromotion,
   PromotionFilter,
-  PromotionFilterStatus,
   PromotionStatus
 } from "@/services/promotions/payload";
 import FilterComponent from "./Filter/Filter";
@@ -46,6 +46,8 @@ const MembershipTable: React.FC<{
     }
   });
 
+  const router = useRouter();
+
   return (
     <div className="bg-white p-2 rounded-md">
       <H4 className="p-2 text-black">
@@ -59,6 +61,9 @@ const MembershipTable: React.FC<{
         onPageChange={handlePageChange}
         headerColor="primary"
         errorMessage="You have not gotten any bookings"
+        onRowClick={(subscriptionDetails) =>
+          router.push(`/promotions/${subscriptionDetails.Id}/`)
+        }
         headerComponent={
           <div className="p-3 overflow-x-scroll">
             <div className="items-between flex w-full items-center justify-between gap-3">
@@ -81,9 +86,9 @@ const MembershipTable: React.FC<{
                 <div className="page-button-container">
                   <span className="page-button-wrapper flex gap-2">
                     <div
-                      className={`rounded-full border w-17 px-2  py-2 text-center text-[12.54px]  hover:bg-white100. hover:text-primary400 hover:border-primary400 cursor-pointer   ${tableFilter.Status === undefined ? "text-primary400 border-primary400 " : "text-white800 border-white700"}`}
+                      className={`rounded-full border w-17 px-2  py-2 text-center text-[12.54px]  hover:bg-white100. hover:text-primary400 hover:border-primary400 cursor-pointer   ${tableFilter.SearchStatus === false ? "text-primary400 border-primary400 " : "text-white800 border-white700"}`}
                       onClick={() => {
-                        setTableFilter({ ...tableFilter, Status: undefined });
+                        setTableFilter({ ...tableFilter, SearchStatus: false });
                       }}
                     >
                       All
@@ -95,13 +100,14 @@ const MembershipTable: React.FC<{
                           key={promotionStatus}
                           className={`rounded-full border  px-2 
                      
-                       py-2 text-center text-[12.54px]  hover:bg-white100. hover:text-primary400 hover:border-primary400 cursor-pointer  ${tableFilter.Status === PromotionFilterStatus[promotionStatus as keyof typeof PromotionFilterStatus] ? "text-primary400 border-primary400 " : "text-white800 border-white700 "}`}
+                       py-2 text-center text-[12.54px]  hover:bg-white100. hover:text-primary400 hover:border-primary400 cursor-pointer  ${tableFilter.Status === PromotionStatus[promotionStatus as keyof typeof PromotionStatus] && tableFilter.SearchStatus === true ? "text-primary400 border-primary400 " : "text-white800 border-white700 "}`}
                           onClick={() => {
                             setTableFilter({
                               ...tableFilter,
+                              SearchStatus: true,
                               Status:
-                                PromotionFilterStatus[
-                                  promotionStatus as keyof typeof PromotionFilterStatus
+                              PromotionStatus[
+                                  promotionStatus as keyof typeof PromotionStatus
                                 ]
                             });
                           }}

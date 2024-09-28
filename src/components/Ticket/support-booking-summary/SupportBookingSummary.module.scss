@@ -1,0 +1,19 @@
+.container {
+  @apply flex flex-col gap-8 w-[95%];
+}
+
+.container2 {
+  @apply border border-[#ddd] w-full h-[102px] rounded-[10px] px-4;
+}
+
+.label {
+  @apply flex justify-center items-center bg-[#FDE3B2] h-[22px] rounded-[8px];
+}
+
+.header {
+  @apply border border-[#C9C9C9] h-[174px] rounded-[8px];
+}
+
+.skeleton {
+  @apply flex flex-col gap-2 px-4 mt-2;
+}

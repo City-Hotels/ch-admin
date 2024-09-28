@@ -20,6 +20,43 @@ export interface IPromotion {
   EndDate?: IGRPCDate;
 }
 
+export interface ISubscribers {
+  Created_at: IGRPCDate;
+  Id?: string;
+  Promotion: IPromotion;
+  Service?: IService;
+  Status?: SubscriptionStatus;
+  Updated_at: IGRPCDate;
+}
+
+export interface IService {
+  Id?: string;
+  Imageurl: string;
+  Name: string;
+  ServiceType: ServiceType;
+}
+
+export interface SubscriptionFilter {
+  Limit?: number;
+  Page?: number;
+  Name?: string;
+  Id?: string;
+  PromotionId?: string;
+  MaxParticipant?: number;
+  MaximumBooking?: number;
+  MinimumBooking?: number;
+  BookingDiscount?: number;
+  Rate?: number;
+  Unit?: string;
+  Status?: SubscriptionStatus;
+  ServiceType?: ServiceFilterType;
+  SearchStatus?: boolean;
+  Title?: string;
+  Type?: PromotionType;
+  StartDate?: IGRPCDate;
+  EndDate?: IGRPCDate;
+}
+
 export interface PromotionFilter {
   Limit?: number;
   Page?: number;
@@ -31,10 +68,13 @@ export interface PromotionFilter {
   BookingDiscount?: number;
   Rate?: number;
   Unit?: string;
-  Status?: PromotionFilterStatus;
+  Status?: PromotionStatus;
+  PricingType?: PricingType;
+  SearchStatus?: boolean;
   Title?: string;
   Type?: PromotionType;
   StartDate?: IGRPCDate;
+  Promotion?: IPromotion;
   EndDate?: IGRPCDate;
 }
 
@@ -71,8 +111,8 @@ export type IAddress = {
 };
 
 export enum PricingType {
-  BASIC = 0,
-  LUXURY = 1
+  SUBSCRIPTION = 0,
+  COMMISION = 1
 }
 export enum AccountType {
   STANDARD = 0,
@@ -85,10 +125,27 @@ export enum PromotionStatus {
   ACTIVE = 1,
   EXPIRED = 2
 }
+
+export enum SubscriptionStatus {
+  INACTIVE = 0,
+  ACTIVE = 1,
+  EXPIRED = 2
+}
+
 export enum PromotionFilterStatus {
   ACTIVE = "ACTIVE",
   INACTIVE = "INACTIVE",
   EXPIRED = "EXPIRED"
+}
+
+export enum ServiceType {
+  HOTEL = 0,
+  APARTMENT = 1
+}
+
+export enum ServiceFilterType {
+  HOTEL = "HOTEL",
+  APARTMENT = "APARTMENT"
 }
 
 export enum PromotionType {

@@ -1,0 +1,39 @@
+.container {
+  @apply border border-grey30 w-[302px] py-3 rounded-[10px] cursor-pointer;
+}
+
+.header {
+  @apply w-[261px] mx-auto;
+}
+
+.host {
+  @apply   h-[22px] rounded-[8px] inline-flex px-3 items-center justify-center mb-3;
+}
+
+.img {
+  @apply w-[261px] h-[224px];
+}
+
+.skeleton {
+  @apply flex flex-row gap-20;
+}
+
+.skeleton2 {
+  @apply w-[261px] bg-white100 rounded-[4px] my-3 py-1;
+}
+
+.breakdown {
+  @apply w-[237px] mx-auto;
+}
+
+.base {
+  @apply flex flex-row justify-between;
+}
+
+.link {
+  @apply text-black hover:text-orange300  gap-2;
+  path {
+    @apply stroke-orange400;
+  }
+
+}

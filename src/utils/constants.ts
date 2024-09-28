@@ -16,9 +16,11 @@ import ErrorIcon from "@/assets/icons/error";
 import SuccessIcon from "@/assets/icons/success";
 import WarningIcon from "@/assets/icons/warning";
 
-
+export const notificationBaseURL = process.env.NEXT_PUBLIC_NOTIFICATION_URL;
 export const baseURL = process.env.NEXT_PUBLIC_BASE_URL;
-export const chatBaseURL = process.env.NEXT_CHAT_BASE_URL;
+export const chatBaseURL = process.env.NEXT_PUBLIC_CHAT_URL;
+export const supportFileUploadBaseURL = process.env.NEXT_PUBLIC_SUPPORT_FILE_UPLOAD_URL;
+export const supportBaseURL = process.env.NEXT_PUBLIC_SUPPORT_URL;
 export const HOTEL_PLACEHOLDER_IMAGE =
   "https://cityhotels.s3.amazonaws.com/hotel2.png";
 // export const ROOM_PLACEHOLDER_IMAGE =
@@ -409,7 +411,7 @@ export const CountryOptions = [
   {
     label: "Nigeria",
     value: "nigeria"
-  },
+  }
   // {
   //   label: "Singapore",
   //   value: "singapore"

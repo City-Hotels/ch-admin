@@ -29,7 +29,7 @@ const FormLayout = () => {
         Country: "",
         PostalCode: "",
         State: "",
-        Street: ""
+        Street: "",
       },
       MaximumBooking: 0,
       MinimumBooking: 0,

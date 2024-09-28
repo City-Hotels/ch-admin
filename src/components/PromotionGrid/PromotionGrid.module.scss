@@ -1,0 +1,16 @@
+.promotionGridContainer {
+  @apply w-full bg-white py-5 px-5 md:px-3 rounded flex flex-col gap-7 pb-4 mb-5;
+}
+
+.promotionInnerGrid {
+  @apply grid grid-cols-1 md:grid-cols-3 md:grid-flow-row gap-2
+}
+
+.promotionLabel {
+  @apply mb-1 text-sm;
+}
+
+.promotionValue {
+  @apply font-medium text-black;
+}
+

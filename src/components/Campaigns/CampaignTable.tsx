@@ -16,14 +16,13 @@ import { getCampaigns } from "@/services/promotions/index";
 import {
   IPromotion,
   PromotionFilter,
-  PromotionFilterStatus,
   PromotionStatus
 } from "@/services/promotions/payload";
 import FilterComponent from "./Filter/Filter";
 import Modal from "../Modal/Modal";
 import Button from "../Button/Button";
 
-const MembershipTable: React.FC<{
+const CampaignTable: React.FC<{
   Limit: number;
   hidePagination?: boolean;
   Filter: PromotionFilter;
@@ -62,7 +61,7 @@ const MembershipTable: React.FC<{
         onPageChange={handlePageChange}
         headerColor="primary"
         onRowClick={(subscriptionDetails) =>
-          router.push(`/promotions/${subscriptionDetails.Id}/subscription`)
+          router.push(`/promotions/${subscriptionDetails.Id}/`)
         }
         errorMessage="You have not gotten any bookings"
         headerComponent={
@@ -87,9 +86,9 @@ const MembershipTable: React.FC<{
                 <div className="page-button-container">
                   <span className="page-button-wrapper flex gap-2">
                     <div
-                      className={`rounded-full border w-17 px-2  py-2 text-center text-[12.54px]  hover:bg-white100. hover:text-primary400 hover:border-primary400 cursor-pointer   ${tableFilter.Status === undefined ? "text-primary400 border-primary400 " : "text-white800 border-white700"}`}
+                      className={`rounded-full border w-17 px-2  py-2 text-center text-[12.54px]  hover:bg-white100. hover:text-primary400 hover:border-primary400 cursor-pointer   ${tableFilter.SearchStatus === false ? "text-primary400 border-primary400 " : "text-white800 border-white700"}`}
                       onClick={() => {
-                        setTableFilter({ ...tableFilter, Status: undefined });
+                        setTableFilter({ ...tableFilter, SearchStatus: false });
                       }}
                     >
                       All 
@@ -101,13 +100,14 @@ const MembershipTable: React.FC<{
                           key={promotionStatus}
                           className={`rounded-full border  px-2 
                      
-                       py-2 text-center text-[12.54px]  hover:bg-white100. hover:text-primary400 hover:border-primary400 cursor-pointer  ${tableFilter.Status === PromotionFilterStatus[promotionStatus as keyof typeof PromotionFilterStatus] ? "text-primary400 border-primary400 " : "text-white800 border-white700 "}`}
+                       py-2 text-center text-[12.54px]  hover:bg-white100. hover:text-primary400 hover:border-primary400 cursor-pointer  ${tableFilter.Status === PromotionStatus[promotionStatus as keyof typeof PromotionStatus] && tableFilter.SearchStatus === true ? "text-primary400 border-primary400 " : "text-white800 border-white700 "}`}
                           onClick={() => {
                             setTableFilter({
                               ...tableFilter,
+                              SearchStatus: true,
                               Status:
-                                PromotionFilterStatus[
-                                  promotionStatus as keyof typeof PromotionFilterStatus
+                              PromotionStatus[
+                                  promotionStatus as keyof typeof PromotionStatus
                                 ]
                             });
                           }}
@@ -289,4 +289,4 @@ const MembershipTable: React.FC<{
   );
 };
 
-export default MembershipTable;
+export default CampaignTable;

@@ -1,8 +1,8 @@
-import { PromotionFilter } from "@/services/promotions/payload";
+import { SubscriptionFilter } from "@/services/promotions/payload";
 
 export default interface FilterProps {
   className?: string;
   onClose?: Function;
-  filter: PromotionFilter;
-  setFilter: (filter: PromotionFilter) => void;
+  filter: SubscriptionFilter;
+  setFilter: (filter: SubscriptionFilter) => void;
 }
