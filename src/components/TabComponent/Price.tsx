@@ -1,38 +1,34 @@
 import React from "react";
 import Input from "@/components/formik/input/Input";
 import { Formik } from "formik";
-import { IPromotion } from "@/services/promotions/payload";
 import { priceSchema } from "@/utils/formSchema";
 import Button from "../Button/Button";
-import { useMutation } from "react-query";
-import { submitCampaign } from "@/services/promotions";
 import { useRouter } from "next/navigation";
 import FormProps from "./Account.props";
+import { useMutation } from "react-query";
+import { submitCampaign } from "@/services/promotions";
 
-const Price: React.FC<FormProps> = ({ onSubmit }) => {
+const Price: React.FC<FormProps> = ({ onSubmit, formInput }) => {
   const [isSubmitting, setSubmitting] = React.useState(false);
-  const initialValues: IPromotion = {
-    Pricing: {
-      BookingDiscount: 0,
-      PricingType: 0,
-      Rate: 0,
-      Unit: ""
-    },
-  };
-
   const router = useRouter();
+
+
   const { mutate, isLoading: loading } = useMutation(submitCampaign);
 
-  const handleSubmit = (values: IPromotion) => {
-    onSubmit(values);
+
+  const handleSubmit = (values: typeof formInput) => {
     setSubmitting(true);
-    console.log({ values });
+    mutate(values, {
+      onSuccess(res) {
+        router.push(`/promotions/${res.data.Id}`);
+      }
+    });
   };
 
   return (
     <div className="px-6.5 pt-6">
       <Formik
-        initialValues={initialValues}
+        initialValues={formInput}
         onSubmit={handleSubmit}
         validationSchema={priceSchema}
       >
@@ -70,7 +66,7 @@ const Price: React.FC<FormProps> = ({ onSubmit }) => {
                       label="Unit"
                       title="Unit"
                       type="text"
-                      name="Unit"
+                      name={"Unit"}
                       className="text-sm"
                     />
                   </div>
@@ -84,7 +80,7 @@ const Price: React.FC<FormProps> = ({ onSubmit }) => {
                         <label>Subscriptions</label>
                         <input
                           type="radio"
-                          name="PricingType"
+                          name={"PricingType"}
                           value={"Subscriptions"}
                           onChange={(ev) =>
                             ev.currentTarget.checked &&
@@ -97,7 +93,7 @@ const Price: React.FC<FormProps> = ({ onSubmit }) => {
                         <label>Commision</label>
                         <input
                           type="radio"
-                          name="PricingType"
+                          name={"PricingType"}
                           value={"Commision"}
                           onChange={(ev) =>
                             ev.currentTarget.checked &&

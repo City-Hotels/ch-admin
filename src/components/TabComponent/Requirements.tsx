@@ -4,36 +4,10 @@ import Button from "../Button/Button";
 import { Formik } from "formik";
 import Input from "@/components/formik/input/Input";
 import { requirementSchema } from "@/utils/formSchema";
-import { useMutation, useQuery } from "react-query";
-import { getMemberships, submitCampaign } from "@/services/promotions";
-import queryKeys from "@/utils/api/queryKeys";
-import { useRouter } from "next/navigation";
 import FormProps from "./Account.props";
 
-const Requirements: React.FC<FormProps> = ({ onSubmit }) => {
-  const initialValues: IPromotion = {
-    Requirement: {
-      Location: {
-        City: "",
-        Country: "",
-        PostalCode: "",
-        State: "",
-        Street: ""
-      },
-      MaximumBooking: 0,
-      MinimumBooking: 0,
-      ServiceType: "",
-      Account: 0
-    },
-  };
+const Requirements: React.FC<FormProps> = ({ onSubmit, formInput }) => {
 
-  const { isLoading, refetch, data } = useQuery([queryKeys.getPromotions], () =>
-    getMemberships({})
-  );
-  const memberships = (data?.data.Promotions as IPromotion[]) || [];
-
-  const router = useRouter();
-  const { mutate, isLoading: loading } = useMutation(submitCampaign);
 
   const handleSubmit = (values: IPromotion) => {
     onSubmit(values);
@@ -42,7 +16,7 @@ const Requirements: React.FC<FormProps> = ({ onSubmit }) => {
   return (
     <div>
       <Formik
-        initialValues={initialValues}
+        initialValues={formInput}
         onSubmit={handleSubmit}
         validationSchema={requirementSchema}
       >
@@ -64,7 +38,7 @@ const Requirements: React.FC<FormProps> = ({ onSubmit }) => {
                             title="City"
                             type="text"
                             required
-                            name={"City"}
+                            name={"Requirement.Location.City"}
                             className="text-sm"
                           />
                         </div>
@@ -74,7 +48,7 @@ const Requirements: React.FC<FormProps> = ({ onSubmit }) => {
                             title="Country"
                             type="text"
                             required
-                            name={"Country"}
+                            name={"Requirement.Location.Country"}
                             className="text-sm"
                           />
                         </div>
@@ -87,7 +61,7 @@ const Requirements: React.FC<FormProps> = ({ onSubmit }) => {
                             title="PostalCode"
                             type="text"
                             required
-                            name={"PostalCode"}
+                            name={"Requirement.Location.PostalCode"}
                             className="text-sm"
                           />
                         </div>
@@ -97,7 +71,7 @@ const Requirements: React.FC<FormProps> = ({ onSubmit }) => {
                             title="State"
                             type="text"
                             required
-                            name={"State"}
+                            name={"Requirement.Location.State"}
                             className="text-sm"
                           />
                         </div>
@@ -108,7 +82,7 @@ const Requirements: React.FC<FormProps> = ({ onSubmit }) => {
                           title="Street"
                           type="text"
                           required
-                          name={"Street"}
+                          name={"Requirement.Location.Street"}
                           className="text-sm"
                         />
                       </div>
@@ -120,7 +94,7 @@ const Requirements: React.FC<FormProps> = ({ onSubmit }) => {
                     title="Max number of Bookings"
                     type="number"
                     required
-                    name={"Max number of Bookings"}
+                    name={"Requirement.MaximumBooking"}
                     className="w-[4%]"
                   />
 
@@ -129,7 +103,7 @@ const Requirements: React.FC<FormProps> = ({ onSubmit }) => {
                     title="Min number of Bookings"
                     type="number"
                     required
-                    name={"Min number of Bookings"}
+                    name={"Requirement.MinmumBooking"}
                     className="w-[4%]"
                   />
 
@@ -138,7 +112,7 @@ const Requirements: React.FC<FormProps> = ({ onSubmit }) => {
                     title="Service Type"
                     type="text"
                     required
-                    name={"ServiceType"}
+                    name={"Requirement.ServiceType"}
                   />
                 </div>
 
@@ -152,11 +126,11 @@ const Requirements: React.FC<FormProps> = ({ onSubmit }) => {
                       <input
                         type="radio"
                         id="all"
-                        name="accountType"
+                        name="Requirement.Account"
                         value="All"
                         onChange={(ev) =>
                           ev.currentTarget.checked &&
-                          setFieldValue("accountType", 0)
+                          setFieldValue("Account", 0)
                         }
                       />
                     </div>
@@ -166,11 +140,11 @@ const Requirements: React.FC<FormProps> = ({ onSubmit }) => {
                       <input
                         type="radio"
                         id="business"
-                        name="accountType"
+                        name="Requirement.Account"
                         value="Business"
                         onChange={(ev) =>
                           ev.currentTarget.checked &&
-                          setFieldValue("accountType", 1)
+                          setFieldValue("Account", 1)
                         }
                       />
                     </div>
@@ -180,11 +154,11 @@ const Requirements: React.FC<FormProps> = ({ onSubmit }) => {
                       <input
                         type="radio"
                         id="apartment"
-                        name="accountType"
+                        name="Requirement.Account"
                         value="Apartment"
                         onChange={(ev) =>
                           ev.currentTarget.checked &&
-                          setFieldValue("accountType", 2)
+                          setFieldValue("Account", 2)
                         }
                       />
                     </div>
@@ -196,7 +170,7 @@ const Requirements: React.FC<FormProps> = ({ onSubmit }) => {
                   size="lg"
                   className="flex w-full justify-center rounded bg-primary400 p-3 font-medium text-gray hover:bg-opacity-90 mb-6"
                   type="submit"
-                  isLoading={loading}
+    
                 >
                   Next
                 </Button>

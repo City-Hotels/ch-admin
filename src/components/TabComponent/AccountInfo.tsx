@@ -6,37 +6,20 @@ import { IPromotion } from "@/services/promotions/payload";
 import { Formik } from "formik";
 import { accountInfoSchema } from "@/utils/formSchema";
 import TextArea from "../formik/textarea/TextArea";
-import { useMutation, useQuery } from "react-query";
-import { getMemberships, submitCampaign } from "@/services/promotions";
-import queryKeys from "@/utils/api/queryKeys";
 import FormProps from "./Account.props";
 
-const AccountInfoForm: React.FC<FormProps> = ({ onSubmit }) => {
+const AccountInfoForm: React.FC<FormProps> = ({ onSubmit, formInput }) => {
   const [isSubmitting, setSubmitting] = React.useState(false);
-  const initialValues: IPromotion = {
-    Name: "",
-    Title: "",
-    Description: "",
-    ShortDescription: "",
-    MaxParticipant: 0,
-  };
 
   const handleSubmit = (values: IPromotion) => {
     onSubmit(values);
     setSubmitting(true);
   };
 
-  const { isLoading, refetch, data } = useQuery([queryKeys.getPromotions], () =>
-    getMemberships({})
-  );
-  const memberships = (data?.data.Promotions as IPromotion[]) || [];
-
-  const { mutate, isLoading: loading } = useMutation(submitCampaign);
-
   return (
     <div>
       <Formik
-        initialValues={initialValues}
+        initialValues={formInput}
         onSubmit={handleSubmit}
         validationSchema={accountInfoSchema}
       >
