@@ -7,7 +7,7 @@ import Button from "../Button/Button";
 import { useMutation } from "react-query";
 import { submitCampaign } from "@/services/promotions";
 import { useRouter } from "next/navigation";
-import FormProps from "./Accoout.props";
+import FormProps from "./Account.props";
 
 const Price: React.FC<FormProps> = ({ onSubmit }) => {
   const [isSubmitting, setSubmitting] = React.useState(false);
@@ -18,14 +18,6 @@ const Price: React.FC<FormProps> = ({ onSubmit }) => {
       Rate: 0,
       Unit: ""
     },
-    Created_at: {
-      seconds: 0,
-      nanos: 0
-    },
-    Updated_at: {
-      seconds: 0,
-      nanos: 0
-    }
   };
 
   const router = useRouter();
@@ -57,7 +49,7 @@ const Price: React.FC<FormProps> = ({ onSubmit }) => {
                     <Input
                       label="Booking Discount"
                       title="Booking Discount"
-                      typeof="number"
+                      type="number"
                       required
                       name={"BookingDiscount"}
                       className="text-sm"
@@ -67,7 +59,7 @@ const Price: React.FC<FormProps> = ({ onSubmit }) => {
                     <Input
                       label="Rate"
                       title="Rate"
-                      typeof="number"
+                      type="number"
                       required
                       name={"Rate"}
                       className="text-sm"
@@ -77,7 +69,7 @@ const Price: React.FC<FormProps> = ({ onSubmit }) => {
                     <Input
                       label="Unit"
                       title="Unit"
-                      typeof="text"
+                      type="text"
                       name="Unit"
                       className="text-sm"
                     />
@@ -96,7 +88,7 @@ const Price: React.FC<FormProps> = ({ onSubmit }) => {
                           value={"Subscriptions"}
                           onChange={(ev) =>
                             ev.currentTarget.checked &&
-                            setFieldValue("PricingType", "Subscriptions")
+                            setFieldValue("PricingType", 0)
                           }
                         />
                       </div>
@@ -109,7 +101,7 @@ const Price: React.FC<FormProps> = ({ onSubmit }) => {
                           value={"Commision"}
                           onChange={(ev) =>
                             ev.currentTarget.checked &&
-                            setFieldValue("PricingType", "Commision")
+                            setFieldValue("PricingType", 1)
                           }
                         />
                       </div>

@@ -63,7 +63,6 @@ const FormLayout = () => {
     mutate(values, {
       onSuccess(res) {
         router.push(`/promotions/${res.data.Id}`);
-        console.log("data" + res.data.Id)
       }
     });
   };

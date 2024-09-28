@@ -6,11 +6,10 @@ import { IPromotion } from "@/services/promotions/payload";
 import { Formik } from "formik";
 import { accountInfoSchema } from "@/utils/formSchema";
 import TextArea from "../formik/textarea/TextArea";
-import Dropdown from "../formik/input/dropdown/Dropdowns";
 import { useMutation, useQuery } from "react-query";
 import { getMemberships, submitCampaign } from "@/services/promotions";
 import queryKeys from "@/utils/api/queryKeys";
-import FormProps from "./Accoout.props";
+import FormProps from "./Account.props";
 
 const AccountInfoForm: React.FC<FormProps> = ({ onSubmit }) => {
   const [isSubmitting, setSubmitting] = React.useState(false);
@@ -20,14 +19,6 @@ const AccountInfoForm: React.FC<FormProps> = ({ onSubmit }) => {
     Description: "",
     ShortDescription: "",
     MaxParticipant: 0,
-    Created_at: {
-      seconds: 0,
-      nanos: 0
-    },
-    Updated_at: {
-      seconds: 0,
-      nanos: 0
-    }
   };
 
   const handleSubmit = (values: IPromotion) => {
@@ -60,7 +51,7 @@ const AccountInfoForm: React.FC<FormProps> = ({ onSubmit }) => {
                   <Input
                     label="Title"
                     title="Title"
-                    typeof="text"
+                    type="text"
                     name="Title"
                     className="text-sm"
                   />
@@ -72,7 +63,7 @@ const AccountInfoForm: React.FC<FormProps> = ({ onSubmit }) => {
                   name={"ShortDescription"}
                   placeholder="Type your message"
                   className="w-full rounded text-sm border-[1.5px] border-stroke bg-transparent px-5 py-3 text-black outline-none transition focus:border-primary active:border-primary disabled:cursor-default disabled:bg-whiter dark:border-form-strokedark dark:bg-form-input dark:text-white dark:focus:border-primary"
-                  typeof="text"
+                  type="text"
                   title="Short Description"
                   rows={2}
                   label="Short Description"
@@ -84,7 +75,7 @@ const AccountInfoForm: React.FC<FormProps> = ({ onSubmit }) => {
                   rows={6}
                   placeholder="Type your message"
                   className="w-full rounded text-sm border-[1.5px] border-stroke bg-transparent px-5 py-3 text-black outline-none transition focus:border-primary active:border-primary disabled:cursor-default disabled:bg-whiter dark:border-form-strokedark dark:bg-form-input dark:text-white dark:focus:border-primary"
-                  typeof="text"
+                  type="text"
                   label="Description"
                   title="Description"
                   name={"Description"}

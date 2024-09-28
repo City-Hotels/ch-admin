@@ -15,8 +15,8 @@ export interface IPromotion {
   SubTitle?: string;
   Title?: string;
   Type?: PromotionType;
-  Created_at: IGRPCDate;
-  Updated_at: IGRPCDate;
+  Created_at?: IGRPCDate;
+  Updated_at?: IGRPCDate;
   EndDate?: IGRPCDate;
 }
 
@@ -45,18 +45,18 @@ export type IMedia = {
 };
 
 export type IPrice = {
-  BookingDiscount: number;
-  Rate: number;
-  Unit: string;
-  PricingType: PricingType;
+  BookingDiscount?: number;
+  Rate?: number;
+  Unit?: string;
+  PricingType?: PricingType;
 };
 
 export type IRequirement = {
-  Account: AccountType;
-  Location: IAddress;
-  MaximumBooking: Number;
-  MinimumBooking: Number;
-  ServiceType: String;
+  Account?: AccountType;
+  Location?: IAddress;
+  MaximumBooking?: number;
+  MinimumBooking?: number;
+  ServiceType?: string;
   Promotions?: IPromotion;
 };
 
@@ -65,9 +65,9 @@ export type IAddress = {
   Country: string;
   Latitude?: string;
   Longitude?: string;
-  PostalCode: string;
-  State: string;
-  Street: string;
+  PostalCode?: string;
+  State?: string;
+  Street?: string;
 };
 
 export enum PricingType {
