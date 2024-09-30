@@ -111,7 +111,6 @@ const Requirements: React.FC<FormProps> = ({ onSubmit, formInput }) => {
                     label="Service Type"
                     title="Service Type"
                     type="text"
-                    required
                     name={"Requirement.ServiceType"}
                   />
                 </div>
