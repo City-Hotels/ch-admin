@@ -95,7 +95,7 @@ const Requirements: React.FC<FormProps> = ({ onSubmit, formInput }) => {
                     type="number"
                     required
                     name={"Requirement.MaximumBooking"}
-                    className="w-[7%]"
+                    className="w-[8%]"
                   />
 
                   <Input
@@ -104,7 +104,7 @@ const Requirements: React.FC<FormProps> = ({ onSubmit, formInput }) => {
                     type="number"
                     required
                     name={"Requirement.MinmumBooking"}
-                    className="w-[7%]"
+                    className="w-[8%]"
                   />
 
                   <Input

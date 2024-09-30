@@ -71,7 +71,7 @@ const AccountInfoForm: React.FC<FormProps> = ({ onSubmit, formInput }) => {
                 type="number"
                 required
                 name={"MaxParticipant"}
-                className="w-[7%]"
+                className="w-[8%]"
               />
 
               <Button
