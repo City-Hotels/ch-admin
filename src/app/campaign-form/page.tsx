@@ -1,25 +1,15 @@
 "use client";
-// import { Metadata } from "next";
 import DefaultLayout from "@/components/Layouts/DefaultLayout";
 import React, { useState } from "react";
 import { useRouter } from "next/navigation";
 import AccountInfoForm from "@/components/TabComponent/AccountInfo";
 import RequirementsForm from "@/components/TabComponent/Requirements";
 import PriceForm from "@/components/TabComponent/Price";
-import { submitCampaign } from "@/services/promotions";
-import { useMutation } from "react-query";
 import { IPromotion } from "@/services/promotions/payload";
-
-// export const metadata: Metadata = {
-//   title: "Next.js Form Layout | CHB Admin - Dashboard",
-//   description:
-//     " Form Layout page for CHB Admin - Next.js Tailwind CSS Admin Dashboard Template"
-// };
 
 const FormLayout = () => {
   const [step, setStep] = useState(1);
   const [formData, setFormData] = useState<IPromotion>({
-    // Initialize formData with default values or empty strings
     Name: "",
     Title: "",
     Description: "",
@@ -44,36 +34,24 @@ const FormLayout = () => {
       MaximumBooking: 0,
       MinimumBooking: 0,
       ServiceType: "",
-      Account: 0,
-      Promotions: [],
-    },
+      Account: 0
+    }
   });
 
   const router = useRouter();
 
   const onNext = () => {
-    // Move to next step
     setStep((prevStep) => prevStep + 1);
   };
 
 
-
-  const { mutate, isLoading: loading } = useMutation(submitCampaign);
-  
-  const handleSubmit = (values: typeof formData) => {
-    mutate(values, {
-      onSuccess(res) {
-        router.push(`/promotions/${res.data.Id}`);
-        console.log("data" + res.data.Id)
-      }
-    });
-  };
 
   const renderForm = () => {
     switch (step) {
       case 1:
         return (
           <AccountInfoForm
+            formInput={formData}
             onSubmit={(values: IPromotion) => {
               setFormData((prevData) => ({
                 ...prevData,
@@ -86,6 +64,7 @@ const FormLayout = () => {
       case 2:
         return (
           <RequirementsForm
+            formInput={formData}
             onSubmit={(values: IPromotion) => {
               setFormData((prevData) => ({
                 ...prevData,
@@ -98,12 +77,12 @@ const FormLayout = () => {
       case 3:
         return (
           <PriceForm
+            formInput={formData}
             onSubmit={(values: IPromotion) => {
               setFormData((prevData) => ({
                 ...prevData,
                 ...values
               }));
-              handleSubmit(formData);
             }}
           />
         );

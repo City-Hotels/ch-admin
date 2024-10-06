@@ -169,6 +169,7 @@ const PromotionGrid: React.FC<PromotionGridProps> = ({ promotion }) => {
 
           {promotion &&
           promotion.Requirement &&
+          promotion.Requirement.Promotions &&
           promotion.Requirement.Promotions?.length > 0 ? (
             <div className="mb-6">
               <PromotionTable Limit={5} Filter={{}} Promotion={promotion} />

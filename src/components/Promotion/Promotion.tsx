@@ -201,7 +201,7 @@ const PromotionTable: React.FC<{
                 <div
                   className={`text-[var(--grey-grey-600, #5D6679);] text-[14px] leading-[150%]`}
                 >
-                  {dayjs(convertGrpcDate(item?.Created_at)).format(
+                  {item.Created_at && dayjs(convertGrpcDate(item?.Created_at)).format(
                     "DD/MM/YYYY"
                   )}
                 </div>
@@ -221,7 +221,7 @@ const PromotionTable: React.FC<{
                 <div
                   className={`text-[var(--grey-grey-600, #5D6679);] text-[14px] leading-[150%]`}
                 >
-                  {dayjs(convertGrpcDate(item?.Updated_at)).format(
+                  {item.Updated_at && dayjs(convertGrpcDate(item?.Updated_at)).format(
                     "DD/MM/YYYY"
                   )}
                 </div>

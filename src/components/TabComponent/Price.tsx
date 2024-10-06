@@ -1,46 +1,36 @@
 import React from "react";
 import Input from "@/components/formik/input/Input";
 import { Formik } from "formik";
-import { IPromotion } from "@/services/promotions/payload";
 import { priceSchema } from "@/utils/formSchema";
 import Button from "../Button/Button";
+import { useRouter } from "next/navigation";
+import FormProps from "./Account.props";
 import { useMutation } from "react-query";
 import { submitCampaign } from "@/services/promotions";
-import { useRouter } from "next/navigation";
-import FormProps from "./Accoout.props";
+import { IPromotion } from "@/services/promotions/payload";
 
-const Price: React.FC<FormProps> = ({ onSubmit }) => {
+const Price: React.FC<FormProps> = ({ onSubmit, formInput }) => {
   const [isSubmitting, setSubmitting] = React.useState(false);
-  const initialValues: IPromotion = {
-    Pricing: {
-      BookingDiscount: 0,
-      PricingType: 0,
-      Rate: 0,
-      Unit: ""
-    },
-    Created_at: {
-      seconds: 0,
-      nanos: 0
-    },
-    Updated_at: {
-      seconds: 0,
-      nanos: 0
-    }
-  };
-
   const router = useRouter();
+
+
   const { mutate, isLoading: loading } = useMutation(submitCampaign);
 
+
   const handleSubmit = (values: IPromotion) => {
-    onSubmit(values);
     setSubmitting(true);
-    console.log({ values });
+    onSubmit(values);
+    mutate(values, {
+      onSuccess(res) {
+        router.push(`/promotions/${res.data.Id}`);
+      }
+    });
   };
 
   return (
     <div className="px-6.5 pt-6">
       <Formik
-        initialValues={initialValues}
+        initialValues={formInput}
         onSubmit={handleSubmit}
         validationSchema={priceSchema}
       >
@@ -57,9 +47,9 @@ const Price: React.FC<FormProps> = ({ onSubmit }) => {
                     <Input
                       label="Booking Discount"
                       title="Booking Discount"
-                      typeof="number"
+                      type="number"
                       required
-                      name={"BookingDiscount"}
+                      name={"Pricing.BookingDiscount"}
                       className="text-sm"
                     />
                   </div>
@@ -67,9 +57,9 @@ const Price: React.FC<FormProps> = ({ onSubmit }) => {
                     <Input
                       label="Rate"
                       title="Rate"
-                      typeof="number"
+                      type="number"
                       required
-                      name={"Rate"}
+                      name={"Pricing.Rate"}
                       className="text-sm"
                     />
                   </div>
@@ -77,8 +67,8 @@ const Price: React.FC<FormProps> = ({ onSubmit }) => {
                     <Input
                       label="Unit"
                       title="Unit"
-                      typeof="text"
-                      name="Unit"
+                      type="text"
+                      name={"Pricing.Unit"}
                       className="text-sm"
                     />
                   </div>
@@ -92,11 +82,11 @@ const Price: React.FC<FormProps> = ({ onSubmit }) => {
                         <label>Subscriptions</label>
                         <input
                           type="radio"
-                          name="PricingType"
+                          name={"PricingType"}
                           value={"Subscriptions"}
                           onChange={(ev) =>
                             ev.currentTarget.checked &&
-                            setFieldValue("PricingType", "Subscriptions")
+                            setFieldValue("PricingType", 0)
                           }
                         />
                       </div>
@@ -105,11 +95,11 @@ const Price: React.FC<FormProps> = ({ onSubmit }) => {
                         <label>Commision</label>
                         <input
                           type="radio"
-                          name="PricingType"
+                          name={"PricingType"}
                           value={"Commision"}
                           onChange={(ev) =>
                             ev.currentTarget.checked &&
-                            setFieldValue("PricingType", "Commision")
+                            setFieldValue("PricingType", 1)
                           }
                         />
                       </div>
