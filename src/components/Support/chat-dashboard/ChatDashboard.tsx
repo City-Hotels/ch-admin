@@ -11,27 +11,28 @@ import { UserRoles } from "@/services/user/payload";
 // import { HotelNavs, UserNavs } from "@/utils/constants";
 import LogoutIcon from "@/assets/icons/logout.svg";
 import styles from "./ChatSidenav.module.scss";
-import ChatIcon from "@/assets/icons/chat.svg";
+import TransactionIcon from "@/assets/icons/transactions.svg";
 import SupportIcon from "@/assets/icons/support.svg";
-import DashboardIcon from "@/assets/icons/chat-home.svg";
-import HistoryIcon from "@/assets/icons/history.svg";
-import SettingsIcon from "@/assets/icons/settings.svg";
+import DashboardIcon from "@/assets/icons/nav-dashboard.svg";
+import BookingIcon from "@/assets/icons/bookings.svg";
+import MembershipIcon from "@/assets/icons/membership.svg";
+import CampaignIcon from "@/assets/icons/campaign.svg";
 
 const UserNavs = [
   {
     icon: DashboardIcon,
-    title: "Profile",
-    route: "/user"
+    title: "home",
+    route: "/"
   },
   {
-    icon: HistoryIcon,
+    icon: BookingIcon,
     title: "Bookings",
-    route: "/user/bookings"
+    route: "/bookings"
   },
   {
-    icon: ChatIcon,
-    title: "Messages",
-    route: "/chat",
+    icon: TransactionIcon,
+    title: "Transactions",
+    route: "/transactions",
     stroke: true
   },
   {
@@ -41,14 +42,14 @@ const UserNavs = [
     stroke: true
   },
   {
-    icon: SettingsIcon,
-    title: "Manage Account",
-    route: "/user/manage"
+    icon: MembershipIcon,
+    title: "Membership",
+    route: "/memberships"
   },
   {
-    icon: SettingsIcon,
-    title: "Saved Spaces",
-    route: "/saved-spaces"
+    icon: CampaignIcon,
+    title: "Campaign",
+    route: "/campaigns"
   }
 ];
 
