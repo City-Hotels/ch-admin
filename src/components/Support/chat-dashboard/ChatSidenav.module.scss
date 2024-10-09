@@ -1,59 +1,58 @@
-.container{
-  @apply sticky mt-2 top-20 flex w-[72px] flex-col items-center justify-center  gap-1 rounded-[10px] bg-black py-5 shadow-md;
+.container {
+  @apply sticky mt-2 top-20 flex w-[75px] pt-90 flex-col overflow-x-hidden overflow-y-scroll h-[calc(100vh-170px)] items-center justify-center gap-1 rounded-[10px] bg-black shadow-md;
 }
 
-.navItem{
-@apply flex h-[56px] w-[56px] items-center justify-center rounded-full hover:bg-primary400 hover:text-white mx-auto;
-
+.navItem {
+  @apply flex h-[43px] w-[43px] items-center justify-center rounded-full hover:bg-primary400 p-2 hover:text-white my-3 mx-auto;
 }
 
-.icon{
+.icon {
   &__stroke {
-    path{
-        stroke: #ccc
+    path {
+      stroke: #ccc;
     }
   }
-  
+
   &__fill {
-    path{
-        fill: #ccc;
+    path {
+      fill: #ccc;
     }
   }
 }
 
-.icon{
+.icon {
   &__stroke:hover {
-    path{
-        stroke: #fff
+    path {
+      stroke: #fff;
     }
   }
-  
+
   &__fill:hover {
-    path{
-        fill: #fff;
+    path {
+      fill: #fff;
     }
   }
 }
-.icon{
+.icon {
   &__stroke:focus {
-    path{
-        stroke: #fff !important;
+    path {
+      stroke: #fff !important;
     }
   }
-  
+
   &__fill:focus {
-    path{
-        fill: #fff;
-        stroke: #fff;
-      }
-    }
-  }
-  
-  .active {
-    @apply bg-primary400 text-white;
-    
-    path{
+    path {
       fill: #fff;
       stroke: #fff;
+    }
+  }
+}
+
+.active {
+  @apply bg-primary400 text-white rounded-full p-2;
+
+  path {
+    fill: #fff;
+    stroke: #fff;
   }
 }

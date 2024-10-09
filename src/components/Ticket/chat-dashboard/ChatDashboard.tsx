@@ -55,26 +55,26 @@ const UserNavs = [
     title: "Hotels",
     route: "/hotels",
   },
-  // {
-  //   icon: ApartmentIcon,
-  //   title: "Apartment",
-  //   route: "/apartment",
-  // },
-  // {
-  //   icon: MembershipIcon,
-  //   title: "Membership",
-  //   route: "/memberships"
-  // },
-  // {
-  //   icon: CampaignIcon,
-  //   title: "Campaign",
-  //   route: "/campaigns"
-  // },
-  // {
-  //   icon: CampaignFormIcon,
-  //   title: "Campaign Form",
-  //   route: "/campaign-form"
-  // }
+  {
+    icon: ApartmentIcon,
+    title: "Apartment",
+    route: "/apartment",
+  },
+  {
+    icon: MembershipIcon,
+    title: "Membership",
+    route: "/memberships"
+  },
+  {
+    icon: CampaignIcon,
+    title: "Campaign",
+    route: "/campaigns"
+  },
+  {
+    icon: CampaignFormIcon,
+    title: "Campaign Form",
+    route: "/campaign-form"
+  }
 ];
 
 const ChatDashboard = () => {

@@ -295,7 +295,7 @@ const Sidebar = ({ sidebarOpen, setSidebarOpen }: SidebarProps) => {
                           <li>
                             <Link
                               href="/users"
-                              className={`group relative flex items-center gap-2.5 rounded-md px-4 py-2 font-medium text-white900 dark:text-white100 duration-300 ease-in-out hover:bg-orange-50 ${
+                              className={`group relative flex items-center gap-2.5 rounded-md px-4 py-2 font-medium text-white900 dark:text-white dark:hover:bg-meta-4 duration-300 ease-in-out hover:bg-orange-50 ${
                                 pathname === "/users" &&
                                 "bg-orange-50 dark:bg-meta-4"
                               }`}
@@ -306,7 +306,7 @@ const Sidebar = ({ sidebarOpen, setSidebarOpen }: SidebarProps) => {
                           <li>
                             <Link
                               href="/admin"
-                              className={`group relative flex items-center gap-2.5 rounded-md px-4 py-2 font-medium text-white900 dark:text-white100 duration-300 ease-in-out hover:bg-orange-50 ${
+                              className={`group relative flex items-center gap-2.5 rounded-md px-4 py-2 font-medium text-white900 dark:text-white dark:hover:bg-meta-4 duration-300 ease-in-out hover:bg-orange-50 ${
                                 pathname === "/admin" &&
                                 "bg-orange-50 dark:bg-meta-4"
                               }`}
