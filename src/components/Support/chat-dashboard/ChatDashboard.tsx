@@ -8,7 +8,6 @@ import {
   selectCurrentUser
 } from "@/store/slice/auth/auth.slice";
 import { UserRoles } from "@/services/user/payload";
-// import { HotelNavs, UserNavs } from "@/utils/constants";
 import LogoutIcon from "@/assets/icons/logout.svg";
 import styles from "./ChatSidenav.module.scss";
 import TransactionIcon from "@/assets/icons/transactions.svg";
@@ -17,6 +16,10 @@ import DashboardIcon from "@/assets/icons/nav-dashboard.svg";
 import BookingIcon from "@/assets/icons/bookings.svg";
 import MembershipIcon from "@/assets/icons/membership.svg";
 import CampaignIcon from "@/assets/icons/campaign.svg";
+import HotelIcon from "@/assets/icons/home-hotel.svg";
+import ApartmentIcon from "@/assets/icons/home-apartment.svg";
+import CampaignFormIcon from "@/assets/icons/campaign-form.svg";
+import TicketIcon from "@/assets/icons/ticket.svg";
 
 const UserNavs = [
   {
@@ -42,15 +45,36 @@ const UserNavs = [
     stroke: true
   },
   {
-    icon: MembershipIcon,
-    title: "Membership",
-    route: "/memberships"
+    icon: TicketIcon,
+    title: "Ticket",
+    route: "/ticket",
+    stroke: true
   },
   {
-    icon: CampaignIcon,
-    title: "Campaign",
-    route: "/campaigns"
-  }
+    icon: HotelIcon,
+    title: "Hotels",
+    route: "/hotels",
+  },
+  // {
+  //   icon: ApartmentIcon,
+  //   title: "Apartment",
+  //   route: "/apartment",
+  // },
+  // {
+  //   icon: MembershipIcon,
+  //   title: "Membership",
+  //   route: "/memberships"
+  // },
+  // {
+  //   icon: CampaignIcon,
+  //   title: "Campaign",
+  //   route: "/campaigns"
+  // },
+  // {
+  //   icon: CampaignFormIcon,
+  //   title: "Campaign Form",
+  //   route: "/campaign-form"
+  // }
 ];
 
 const ChatDashboard = () => {

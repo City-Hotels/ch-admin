@@ -15,7 +15,9 @@ import TicketIcon from "@/assets/icons/ticket.svg";
 import LiveChatIcon from "@/assets/icons/live-chat.svg";
 import MembershipIcon from "@/assets/icons/membership.svg";
 import CampaignIcon from "@/assets/icons/campaign.svg";
-import CampaignFormIcon from "@/assets/icons/campaign-form.svg";
+import LogoutIcon from "@/assets/icons/logout.svg";
+import { removeCredentials } from "@/store/slice/auth/auth.slice";
+import { useDispatch } from "react-redux";
 
 interface SidebarProps {
   sidebarOpen: boolean;
@@ -24,9 +26,9 @@ interface SidebarProps {
 
 const Sidebar = ({ sidebarOpen, setSidebarOpen }: SidebarProps) => {
   const pathname = usePathname();
-
   const trigger = useRef<any>(null);
   const sidebar = useRef<any>(null);
+  const dispatch = useDispatch();
 
   let storedSidebarExpanded = "true";
 
@@ -68,6 +70,10 @@ const Sidebar = ({ sidebarOpen, setSidebarOpen }: SidebarProps) => {
       document.querySelector("body")?.classList.remove("sidebar-expanded");
     }
   }, [sidebarExpanded]);
+
+  const logOut = () => {
+    dispatch(removeCredentials());
+  };
 
   return (
     <aside
@@ -126,7 +132,7 @@ const Sidebar = ({ sidebarOpen, setSidebarOpen }: SidebarProps) => {
                 <Link
                   href="/"
                   className={`group relative flex items-center gap-2.5 rounded-sm px-4 py-2 font-medium text-black dark:text-white100 duration-300 ease-in-out hover:bg-orange50 dark:hover:bg-meta-4 ${
-                    pathname === "/" && "bg-graydark dark:bg-meta-4"
+                    pathname === "/" && "bg-orange50 dark:bg-meta-4"
                   }`}
                 >
                   <DashBoardIcon />
@@ -136,14 +142,20 @@ const Sidebar = ({ sidebarOpen, setSidebarOpen }: SidebarProps) => {
               {/* <!-- Menu Item Dashboard --> */}
 
               {/* <!- Menu Item Dashboard --> */}
-              <SidebarLinkGroup activeCondition={pathname === "/hotels"}>
+              <SidebarLinkGroup
+                activeCondition={
+                  pathname === "/hotels" || pathname === "/apartment"
+                }
+              >
                 {(handleClick, open) => {
                   return (
                     <React.Fragment>
                       <Link
                         href="#"
                         className={`group relative flex items-center gap-2.5 rounded-sm px-4 py-2 font-medium text-black dark:text-white100 duration-300 ease-in-out hover:bg-orange50 dark:hover:bg-meta-4 ${
-                          pathname === "/hotels" && "bg-graydark dark:bg-meta-4"
+                          (pathname === "/hotels" ||
+                            pathname === "/apartment") &&
+                          "bg-orange50 dark:bg-meta-4"
                         }`}
                         onClick={(e) => {
                           e.preventDefault();
@@ -183,7 +195,8 @@ const Sidebar = ({ sidebarOpen, setSidebarOpen }: SidebarProps) => {
                             <Link
                               href="/hotels"
                               className={`group relative flex items-center gap-2.5 rounded-md px-4 py-2 font-medium text-black dark:text-white100 duration-300 ease-in-out hover:bg-orange50 dark:hover:bg-meta-4 ${
-                                pathname === "/" && "text-white"
+                                pathname === "/hotels" &&
+                                "bg-orange50 dark:bg-meta-4"
                               }`}
                             >
                               <HotelIcon />
@@ -194,26 +207,16 @@ const Sidebar = ({ sidebarOpen, setSidebarOpen }: SidebarProps) => {
                             <Link
                               href="/apartment"
                               className={`group relative flex items-center gap-2.5 rounded-sm px-4 py-2 font-medium text-black dark:text-white100 duration-300 ease-in-out hover:bg-orange50 dark:hover:bg-meta-4 ${
-                                pathname.includes("settings") &&
-                                "bg-graydark dark:bg-meta-4"
+                                pathname === "/apartment" &&
+                                "bg-orange-50 dark:bg-meta-4"
                               }`}
                             >
                               <ApartmentIcon />
                               Apartments
                             </Link>
                           </li>
-                          {/* <li>
-                            <Link
-                              href="/hotels"
-                              className={`group relative flex items-center gap-2.5 rounded-md px-4 font-medium text-white900 dark:text-white100 duration-300 ease-in-out hover:text-white ${pathname === "/" && "text-white"
-                                }`}
-                            >
-                              Restaurants
-                            </Link>
-                          </li> */}
                         </ul>
                       </div>
-                      {/* <!-- Dropdown Menu End --> */}
                     </React.Fragment>
                   );
                 }}
@@ -223,8 +226,8 @@ const Sidebar = ({ sidebarOpen, setSidebarOpen }: SidebarProps) => {
                 <Link
                   href="/bookings"
                   className={`group relative flex items-center gap-2.5 rounded-sm px-4 py-2 font-medium text-black dark:text-white100 duration-300 ease-in-out hover:bg-orange50 dark:hover:bg-meta-4 ${
-                    pathname.includes("calendar") &&
-                    "bg-graydark dark:bg-meta-4"
+                    pathname.includes("/bookings") &&
+                    "bg-orange-50 dark:bg-meta-4"
                   }`}
                 >
                   <BookingIcon />
@@ -235,8 +238,8 @@ const Sidebar = ({ sidebarOpen, setSidebarOpen }: SidebarProps) => {
                 <Link
                   href="/transactions"
                   className={`group relative flex items-center gap-2.5 rounded-sm px-4 py-2 font-medium text-black dark:text-white100 duration-300 ease-in-out hover:bg-orange50 dark:hover:bg-meta-4 ${
-                    pathname.includes("calendar") &&
-                    "bg-graydark dark:bg-meta-4"
+                    pathname.includes("/transactions") &&
+                    "bg-orange50 dark:bg-meta-4"
                   }`}
                 >
                   <TransactionIcon />
@@ -253,7 +256,7 @@ const Sidebar = ({ sidebarOpen, setSidebarOpen }: SidebarProps) => {
                         href="#"
                         className={`group relative flex items-center gap-2.5 rounded-sm px-4 py-2 font-medium text-black dark:text-white100 duration-300 ease-in-out hover:bg-orange50 dark:hover:bg-meta-4 ${
                           (pathname === "/users" || pathname === "/admin") &&
-                          "bg-graydark dark:bg-meta-4"
+                          "bg-orange50 dark:bg-meta-4"
                         }`}
                         onClick={(e) => {
                           e.preventDefault();
@@ -292,8 +295,9 @@ const Sidebar = ({ sidebarOpen, setSidebarOpen }: SidebarProps) => {
                           <li>
                             <Link
                               href="/users"
-                              className={`group relative flex items-center gap-2.5 rounded-md px-4 font-medium text-white900 dark:text-white100 duration-300 ease-in-out hover:text-white ${
-                                pathname === "/users" && "text-white"
+                              className={`group relative flex items-center gap-2.5 rounded-md px-4 py-2 font-medium text-white900 dark:text-white100 duration-300 ease-in-out hover:bg-orange-50 ${
+                                pathname === "/users" &&
+                                "bg-orange-50 dark:bg-meta-4"
                               }`}
                             >
                               CHB Users
@@ -302,8 +306,9 @@ const Sidebar = ({ sidebarOpen, setSidebarOpen }: SidebarProps) => {
                           <li>
                             <Link
                               href="/admin"
-                              className={`group relative flex items-center gap-2.5 rounded-md px-4 font-medium text-white900 dark:text-white100 duration-300 ease-in-out hover:text-white ${
-                                pathname === "/admin" && "text-white"
+                              className={`group relative flex items-center gap-2.5 rounded-md px-4 py-2 font-medium text-white900 dark:text-white100 duration-300 ease-in-out hover:bg-orange-50 ${
+                                pathname === "/admin" &&
+                                "bg-orange-50 dark:bg-meta-4"
                               }`}
                             >
                               Administrators
@@ -362,8 +367,8 @@ const Sidebar = ({ sidebarOpen, setSidebarOpen }: SidebarProps) => {
                 <Link
                   href="/memberships"
                   className={`group relative flex items-center gap-2.5 rounded-sm px-4 py-2 font-medium text-black dark:text-white100 duration-300 ease-in-out hover:bg-orange50 dark:hover:bg-meta-4 ${
-                    pathname.includes("calendar") &&
-                    "bg-graydark dark:bg-meta-4"
+                    pathname.includes("/memberships") &&
+                    "bg-orange-50 dark:bg-meta-4"
                   }`}
                 >
                   <MembershipIcon />
@@ -374,8 +379,8 @@ const Sidebar = ({ sidebarOpen, setSidebarOpen }: SidebarProps) => {
                 <Link
                   href="/campaigns"
                   className={`group relative flex items-center gap-2.5 rounded-sm px-4 py-2 font-medium text-black dark:text-white100 duration-300 ease-in-out hover:bg-orange50 dark:hover:bg-meta-4 ${
-                    pathname.includes("calendar") &&
-                    "bg-graydark dark:bg-meta-4"
+                    pathname.includes("/campaigns") &&
+                    "bg-orange-50 dark:bg-meta-4"
                   }`}
                 >
                   <CampaignIcon />
@@ -385,26 +390,14 @@ const Sidebar = ({ sidebarOpen, setSidebarOpen }: SidebarProps) => {
             </ul>
           </div>
 
-          <div>
-            <h3 className="mb-4 ml-4 text-sm font-semibold text-white900 dark:text-white100">
-              FORM
-            </h3>
-
-            <ul className="mb-6 flex flex-col gap-1.5">
-              <li>
-                <Link
-                  href="/campaign-form"
-                  className={`group relative flex items-center gap-2.5 rounded-sm px-4 py-2 font-medium text-black dark:text-white100 duration-300 ease-in-out hover:bg-orange50 dark:hover:bg-meta-4 ${
-                    pathname.includes("calendar") &&
-                    "bg-graydark dark:bg-meta-4"
-                  }`}
-                >
-                  <CampaignFormIcon />
-                  Campagins
-                </Link>
-              </li>
-            </ul>
-          </div>
+          <Link
+            href={"/login"}
+            className={`group relative flex items-center gap-2.5 rounded-md px-4 py-2 font-medium text-black dark:text-white100 duration-300 ease-in-out hover:bg-orange50 dark:hover:bg-meta-4 `}
+            onClick={() => logOut()}
+          >
+            <LogoutIcon />
+            Log Out
+          </Link>
         </nav>
         {/* <!-- Sidebar Menu --> */}
       </div>
