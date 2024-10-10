@@ -20,12 +20,25 @@ import HotelIcon from "@/assets/icons/home-hotel.svg";
 import ApartmentIcon from "@/assets/icons/home-apartment.svg";
 import CampaignFormIcon from "@/assets/icons/campaign-form.svg";
 import TicketIcon from "@/assets/icons/ticket.svg";
+import UserIcon from "@/assets/icons/chb-user.svg";
+import AdministatorIcon from "@/assets/icons/administrator.svg";
+
 
 const UserNavs = [
   {
     icon: DashboardIcon,
     title: "home",
     route: "/"
+  },
+  {
+    icon: HotelIcon,
+    title: "Hotels",
+    route: "/hotels",
+  },
+  {
+    icon: ApartmentIcon,
+    title: "Apartment",
+    route: "/apartment",
   },
   {
     icon: BookingIcon,
@@ -39,9 +52,15 @@ const UserNavs = [
     stroke: true
   },
   {
-    icon: SupportIcon,
-    title: "Support",
-    route: "/support",
+    icon: UserIcon,
+    title: "CSB User",
+    route: "/users",
+    stroke: true
+  },
+  {
+    icon: AdministatorIcon,
+    title: "CSB Administrator",
+    route: "/admin",
     stroke: true
   },
   {
@@ -51,14 +70,10 @@ const UserNavs = [
     stroke: true
   },
   {
-    icon: HotelIcon,
-    title: "Hotels",
-    route: "/hotels",
-  },
-  {
-    icon: ApartmentIcon,
-    title: "Apartment",
-    route: "/apartment",
+    icon: SupportIcon,
+    title: "Support",
+    route: "/support",
+    stroke: true
   },
   {
     icon: MembershipIcon,

@@ -20,7 +20,6 @@ import { removeCredentials } from "@/store/slice/auth/auth.slice";
 import { useDispatch } from "react-redux";
 import Img from "../Image/Image";
 import Logo from "@/app/icon.png";
-import { H1, H2 } from "../Headings/Headings";
 
 interface SidebarProps {
   sidebarOpen: boolean;
@@ -87,10 +86,12 @@ const Sidebar = ({ sidebarOpen, setSidebarOpen }: SidebarProps) => {
     >
       {/* <!-- SIDEBAR HEADER --> */}
       <div className="flex items-center justify-between gap-2 px-6 py-5.5 lg:py-6.5">
-        <Link href="/" className="flex items-center justify-end gap-4">
-          <Img path={Logo} name="Logo"className="w-15 h-15" />
+        <Link href="/" className="flex items-center justify-between gap-2">
+          <Img path={Logo} name="Logo" className="w-10 h-10" />
 
-          <H1>CSB</H1>
+          <h1 className="text-white900 dark:text-white100 text-[32px] mt-2">
+            Admin
+          </h1>
         </Link>
 
         <button
