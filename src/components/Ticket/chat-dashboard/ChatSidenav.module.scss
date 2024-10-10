@@ -1,5 +1,5 @@
 .container {
-  @apply sticky mt-2 top-20 flex w-[75px] pt-95 flex-col overflow-x-hidden overflow-y-scroll h-[calc(100vh-170px)] items-center justify-center gap-1 rounded-[10px] bg-black shadow-md;
+  @apply sticky mt-2 top-20 flex w-[75px] pt-50 flex-col overflow-x-hidden overflow-y-scroll h-[calc(100vh-170px)] items-center justify-center gap-1 rounded-[10px] bg-black shadow-md;
 }
 
 .navItem {
