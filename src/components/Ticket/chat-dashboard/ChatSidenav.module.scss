@@ -1,9 +1,9 @@
 .container {
-  @apply sticky mt-2 top-20 flex w-[75px] pt-50 flex-col overflow-x-hidden overflow-y-scroll h-[calc(100vh-170px)] items-center justify-center gap-1 rounded-[10px] bg-black shadow-md;
+  @apply sticky top-20 flex w-[75px]  flex-col overflow-x-hidden overflow-y-scroll max-h-[calc(100vh-170px)] items-center justify-evenly gap-1 rounded-[10px] bg-black shadow-md;
 }
 
 .navItem {
-  @apply flex h-[43px] w-[43px] items-center justify-center rounded-full hover:bg-primary400 p-2 hover:text-white my-3 mx-auto;
+  @apply flex size-10 items-center justify-center rounded-full hover:bg-primary400 p-2 hover:text-white my-3 mx-auto;
 }
 
 .icon {
@@ -49,7 +49,7 @@
 }
 
 .active {
-  @apply bg-primary400 text-white rounded-full p-2;
+  @apply bg-primary400 text-white rounded-full p-2 w-10 h-10;
 
   path {
     fill: #fff;
