@@ -2,7 +2,6 @@
 import React, { useEffect, useRef, useState } from "react";
 import { usePathname } from "next/navigation";
 import Link from "next/link";
-import Image from "next/image";
 import SidebarLinkGroup from "./SidebarLinkGroup";
 import TransactionIcon from "@/assets/icons/transactions.svg";
 import BookingIcon from "@/assets/icons/bookings.svg";
@@ -19,6 +18,9 @@ import LogoutIcon from "@/assets/icons/logout.svg";
 import { removeCredentials } from "@/store/slice/auth/auth.slice";
 import { useDispatch } from "react-redux";
 import Img from "../Image/Image";
+import CSBUserIcon from "@/assets/icons/chb-user.svg";
+import AdministatorIcon from "@/assets/icons/administrator.svg";
+
 import Logo from "@/app/icon.png";
 
 interface SidebarProps {
@@ -295,22 +297,24 @@ const Sidebar = ({ sidebarOpen, setSidebarOpen }: SidebarProps) => {
                           <li>
                             <Link
                               href="/users"
-                              className={`group relative flex items-center gap-2.5 rounded-md px-4 py-2 font-medium text-white900 dark:text-white dark:hover:bg-meta-4 duration-300 ease-in-out hover:bg-orange-50 ${
+                              className={`group relative flex items-center gap-2.5 rounded-md px-4 py-2 font-medium text-black dark:text-white dark:hover:bg-meta-4 duration-300 ease-in-out hover:bg-orange-50 ${
                                 pathname === "/users" &&
                                 "bg-orange-50 dark:bg-meta-4"
                               }`}
                             >
+                              <CSBUserIcon />
                               CHB Users
                             </Link>
                           </li>
                           <li>
                             <Link
                               href="/admin"
-                              className={`group relative flex items-center gap-2.5 rounded-md px-4 py-2 font-medium text-white900 dark:text-white dark:hover:bg-meta-4 duration-300 ease-in-out hover:bg-orange-50 ${
+                              className={`group relative flex items-center gap-2.5 rounded-md px-4 py-2 font-medium text-black dark:text-white dark:hover:bg-meta-4 duration-300 ease-in-out hover:bg-orange-50 ${
                                 pathname === "/admin" &&
                                 "bg-orange-50 dark:bg-meta-4"
                               }`}
                             >
+                              <AdministatorIcon />
                               Administrators
                             </Link>
                           </li>

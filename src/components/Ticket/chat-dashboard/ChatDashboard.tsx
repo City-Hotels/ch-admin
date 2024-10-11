@@ -123,7 +123,7 @@ const ChatDashboard = () => {
           </Link>
         ))}
       <div className={`${styles.navItem}`} onClick={() => logout()}>
-        <LogoutIcon />
+        <LogoutIcon className="text-white"/>
       </div>
     </div>
   );

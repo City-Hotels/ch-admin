@@ -55,13 +55,11 @@ const UserNavs = [
     icon: UserIcon,
     title: "CSB User",
     route: "/users",
-    stroke: true
   },
   {
     icon: AdministatorIcon,
     title: "CSB Administrator",
     route: "/admin",
-    stroke: true
   },
   {
     icon: TicketIcon,
@@ -124,7 +122,7 @@ const ChatDashboard = () => {
           </Link>
         ))}
       <div className={`${styles.navItem}`} onClick={() => logout()}>
-        <LogoutIcon />
+        <LogoutIcon className="text-white"/>
       </div>
     </div>
   );
