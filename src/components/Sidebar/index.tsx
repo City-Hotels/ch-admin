@@ -356,7 +356,7 @@ const Sidebar = ({ sidebarOpen, setSidebarOpen }: SidebarProps) => {
                   }`}
                 >
                   <LiveChatIcon />
-                  Live Chat
+                  Support
                 </Link>
               </li>
             </ul>
