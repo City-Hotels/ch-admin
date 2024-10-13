@@ -1,5 +1,5 @@
 import { ApiResponse, Meta, getRequest, postRequest } from "@/utils/api/calls";
-import type { IPromotion, ISubscribers, PromotionFilter, SubscriptionFilter } from "./payload";
+import type { IPromotion, ISubscribers, PromotionFilter, SubscriptionFilter, SubscriptionPayload } from "./payload";
 
 const getMemberships = (
   filter: PromotionFilter
@@ -77,9 +77,17 @@ const submitCampaign = (data: IPromotion) => {
   });
 };
 
+const postPromotion = (data: SubscriptionPayload) => {
+  return postRequest<SubscriptionPayload, null>({
+    url: "/promotions/subscribe",
+    data
+  })
+}
+
 export {
   getMemberships,
   getCampaigns,
+  postPromotion,
   submitCampaign,
   getPromotion,
   getPromotionSubcriptions
