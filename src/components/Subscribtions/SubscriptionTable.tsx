@@ -20,6 +20,7 @@ import {
 import FilterComponent from "./Filter/Filter";
 import Modal from "../Modal/Modal";
 import Button from "../Button/Button";
+import OptionsModal from "../OptionsModal/OptionsModal";
 import SubscriptionSearch from "../SubscriptionSearchModal/SubscriptionSearch";
 
 const SubscribtionsTable: React.FC<{
@@ -30,6 +31,9 @@ const SubscribtionsTable: React.FC<{
   const [Page, setPage] = useState(1);
   const [tableFilter, setTableFilter] = useState({ ...Filter });
   const [showFilterModal, setShowFilterModal] = useState(false);
+  const [openOptionsModal, setOpenOptionsModal] = useState(false);
+  const [selectedSubscriber, setSelectedSubscriber] =
+    useState<ISubscribers>();
   const [openSubscriptionModal, setOpenSubscriptionModal] = useState(false);
   const promotionId = Filter.PromotionId;
   console.log("Promotion Id:" + promotionId);
@@ -58,6 +62,10 @@ const SubscribtionsTable: React.FC<{
     }
   });
 
+  const handleOpenOptionsModal = (subscriber: ISubscribers) => {
+    setSelectedSubscriber(subscriber);
+    setOpenOptionsModal(true);
+  };
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
       if (
@@ -300,8 +308,19 @@ const SubscribtionsTable: React.FC<{
             key: "more",
             title: "",
             width: "1%",
-            render() {
-              return <Dots className="mr-6 cursor-pointer" />;
+            render(_column, item) {
+              const subscriber = subcriptions.find(
+                (subscriber) => subscriber.Id === item.Id
+              );
+              return (
+                <div
+                  onClick={() =>
+                    subscriber && handleOpenOptionsModal(subscriber)
+                  }
+                >
+                  <Dots className="mr-6 cursor-pointer" />
+                </div>
+              );
             }
           }
         ]}
@@ -319,6 +338,18 @@ const SubscribtionsTable: React.FC<{
           setFilter={(filter) => {
             setTableFilter(filter);
           }}
+        />
+      </Modal>
+
+      <Modal
+        openModal={openOptionsModal}
+        setOpenModal={setOpenOptionsModal}
+        variant="plain"
+      >
+        <OptionsModal
+          subscriber={selectedSubscriber}
+          onClose={() => setOpenOptionsModal(false)}
+          refetch={refetch}
         />
       </Modal>
     </div>
