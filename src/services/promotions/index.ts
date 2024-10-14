@@ -1,5 +1,6 @@
 import { ApiResponse, Meta, deleteRequest, getRequest, patchRequest, postRequest } from "@/utils/api/calls";
-import type { IPromotion, ISubscribers, ISubscribersUpdate, PromotionFilter, SubscriptionFilter } from "./payload";
+import type { IPromotion, ISubscribers, ISubscribersUpdate, PromotionFilter, SubscriptionFilter, SubscriptionPayload } from "./payload";
+
 
 const getMemberships = (
   filter: PromotionFilter
@@ -91,9 +92,17 @@ const deleteSubscription = (subcriptionId: string) => {
 }
 
 
+const postPromotion = (data: SubscriptionPayload) => {
+  return postRequest<SubscriptionPayload, null>({
+    url: "/promotions/subscribe",
+    data
+  })
+}
+
 export {
   getMemberships,
   getCampaigns,
+  postPromotion,
   submitCampaign,
   getPromotion,
   getPromotionSubcriptions,

@@ -21,6 +21,7 @@ import {
 import FilterComponent from "./Filter/Filter";
 import Modal from "../Modal/Modal";
 import Button from "../Button/Button";
+import Link from "next/link";
 
 const CampaignTable: React.FC<{
   Limit: number;
@@ -91,7 +92,7 @@ const CampaignTable: React.FC<{
                         setTableFilter({ ...tableFilter, SearchStatus: false });
                       }}
                     >
-                      All 
+                      All
                     </div>
                     {Object.values(PromotionStatus)
                       .filter((value) => typeof value === "string")
@@ -106,14 +107,13 @@ const CampaignTable: React.FC<{
                               ...tableFilter,
                               SearchStatus: true,
                               Status:
-                              PromotionStatus[
+                                PromotionStatus[
                                   promotionStatus as keyof typeof PromotionStatus
                                 ]
                             });
                           }}
                         >
                           {promotionStatus}
-
 
                           {promotionStatus === PromotionStatus.ACTIVE &&
                             `(${
@@ -141,16 +141,25 @@ const CampaignTable: React.FC<{
                   </span>
                 </div>
               </div>
-              <Button
-                size="sm"
-                color="outline-dark"
-                variant="outline"
-                onClick={() => setShowFilterModal(true)}
-              >
-                <span className="flex gap-2 px-3">
-                  <FilterIcon /> Filter
-                </span>
-              </Button>
+
+              <div className="flex items-center gap-2">
+                <Link href="/campaign-form">
+                  <Button size="sm" color="primary" variant="outline">
+                    Add Campaign
+                  </Button>
+                </Link>
+
+                <Button
+                  size="sm"
+                  color="outline-dark"
+                  variant="outline"
+                  onClick={() => setShowFilterModal(true)}
+                >
+                  <span className="flex gap-2 px-3">
+                    <FilterIcon /> Filter
+                  </span>
+                </Button>
+              </div>
             </div>
           </div>
         }
@@ -210,7 +219,7 @@ const CampaignTable: React.FC<{
                 <div
                   className={`text-[var(--grey-grey-600, #5D6679);] text-[14px] leading-[150%]`}
                 >
-                  {dayjs(convertGrpcDate(item.Created_at)).format("DD/MM/YYYY")}
+                  {item.Created_at && dayjs(convertGrpcDate(item.Created_at)).format("DD/MM/YYYY")}
                 </div>
               );
             }
@@ -228,7 +237,7 @@ const CampaignTable: React.FC<{
                 <div
                   className={`text-[var(--grey-grey-600, #5D6679);] text-[14px] leading-[150%]`}
                 >
-                  {dayjs(convertGrpcDate(item.Updated_at)).format("DD/MM/YYYY")}
+                  {item.Updated_at && dayjs(convertGrpcDate(item.Updated_at)).format("DD/MM/YYYY")}
                 </div>
               );
             }
