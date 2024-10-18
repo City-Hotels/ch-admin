@@ -7,8 +7,19 @@ import ChatCard from "../Chat/ChatCard";
 import TableOne from "../Tables/TableOne";
 import CardDataStats from "../CardDataStats";
 import MapOne from "../Maps/MapOne";
+import { useQuery } from "react-query";
+import { searchApartment } from "@/services/apartment";
+import queryKeys from "@/utils/api/queryKeys";
+import { Meta } from "@/utils/api/calls";
 
 const ECommerce: React.FC = () => {
+
+  const { isLoading, data } = useQuery(
+    [queryKeys.getApartmentByID],
+    () => searchApartment({ })
+  );
+  const metaApartment = (data?.data.Meta as Meta) || [];
+  
   return (
     <>
       <div className="grid grid-cols-1 gap-4 md:grid-cols-2 md:gap-6 xl:grid-cols-4 2xl:gap-7.5">
@@ -31,7 +42,7 @@ const ECommerce: React.FC = () => {
             />
           </svg>
         </CardDataStats>
-        <CardDataStats title="Total Profit" total="$45,2K" rate="4.35%" levelUp>
+        <CardDataStats title="Total Apartments" total={metaApartment?.TotalCount?.toString()} rate="4.35%" levelUp>
           <svg
             className="fill-primary dark:fill-white"
             width="20"
