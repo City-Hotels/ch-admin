@@ -7,8 +7,20 @@ import ChatCard from "../Chat/ChatCard";
 import TableOne from "../Tables/TableOne";
 import CardDataStats from "../CardDataStats";
 import MapOne from "../Maps/MapOne";
+import { useQuery } from "react-query";
+import queryKeys from "@/utils/api/queryKeys";
+import { Meta } from "@/utils/api/calls";
+import { ListUsers } from "@/services/user";
+import { IUser, UserRoles } from "@/services/user/payload";
 
 const ECommerce: React.FC = () => {
+
+  const { data } = useQuery([queryKeys.getUsers,], () =>
+    ListUsers({ })
+  );
+  const users = (data?.data.Users as IUser[]) || [];
+  const userLength = users ? users.filter((user) => user.Role === UserRoles.USER).length : 0;
+  
   return (
     <>
       <div className="grid grid-cols-1 gap-4 md:grid-cols-2 md:gap-6 xl:grid-cols-4 2xl:gap-7.5">
@@ -31,7 +43,7 @@ const ECommerce: React.FC = () => {
             />
           </svg>
         </CardDataStats>
-        <CardDataStats title="Total Profit" total="$45,2K" rate="4.35%" levelUp>
+        <CardDataStats title="Total Sales" total={"$340k"} rate="4.35%" levelUp>
           <svg
             className="fill-primary dark:fill-white"
             width="20"
@@ -54,7 +66,7 @@ const ECommerce: React.FC = () => {
             />
           </svg>
         </CardDataStats>
-        <CardDataStats title="Total Product" total="2.450" rate="2.59%" levelUp>
+        <CardDataStats title="Total Users" total={userLength?.toString() || "20"} rate="2.59%" levelUp>
           <svg
             className="fill-primary dark:fill-white"
             width="22"
