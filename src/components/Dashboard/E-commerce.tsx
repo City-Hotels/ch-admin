@@ -12,7 +12,7 @@ import queryKeys from "@/utils/api/queryKeys";
 import { Meta } from "@/utils/api/calls";
 import { ListUsers } from "@/services/user";
 import { IUserFilter } from "@/services/user/payload";
-import UserIcon from "@/assets/icons/user.svg";
+import AdministatorIcon from "@/assets/icons/administrator.svg";
 
 const ECommerce: React.FC<{
   Limit: number;
@@ -79,7 +79,7 @@ const ECommerce: React.FC<{
           rate="2.59%"
           levelUp
         >
-          <UserIcon className="text-primary400" />
+          <AdministatorIcon className="text-primary400" />
         </CardDataStats>
         <CardDataStats title="Total Users" total="3.456" rate="0.95%" levelDown>
           <svg
