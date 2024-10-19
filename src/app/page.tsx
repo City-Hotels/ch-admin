@@ -14,7 +14,7 @@ export default function Home() {
   return (
     <>
       <DefaultLayout>
-        <ECommerce />
+        <ECommerce Limit={0} Filter={{}} />
       </DefaultLayout>
     </>
   );
