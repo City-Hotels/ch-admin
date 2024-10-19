@@ -12,12 +12,20 @@ import { getBookings } from "@/services/booking";
 import queryKeys from "@/utils/api/queryKeys";
 import { Meta } from "@/utils/api/calls";
 import BookingIcon from "@/assets/icons/bookings.svg";
+import { searchApartment } from "@/services/apartment";
 
 const ECommerce: React.FC = () => {
-  const { isLoading, data } = useQuery([queryKeys.getUserBookings], () =>
+  const { isLoading: bookingisLoading, data: bookingStats } = useQuery([queryKeys.getUserBookings], () =>
     getBookings({})
   );
-  const meta = (data?.data.Meta as Meta) || [];
+  const meta = (bookingStats?.data.Meta as Meta) || [];
+
+  const { isLoading: apartmentIsLoading, data: apartmentStats } = useQuery(
+    [queryKeys.getApartmentByID],
+    () => searchApartment({ })
+  );
+  const metaApartment = (apartmentStats?.data.Meta as Meta) || [];
+  
   return (
     <>
       <div className="grid grid-cols-1 gap-4 md:grid-cols-2 md:gap-6 xl:grid-cols-4 2xl:gap-7.5">
@@ -29,7 +37,7 @@ const ECommerce: React.FC = () => {
         >
           <BookingIcon className="text-primary400"/>
         </CardDataStats>
-        <CardDataStats title="Total Profit" total="$45,2K" rate="4.35%" levelUp>
+        <CardDataStats title="Total Apartments" total={metaApartment?.TotalCount?.toString()} rate="4.35%" levelUp>
           <svg
             className="fill-primary dark:fill-white"
             width="20"
